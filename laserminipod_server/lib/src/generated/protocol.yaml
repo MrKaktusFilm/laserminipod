@@ -1,0 +1,10 @@
+example:
+  - hello:
+routeEndpointNoDB:
+  - deleteRoute:
+  - loadRoute:
+  - saveRoute:
+  - getNewId:
+  - loadAllRoutes:
+  - existsRouteAlready:
+  - nameAlreadyAssigned:

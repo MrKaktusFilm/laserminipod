@@ -1,0 +1,5 @@
+class: SpraywallRoute
+fields:
+  name: String
+  id: int
+  handles: List<int>

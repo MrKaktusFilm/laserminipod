@@ -1,0 +1,40 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "laserminipod_client",
+            "cwd": "laserminipod_client",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "laserminipod_flutter",
+            "cwd": "laserminipod_flutter",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "laserminipod_flutter (profile mode)",
+            "cwd": "laserminipod_flutter",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "laserminipod_flutter (release mode)",
+            "cwd": "laserminipod_flutter",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "laserminipod_server",
+            "cwd": "laserminipod_server",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}
