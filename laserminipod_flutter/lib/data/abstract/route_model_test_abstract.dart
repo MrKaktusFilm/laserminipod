@@ -1,4 +1,4 @@
-import 'package:user_app/common/entities/route.dart';
+import 'package:laserminipod_client/laserminipod_client.dart';
 
 abstract class RouteModelTestAbstract {
   void deleteRoute(int id);
@@ -15,6 +15,4 @@ abstract class RouteModelTestAbstract {
 
   // Returns unsed ID for adding routes
   int getNewId();
-
-  void test();
 }

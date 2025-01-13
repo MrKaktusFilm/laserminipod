@@ -1,5 +1,6 @@
+import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_test_abstract.dart';
-import 'package:user_app/common/entities/route.dart';
+
 import 'package:user_app/main.dart';
 
 class RouteModelTest extends RouteModelTestAbstract {
@@ -29,18 +30,11 @@ class RouteModelTest extends RouteModelTestAbstract {
 
   @override
   Future<List<SpraywallRoute>> loadAllRoutes() async {
-    var routes = [];
     try {
-      routes = await client.routeEndpointNoDB.loadAllRoutes();
+      return await client.routeEndpointNoDB.loadAllRoutes();
     } on Exception {
       rethrow;
     }
-    List<SpraywallRoute> rt = [];
-    for (var route in routes) {
-      rt.add(SpraywallRoute.convert(route));
-    }
-    return rt;
-    //return routes;
   }
 
   @override
@@ -56,10 +50,5 @@ class RouteModelTest extends RouteModelTestAbstract {
   @override
   bool nameAlreadyAssigned(String name) {
     return routes.any((SpraywallRoute route) => route.name == name);
-  }
-
-  @override
-  void test() {
-    client.routeEndpointNoDB.test();
   }
 }

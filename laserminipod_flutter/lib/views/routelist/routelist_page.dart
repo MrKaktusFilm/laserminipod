@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:user_app/common/entities/route.dart';
+import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/home.dart';
 import 'package:user_app/views/routelist/routelist_tile.dart';
 

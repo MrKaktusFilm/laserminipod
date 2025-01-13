@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_test_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
-import 'package:user_app/common/entities/route.dart';
 
 class SpraywallController extends ChangeNotifier
     implements SprayWallControllerAbstract {
@@ -14,20 +14,19 @@ class SpraywallController extends ChangeNotifier
 
   @override
   void addHandle(int id) {
-    currentRoute.addHandle(id);
+    currentRoute.handles.add(id);
     notifyListeners();
   }
 
   @override
   void removeHandle(int id) {
-    currentRoute.removeHandle(id);
+    currentRoute.handles.remove(id);
     notifyListeners();
   }
 
   @override
   void clearCurrentRoute() {
-    currentRoute.clear();
-    routeModel.test();
+    currentRoute.handles = [];
     notifyListeners();
   }
 

@@ -1,4 +1,4 @@
-import 'package:user_app/common/entities/route.dart';
+import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_test_abstract.dart';
 import 'package:user_app/domain/abstract/routelist_controller_abstract.dart';
 
