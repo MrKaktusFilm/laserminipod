@@ -174,6 +174,16 @@ class Endpoints extends _i1.EndpointDispatch {
             params['name'],
           ),
         ),
+        'test': _i1.MethodConnector(
+          name: 'test',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['routeEndpointNoDB'] as _i3.RouteEndpointNoDB)
+                  .test(session),
+        ),
       },
     );
   }

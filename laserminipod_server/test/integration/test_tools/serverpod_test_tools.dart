@@ -147,7 +147,7 @@ class _RouteEndpointNoDB {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<int> deleteRoute(
+  _i3.Future<void> deleteRoute(
     _i1.TestSessionBuilder sessionBuilder,
     int id,
   ) async {
@@ -168,7 +168,7 @@ class _RouteEndpointNoDB {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<int>);
+        ) as _i3.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -205,7 +205,7 @@ class _RouteEndpointNoDB {
     });
   }
 
-  _i3.Future<int> saveRoute(
+  _i3.Future<void> saveRoute(
     _i1.TestSessionBuilder sessionBuilder,
     _i4.SpraywallRoute route,
   ) async {
@@ -226,7 +226,7 @@ class _RouteEndpointNoDB {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<int>);
+        ) as _i3.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -338,6 +338,32 @@ class _RouteEndpointNoDB {
           _localUniqueSession,
           _localCallContext.arguments,
         ) as _i3.Future<bool>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<void> test(_i1.TestSessionBuilder sessionBuilder) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'routeEndpointNoDB',
+        method: 'test',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'routeEndpointNoDB',
+          methodName: 'test',
+          parameters: _i1.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

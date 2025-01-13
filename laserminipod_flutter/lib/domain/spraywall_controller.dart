@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:user_app/data/abstract/route_model_abstract.dart';
+import 'package:user_app/data/abstract/route_model_test_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/common/entities/route.dart';
 
 class SpraywallController extends ChangeNotifier
     implements SprayWallControllerAbstract {
-  final RouteModelAbstract routeModel;
+  final RouteModelTestAbstract routeModel;
 
   SpraywallRoute currentRoute =
       SpraywallRoute(handles: <int>[], id: 0, name: "");
@@ -27,6 +27,7 @@ class SpraywallController extends ChangeNotifier
   @override
   void clearCurrentRoute() {
     currentRoute.clear();
+    routeModel.test();
     notifyListeners();
   }
 
@@ -47,7 +48,7 @@ class SpraywallController extends ChangeNotifier
 
   @override
   void loadRoute(SpraywallRoute route) {
-    currentRoute = route.clone();
+    currentRoute = route.copyWith();
     notifyListeners();
   }
 

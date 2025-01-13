@@ -7,19 +7,17 @@ class RouteEndpointNoDB extends Endpoint {
   ];
   int idIndex = 0;
 
-  Future<int> deleteRoute(Session session, int id) async {
+  Future<void> deleteRoute(Session session, int id) async {
     routes.removeWhere((SpraywallRoute route) => route.id == id);
-    return 1; //TODO: implement success/failure
   }
 
   Future<SpraywallRoute> loadRoute(Session session, int id) async {
     return routes[id];
   }
 
-  Future<int> saveRoute(Session session, SpraywallRoute route) async {
+  Future<void> saveRoute(Session session, SpraywallRoute route) async {
     routes.add(route.copyWith());
     idIndex++;
-    return 1; //TODO: implement success/failure
   }
 
   Future<int> getNewId(Session session) async {
@@ -41,5 +39,9 @@ class RouteEndpointNoDB extends Endpoint {
 
   Future<bool> nameAlreadyAssigned(Session session, String name) async {
     return routes.any((SpraywallRoute route) => route.name == name);
+  }
+
+  Future<void> test(Session session) async {
+    print("Kommunikation funktioniert!");
   }
 }

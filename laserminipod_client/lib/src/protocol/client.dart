@@ -35,7 +35,7 @@ class EndpointRouteEndpointNoDB extends _i1.EndpointRef {
   @override
   String get name => 'routeEndpointNoDB';
 
-  _i2.Future<int> deleteRoute(int id) => caller.callServerEndpoint<int>(
+  _i2.Future<void> deleteRoute(int id) => caller.callServerEndpoint<void>(
         'routeEndpointNoDB',
         'deleteRoute',
         {'id': id},
@@ -48,8 +48,8 @@ class EndpointRouteEndpointNoDB extends _i1.EndpointRef {
         {'id': id},
       );
 
-  _i2.Future<int> saveRoute(_i3.SpraywallRoute route) =>
-      caller.callServerEndpoint<int>(
+  _i2.Future<void> saveRoute(_i3.SpraywallRoute route) =>
+      caller.callServerEndpoint<void>(
         'routeEndpointNoDB',
         'saveRoute',
         {'route': route},
@@ -80,6 +80,12 @@ class EndpointRouteEndpointNoDB extends _i1.EndpointRef {
         'routeEndpointNoDB',
         'nameAlreadyAssigned',
         {'name': name},
+      );
+
+  _i2.Future<void> test() => caller.callServerEndpoint<void>(
+        'routeEndpointNoDB',
+        'test',
+        {},
       );
 }
 

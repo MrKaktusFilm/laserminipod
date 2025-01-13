@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
-import 'package:user_app/data/route_model.dart';
+import 'package:user_app/data/route_model_test.dart';
 import 'package:user_app/domain/routelist_controller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:user_app/home.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
-var client = Client('http://localhost:8080/')
+var client = Client('http://10.0.2.2:8080/')
   ..connectivityMonitor = FlutterConnectivityMonitor();
 
 void main() {

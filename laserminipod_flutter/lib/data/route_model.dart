@@ -1,49 +1,49 @@
+import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
-import 'package:user_app/common/entities/route.dart';
 import 'package:user_app/main.dart';
 
-class RouteModelTest extends RouteModelAbstract {
-  var routes = <SpraywallRoute>[];
-  int idIndex = 0;
-
+class RouteModel extends RouteModelAbstract {
   @override
   void deleteRoute(int id) {
-    routes.removeWhere((SpraywallRoute route) => route.id == id);
-  }
-
-  @override
-  SpraywallRoute loadRoute(int id) {
-    return routes[id];
-  }
-
-  @override
-  void saveRoute(SpraywallRoute route) {
-    routes.add(route.clone());
-    idIndex++;
-  }
-
-  @override
-  int getNewId() {
-    return idIndex;
-  }
-
-  @override
-  List<SpraywallRoute> loadAllRoutes() {
-    return routes;
+    // TODO: implement deleteRoute
   }
 
   @override
   bool existsRouteAlready(SpraywallRoute route) {
-    for (var temp in routes) {
-      if (temp == route) {
-        return true;
-      }
-    }
-    return false;
+    // TODO: implement existsRouteAlready
+    throw UnimplementedError();
+  }
+
+  @override
+  int getNewId() {
+    // TODO: implement getNewId
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<SpraywallRoute>> loadAllRoutes() async {
+    return await client.routeEndpointNoDB.loadAllRoutes();
+  }
+
+  @override
+  SpraywallRoute loadRoute(int id) {
+    // TODO: implement loadRoute
+    throw UnimplementedError();
   }
 
   @override
   bool nameAlreadyAssigned(String name) {
-    return routes.any((SpraywallRoute route) => route.name == name);
+    // TODO: implement nameAlreadyAssigned
+    throw UnimplementedError();
+  }
+
+  @override
+  void saveRoute(SpraywallRoute route) {
+    // TODO: implement saveRoute
+  }
+
+  @override
+  void test() {
+    // TODO: implement test
   }
 }

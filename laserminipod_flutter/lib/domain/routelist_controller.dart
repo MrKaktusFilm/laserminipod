@@ -1,14 +1,25 @@
 import 'package:user_app/common/entities/route.dart';
-import 'package:user_app/data/abstract/route_model_abstract.dart';
+import 'package:user_app/data/abstract/route_model_test_abstract.dart';
 import 'package:user_app/domain/abstract/routelist_controller_abstract.dart';
 
 class RoutelistController extends RoutelistControllerAbstract {
-  final RouteModelAbstract routeModel;
-
   RoutelistController({required this.routeModel});
 
+  final RouteModelTestAbstract routeModel;
+  List<SpraywallRoute> routes = [];
+
+  // Load routes from the server
   @override
-  List<SpraywallRoute> loadAllRoutes() {
-    return routeModel.loadAllRoutes();
+  Future<List<SpraywallRoute>> loadAllRoutes() async {
+    try {
+      return routeModel.loadAllRoutes();
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  @override
+  List<SpraywallRoute> getAllRoutes() {
+    return routes;
   }
 }

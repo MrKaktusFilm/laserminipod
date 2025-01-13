@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:laserminipod_client/laserminipod_client.dart' as cl;
 
 class SpraywallRoute {
   SpraywallRoute({required this.handles, required this.id, required this.name});
@@ -20,8 +21,13 @@ class SpraywallRoute {
     handles = [];
   }
 
-  SpraywallRoute clone() {
+  SpraywallRoute copyWith() {
     return SpraywallRoute(handles: List.from(handles), id: id, name: name);
+  }
+
+  static SpraywallRoute convert(cl.SpraywallRoute route) {
+    return SpraywallRoute(
+        handles: List.from(route.handles), id: route.id, name: route.name);
   }
 
   // routes are considered equal, if they consist of the same handles

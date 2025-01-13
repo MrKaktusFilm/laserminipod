@@ -8,3 +8,4 @@ routeEndpointNoDB:
   - loadAllRoutes:
   - existsRouteAlready:
   - nameAlreadyAssigned:
+  - test:

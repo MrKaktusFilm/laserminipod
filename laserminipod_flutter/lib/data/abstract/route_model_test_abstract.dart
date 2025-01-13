@@ -1,6 +1,6 @@
-import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:user_app/common/entities/route.dart';
 
-abstract class RouteModelAbstract {
+abstract class RouteModelTestAbstract {
   void deleteRoute(int id);
 
   void saveRoute(SpraywallRoute route);
