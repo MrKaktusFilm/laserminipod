@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
-import 'package:user_app/data/route_model_test.dart';
+import 'package:user_app/data/route_model.dart';
 import 'package:user_app/domain/routelist_controller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:user_app/home.dart';
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    var routeModel = RouteModelTest();
+    var routeModel = RouteModel();
     return AppState(
       title: 'DIE Laser App die laser ist',
       spraywallController: SpraywallController(routeModel: routeModel),

@@ -12,8 +12,11 @@ class SpraywallPage extends StatefulWidget {
 }
 
 class _SpraywallPageState extends State<SpraywallPage> {
-  void onSave() {
-    if (AppState.of(context)!.spraywallController.existsCurrentRouteAlready()) {
+  bool _existsCurrentRouteAlready = true;
+
+  Future<void> _onSave() async {
+    _getAsyncData();
+    if (_existsCurrentRouteAlready) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.red,
           content: Text("Die erstellte Route existiert bereits.")));
@@ -21,6 +24,20 @@ class _SpraywallPageState extends State<SpraywallPage> {
       showDialog(
           context: context,
           builder: (BuildContext context) => const SaveRouteDialog());
+    }
+  }
+
+  /// gets data from server that is necessary for route saving validation
+  void _getAsyncData() async {
+    try {
+      bool existsRouteAlready = await AppState.of(context)!
+          .spraywallController
+          .existsCurrentRouteAlready();
+      setState(() {
+        _existsCurrentRouteAlready = existsRouteAlready;
+      });
+    } catch (e) {
+      // TODO: Error handling
     }
   }
 
@@ -42,7 +59,7 @@ class _SpraywallPageState extends State<SpraywallPage> {
       Align(
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(
-              onPressed: onSave, child: const Icon(Icons.save))),
+              onPressed: _onSave, child: const Icon(Icons.save))),
       Align(
         alignment: Alignment.bottomLeft,
         child: SpraywallFloatingButton(

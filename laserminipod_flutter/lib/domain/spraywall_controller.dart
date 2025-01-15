@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
-import 'package:user_app/data/abstract/route_model_test_abstract.dart';
+import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 
 class SpraywallController extends ChangeNotifier
     implements SprayWallControllerAbstract {
-  final RouteModelTestAbstract routeModel;
+  final RouteModelAbstract routeModel;
 
   SpraywallRoute currentRoute =
       SpraywallRoute(handles: <int>[], id: 0, name: "");
@@ -31,8 +31,14 @@ class SpraywallController extends ChangeNotifier
   }
 
   @override
-  void saveCurrentRoute(String name) {
-    if (!routeModel.existsRouteAlready(currentRoute)) {
+  Future<void> saveCurrentRoute(String name) async {
+    bool saveRoute = false;
+    try {
+      saveRoute = await routeModel.existsRouteAlready(currentRoute);
+    } catch (e) {
+      rethrow;
+    }
+    if (!saveRoute) {
       currentRoute.name = name;
       routeModel.saveRoute(currentRoute);
       notifyListeners();
@@ -62,12 +68,12 @@ class SpraywallController extends ChangeNotifier
   }
 
   @override
-  bool existsCurrentRouteAlready() {
+  Future<bool> existsCurrentRouteAlready() async {
     return routeModel.existsRouteAlready(currentRoute);
   }
 
   @override
-  bool nameAlreadyAssigned(String name) {
+  Future<bool> nameAlreadyAssigned(String name) async {
     return routeModel.nameAlreadyAssigned(name);
   }
 }

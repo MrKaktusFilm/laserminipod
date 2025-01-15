@@ -11,18 +11,34 @@ class SaveRouteDialog extends StatefulWidget {
 class _SaveRouteDialogState extends State<SaveRouteDialog> {
   String _name = "";
   final _formKey = GlobalKey<FormState>();
+  bool _isNameAlreadyAssigned = false;
 
   String? validator(String? input) {
     if (input == null || input.isEmpty || input.trim().isEmpty) {
       return "Text ist leer";
     }
-    if (AppState.of(context)!.spraywallController.nameAlreadyAssigned(input)) {
+    _getAsyncData(input);
+    if (!_isNameAlreadyAssigned) {
       return "Eine andere Route hat bereits diesen Namen";
     }
     return null;
   }
 
-  void onSave() {
+  /// gets data from server that is necessary for name field validation
+  Future<void> _getAsyncData(String input) async {
+    try {
+      bool isNameAlreadyAssigned = await AppState.of(context)!
+          .spraywallController
+          .nameAlreadyAssigned(input);
+      setState(() {
+        _isNameAlreadyAssigned = isNameAlreadyAssigned;
+      });
+    } catch (e) {
+      // TODO: handle error
+    }
+  }
+
+  void _onSave() {
     if (_formKey.currentState!.validate()) {
       AppState.of(context)!.spraywallController.saveCurrentRoute(_name.trim());
       Navigator.pop(context);
@@ -58,7 +74,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   TextButton(
-                    onPressed: onSave,
+                    onPressed: _onSave,
                     child: const Text("Speichern"),
                   ),
                   TextButton(

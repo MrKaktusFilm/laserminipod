@@ -18,7 +18,7 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
 
   bool isHandleActivated(int id);
 
-  bool existsCurrentRouteAlready();
+  Future<bool> existsCurrentRouteAlready();
 
-  bool nameAlreadyAssigned(String name);
+  Future<bool> nameAlreadyAssigned(String name);
 }
