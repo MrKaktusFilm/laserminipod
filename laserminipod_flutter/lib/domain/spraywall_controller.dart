@@ -9,8 +9,16 @@ class SpraywallController extends ChangeNotifier
 
   SpraywallRoute currentRoute =
       SpraywallRoute(handles: <int>[], id: 0, name: "");
+  bool _isLoading = false;
+  bool _existsRouteAlready = false;
+  bool _existsNameAlready = false;
+  String? _nameErrorMessage;
+  String _name = "";
 
   SpraywallController({required this.routeModel});
+
+  @override
+  String? get nameErrorMessage => _nameErrorMessage;
 
   @override
   void addHandle(int id) {
@@ -31,18 +39,58 @@ class SpraywallController extends ChangeNotifier
   }
 
   @override
-  Future<void> saveCurrentRoute(String name) async {
-    bool saveRoute = false;
+  void saveCurrentRoute(BuildContext context) async {
     try {
-      saveRoute = await routeModel.existsRouteAlready(currentRoute);
-    } catch (e) {
-      rethrow;
-    }
-    if (!saveRoute) {
-      currentRoute.name = name;
-      routeModel.saveRoute(currentRoute);
+      // Prüfen, ob die Route existiert
+      _isLoading = true;
+      final exists = await existsCurrentRouteAlready();
+      _isLoading = false;
+      if (exists) {
+        _showSnackbar(context, "Die Route existiert bereits.", Colors.red);
+        return;
+      }
+
+      // Name der Route setzen und speichern
+      currentRoute.name = _name.trim();
+      _isLoading = true;
+      final success = await routeModel.saveRoute(currentRoute);
+      _isLoading = false;
+
+      if (success) {
+        _showSnackbar(context, "Route erfolgreich gespeichert.", Colors.green);
+      } else {
+        _showSnackbar(context, "Fehler beim Speichern der Route.", Colors.red);
+      }
+
       notifyListeners();
+    } catch (e) {
+      _showSnackbar(
+          context, "Ein Fehler ist aufgetreten: ${e.toString()}", Colors.red);
     }
+  }
+
+  @override
+  void updateNameStatus(String input, BuildContext context) async {
+    _name = input.trim();
+    try {
+      _existsNameAlready = await nameAlreadyAssigned(_name);
+      if (_existsNameAlready) {
+        _nameErrorMessage = "Eine andere Route hat bereits diesen Namen.";
+      } else {
+        _nameErrorMessage = null;
+      }
+    } catch (e) {
+      _nameErrorMessage = "Ein Fehler ist aufgetreten.";
+    }
+    notifyListeners();
+  }
+
+  @override
+  String? validateRouteName(String? input) {
+    if (input == null || input.isEmpty || input.trim().isEmpty) {
+      return "Der Name darf nicht leer sein.";
+    }
+    return _nameErrorMessage;
   }
 
   @override
@@ -75,5 +123,19 @@ class SpraywallController extends ChangeNotifier
   @override
   Future<bool> nameAlreadyAssigned(String name) async {
     return routeModel.nameAlreadyAssigned(name);
+  }
+
+  @override
+  bool isLoading() {
+    return _isLoading;
+  }
+
+  void _showSnackbar(BuildContext context, String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: color,
+      ),
+    );
   }
 }

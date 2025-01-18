@@ -205,7 +205,7 @@ class _RouteEndpointNoDB {
     });
   }
 
-  _i3.Future<void> saveRoute(
+  _i3.Future<bool> saveRoute(
     _i1.TestSessionBuilder sessionBuilder,
     _i4.SpraywallRoute route,
   ) async {
@@ -226,7 +226,7 @@ class _RouteEndpointNoDB {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<void>);
+        ) as _i3.Future<bool>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

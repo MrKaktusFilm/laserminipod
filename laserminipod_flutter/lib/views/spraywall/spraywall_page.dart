@@ -13,22 +13,32 @@ class SpraywallPage extends StatefulWidget {
 
 class _SpraywallPageState extends State<SpraywallPage> {
   bool _existsCurrentRouteAlready = true;
+  bool _isLoading = false;
 
   Future<void> _onSave() async {
-    _getAsyncData();
+    setState(() {
+      _isLoading = true;
+    });
+    await _getAsyncData();
+    setState(() {
+      _isLoading = false;
+    });
+
     if (_existsCurrentRouteAlready) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          backgroundColor: Colors.red,
-          content: Text("Die erstellte Route existiert bereits.")));
+        backgroundColor: Colors.red,
+        content: Text("Die erstellte Route existiert bereits."),
+      ));
     } else {
       showDialog(
-          context: context,
-          builder: (BuildContext context) => const SaveRouteDialog());
+        context: context,
+        builder: (BuildContext context) => const SaveRouteDialog(),
+      );
     }
   }
 
-  /// gets data from server that is necessary for route saving validation
-  void _getAsyncData() async {
+  /// Holt Daten vom Server zur Validierung der Route
+  Future<void> _getAsyncData() async {
     try {
       bool existsRouteAlready = await AppState.of(context)!
           .spraywallController
@@ -37,7 +47,10 @@ class _SpraywallPageState extends State<SpraywallPage> {
         _existsCurrentRouteAlready = existsRouteAlready;
       });
     } catch (e) {
-      // TODO: Error handling
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Fehler beim Laden der Daten: $e"),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 
@@ -56,6 +69,7 @@ class _SpraywallPageState extends State<SpraywallPage> {
         maxScale: 10.0,
         child: const SpraywallWithButtons(),
       ),
+      if (_isLoading) const Center(child: CircularProgressIndicator()),
       Align(
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(

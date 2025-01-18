@@ -48,8 +48,8 @@ class EndpointRouteEndpointNoDB extends _i1.EndpointRef {
         {'id': id},
       );
 
-  _i2.Future<void> saveRoute(_i3.SpraywallRoute route) =>
-      caller.callServerEndpoint<void>(
+  _i2.Future<bool> saveRoute(_i3.SpraywallRoute route) =>
+      caller.callServerEndpoint<bool>(
         'routeEndpointNoDB',
         'saveRoute',
         {'route': route},

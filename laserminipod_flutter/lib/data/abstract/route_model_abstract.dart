@@ -3,7 +3,7 @@ import 'package:laserminipod_client/laserminipod_client.dart';
 abstract class RouteModelAbstract {
   Future<void> deleteRoute(int id);
 
-  Future<void> saveRoute(SpraywallRoute route);
+  Future<bool> saveRoute(SpraywallRoute route);
 
   Future<SpraywallRoute> loadRoute(int id);
 

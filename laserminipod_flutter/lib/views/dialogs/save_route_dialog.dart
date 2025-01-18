@@ -9,46 +9,20 @@ class SaveRouteDialog extends StatefulWidget {
 }
 
 class _SaveRouteDialogState extends State<SaveRouteDialog> {
-  String _name = "";
   final _formKey = GlobalKey<FormState>();
-  bool _isNameAlreadyAssigned = false;
 
-  String? validator(String? input) {
-    if (input == null || input.isEmpty || input.trim().isEmpty) {
-      return "Text ist leer";
-    }
-    _getAsyncData(input);
-    if (!_isNameAlreadyAssigned) {
-      return "Eine andere Route hat bereits diesen Namen";
-    }
-    return null;
-  }
-
-  /// gets data from server that is necessary for name field validation
-  Future<void> _getAsyncData(String input) async {
-    try {
-      bool isNameAlreadyAssigned = await AppState.of(context)!
-          .spraywallController
-          .nameAlreadyAssigned(input);
-      setState(() {
-        _isNameAlreadyAssigned = isNameAlreadyAssigned;
-      });
-    } catch (e) {
-      // TODO: handle error
-    }
-  }
-
-  void _onSave() {
+  void _onSave() async {
+    final controller = AppState.of(context)!.spraywallController;
     if (_formKey.currentState!.validate()) {
-      AppState.of(context)!.spraywallController.saveCurrentRoute(_name.trim());
+      controller.saveCurrentRoute(context);
       Navigator.pop(context);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Route gespeichert.")));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final controller = AppState.of(context)!.spraywallController;
+
     return Form(
       key: _formKey,
       child: Dialog(
@@ -59,22 +33,29 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextFormField(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: "Name der Route:",
                   filled: true,
+                  errorText: controller.nameErrorMessage,
                 ),
-                onChanged: (value) => setState(() {
-                  _name = value;
-                  //_formKey.currentState!.validate();
-                }),
-                validator: validator,
+                onChanged: (value) {
+                  controller.updateNameStatus(value, context);
+                },
+                validator: (input) {
+                  return controller.validateRouteName(input);
+                },
               ),
+              if (controller.isLoading())
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: CircularProgressIndicator(),
+                ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   TextButton(
-                    onPressed: _onSave,
+                    onPressed: controller.isLoading() ? null : _onSave,
                     child: const Text("Speichern"),
                   ),
                   TextButton(

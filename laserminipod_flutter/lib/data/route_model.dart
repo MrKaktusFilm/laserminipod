@@ -26,9 +26,9 @@ class RouteModel extends RouteModelAbstract {
   }
 
   @override
-  Future<void> saveRoute(SpraywallRoute route) async {
+  Future<bool> saveRoute(SpraywallRoute route) async {
     try {
-      await client.routeEndpointNoDB.saveRoute(route.copyWith());
+      return await client.routeEndpointNoDB.saveRoute(route.copyWith());
     } on Exception {
       rethrow;
     }

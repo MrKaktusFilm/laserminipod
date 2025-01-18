@@ -15,9 +15,10 @@ class RouteEndpointNoDB extends Endpoint {
     return routes[id];
   }
 
-  Future<void> saveRoute(Session session, SpraywallRoute route) async {
+  Future<bool> saveRoute(Session session, SpraywallRoute route) async {
     routes.add(route.copyWith());
     idIndex++;
+    return true;
   }
 
   Future<int> getNewId(Session session) async {
