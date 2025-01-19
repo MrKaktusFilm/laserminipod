@@ -3,6 +3,7 @@ import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/main.dart';
+import 'package:user_app/views/dialogs/delete_route_dialog.dart';
 import 'package:user_app/views/dialogs/save_route_dialog.dart';
 
 class SpraywallController extends ChangeNotifier
@@ -40,7 +41,7 @@ class SpraywallController extends ChangeNotifier
   }
 
   @override
-  void saveCurrentRoute(BuildContext context) async {
+  void saveCurrentRoute() async {
     try {
       // check if route already exists
       _isLoading = true;
@@ -70,7 +71,7 @@ class SpraywallController extends ChangeNotifier
   }
 
   @override
-  void updateNameStatus(String input, BuildContext context) async {
+  void updateNameStatus(String input) async {
     _name = input.trim();
     try {
       _existsNameAlready = await nameAlreadyAssigned(_name);
@@ -94,17 +95,18 @@ class SpraywallController extends ChangeNotifier
   }
 
   @override
-  void openSaveRouteDialog(BuildContext context) async {
+  void openSaveRouteDialog() async {
     bool existsRouteAlready = await existsCurrentRouteAlready();
     if (existsRouteAlready) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        backgroundColor: Colors.red,
-        content: Text("Die erstellte Route existiert bereits."),
-      ));
       _showSnackbar("Die erstellte Route existiert bereits.", Colors.red);
     } else {
       _showDialog(const SaveRouteDialog());
     }
+  }
+
+  @override
+  void openDeleteRouteDialog(int routeID) {
+    _showDialog(DeleteRouteDialog(id: routeID));
   }
 
   @override

@@ -14,7 +14,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
   void _onSave() async {
     final controller = AppState.of(context)!.spraywallController;
     if (_formKey.currentState!.validate()) {
-      controller.saveCurrentRoute(context);
+      controller.saveCurrentRoute();
       Navigator.pop(context);
     }
   }
@@ -39,7 +39,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
                   errorText: controller.nameErrorMessage,
                 ),
                 onChanged: (value) {
-                  controller.updateNameStatus(value, context);
+                  controller.updateNameStatus(value);
                 },
                 validator: (input) {
                   return controller.validateRouteName(input);

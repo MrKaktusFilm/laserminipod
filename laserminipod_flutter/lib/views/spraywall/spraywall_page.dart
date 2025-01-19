@@ -34,9 +34,7 @@ class _SpraywallPageState extends State<SpraywallPage> {
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(
               onPressed: () {
-                AppState.of(context)!
-                    .spraywallController
-                    .openSaveRouteDialog(context);
+                AppState.of(context)!.spraywallController.openSaveRouteDialog();
               },
               child: const Icon(Icons.save))),
       Align(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/home.dart';
-import 'package:user_app/views/dialogs/delete_route_dialog.dart';
 
 class RoutelistTile extends StatefulWidget {
   const RoutelistTile(
@@ -21,11 +20,9 @@ class _RoutelistTileState extends State<RoutelistTile> {
   }
 
   void onDelete() {
-    // TODO: Fix bug
-    showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            DeleteRouteDialog(id: widget.route.id));
+    AppState.of(context)!
+        .spraywallController
+        .openDeleteRouteDialog(widget.route.id);
   }
 
   @override

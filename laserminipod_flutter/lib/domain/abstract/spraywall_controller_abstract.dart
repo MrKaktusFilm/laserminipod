@@ -8,7 +8,7 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
 
   void clearCurrentRoute();
 
-  void saveCurrentRoute(BuildContext context);
+  void saveCurrentRoute();
 
   void deleteRoute(int id);
 
@@ -22,9 +22,11 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
 
   Future<bool> nameAlreadyAssigned(String name);
 
-  void updateNameStatus(String input, BuildContext context);
+  void updateNameStatus(String input);
 
-  void openSaveRouteDialog(BuildContext context);
+  void openSaveRouteDialog();
+
+  void openDeleteRouteDialog(int routeID);
 
   String? validateRouteName(String? input);
 
