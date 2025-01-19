@@ -11,7 +11,6 @@ class SpraywallController extends ChangeNotifier
   SpraywallRoute currentRoute =
       SpraywallRoute(handles: <int>[], id: 0, name: "");
   bool _isLoading = false;
-  bool _existsRouteAlready = false;
   bool _existsNameAlready = false;
   String? _nameErrorMessage;
   String _name = "";
@@ -96,7 +95,8 @@ class SpraywallController extends ChangeNotifier
 
   @override
   void openSaveRouteDialog(BuildContext context) async {
-    if (_existsRouteAlready) {
+    bool existsRouteAlready = await existsCurrentRouteAlready();
+    if (existsRouteAlready) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         backgroundColor: Colors.red,
         content: Text("Die erstellte Route existiert bereits."),
@@ -107,12 +107,6 @@ class SpraywallController extends ChangeNotifier
         builder: (BuildContext context) => const SaveRouteDialog(),
       );
     }
-  }
-
-  @override
-  void updateExistsRouteAlready() async {
-    _existsRouteAlready = await existsCurrentRouteAlready();
-    notifyListeners();
   }
 
   @override
