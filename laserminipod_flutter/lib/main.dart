@@ -5,8 +5,12 @@ import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:user_app/home.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
+// global variables
 var client = Client('http://10.0.2.2:8080/')
   ..connectivityMonitor = FlutterConnectivityMonitor();
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   runApp(const MyApp());
@@ -22,9 +26,11 @@ class MyApp extends StatelessWidget {
     return AppState(
       title: 'DIE Laser App die laser ist',
       spraywallController: SpraywallController(routeModel: routeModel),
-      child: const MaterialApp(
+      child: MaterialApp(
+        scaffoldMessengerKey: scaffoldMessengerKey,
+        navigatorKey: navigatorKey,
         title: 'Flutter Demo',
-        home: HomePage(),
+        home: const HomePage(),
       ),
     );
   }

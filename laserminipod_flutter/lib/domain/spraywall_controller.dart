@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/views/dialogs/save_route_dialog.dart';
 
 class SpraywallController extends ChangeNotifier
@@ -46,7 +47,7 @@ class SpraywallController extends ChangeNotifier
       final exists = await existsCurrentRouteAlready();
       _isLoading = false;
       if (exists) {
-        _showSnackbar(context, "Die Route existiert bereits.", Colors.red);
+        _showSnackbar("Die Route existiert bereits.", Colors.red);
         return;
       }
 
@@ -57,15 +58,14 @@ class SpraywallController extends ChangeNotifier
       _isLoading = false;
 
       if (success) {
-        _showSnackbar(context, "Route erfolgreich gespeichert.", Colors.green);
+        _showSnackbar("Route erfolgreich gespeichert.", Colors.green);
       } else {
-        _showSnackbar(context, "Fehler beim Speichern der Route.", Colors.red);
+        _showSnackbar("Fehler beim Speichern der Route.", Colors.red);
       }
 
       notifyListeners();
     } catch (e) {
-      _showSnackbar(
-          context, "Ein Fehler ist aufgetreten: ${e.toString()}", Colors.red);
+      _showSnackbar("Ein Fehler ist aufgetreten: ${e.toString()}", Colors.red);
     }
   }
 
@@ -101,11 +101,9 @@ class SpraywallController extends ChangeNotifier
         backgroundColor: Colors.red,
         content: Text("Die erstellte Route existiert bereits."),
       ));
+      _showSnackbar("Die erstellte Route existiert bereits.", Colors.red);
     } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => const SaveRouteDialog(),
-      );
+      _showDialog(const SaveRouteDialog());
     }
   }
 
@@ -155,19 +153,20 @@ class SpraywallController extends ChangeNotifier
     return _isLoading;
   }
 
-  void _showSnackbar(BuildContext context, String message, Color color) {
-    /*
-    TODO: 
-      Exception has occurred.
-      FlutterError (Looking up a deactivated widget's ancestor is unsafe.
-      At this point the state of the widget's element tree is no longer stable.
-      To safely refer to a widget's ancestor in its dispose() method, save a reference to the ancestor by calling dependOnInheritedWidgetOfExactType() in the widget's didChangeDependencies() method.)
-    */
-    ScaffoldMessenger.of(context).showSnackBar(
+  void _showSnackbar(String message, Color color) {
+    scaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
         content: Text(message),
         backgroundColor: color,
       ),
+    );
+  }
+
+  void _showDialog(Widget dialog) {
+    final context = navigatorKey.currentState?.overlay?.context;
+    showDialog(
+      context: context!,
+      builder: (BuildContext context) => dialog,
     );
   }
 }
