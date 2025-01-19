@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:user_app/views/dialogs/save_route_dialog.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_floating_buttons.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_button.dart';
 import 'package:user_app/home.dart';
@@ -12,52 +11,13 @@ class SpraywallPage extends StatefulWidget {
 }
 
 class _SpraywallPageState extends State<SpraywallPage> {
-  bool _existsCurrentRouteAlready = true;
-  bool _isLoading = false;
-
-  Future<void> _onSave() async {
-    setState(() {
-      _isLoading = true;
-    });
-    await _getAsyncData();
-    setState(() {
-      _isLoading = false;
-    });
-
-    if (_existsCurrentRouteAlready) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        backgroundColor: Colors.red,
-        content: Text("Die erstellte Route existiert bereits."),
-      ));
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => const SaveRouteDialog(),
-      );
-    }
-  }
-
-  /// Holt Daten vom Server zur Validierung der Route
-  Future<void> _getAsyncData() async {
-    try {
-      bool existsRouteAlready = await AppState.of(context)!
-          .spraywallController
-          .existsCurrentRouteAlready();
-      setState(() {
-        _existsCurrentRouteAlready = existsRouteAlready;
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Fehler beim Laden der Daten: $e"),
-        backgroundColor: Colors.red,
-      ));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     var viewTransformationController =
         TransformationController(Matrix4.identity()..scale(0.45));
+
+    var controller = AppState.of(context)!.spraywallController;
+    controller.updateExistsRouteAlready();
 
     return Stack(children: <Widget>[
       InteractiveViewer(
@@ -69,11 +29,17 @@ class _SpraywallPageState extends State<SpraywallPage> {
         maxScale: 10.0,
         child: const SpraywallWithButtons(),
       ),
-      if (_isLoading) const Center(child: CircularProgressIndicator()),
+      if (controller.isLoading())
+        const Center(child: CircularProgressIndicator()),
       Align(
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(
-              onPressed: _onSave, child: const Icon(Icons.save))),
+              onPressed: () {
+                AppState.of(context)!
+                    .spraywallController
+                    .openSaveRouteDialog(context);
+              },
+              child: const Icon(Icons.save))),
       Align(
         alignment: Alignment.bottomLeft,
         child: SpraywallFloatingButton(

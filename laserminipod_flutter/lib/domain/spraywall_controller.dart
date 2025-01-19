@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/views/dialogs/save_route_dialog.dart';
 
 class SpraywallController extends ChangeNotifier
     implements SprayWallControllerAbstract {
@@ -41,7 +42,7 @@ class SpraywallController extends ChangeNotifier
   @override
   void saveCurrentRoute(BuildContext context) async {
     try {
-      // Prüfen, ob die Route existiert
+      // check if route already exists
       _isLoading = true;
       final exists = await existsCurrentRouteAlready();
       _isLoading = false;
@@ -50,7 +51,7 @@ class SpraywallController extends ChangeNotifier
         return;
       }
 
-      // Name der Route setzen und speichern
+      // save route
       currentRoute.name = _name.trim();
       _isLoading = true;
       final success = await routeModel.saveRoute(currentRoute);
@@ -94,6 +95,27 @@ class SpraywallController extends ChangeNotifier
   }
 
   @override
+  void openSaveRouteDialog(BuildContext context) async {
+    if (_existsRouteAlready) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Die erstellte Route existiert bereits."),
+      ));
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => const SaveRouteDialog(),
+      );
+    }
+  }
+
+  @override
+  void updateExistsRouteAlready() async {
+    _existsRouteAlready = await existsCurrentRouteAlready();
+    notifyListeners();
+  }
+
+  @override
   void deleteRoute(int id) {
     routeModel.deleteRoute(id);
     notifyListeners();
@@ -131,6 +153,13 @@ class SpraywallController extends ChangeNotifier
   }
 
   void _showSnackbar(BuildContext context, String message, Color color) {
+    /*
+    TODO: 
+      Exception has occurred.
+      FlutterError (Looking up a deactivated widget's ancestor is unsafe.
+      At this point the state of the widget's element tree is no longer stable.
+      To safely refer to a widget's ancestor in its dispose() method, save a reference to the ancestor by calling dependOnInheritedWidgetOfExactType() in the widget's didChangeDependencies() method.)
+    */
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),

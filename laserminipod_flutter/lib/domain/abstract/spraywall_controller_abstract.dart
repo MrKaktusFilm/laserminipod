@@ -24,6 +24,10 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
 
   void updateNameStatus(String input, BuildContext context);
 
+  void openSaveRouteDialog(BuildContext context);
+
+  void updateExistsRouteAlready();
+
   String? validateRouteName(String? input);
 
   bool isLoading();

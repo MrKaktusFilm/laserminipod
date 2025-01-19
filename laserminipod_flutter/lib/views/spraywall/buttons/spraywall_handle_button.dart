@@ -24,6 +24,7 @@ class _SpraywallHandleButtonState extends State<SpraywallHandleButton> {
         _remove!(widget.id);
       }
     });
+    AppState.of(context)?.spraywallController.updateExistsRouteAlready();
   }
 
   @override
