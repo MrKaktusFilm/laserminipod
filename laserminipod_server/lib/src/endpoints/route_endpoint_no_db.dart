@@ -5,10 +5,12 @@ class RouteEndpointNoDB extends Endpoint {
   var routes = <SpraywallRoute>[
     SpraywallRoute(id: 0, name: "test", handles: [0])
   ];
-  int idIndex = 0;
+  int idIndex = 1;
 
   Future<void> deleteRoute(Session session, int id) async {
+    print(routes);
     routes.removeWhere((SpraywallRoute route) => route.id == id);
+    print(routes);
   }
 
   Future<SpraywallRoute> loadRoute(Session session, int id) async {
@@ -16,7 +18,7 @@ class RouteEndpointNoDB extends Endpoint {
   }
 
   Future<bool> saveRoute(Session session, SpraywallRoute route) async {
-    routes.add(route.copyWith());
+    routes.add(route.copyWith(id: idIndex));
     idIndex++;
     return true;
   }

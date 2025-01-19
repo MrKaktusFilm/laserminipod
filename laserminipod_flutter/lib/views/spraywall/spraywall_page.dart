@@ -17,7 +17,6 @@ class _SpraywallPageState extends State<SpraywallPage> {
         TransformationController(Matrix4.identity()..scale(0.45));
 
     var controller = AppState.of(context)!.spraywallController;
-    controller.updateExistsRouteAlready();
 
     return Stack(children: <Widget>[
       InteractiveViewer(
