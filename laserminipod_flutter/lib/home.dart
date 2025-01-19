@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:user_app/domain/abstract/routelist_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/views/routelist/routelist_page.dart';
 import 'package:user_app/views/spraywall/spraywall_page.dart';
@@ -7,13 +6,11 @@ import 'package:user_app/views/spraywall/spraywall_page.dart';
 class AppState extends InheritedWidget {
   final String title;
   final SprayWallControllerAbstract spraywallController;
-  final RoutelistControllerAbstract routelistController;
 
   const AppState(
       {super.key,
       required this.title,
       required this.spraywallController,
-      required this.routelistController,
       required super.child});
 
   static AppState? of(BuildContext context) {

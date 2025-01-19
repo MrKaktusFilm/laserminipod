@@ -20,7 +20,7 @@ class _RouteListPageState extends State<RouteListPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<SpraywallRoute>>(
-      future: AppState.of(context)?.routelistController.loadAllRoutes(),
+      future: AppState.of(context)?.spraywallController.loadAllRoutes(),
       builder: (context, AsyncSnapshot<List<SpraywallRoute>> snapshot) {
         if (snapshot.hasError) {
           hasErrorOccured = true;

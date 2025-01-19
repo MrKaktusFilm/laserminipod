@@ -28,6 +28,8 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
 
   String? validateRouteName(String? input);
 
+  Future<List<SpraywallRoute>> loadAllRoutes();
+
   bool isLoading();
 
   String? get nameErrorMessage;

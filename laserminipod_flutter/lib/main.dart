@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/route_model.dart';
-import 'package:user_app/domain/routelist_controller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:user_app/home.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
@@ -23,7 +22,6 @@ class MyApp extends StatelessWidget {
     return AppState(
       title: 'DIE Laser App die laser ist',
       spraywallController: SpraywallController(routeModel: routeModel),
-      routelistController: RoutelistController(routeModel: routeModel),
       child: const MaterialApp(
         title: 'Flutter Demo',
         home: HomePage(),

@@ -110,6 +110,15 @@ class SpraywallController extends ChangeNotifier
   }
 
   @override
+  Future<List<SpraywallRoute>> loadAllRoutes() async {
+    try {
+      return routeModel.loadAllRoutes();
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  @override
   void deleteRoute(int id) {
     routeModel.deleteRoute(id);
     notifyListeners();
