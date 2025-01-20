@@ -1,5 +1,14 @@
 example:
   - hello:
+route:
+  - deleteRoute:
+  - loadRoute:
+  - saveRoute:
+  - getNewId:
+  - loadAllRoutes:
+  - existsRouteAlready:
+  - nameAlreadyAssigned:
+  - test:
 routeEndpointNoDB:
   - deleteRoute:
   - loadRoute:

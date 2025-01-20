@@ -5,8 +5,6 @@ abstract class RouteModelAbstract {
 
   Future<bool> saveRoute(SpraywallRoute route);
 
-  Future<SpraywallRoute> loadRoute(int id);
-
   Future<List<SpraywallRoute>> loadAllRoutes();
 
   Future<bool> existsRouteAlready(SpraywallRoute route);

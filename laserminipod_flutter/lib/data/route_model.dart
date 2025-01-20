@@ -6,20 +6,12 @@ import 'package:user_app/main.dart';
 class RouteModel extends RouteModelAbstract {
   var routes = <SpraywallRoute>[];
   int idIndex = 0;
+  var routeEndpoint = client.route;
 
   @override
   Future<void> deleteRoute(int id) async {
     try {
-      await client.routeEndpointNoDB.deleteRoute(id);
-    } on Exception {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<SpraywallRoute> loadRoute(int id) async {
-    try {
-      return await client.routeEndpointNoDB.loadRoute(id);
+      await routeEndpoint.deleteRoute(id);
     } on Exception {
       rethrow;
     }
@@ -28,7 +20,7 @@ class RouteModel extends RouteModelAbstract {
   @override
   Future<bool> saveRoute(SpraywallRoute route) async {
     try {
-      return await client.routeEndpointNoDB.saveRoute(route.copyWith());
+      return await routeEndpoint.saveRoute(route.copyWith());
     } on Exception {
       rethrow;
     }
@@ -37,7 +29,7 @@ class RouteModel extends RouteModelAbstract {
   @override
   Future<List<SpraywallRoute>> loadAllRoutes() async {
     try {
-      return await client.routeEndpointNoDB.loadAllRoutes();
+      return await routeEndpoint.loadAllRoutes();
     } on Exception {
       rethrow;
     }
@@ -46,7 +38,7 @@ class RouteModel extends RouteModelAbstract {
   @override
   Future<bool> existsRouteAlready(SpraywallRoute route) async {
     try {
-      return await client.routeEndpointNoDB.existsRouteAlready(route);
+      return await routeEndpoint.existsRouteAlready(route);
     } on Exception {
       rethrow;
     }
@@ -55,7 +47,7 @@ class RouteModel extends RouteModelAbstract {
   @override
   Future<bool> nameAlreadyAssigned(String name) async {
     try {
-      return await client.routeEndpointNoDB.nameAlreadyAssigned(name);
+      return await routeEndpoint.nameAlreadyAssigned(name);
     } on Exception {
       rethrow;
     }

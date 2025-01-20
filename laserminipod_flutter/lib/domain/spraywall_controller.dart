@@ -124,8 +124,9 @@ class SpraywallController extends ChangeNotifier
     notifyListeners();
   }
 
+  /// loads the given route to the spraywall screen panel
   @override
-  void loadRoute(SpraywallRoute route) {
+  void displayRoute(SpraywallRoute route) {
     currentRoute = route.copyWith();
     notifyListeners();
   }

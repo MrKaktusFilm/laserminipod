@@ -15,14 +15,14 @@ class RoutelistTile extends StatefulWidget {
 
 class _RoutelistTileState extends State<RoutelistTile> {
   void onTap() {
-    AppState.of(context)!.spraywallController.loadRoute(widget.route);
+    AppState.of(context)!.spraywallController.displayRoute(widget.route);
     widget.navigateToSpraywall();
   }
 
   void onDelete() {
     AppState.of(context)!
         .spraywallController
-        .openDeleteRouteDialog(widget.route.id);
+        .openDeleteRouteDialog(widget.route.id!);
   }
 
   @override

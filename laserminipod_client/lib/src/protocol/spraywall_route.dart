@@ -13,29 +13,32 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 
 abstract class SpraywallRoute implements _i1.SerializableModel {
   SpraywallRoute._({
-    required this.id,
+    this.id,
     required this.name,
     required this.handles,
   });
 
   factory SpraywallRoute({
-    required int id,
+    int? id,
     required String name,
     required List<int> handles,
   }) = _SpraywallRouteImpl;
 
   factory SpraywallRoute.fromJson(Map<String, dynamic> jsonSerialization) {
     return SpraywallRoute(
-      id: jsonSerialization['id'] as int,
+      id: jsonSerialization['id'] as int?,
       name: jsonSerialization['name'] as String,
       handles:
           (jsonSerialization['handles'] as List).map((e) => e as int).toList(),
     );
   }
 
-  String name;
+  /// The database id, set if the object has been inserted into the
+  /// database or if it has been fetched from the database. Otherwise,
+  /// the id will be null.
+  int? id;
 
-  int id;
+  String name;
 
   List<int> handles;
 
@@ -47,7 +50,7 @@ abstract class SpraywallRoute implements _i1.SerializableModel {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'name': name,
       'handles': handles.toJson(),
     };
@@ -59,9 +62,11 @@ abstract class SpraywallRoute implements _i1.SerializableModel {
   }
 }
 
+class _Undefined {}
+
 class _SpraywallRouteImpl extends SpraywallRoute {
   _SpraywallRouteImpl({
-    required int id,
+    int? id,
     required String name,
     required List<int> handles,
   }) : super._(
@@ -72,12 +77,12 @@ class _SpraywallRouteImpl extends SpraywallRoute {
 
   @override
   SpraywallRoute copyWith({
-    int? id,
+    Object? id = _Undefined,
     String? name,
     List<int>? handles,
   }) {
     return SpraywallRoute(
-      id: id ?? this.id,
+      id: id is int? ? id : this.id,
       name: name ?? this.name,
       handles: handles ?? this.handles.map((e0) => e0).toList(),
     );

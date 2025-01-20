@@ -33,7 +33,7 @@ class RouteEndpointNoDB extends Endpoint {
 
   Future<bool> existsRouteAlready(Session session, SpraywallRoute route) async {
     for (var temp in routes) {
-      if (compareLists(temp.handles, route.handles)) {
+      if (_compareLists(temp.handles, route.handles)) {
         // routes are equal, if they consist of the same handles
         print(true);
         return true;
@@ -52,7 +52,7 @@ class RouteEndpointNoDB extends Endpoint {
   }
 
   /// compares two lists, order and duplicates don't matter
-  bool compareLists(List list1, List list2) {
+  bool _compareLists(List list1, List list2) {
     return Set.from(list1).containsAll(list2) &&
         Set.from(list2).containsAll(list1);
   }

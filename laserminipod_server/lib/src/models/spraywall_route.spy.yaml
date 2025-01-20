@@ -1,5 +1,5 @@
 class: SpraywallRoute
+table: spraywallroute
 fields:
   name: String
-  id: int
   handles: List<int>
