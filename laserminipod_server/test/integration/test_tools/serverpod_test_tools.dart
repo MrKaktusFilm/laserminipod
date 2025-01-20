@@ -34,7 +34,26 @@ export 'package:serverpod_test/serverpod_test_public_exports.dart';
 ///
 /// **Configuration options**
 ///
+/// [applyMigrations] Whether pending migrations should be applied when starting Serverpod. Defaults to `true`
+///
 /// [enableSessionLogging] Whether session logging should be enabled. Defaults to `false`
+///
+/// [rollbackDatabase] Options for when to rollback the database during the test lifecycle.
+/// By default `withServerpod` does all database operations inside a transaction that is rolled back after each `test` case.
+/// Just like the following enum describes, the behavior of the automatic rollbacks can be configured:
+/// ```dart
+/// /// Options for when to rollback the database during the test lifecycle.
+/// enum RollbackDatabase {
+///   /// After each test. This is the default.
+///   afterEach,
+///
+///   /// After all tests.
+///   afterAll,
+///
+///   /// Disable rolling back the database.
+///   disabled,
+/// }
+/// ```
 ///
 /// [runMode] The run mode that Serverpod should be running in. Defaults to `test`.
 ///
@@ -49,7 +68,9 @@ export 'package:serverpod_test/serverpod_test_public_exports.dart';
 void withServerpod(
   String testGroupName,
   _i1.TestClosure<TestEndpoints> testClosure, {
+  bool? applyMigrations,
   bool? enableSessionLogging,
+  _i1.RollbackDatabase? rollbackDatabase,
   String? runMode,
   _i2.ServerpodLoggingMode? serverpodLoggingMode,
   Duration? serverpodStartTimeout,
@@ -62,11 +83,11 @@ void withServerpod(
       endpoints: Endpoints(),
       serializationManager: Protocol(),
       runMode: runMode,
-      applyMigrations: false,
-      isDatabaseEnabled: false,
+      applyMigrations: applyMigrations,
+      isDatabaseEnabled: true,
       serverpodLoggingMode: serverpodLoggingMode,
     ),
-    maybeRollbackDatabase: _i1.RollbackDatabase.disabled,
+    maybeRollbackDatabase: rollbackDatabase,
     maybeEnableSessionLogging: enableSessionLogging,
     maybeTestGroupTagsOverride: testGroupTagsOverride,
     maybeServerpodStartTimeout: serverpodStartTimeout,
