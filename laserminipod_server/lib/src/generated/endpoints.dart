@@ -10,58 +10,20 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../endpoints/example_endpoint.dart' as _i2;
-import '../endpoints/route_endpoint.dart' as _i3;
-import '../endpoints/route_endpoint_no_db.dart' as _i4;
-import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i5;
+import '../endpoints/route_endpoint.dart' as _i2;
+import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i3;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'example': _i2.ExampleEndpoint()
-        ..initialize(
-          server,
-          'example',
-          null,
-        ),
-      'route': _i3.RouteEndpoint()
+      'route': _i2.RouteEndpoint()
         ..initialize(
           server,
           'route',
           null,
-        ),
-      'routeEndpointNoDB': _i4.RouteEndpointNoDB()
-        ..initialize(
-          server,
-          'routeEndpointNoDB',
-          null,
-        ),
-    };
-    connectors['example'] = _i1.EndpointConnector(
-      name: 'example',
-      endpoint: endpoints['example']!,
-      methodConnectors: {
-        'hello': _i1.MethodConnector(
-          name: 'hello',
-          params: {
-            'name': _i1.ParameterDescription(
-              name: 'name',
-              type: _i1.getType<String>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['example'] as _i2.ExampleEndpoint).hello(
-            session,
-            params['name'],
-          ),
         )
-      },
-    );
+    };
     connectors['route'] = _i1.EndpointConnector(
       name: 'route',
       endpoint: endpoints['route']!,
@@ -79,7 +41,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).deleteRoute(
+              (endpoints['route'] as _i2.RouteEndpoint).deleteRoute(
             session,
             params['id'],
           ),
@@ -97,7 +59,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).loadRoute(
+              (endpoints['route'] as _i2.RouteEndpoint).loadRoute(
             session,
             params['id'],
           ),
@@ -107,7 +69,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'route': _i1.ParameterDescription(
               name: 'route',
-              type: _i1.getType<_i5.SpraywallRoute>(),
+              type: _i1.getType<_i3.SpraywallRoute>(),
               nullable: false,
             )
           },
@@ -115,7 +77,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).saveRoute(
+              (endpoints['route'] as _i2.RouteEndpoint).saveRoute(
             session,
             params['route'],
           ),
@@ -127,7 +89,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).getNewId(session),
+              (endpoints['route'] as _i2.RouteEndpoint).getNewId(session),
         ),
         'loadAllRoutes': _i1.MethodConnector(
           name: 'loadAllRoutes',
@@ -136,14 +98,14 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).loadAllRoutes(session),
+              (endpoints['route'] as _i2.RouteEndpoint).loadAllRoutes(session),
         ),
         'existsRouteAlready': _i1.MethodConnector(
           name: 'existsRouteAlready',
           params: {
             'route': _i1.ParameterDescription(
               name: 'route',
-              type: _i1.getType<_i5.SpraywallRoute>(),
+              type: _i1.getType<_i3.SpraywallRoute>(),
               nullable: false,
             )
           },
@@ -151,7 +113,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).existsRouteAlready(
+              (endpoints['route'] as _i2.RouteEndpoint).existsRouteAlready(
             session,
             params['route'],
           ),
@@ -169,7 +131,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).nameAlreadyAssigned(
+              (endpoints['route'] as _i2.RouteEndpoint).nameAlreadyAssigned(
             session,
             params['name'],
           ),
@@ -181,138 +143,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).test(session),
-        ),
-      },
-    );
-    connectors['routeEndpointNoDB'] = _i1.EndpointConnector(
-      name: 'routeEndpointNoDB',
-      endpoint: endpoints['routeEndpointNoDB']!,
-      methodConnectors: {
-        'deleteRoute': _i1.MethodConnector(
-          name: 'deleteRoute',
-          params: {
-            'id': _i1.ParameterDescription(
-              name: 'id',
-              type: _i1.getType<int>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['routeEndpointNoDB'] as _i4.RouteEndpointNoDB)
-                  .deleteRoute(
-            session,
-            params['id'],
-          ),
-        ),
-        'loadRoute': _i1.MethodConnector(
-          name: 'loadRoute',
-          params: {
-            'id': _i1.ParameterDescription(
-              name: 'id',
-              type: _i1.getType<int>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['routeEndpointNoDB'] as _i4.RouteEndpointNoDB)
-                  .loadRoute(
-            session,
-            params['id'],
-          ),
-        ),
-        'saveRoute': _i1.MethodConnector(
-          name: 'saveRoute',
-          params: {
-            'route': _i1.ParameterDescription(
-              name: 'route',
-              type: _i1.getType<_i5.SpraywallRoute>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['routeEndpointNoDB'] as _i4.RouteEndpointNoDB)
-                  .saveRoute(
-            session,
-            params['route'],
-          ),
-        ),
-        'getNewId': _i1.MethodConnector(
-          name: 'getNewId',
-          params: {},
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['routeEndpointNoDB'] as _i4.RouteEndpointNoDB)
-                  .getNewId(session),
-        ),
-        'loadAllRoutes': _i1.MethodConnector(
-          name: 'loadAllRoutes',
-          params: {},
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['routeEndpointNoDB'] as _i4.RouteEndpointNoDB)
-                  .loadAllRoutes(session),
-        ),
-        'existsRouteAlready': _i1.MethodConnector(
-          name: 'existsRouteAlready',
-          params: {
-            'route': _i1.ParameterDescription(
-              name: 'route',
-              type: _i1.getType<_i5.SpraywallRoute>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['routeEndpointNoDB'] as _i4.RouteEndpointNoDB)
-                  .existsRouteAlready(
-            session,
-            params['route'],
-          ),
-        ),
-        'nameAlreadyAssigned': _i1.MethodConnector(
-          name: 'nameAlreadyAssigned',
-          params: {
-            'name': _i1.ParameterDescription(
-              name: 'name',
-              type: _i1.getType<String>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['routeEndpointNoDB'] as _i4.RouteEndpointNoDB)
-                  .nameAlreadyAssigned(
-            session,
-            params['name'],
-          ),
-        ),
-        'test': _i1.MethodConnector(
-          name: 'test',
-          params: {},
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['routeEndpointNoDB'] as _i4.RouteEndpointNoDB)
-                  .test(session),
+              (endpoints['route'] as _i2.RouteEndpoint).test(session),
         ),
       },
     );

@@ -11,10 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'example.dart' as _i3;
-import 'spraywall_route.dart' as _i4;
-import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i5;
-export 'example.dart';
+import 'spraywall_route.dart' as _i3;
+import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i4;
 export 'spraywall_route.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -78,24 +76,18 @@ class Protocol extends _i1.SerializationManagerServer {
     Type? t,
   ]) {
     t ??= T;
-    if (t == _i3.Example) {
-      return _i3.Example.fromJson(data) as T;
+    if (t == _i3.SpraywallRoute) {
+      return _i3.SpraywallRoute.fromJson(data) as T;
     }
-    if (t == _i4.SpraywallRoute) {
-      return _i4.SpraywallRoute.fromJson(data) as T;
-    }
-    if (t == _i1.getType<_i3.Example?>()) {
-      return (data != null ? _i3.Example.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i4.SpraywallRoute?>()) {
-      return (data != null ? _i4.SpraywallRoute.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i3.SpraywallRoute?>()) {
+      return (data != null ? _i3.SpraywallRoute.fromJson(data) : null) as T;
     }
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
-    if (t == List<_i5.SpraywallRoute>) {
+    if (t == List<_i4.SpraywallRoute>) {
       return (data as List)
-          .map((e) => deserialize<_i5.SpraywallRoute>(e))
+          .map((e) => deserialize<_i4.SpraywallRoute>(e))
           .toList() as dynamic;
     }
     try {
@@ -108,10 +100,7 @@ class Protocol extends _i1.SerializationManagerServer {
   String? getClassNameForObject(Object? data) {
     String? className = super.getClassNameForObject(data);
     if (className != null) return className;
-    if (data is _i3.Example) {
-      return 'Example';
-    }
-    if (data is _i4.SpraywallRoute) {
+    if (data is _i3.SpraywallRoute) {
       return 'SpraywallRoute';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -127,11 +116,8 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName is! String) {
       return super.deserializeByClassName(data);
     }
-    if (dataClassName == 'Example') {
-      return deserialize<_i3.Example>(data['data']);
-    }
     if (dataClassName == 'SpraywallRoute') {
-      return deserialize<_i4.SpraywallRoute>(data['data']);
+      return deserialize<_i3.SpraywallRoute>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -149,8 +135,8 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i4.SpraywallRoute:
-        return _i4.SpraywallRoute.t;
+      case _i3.SpraywallRoute:
+        return _i3.SpraywallRoute.t;
     }
     return null;
   }

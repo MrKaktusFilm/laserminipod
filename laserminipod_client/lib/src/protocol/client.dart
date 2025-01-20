@@ -15,20 +15,6 @@ import 'package:laserminipod_client/src/protocol/spraywall_route.dart' as _i3;
 import 'protocol.dart' as _i4;
 
 /// {@category Endpoint}
-class EndpointExample extends _i1.EndpointRef {
-  EndpointExample(_i1.EndpointCaller caller) : super(caller);
-
-  @override
-  String get name => 'example';
-
-  _i2.Future<String> hello(String name) => caller.callServerEndpoint<String>(
-        'example',
-        'hello',
-        {'name': name},
-      );
-}
-
-/// {@category Endpoint}
 class EndpointRoute extends _i1.EndpointRef {
   EndpointRoute(_i1.EndpointCaller caller) : super(caller);
 
@@ -99,67 +85,6 @@ class EndpointRoute extends _i1.EndpointRef {
       );
 }
 
-/// {@category Endpoint}
-class EndpointRouteEndpointNoDB extends _i1.EndpointRef {
-  EndpointRouteEndpointNoDB(_i1.EndpointCaller caller) : super(caller);
-
-  @override
-  String get name => 'routeEndpointNoDB';
-
-  _i2.Future<void> deleteRoute(int id) => caller.callServerEndpoint<void>(
-        'routeEndpointNoDB',
-        'deleteRoute',
-        {'id': id},
-      );
-
-  _i2.Future<_i3.SpraywallRoute> loadRoute(int id) =>
-      caller.callServerEndpoint<_i3.SpraywallRoute>(
-        'routeEndpointNoDB',
-        'loadRoute',
-        {'id': id},
-      );
-
-  _i2.Future<bool> saveRoute(_i3.SpraywallRoute route) =>
-      caller.callServerEndpoint<bool>(
-        'routeEndpointNoDB',
-        'saveRoute',
-        {'route': route},
-      );
-
-  _i2.Future<int> getNewId() => caller.callServerEndpoint<int>(
-        'routeEndpointNoDB',
-        'getNewId',
-        {},
-      );
-
-  _i2.Future<List<_i3.SpraywallRoute>> loadAllRoutes() =>
-      caller.callServerEndpoint<List<_i3.SpraywallRoute>>(
-        'routeEndpointNoDB',
-        'loadAllRoutes',
-        {},
-      );
-
-  _i2.Future<bool> existsRouteAlready(_i3.SpraywallRoute route) =>
-      caller.callServerEndpoint<bool>(
-        'routeEndpointNoDB',
-        'existsRouteAlready',
-        {'route': route},
-      );
-
-  _i2.Future<bool> nameAlreadyAssigned(String name) =>
-      caller.callServerEndpoint<bool>(
-        'routeEndpointNoDB',
-        'nameAlreadyAssigned',
-        {'name': name},
-      );
-
-  _i2.Future<void> test() => caller.callServerEndpoint<void>(
-        'routeEndpointNoDB',
-        'test',
-        {},
-      );
-}
-
 class Client extends _i1.ServerpodClientShared {
   Client(
     String host, {
@@ -186,23 +111,13 @@ class Client extends _i1.ServerpodClientShared {
           disconnectStreamsOnLostInternetConnection:
               disconnectStreamsOnLostInternetConnection,
         ) {
-    example = EndpointExample(this);
     route = EndpointRoute(this);
-    routeEndpointNoDB = EndpointRouteEndpointNoDB(this);
   }
-
-  late final EndpointExample example;
 
   late final EndpointRoute route;
 
-  late final EndpointRouteEndpointNoDB routeEndpointNoDB;
-
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {
-        'example': example,
-        'route': route,
-        'routeEndpointNoDB': routeEndpointNoDB,
-      };
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {'route': route};
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};
