@@ -1,0 +1,6 @@
+class: Handle
+table: handle
+fields:
+  x: int
+  y: int
+  radius: int

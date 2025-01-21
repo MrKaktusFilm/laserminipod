@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_floating_buttons.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_button.dart';
 import 'package:user_app/home.dart';
@@ -61,16 +62,35 @@ class SpraywallWithButtons extends StatelessWidget {
             'assets/img/spraywall_example.jpg',
             fit: BoxFit.fitHeight,
           ),
-          for (int i = 0; i < 4; i++)
-            Positioned(
-              bottom: 70 * i + 10,
-              right: 100,
-              child: ListenableBuilder(
-                  listenable: AppState.of(context)!.spraywallController,
-                  builder: (context, _) {
-                    return SpraywallHandleButton(id: i);
-                  }),
-            )
+          FutureBuilder<List<Handle>>(
+            future: AppState.of(context)?.spraywallController.loadAllHandles(),
+            builder: (context, AsyncSnapshot<List<Handle>> snapshot) {
+              if (snapshot.hasData) {
+                List<Widget> positionedHandles = snapshot.data!.map((handle) {
+                  return Positioned(
+                    bottom: handle.x.toDouble(),
+                    right: handle.y.toDouble(),
+                    child: ListenableBuilder(
+                        listenable: AppState.of(context)!.spraywallController,
+                        builder: (context, _) {
+                          return SpraywallHandleButton(id: handle.id!);
+                        }),
+                  );
+                }).toList();
+
+                // sizedBox necessary to limit Stacks size
+                return SizedBox(
+                    width: 1000.0,
+                    height: 1000.0,
+                    child: Stack(children: positionedHandles));
+              } else if (AppState.of(context)!
+                  .spraywallController
+                  .isLoading()) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return const Placeholder();
+            },
+          )
         ],
       ),
     );

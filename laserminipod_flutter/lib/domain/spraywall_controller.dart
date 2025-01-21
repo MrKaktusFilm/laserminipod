@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/main.dart';
@@ -9,6 +10,7 @@ import 'package:user_app/views/dialogs/save_route_dialog.dart';
 class SpraywallController extends ChangeNotifier
     implements SprayWallControllerAbstract {
   final RouteModelAbstract routeModel;
+  final HandleModelAbstract handleModel;
 
   SpraywallRoute currentRoute =
       SpraywallRoute(handles: <int>[], id: 0, name: "");
@@ -17,7 +19,7 @@ class SpraywallController extends ChangeNotifier
   String? _nameErrorMessage;
   String _name = "";
 
-  SpraywallController({required this.routeModel});
+  SpraywallController({required this.handleModel, required this.routeModel});
 
   @override
   String? get nameErrorMessage => _nameErrorMessage;
@@ -111,11 +113,31 @@ class SpraywallController extends ChangeNotifier
 
   @override
   Future<List<SpraywallRoute>> loadAllRoutes() async {
+    var routes;
     try {
-      return routeModel.loadAllRoutes();
+      _isLoading = true;
+      routes = await routeModel.loadAllRoutes();
     } on Exception {
-      rethrow;
+      _showSnackbar("There was an error loading the routes", Colors.red);
+    } finally {
+      _isLoading = false;
     }
+    return routes;
+  }
+
+  @override
+  Future<List<Handle>> loadAllHandles() async {
+    var handles;
+    try {
+      _isLoading = true;
+      handles = await handleModel.loadAllHandles();
+      print(handles);
+    } on Exception {
+      _showSnackbar("There was an error loading the handles", Colors.red);
+    } finally {
+      _isLoading = false;
+    }
+    return handles;
   }
 
   @override

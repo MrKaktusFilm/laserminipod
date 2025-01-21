@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/home.dart';
@@ -15,22 +13,11 @@ class RouteListPage extends StatefulWidget {
 }
 
 class _RouteListPageState extends State<RouteListPage> {
-  bool hasErrorOccured = false;
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<SpraywallRoute>>(
       future: AppState.of(context)?.spraywallController.loadAllRoutes(),
       builder: (context, AsyncSnapshot<List<SpraywallRoute>> snapshot) {
-        if (snapshot.hasError) {
-          hasErrorOccured = true;
-          scheduleMicrotask(() {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                backgroundColor: Colors.red,
-                content: Text("There was an error loading the routes.")));
-          });
-        }
-
         List<SpraywallRoute>? routes = [];
         if (snapshot.hasData) {
           routes = snapshot.data;
@@ -43,10 +30,9 @@ class _RouteListPageState extends State<RouteListPage> {
                   navigateToSpraywall: widget.navigateToSpraywall,
                 ));
               });
-        } else if (!hasErrorOccured) {
+        } else if (AppState.of(context)!.spraywallController.isLoading()) {
           return const Align(child: CircularProgressIndicator());
         }
-        // is shown if error occurs
         return const Placeholder();
       },
     );

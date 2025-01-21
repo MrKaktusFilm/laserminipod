@@ -14,7 +14,8 @@
 import 'package:serverpod_test/serverpod_test.dart' as _i1;
 import 'package:serverpod/serverpod.dart' as _i2;
 import 'dart:async' as _i3;
-import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i4;
+import 'package:laserminipod_server/src/generated/handle.dart' as _i4;
+import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i5;
 import 'package:laserminipod_server/src/generated/protocol.dart';
 import 'package:laserminipod_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -95,6 +96,8 @@ void withServerpod(
 }
 
 class TestEndpoints {
+  late final _HandleEndpoint handle;
+
   late final _RouteEndpoint route;
 }
 
@@ -105,10 +108,52 @@ class _InternalTestEndpoints extends TestEndpoints
     _i2.SerializationManager serializationManager,
     _i2.EndpointDispatch endpoints,
   ) {
+    handle = _HandleEndpoint(
+      endpoints,
+      serializationManager,
+    );
     route = _RouteEndpoint(
       endpoints,
       serializationManager,
     );
+  }
+}
+
+class _HandleEndpoint {
+  _HandleEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<List<_i4.Handle>> loadAllHandles(
+      _i1.TestSessionBuilder sessionBuilder) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'handle',
+        method: 'loadAllHandles',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'handle',
+          methodName: 'loadAllHandles',
+          parameters: _i1.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<List<_i4.Handle>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
   }
 }
 
@@ -151,38 +196,9 @@ class _RouteEndpoint {
     });
   }
 
-  _i3.Future<_i4.SpraywallRoute?> loadRoute(
-    _i1.TestSessionBuilder sessionBuilder,
-    int id,
-  ) async {
-    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
-      var _localUniqueSession =
-          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-        endpoint: 'route',
-        method: 'loadRoute',
-      );
-      try {
-        var _localCallContext = await _endpointDispatch.getMethodCallContext(
-          createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'route',
-          methodName: 'loadRoute',
-          parameters: _i1.testObjectToJson({'id': id}),
-          serializationManager: _serializationManager,
-        );
-        var _localReturnValue = await (_localCallContext.method.call(
-          _localUniqueSession,
-          _localCallContext.arguments,
-        ) as _i3.Future<_i4.SpraywallRoute?>);
-        return _localReturnValue;
-      } finally {
-        await _localUniqueSession.close();
-      }
-    });
-  }
-
   _i3.Future<bool> saveRoute(
     _i1.TestSessionBuilder sessionBuilder,
-    _i4.SpraywallRoute route,
+    _i5.SpraywallRoute route,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -235,7 +251,7 @@ class _RouteEndpoint {
     });
   }
 
-  _i3.Future<List<_i4.SpraywallRoute>> loadAllRoutes(
+  _i3.Future<List<_i5.SpraywallRoute>> loadAllRoutes(
       _i1.TestSessionBuilder sessionBuilder) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -254,7 +270,7 @@ class _RouteEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<List<_i4.SpraywallRoute>>);
+        ) as _i3.Future<List<_i5.SpraywallRoute>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -264,7 +280,7 @@ class _RouteEndpoint {
 
   _i3.Future<bool> existsRouteAlready(
     _i1.TestSessionBuilder sessionBuilder,
-    _i4.SpraywallRoute route,
+    _i5.SpraywallRoute route,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =

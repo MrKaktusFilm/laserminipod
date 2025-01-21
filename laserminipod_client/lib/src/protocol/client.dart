@@ -11,8 +11,24 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:laserminipod_client/src/protocol/spraywall_route.dart' as _i3;
-import 'protocol.dart' as _i4;
+import 'package:laserminipod_client/src/protocol/handle.dart' as _i3;
+import 'package:laserminipod_client/src/protocol/spraywall_route.dart' as _i4;
+import 'protocol.dart' as _i5;
+
+/// {@category Endpoint}
+class EndpointHandle extends _i1.EndpointRef {
+  EndpointHandle(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'handle';
+
+  _i2.Future<List<_i3.Handle>> loadAllHandles() =>
+      caller.callServerEndpoint<List<_i3.Handle>>(
+        'handle',
+        'loadAllHandles',
+        {},
+      );
+}
 
 /// {@category Endpoint}
 class EndpointRoute extends _i1.EndpointRef {
@@ -28,16 +44,7 @@ class EndpointRoute extends _i1.EndpointRef {
         {'id': id},
       );
 
-  /// Loads a specific route by its ID.
-  _i2.Future<_i3.SpraywallRoute?> loadRoute(int id) =>
-      caller.callServerEndpoint<_i3.SpraywallRoute?>(
-        'route',
-        'loadRoute',
-        {'id': id},
-      );
-
-  /// Saves a new route into the database.
-  _i2.Future<bool> saveRoute(_i3.SpraywallRoute route) =>
+  _i2.Future<bool> saveRoute(_i4.SpraywallRoute route) =>
       caller.callServerEndpoint<bool>(
         'route',
         'saveRoute',
@@ -52,9 +59,8 @@ class EndpointRoute extends _i1.EndpointRef {
         {},
       );
 
-  /// Loads all routes from the `spraywallroute` table.
-  _i2.Future<List<_i3.SpraywallRoute>> loadAllRoutes() =>
-      caller.callServerEndpoint<List<_i3.SpraywallRoute>>(
+  _i2.Future<List<_i4.SpraywallRoute>> loadAllRoutes() =>
+      caller.callServerEndpoint<List<_i4.SpraywallRoute>>(
         'route',
         'loadAllRoutes',
         {},
@@ -62,7 +68,7 @@ class EndpointRoute extends _i1.EndpointRef {
 
   /// Checks if a route with the same handles already exists.
   /// Routes are considered equal if they consist of the same handles.
-  _i2.Future<bool> existsRouteAlready(_i3.SpraywallRoute route) =>
+  _i2.Future<bool> existsRouteAlready(_i4.SpraywallRoute route) =>
       caller.callServerEndpoint<bool>(
         'route',
         'existsRouteAlready',
@@ -101,7 +107,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i4.Protocol(),
+          _i5.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -111,13 +117,19 @@ class Client extends _i1.ServerpodClientShared {
           disconnectStreamsOnLostInternetConnection:
               disconnectStreamsOnLostInternetConnection,
         ) {
+    handle = EndpointHandle(this);
     route = EndpointRoute(this);
   }
+
+  late final EndpointHandle handle;
 
   late final EndpointRoute route;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {'route': route};
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'handle': handle,
+        'route': route,
+      };
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};

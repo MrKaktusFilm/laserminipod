@@ -1,6 +1,7 @@
+handle:
+  - loadAllHandles:
 route:
   - deleteRoute:
-  - loadRoute:
   - saveRoute:
   - getNewId:
   - loadAllRoutes:
