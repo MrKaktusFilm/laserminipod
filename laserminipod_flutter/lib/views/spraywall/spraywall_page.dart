@@ -88,7 +88,7 @@ class SpraywallWithButtons extends StatelessWidget {
                   .isLoading()) {
                 return const Center(child: CircularProgressIndicator());
               }
-              return const Placeholder();
+              return const SizedBox.shrink();
             },
           )
         ],

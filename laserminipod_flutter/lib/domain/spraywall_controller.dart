@@ -131,7 +131,6 @@ class SpraywallController extends ChangeNotifier
     try {
       _isLoading = true;
       handles = await handleModel.loadAllHandles();
-      print(handles);
     } on Exception {
       _showSnackbar("There was an error loading the handles", Colors.red);
     } finally {

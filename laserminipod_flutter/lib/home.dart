@@ -73,6 +73,10 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.list_sharp),
             label: 'Routes',
           ),
+          NavigationDestination(
+            icon: Icon(Icons.front_hand_sharp),
+            label: 'Handles',
+          ),
         ],
       ),
       body: <Widget>[
@@ -86,6 +90,7 @@ class _HomePageState extends State<HomePage> {
                 navigateToSpraywall: navigateToSpraywall,
               );
             }),
+        const Placeholder()
       ][currentPageIndex],
     );
   }
