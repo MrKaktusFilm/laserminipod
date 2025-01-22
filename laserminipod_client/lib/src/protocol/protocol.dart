@@ -14,6 +14,7 @@ import 'handle.dart' as _i2;
 import 'spraywall_route.dart' as _i3;
 import 'package:laserminipod_client/src/protocol/handle.dart' as _i4;
 import 'package:laserminipod_client/src/protocol/spraywall_route.dart' as _i5;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i6;
 export 'handle.dart';
 export 'spraywall_route.dart';
 export 'client.dart';
@@ -55,6 +56,9 @@ class Protocol extends _i1.SerializationManager {
           .map((e) => deserialize<_i5.SpraywallRoute>(e))
           .toList() as dynamic;
     }
+    try {
+      return _i6.Protocol().deserialize<T>(data, t);
+    } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
 
@@ -67,6 +71,10 @@ class Protocol extends _i1.SerializationManager {
     }
     if (data is _i3.SpraywallRoute) {
       return 'SpraywallRoute';
+    }
+    className = _i6.Protocol().getClassNameForObject(data);
+    if (className != null) {
+      return 'serverpod_auth.$className';
     }
     return null;
   }
@@ -82,6 +90,10 @@ class Protocol extends _i1.SerializationManager {
     }
     if (dataClassName == 'SpraywallRoute') {
       return deserialize<_i3.SpraywallRoute>(data['data']);
+    }
+    if (dataClassName.startsWith('serverpod_auth.')) {
+      data['className'] = dataClassName.substring(15);
+      return _i6.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }
