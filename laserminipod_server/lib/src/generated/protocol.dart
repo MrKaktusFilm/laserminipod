@@ -11,10 +11,11 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'handle.dart' as _i3;
-import 'spraywall_route.dart' as _i4;
-import 'package:laserminipod_server/src/generated/handle.dart' as _i5;
-import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i6;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
+import 'handle.dart' as _i4;
+import 'spraywall_route.dart' as _i5;
+import 'package:laserminipod_server/src/generated/handle.dart' as _i6;
+import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i7;
 export 'handle.dart';
 export 'spraywall_route.dart';
 
@@ -120,6 +121,7 @@ class Protocol extends _i1.SerializationManagerServer {
       ],
       managed: true,
     ),
+    ..._i3.Protocol.targetTableDefinitions,
     ..._i2.Protocol.targetTableDefinitions,
   ];
 
@@ -129,30 +131,33 @@ class Protocol extends _i1.SerializationManagerServer {
     Type? t,
   ]) {
     t ??= T;
-    if (t == _i3.Handle) {
-      return _i3.Handle.fromJson(data) as T;
+    if (t == _i4.Handle) {
+      return _i4.Handle.fromJson(data) as T;
     }
-    if (t == _i4.SpraywallRoute) {
-      return _i4.SpraywallRoute.fromJson(data) as T;
+    if (t == _i5.SpraywallRoute) {
+      return _i5.SpraywallRoute.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i3.Handle?>()) {
-      return (data != null ? _i3.Handle.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.Handle?>()) {
+      return (data != null ? _i4.Handle.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.SpraywallRoute?>()) {
-      return (data != null ? _i4.SpraywallRoute.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.SpraywallRoute?>()) {
+      return (data != null ? _i5.SpraywallRoute.fromJson(data) : null) as T;
     }
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
-    if (t == List<_i5.Handle>) {
-      return (data as List).map((e) => deserialize<_i5.Handle>(e)).toList()
+    if (t == List<_i6.Handle>) {
+      return (data as List).map((e) => deserialize<_i6.Handle>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i6.SpraywallRoute>) {
+    if (t == List<_i7.SpraywallRoute>) {
       return (data as List)
-          .map((e) => deserialize<_i6.SpraywallRoute>(e))
+          .map((e) => deserialize<_i7.SpraywallRoute>(e))
           .toList() as dynamic;
     }
+    try {
+      return _i3.Protocol().deserialize<T>(data, t);
+    } on _i1.DeserializationTypeNotFoundException catch (_) {}
     try {
       return _i2.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
@@ -163,15 +168,19 @@ class Protocol extends _i1.SerializationManagerServer {
   String? getClassNameForObject(Object? data) {
     String? className = super.getClassNameForObject(data);
     if (className != null) return className;
-    if (data is _i3.Handle) {
+    if (data is _i4.Handle) {
       return 'Handle';
     }
-    if (data is _i4.SpraywallRoute) {
+    if (data is _i5.SpraywallRoute) {
       return 'SpraywallRoute';
     }
     className = _i2.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod.$className';
+    }
+    className = _i3.Protocol().getClassNameForObject(data);
+    if (className != null) {
+      return 'serverpod_auth.$className';
     }
     return null;
   }
@@ -183,14 +192,18 @@ class Protocol extends _i1.SerializationManagerServer {
       return super.deserializeByClassName(data);
     }
     if (dataClassName == 'Handle') {
-      return deserialize<_i3.Handle>(data['data']);
+      return deserialize<_i4.Handle>(data['data']);
     }
     if (dataClassName == 'SpraywallRoute') {
-      return deserialize<_i4.SpraywallRoute>(data['data']);
+      return deserialize<_i5.SpraywallRoute>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
       return _i2.Protocol().deserializeByClassName(data);
+    }
+    if (dataClassName.startsWith('serverpod_auth.')) {
+      data['className'] = dataClassName.substring(15);
+      return _i3.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }
@@ -198,16 +211,22 @@ class Protocol extends _i1.SerializationManagerServer {
   @override
   _i1.Table? getTableForType(Type t) {
     {
+      var table = _i3.Protocol().getTableForType(t);
+      if (table != null) {
+        return table;
+      }
+    }
+    {
       var table = _i2.Protocol().getTableForType(t);
       if (table != null) {
         return table;
       }
     }
     switch (t) {
-      case _i3.Handle:
-        return _i3.Handle.t;
-      case _i4.SpraywallRoute:
-        return _i4.SpraywallRoute.t;
+      case _i4.Handle:
+        return _i4.Handle.t;
+      case _i5.SpraywallRoute:
+        return _i5.SpraywallRoute.t;
     }
     return null;
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/views/dialogs/login_dialog.dart';
 import 'package:user_app/views/routelist/routelist_page.dart';
 import 'package:user_app/views/spraywall/spraywall_page.dart';
 
@@ -90,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                 navigateToSpraywall: navigateToSpraywall,
               );
             }),
-        const Placeholder()
+        const AdminLoginScreen()
       ][currentPageIndex],
     );
   }
