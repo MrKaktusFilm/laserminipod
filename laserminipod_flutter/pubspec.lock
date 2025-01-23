@@ -145,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.10"
+  email_validator:
+    dependency: transitive
+    description:
+      name: email_validator
+      sha256: b19aa5d92fdd76fbc65112060c94d45ba855105a28bb6e462de7ff03b12fa1fb
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -620,6 +628,14 @@ packages:
     description:
       name: serverpod_auth_client
       sha256: "1f0254b6efe8283a9dbc363cf215e0a407be1bf18224d6a44475f4c631c35595"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
+  serverpod_auth_email_flutter:
+    dependency: "direct main"
+    description:
+      name: serverpod_auth_email_flutter
+      sha256: "0ba821be296547a0db7e37077af50815ab38afbd30650f911c94033cb31e794f"
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
