@@ -15,6 +15,15 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   bool _isLoading = false;
   String? _errorMessage;
 
+  bool _isValidEmail(String email) {
+    // Regulärer Ausdruck für eine valide E-Mail-Adresse
+    final emailRegex = RegExp(
+      r'^[a-zA-Z0-9.!#$%&\*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
+    );
+
+    return emailRegex.hasMatch(email);
+  }
+
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -30,7 +39,6 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
       );
 
       if (result != null) {
-        // Navigator.pushReplacementNamed(context, '/adminDashboard');
         print("passwort geht klar");
       } else {
         setState(() {
@@ -72,11 +80,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
                     }
-                    // mail format check
-                    // if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+\$')
-                    //     .hasMatch(value)) {
-                    //   return 'Please enter a valid email';
-                    // }
+                    if (!_isValidEmail(value)) {
+                      return 'Please enter a valid email';
+                    }
                     return null;
                   },
                 ),
