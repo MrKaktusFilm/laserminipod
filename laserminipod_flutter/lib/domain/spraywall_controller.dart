@@ -3,7 +3,7 @@ import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
-import 'package:user_app/main.dart';
+import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/dialogs/delete_route_dialog.dart';
 import 'package:user_app/views/dialogs/save_route_dialog.dart';
 
@@ -50,7 +50,7 @@ class SpraywallController extends ChangeNotifier
       final exists = await existsCurrentRouteAlready();
       _isLoading = false;
       if (exists) {
-        _showSnackbar("Die Route existiert bereits.", Colors.red);
+        UiHelper.showSnackbar("Die Route existiert bereits.", Colors.red);
         return;
       }
 
@@ -61,14 +61,15 @@ class SpraywallController extends ChangeNotifier
       _isLoading = false;
 
       if (success) {
-        _showSnackbar("Route erfolgreich gespeichert.", Colors.green);
+        UiHelper.showSnackbar("Route erfolgreich gespeichert.", Colors.green);
       } else {
-        _showSnackbar("Fehler beim Speichern der Route.", Colors.red);
+        UiHelper.showSnackbar("Fehler beim Speichern der Route.", Colors.red);
       }
 
       notifyListeners();
     } catch (e) {
-      _showSnackbar("Ein Fehler ist aufgetreten: ${e.toString()}", Colors.red);
+      UiHelper.showSnackbar(
+          "Ein Fehler ist aufgetreten: ${e.toString()}", Colors.red);
     }
   }
 
@@ -100,15 +101,16 @@ class SpraywallController extends ChangeNotifier
   void openSaveRouteDialog() async {
     bool existsRouteAlready = await existsCurrentRouteAlready();
     if (existsRouteAlready) {
-      _showSnackbar("Die erstellte Route existiert bereits.", Colors.red);
+      UiHelper.showSnackbar(
+          "Die erstellte Route existiert bereits.", Colors.red);
     } else {
-      _showDialog(const SaveRouteDialog());
+      UiHelper.showWidgetDialog(const SaveRouteDialog());
     }
   }
 
   @override
   void openDeleteRouteDialog(int routeID) {
-    _showDialog(DeleteRouteDialog(id: routeID));
+    UiHelper.showWidgetDialog(DeleteRouteDialog(id: routeID));
   }
 
   @override
@@ -118,7 +120,8 @@ class SpraywallController extends ChangeNotifier
       _isLoading = true;
       routes = await routeModel.loadAllRoutes();
     } on Exception {
-      _showSnackbar("There was an error loading the routes", Colors.red);
+      UiHelper.showSnackbar(
+          "There was an error loading the routes", Colors.red);
     } finally {
       _isLoading = false;
     }
@@ -132,7 +135,8 @@ class SpraywallController extends ChangeNotifier
       _isLoading = true;
       handles = await handleModel.loadAllHandles();
     } on Exception {
-      _showSnackbar("There was an error loading the handles", Colors.red);
+      UiHelper.showSnackbar(
+          "There was an error loading the handles", Colors.red);
     } finally {
       _isLoading = false;
     }
@@ -175,22 +179,5 @@ class SpraywallController extends ChangeNotifier
   @override
   bool isLoading() {
     return _isLoading;
-  }
-
-  void _showSnackbar(String message, Color color) {
-    scaffoldMessengerKey.currentState?.showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: color,
-      ),
-    );
-  }
-
-  void _showDialog(Widget dialog) {
-    final context = navigatorKey.currentState?.overlay?.context;
-    showDialog(
-      context: context!,
-      builder: (BuildContext context) => dialog,
-    );
   }
 }

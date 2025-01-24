@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:user_app/appbar.dart';
+import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/views/dialogs/login_dialog.dart';
 import 'package:user_app/views/routelist/routelist_page.dart';
@@ -7,11 +9,13 @@ import 'package:user_app/views/spraywall/spraywall_page.dart';
 class AppState extends InheritedWidget {
   final String title;
   final SprayWallControllerAbstract spraywallController;
+  final AdminControllerAbstract adminController;
 
   const AppState(
       {super.key,
       required this.title,
       required this.spraywallController,
+      required this.adminController,
       required super.child});
 
   static AppState? of(BuildContext context) {
@@ -45,41 +49,39 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var title = AppState.of(context)?.title;
+    var adminController = AppState.of(context)?.adminController;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(
-          title!,
-          style: const TextStyle(
-            color: Colors.black,
-          ),
-        ),
-      ),
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        indicatorColor: Colors.amber,
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Spraywall',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.list_sharp),
-            label: 'Routes',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.front_hand_sharp),
-            label: 'Handles',
-          ),
-        ],
-      ),
+      appBar: HomeAppBar(title: title!),
+      bottomNavigationBar: ListenableBuilder(
+          listenable: adminController!,
+          builder: (context, _) {
+            return NavigationBar(
+              onDestinationSelected: (int index) {
+                setState(() {
+                  currentPageIndex = index;
+                });
+              },
+              indicatorColor: Colors.amber,
+              selectedIndex: currentPageIndex,
+              destinations: <Widget>[
+                const NavigationDestination(
+                  selectedIcon: Icon(Icons.home),
+                  icon: Icon(Icons.home_outlined),
+                  label: 'Spraywall',
+                ),
+                const NavigationDestination(
+                  icon: Icon(Icons.list_sharp),
+                  label: 'Routes',
+                ),
+                if (adminController.hasAdminAccess())
+                  const NavigationDestination(
+                    icon: Icon(Icons.settings),
+                    label: 'Administration',
+                  ),
+              ],
+            );
+          }),
       body: <Widget>[
         Container(
             color: const Color.fromRGBO(76, 175, 80, 1),
@@ -91,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                 navigateToSpraywall: navigateToSpraywall,
               );
             }),
-        const AdminLoginScreen()
+        const LoginDialog()
       ][currentPageIndex],
     );
   }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:user_app/main.dart';
 
-class AdminLoginScreen extends StatefulWidget {
-  const AdminLoginScreen({super.key});
+class LoginDialog extends StatefulWidget {
+  const LoginDialog({super.key});
 
   @override
-  State<AdminLoginScreen> createState() => _AdminLoginScreenState();
+  State<LoginDialog> createState() => _LoginDialogState();
 }
 
-class _AdminLoginScreenState extends State<AdminLoginScreen> {
+class _LoginDialogState extends State<LoginDialog> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
