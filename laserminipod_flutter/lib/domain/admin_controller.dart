@@ -11,7 +11,23 @@ class AdminController extends ChangeNotifier
 
   @override
   void logOut() {
+    // TODO: navigate to home ; error handling
     sessionManager.signOutDevice();
     notifyListeners();
+  }
+
+  @override
+  Future<String?> logIn(String email, String password) async {
+    try {
+      var result = await authController.signIn(
+        email.trim(),
+        password.trim(),
+      );
+      return result != null ? null : 'Invalid login credentials';
+    } catch (e) {
+      return 'Login failed: ${e.toString()}';
+    } finally {
+      notifyListeners();
+    }
   }
 }

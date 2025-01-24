@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:user_app/main.dart';
+import 'package:user_app/home.dart';
 
 class LoginDialog extends StatefulWidget {
   const LoginDialog({super.key});
@@ -27,33 +27,9 @@ class _LoginDialogState extends State<LoginDialog> {
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-
-    try {
-      var result = await authController.signIn(
-        _emailController.text.trim(),
-        _passwordController.text.trim(),
-      );
-
-      if (result != null) {
-        print("passwort geht klar");
-      } else {
-        setState(() {
-          _errorMessage = 'Invalid login credentials';
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _errorMessage = 'Login failed: ${e.toString()}';
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    await AppState.of(context)
+        ?.adminController
+        .logIn(_emailController.text, _passwordController.text);
   }
 
   @override
