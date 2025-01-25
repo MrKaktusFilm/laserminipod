@@ -11,6 +11,10 @@ class UiHelper {
     );
   }
 
+  static void showErrorSnackbar(String message) {
+    showSnackbar(message, Colors.red);
+  }
+
   static void showWidgetDialog(Widget dialog) {
     final context = navigatorKey.currentState?.overlay?.context;
     showDialog(

@@ -25,7 +25,8 @@ class UserHelper {
         session.log('User already exists: $email');
       }
     } catch (e) {
-      session.log('Error ensuring admin user exists: $e');
+      session.log('Error ensuring admin user exists: $e',
+          level: LogLevel.error);
     }
   }
 }

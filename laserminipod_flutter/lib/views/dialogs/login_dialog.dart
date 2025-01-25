@@ -29,7 +29,7 @@ class _LoginDialogState extends State<LoginDialog> {
 
     await AppState.of(context)
         ?.adminController
-        .logIn(_emailController.text, _passwordController.text);
+        .logIn(_emailController.text, _passwordController.text, context);
   }
 
   @override
