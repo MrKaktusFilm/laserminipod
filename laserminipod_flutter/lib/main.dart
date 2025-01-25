@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:provider/provider.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:user_app/data/handle_model.dart';
 import 'package:user_app/data/route_model.dart';
 import 'package:user_app/domain/admin_controller.dart';
+import 'package:user_app/domain/navigation_controller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:user_app/home.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
@@ -27,7 +29,15 @@ Future<void> main() async {
     caller: client.modules.auth,
   );
   await sessionManager.initialize();
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NavigationController()),
+        // Weitere Controller können hier hinzugefügt werden
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -42,7 +52,8 @@ class MyApp extends StatelessWidget {
       title: 'DIE Laser App die laser ist',
       spraywallController:
           SpraywallController(routeModel: routeModel, handleModel: handleModel),
-      adminController: AdminController(),
+      adminController: AdminController(
+          navigationController: context.read<NavigationController>()),
       child: MaterialApp(
         scaffoldMessengerKey: scaffoldMessengerKey,
         navigatorKey: navigatorKey,

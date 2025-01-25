@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:user_app/appbar.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/domain/navigation_controller.dart';
 import 'package:user_app/views/admin/administration_page.dart';
 import 'package:user_app/views/routelist/routelist_page.dart';
 import 'package:user_app/views/spraywall/spraywall_page.dart';
@@ -54,47 +56,49 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: HomeAppBar(title: title!),
       bottomNavigationBar: ListenableBuilder(
-          listenable: adminController!,
-          builder: (context, _) {
-            return NavigationBar(
-              onDestinationSelected: (int index) {
-                setState(() {
-                  currentPageIndex = index;
-                });
-              },
-              indicatorColor: Colors.amber,
-              selectedIndex: currentPageIndex,
-              destinations: <Widget>[
-                const NavigationDestination(
-                  selectedIcon: Icon(Icons.home),
-                  icon: Icon(Icons.home_outlined),
-                  label: 'Spraywall',
-                ),
-                const NavigationDestination(
-                  icon: Icon(Icons.list_sharp),
-                  label: 'Routes',
-                ),
-                if (adminController.hasAdminAccess())
+        listenable: adminController!,
+        builder: (context, _) {
+          return Consumer<NavigationController>(
+            builder: (context, navigationController, child) {
+              return NavigationBar(
+                onDestinationSelected: (int index) {
+                  navigationController.setPageIndex(index);
+                },
+                indicatorColor: Colors.amber,
+                selectedIndex: navigationController.currentPageIndex,
+                destinations: <Widget>[
                   const NavigationDestination(
-                    icon: Icon(Icons.settings),
-                    label: 'Administration',
+                    selectedIcon: Icon(Icons.home),
+                    icon: Icon(Icons.home_outlined),
+                    label: 'Spraywall',
                   ),
-              ],
-            );
-          }),
-      body: <Widget>[
-        Container(
-            color: const Color.fromRGBO(76, 175, 80, 1),
-            child: const SpraywallPage()),
-        ListenableBuilder(
-            listenable: AppState.of(context)!.spraywallController,
-            builder: (context, _) {
-              return RouteListPage(
-                navigateToSpraywall: navigateToSpraywall,
+                  const NavigationDestination(
+                    icon: Icon(Icons.list_sharp),
+                    label: 'Routes',
+                  ),
+                  if (adminController.hasAdminAccess())
+                    const NavigationDestination(
+                      icon: Icon(Icons.settings),
+                      label: 'Administration',
+                    ),
+                ],
               );
-            }),
-        AdministrationPage(),
-      ][currentPageIndex],
+            },
+          );
+        },
+      ),
+      body: Consumer<NavigationController>(
+        builder: (context, navigationController, child) {
+          final pages = [
+            const SpraywallPage(),
+            RouteListPage(
+              navigateToSpraywall: () => navigationController.setPageIndex(0),
+            ),
+            AdministrationPage(),
+          ];
+          return pages[navigationController.currentPageIndex];
+        },
+      ),
     );
   }
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
 
 class AdminController extends ChangeNotifier
     implements AdminControllerAbstract {
+  final NavigationControllerAbstract navigationController;
+
+  AdminController({required this.navigationController});
+
   @override
   bool hasAdminAccess() {
     return sessionManager.isSignedIn;
@@ -15,6 +20,10 @@ class AdminController extends ChangeNotifier
     // TODO: navigate to home ; error handling
     try {
       await sessionManager.signOutDevice();
+      // if user is currently on administration page, navigate to home
+      if (navigationController.currentPageIndex == 2) {
+        navigationController.setPageIndex(0);
+      }
     } on Exception {
       UiHelper.showErrorSnackbar("Es gab einen Fehler beim ausloggen");
     }

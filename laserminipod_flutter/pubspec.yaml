@@ -42,6 +42,7 @@ dependencies:
   
   serverpod_auth_shared_flutter: ^2.3.0
   serverpod_auth_email_flutter: ^2.3.0
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
