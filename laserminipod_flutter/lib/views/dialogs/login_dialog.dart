@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:user_app/home.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
 
 class LoginDialog extends StatefulWidget {
   const LoginDialog({super.key});
@@ -27,8 +28,7 @@ class _LoginDialogState extends State<LoginDialog> {
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
-    await AppState.of(context)
-        ?.adminController
+    await Provider.of<AdminControllerAbstract>(context, listen: false)
         .logIn(_emailController.text, _passwordController.text, context);
   }
 

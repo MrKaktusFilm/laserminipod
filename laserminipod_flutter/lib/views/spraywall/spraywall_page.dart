@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_floating_buttons.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_button.dart';
-import 'package:user_app/home.dart';
 
 class SpraywallPage extends StatefulWidget {
   const SpraywallPage({super.key});
@@ -17,7 +18,8 @@ class _SpraywallPageState extends State<SpraywallPage> {
     var viewTransformationController =
         TransformationController(Matrix4.identity()..scale(0.45));
 
-    var controller = AppState.of(context)!.spraywallController;
+    var controller =
+        Provider.of<SprayWallControllerAbstract>(context, listen: false);
 
     return Stack(children: <Widget>[
       InteractiveViewer(
@@ -35,7 +37,8 @@ class _SpraywallPageState extends State<SpraywallPage> {
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(
               onPressed: () {
-                AppState.of(context)!.spraywallController.openSaveRouteDialog();
+                Provider.of<SprayWallControllerAbstract>(context, listen: false)
+                    .openSaveRouteDialog();
               },
               child: const Icon(Icons.save))),
       Align(
@@ -43,7 +46,8 @@ class _SpraywallPageState extends State<SpraywallPage> {
         child: SpraywallFloatingButton(
             icon: Icons.delete,
             action:
-                AppState.of(context)!.spraywallController.clearCurrentRoute),
+                Provider.of<SprayWallControllerAbstract>(context, listen: false)
+                    .clearCurrentRoute),
       ),
     ]);
   }
@@ -63,18 +67,19 @@ class SpraywallWithButtons extends StatelessWidget {
             fit: BoxFit.fitHeight,
           ),
           FutureBuilder<List<Handle>>(
-            future: AppState.of(context)?.spraywallController.loadAllHandles(),
+            future:
+                Provider.of<SprayWallControllerAbstract>(context, listen: false)
+                    .loadAllHandles(),
             builder: (context, AsyncSnapshot<List<Handle>> snapshot) {
               if (snapshot.hasData) {
                 List<Widget> positionedHandles = snapshot.data!.map((handle) {
                   return Positioned(
                     bottom: handle.x.toDouble(),
                     right: handle.y.toDouble(),
-                    child: ListenableBuilder(
-                        listenable: AppState.of(context)!.spraywallController,
-                        builder: (context, _) {
-                          return SpraywallHandleButton(id: handle.id!);
-                        }),
+                    child: Consumer<SprayWallControllerAbstract>(
+                        builder: (context, spraywallController, child) {
+                      return SpraywallHandleButton(id: handle.id!);
+                    }),
                   );
                 }).toList();
 
@@ -83,8 +88,8 @@ class SpraywallWithButtons extends StatelessWidget {
                     width: 1000.0,
                     height: 1000.0,
                     child: Stack(children: positionedHandles));
-              } else if (AppState.of(context)!
-                  .spraywallController
+              } else if (Provider.of<SprayWallControllerAbstract>(context,
+                      listen: false)
                   .isLoading()) {
                 return const Center(child: CircularProgressIndicator());
               }

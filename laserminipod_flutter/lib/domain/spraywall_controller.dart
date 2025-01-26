@@ -144,8 +144,8 @@ class SpraywallController extends ChangeNotifier
   }
 
   @override
-  void deleteRoute(int id) {
-    routeModel.deleteRoute(id);
+  Future<void> deleteRoute(int id) async {
+    await routeModel.deleteRoute(id);
     notifyListeners();
   }
 

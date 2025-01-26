@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:user_app/home.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 
 class SaveRouteDialog extends StatefulWidget {
   const SaveRouteDialog({super.key});
@@ -12,7 +13,8 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
   final _formKey = GlobalKey<FormState>();
 
   void _onSave() async {
-    final controller = AppState.of(context)!.spraywallController;
+    final controller =
+        Provider.of<SprayWallControllerAbstract>(context, listen: false);
     if (_formKey.currentState!.validate()) {
       controller.saveCurrentRoute();
       Navigator.pop(context);
@@ -21,7 +23,8 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = AppState.of(context)!.spraywallController;
+    final controller =
+        Provider.of<SprayWallControllerAbstract>(context, listen: false);
 
     return Form(
       key: _formKey,

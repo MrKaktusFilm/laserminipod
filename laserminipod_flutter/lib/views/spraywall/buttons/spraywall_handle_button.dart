@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:user_app/home.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 
 class SpraywallHandleButton extends StatefulWidget {
   final int id;
@@ -28,15 +29,17 @@ class _SpraywallHandleButtonState extends State<SpraywallHandleButton> {
 
   @override
   void didChangeDependencies() {
-    _add = AppState.of(context)?.spraywallController.addHandle;
-    _remove = AppState.of(context)?.spraywallController.removeHandle;
+    _add = Provider.of<SprayWallControllerAbstract>(context, listen: false)
+        .addHandle;
+    _remove = Provider.of<SprayWallControllerAbstract>(context, listen: false)
+        .removeHandle;
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    activated =
-        AppState.of(context)!.spraywallController.isHandleActivated(widget.id);
+    activated = Provider.of<SprayWallControllerAbstract>(context, listen: false)
+        .isHandleActivated(widget.id);
     return FilledButton(
       onPressed: toggleActivated,
       style: FilledButton.styleFrom(
