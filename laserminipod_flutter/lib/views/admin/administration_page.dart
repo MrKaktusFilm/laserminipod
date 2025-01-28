@@ -1,49 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
+import 'package:user_app/views/admin/change_password_page.dart';
+import 'package:user_app/views/admin/handle_management_page.dart';
 
-class AdministrationPage extends StatelessWidget {
-  final List<SettingItem> settings = [
-    SettingItem(
-        icon: Icons.wifi, title: 'WLAN', subtitle: 'Mit WLAN verbinden'),
-    SettingItem(
-        icon: Icons.bluetooth,
-        title: 'Bluetooth',
-        subtitle: 'Geräte koppeln und verwalten'),
-    SettingItem(
-        icon: Icons.notifications,
-        title: 'Benachrichtigungen',
-        subtitle: 'Einstellungen für Benachrichtigungen'),
-    SettingItem(
-        icon: Icons.lock,
-        title: 'Datenschutz',
-        subtitle: 'Passwort und Sicherheit'),
-    SettingItem(icon: Icons.info, title: 'Info', subtitle: 'Über die App'),
-  ];
+class AdministrationPage extends StatefulWidget {
+  const AdministrationPage({super.key});
 
-  AdministrationPage({super.key});
+  @override
+  State<AdministrationPage> createState() => _AdministrationPageState();
+}
+
+class _AdministrationPageState extends State<AdministrationPage> {
+  late NavigationControllerAbstract _navigationController;
+
+  late List<SettingItem> settings;
+
+  @override
+  void initState() {
+    super.initState();
+    // NavigationController hier initialisieren
+    _navigationController =
+        Provider.of<NavigationControllerAbstract>(context, listen: false);
+    settings = [
+      SettingItem(
+          icon: Icons.edit,
+          title: 'Handle Management',
+          subtitle: 'Add, edit and delete handles',
+          onTap: () =>
+              _navigationController.openPage(context, HandleManagementPage())),
+      SettingItem(
+          icon: Icons.key,
+          title: 'Change password',
+          subtitle: 'Change Admin login credentials',
+          onTap: () =>
+              _navigationController.openPage(context, ChangePasswordPage())),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Einstellungen'),
-      ),
-      body: ListView.builder(
-        itemCount: settings.length,
-        itemBuilder: (context, index) {
-          final item = settings[index];
-          return ListTile(
+    return ListView.builder(
+      itemCount: settings.length,
+      itemBuilder: (context, index) {
+        final item = settings[index];
+        return ListTile(
             leading: Icon(item.icon, color: Colors.blue),
             title: Text(item.title),
             subtitle: Text(item.subtitle),
-            onTap: () {
-              // Aktion bei Klick
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('"${item.title}" ausgewählt')),
-              );
-            },
-          );
-        },
-      ),
+            onTap: item.onTap);
+      },
     );
   }
 }
@@ -52,7 +58,12 @@ class SettingItem {
   final IconData icon;
   final String title;
   final String subtitle;
+  final VoidCallback onTap;
 
-  SettingItem(
-      {required this.icon, required this.title, required this.subtitle});
+  SettingItem({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
 }

@@ -8,3 +8,6 @@ route:
   - existsRouteAlready:
   - nameAlreadyAssigned:
   - test:
+user:
+  - changePassword:
+  - checkPassword:

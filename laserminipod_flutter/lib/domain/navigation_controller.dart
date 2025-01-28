@@ -14,4 +14,14 @@ class NavigationController extends ChangeNotifier
       notifyListeners();
     }
   }
+
+  @override
+  void closeCurrentScreen(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  @override
+  void openPage(BuildContext context, Widget page) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+  }
 }

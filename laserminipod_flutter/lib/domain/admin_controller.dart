@@ -6,9 +6,11 @@ import 'package:user_app/main.dart';
 
 class AdminController extends ChangeNotifier
     implements AdminControllerAbstract {
-  final NavigationControllerAbstract navigationController;
+  final NavigationControllerAbstract _navigationController;
 
-  AdminController({required this.navigationController});
+  AdminController({
+    required NavigationControllerAbstract navigationController,
+  }) : _navigationController = navigationController;
 
   @override
   bool hasAdminAccess() {
@@ -21,8 +23,8 @@ class AdminController extends ChangeNotifier
     try {
       await sessionManager.signOutDevice();
       // if user is currently on administration page, navigate to home
-      if (navigationController.currentPageIndex == 2) {
-        navigationController.setPageIndex(0);
+      if (_navigationController.currentPageIndex == 2) {
+        _navigationController.setPageIndex(0);
       }
     } on Exception {
       UiHelper.showErrorSnackbar("Es gab einen Fehler beim ausloggen");
@@ -51,5 +53,39 @@ class AdminController extends ChangeNotifier
     } finally {
       notifyListeners();
     }
+  }
+
+  @override
+  Future<String?> changePasswordIfValid(
+      String oldPassword, String newPassword) async {
+    try {
+      String email = sessionManager.signedInUser!.email!;
+      bool isOldPasswordValid =
+          await client.user.checkPassword(email, oldPassword);
+      if (isOldPasswordValid) {
+        bool success = await client.user.changePassword(email, newPassword);
+        if (success) {
+          UiHelper.showSnackbar("Password successfully changed", Colors.green);
+          return null;
+        } else {
+          return "An error occured. Password could'nt be changed";
+        }
+      } else {
+        return "Invalid login credentials";
+      }
+    } catch (e) {
+      return "An error occured. Password could'nt be changed";
+    }
+  }
+
+  @override
+  String? validatePasswordRequirements(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a new password';
+    }
+    if (value.length < 8) {
+      return "The password must be at least 8 characters long";
+    }
+    return null;
   }
 }

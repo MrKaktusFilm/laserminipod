@@ -28,8 +28,20 @@ class _LoginDialogState extends State<LoginDialog> {
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
-    await Provider.of<AdminControllerAbstract>(context, listen: false)
-        .logIn(_emailController.text, _passwordController.text, context);
+    var temp =
+        await Provider.of<AdminControllerAbstract>(context, listen: false)
+            .logIn(_emailController.text, _passwordController.text, context);
+
+    setState(() {
+      _errorMessage = temp;
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override

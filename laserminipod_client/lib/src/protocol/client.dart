@@ -92,6 +92,42 @@ class EndpointRoute extends _i1.EndpointRef {
       );
 }
 
+/// {@category Endpoint}
+class EndpointUser extends _i1.EndpointRef {
+  EndpointUser(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'user';
+
+  /// Changes the password for a user.
+  _i2.Future<bool> changePassword(
+    String email,
+    String newPassword,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'user',
+        'changePassword',
+        {
+          'email': email,
+          'newPassword': newPassword,
+        },
+      );
+
+  /// Checks if the provided password is correct for a user.
+  _i2.Future<bool> checkPassword(
+    String email,
+    String password,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'user',
+        'checkPassword',
+        {
+          'email': email,
+          'password': password,
+        },
+      );
+}
+
 class Modules {
   Modules(Client client) {
     auth = _i5.Caller(client);
@@ -128,6 +164,7 @@ class Client extends _i1.ServerpodClientShared {
         ) {
     handle = EndpointHandle(this);
     route = EndpointRoute(this);
+    user = EndpointUser(this);
     modules = Modules(this);
   }
 
@@ -135,12 +172,15 @@ class Client extends _i1.ServerpodClientShared {
 
   late final EndpointRoute route;
 
+  late final EndpointUser user;
+
   late final Modules modules;
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'handle': handle,
         'route': route,
+        'user': user,
       };
 
   @override
