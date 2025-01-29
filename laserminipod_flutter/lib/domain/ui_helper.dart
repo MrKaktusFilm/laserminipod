@@ -72,10 +72,11 @@ class UiHelper {
                       width: 1000.0,
                       height: 1000.0,
                       child: Stack(children: positionedHandles));
-                } else if (Provider.of<SprayWallControllerAbstract>(context,
-                        listen: false)
-                    .isLoading()) {
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  showErrorSnackbar("An error occured");
                 }
                 return const SizedBox.shrink();
               },
