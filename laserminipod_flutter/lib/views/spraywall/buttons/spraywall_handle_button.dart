@@ -13,27 +13,13 @@ class SpraywallHandleButton extends StatefulWidget {
 
 class _SpraywallHandleButtonState extends State<SpraywallHandleButton> {
   bool activated = false;
-  late Function(int)? _add;
-  late Function(int)? _remove;
 
   void toggleActivated() {
     setState(() {
-      activated = !activated;
-      if (activated) {
-        _add!(widget.id);
-      } else {
-        _remove!(widget.id);
-      }
+      activated =
+          Provider.of<SprayWallControllerAbstract>(context, listen: false)
+              .toggleHandle(widget.id);
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    _add = Provider.of<SprayWallControllerAbstract>(context, listen: false)
-        .addHandle;
-    _remove = Provider.of<SprayWallControllerAbstract>(context, listen: false)
-        .removeHandle;
-    super.didChangeDependencies();
   }
 
   @override

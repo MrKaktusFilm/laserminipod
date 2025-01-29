@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 
 abstract class SprayWallControllerAbstract extends ChangeNotifier {
-  void addHandle(int id);
-
-  void removeHandle(int id);
+  /// return new activation state of given handle
+  bool toggleHandle(int id);
 
   void clearCurrentRoute();
 

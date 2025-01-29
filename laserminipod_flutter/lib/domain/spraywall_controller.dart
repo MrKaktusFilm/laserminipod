@@ -23,17 +23,17 @@ class SpraywallController extends ChangeNotifier
 
   @override
   String? get nameErrorMessage => _nameErrorMessage;
-
   @override
-  void addHandle(int id) {
-    currentRoute.handles.add(id);
-    notifyListeners();
-  }
-
-  @override
-  void removeHandle(int id) {
-    currentRoute.handles.remove(id);
-    notifyListeners();
+  bool toggleHandle(int id) {
+    if (currentRoute.handles.contains(id)) {
+      currentRoute.handles.remove(id);
+      notifyListeners();
+      return false;
+    } else {
+      currentRoute.handles.add(id);
+      notifyListeners();
+      return true;
+    }
   }
 
   @override
@@ -47,8 +47,10 @@ class SpraywallController extends ChangeNotifier
     try {
       // check if route already exists
       _isLoading = true;
+      notifyListeners();
       final exists = await existsCurrentRouteAlready();
       _isLoading = false;
+      notifyListeners();
       if (exists) {
         UiHelper.showSnackbar("Die Route existiert bereits.", Colors.red);
         return;
@@ -57,8 +59,10 @@ class SpraywallController extends ChangeNotifier
       // save route
       currentRoute.name = _name.trim();
       _isLoading = true;
+      notifyListeners();
       final success = await routeModel.saveRoute(currentRoute);
       _isLoading = false;
+      notifyListeners();
 
       if (success) {
         UiHelper.showSnackbar("Route erfolgreich gespeichert.", Colors.green);
@@ -117,13 +121,10 @@ class SpraywallController extends ChangeNotifier
   Future<List<SpraywallRoute>> loadAllRoutes() async {
     var routes;
     try {
-      _isLoading = true;
       routes = await routeModel.loadAllRoutes();
     } on Exception {
       UiHelper.showSnackbar(
           "There was an error loading the routes", Colors.red);
-    } finally {
-      _isLoading = false;
     }
     return routes;
   }
@@ -132,13 +133,10 @@ class SpraywallController extends ChangeNotifier
   Future<List<Handle>> loadAllHandles() async {
     var handles;
     try {
-      _isLoading = true;
       handles = await handleModel.loadAllHandles();
     } on Exception {
       UiHelper.showSnackbar(
           "There was an error loading the handles", Colors.red);
-    } finally {
-      _isLoading = false;
     }
     return handles;
   }
