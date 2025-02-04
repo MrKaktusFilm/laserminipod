@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/views/admin/change_password_page.dart';
-import 'package:user_app/views/admin/handle_management_page.dart';
+import 'package:user_app/views/admin/handle_management_overview_page.dart';
 
 class AdministrationPage extends StatefulWidget {
   const AdministrationPage({super.key});
@@ -27,8 +27,8 @@ class _AdministrationPageState extends State<AdministrationPage> {
           icon: Icons.edit,
           title: 'Handle Management',
           subtitle: 'Add, edit and delete handles',
-          onTap: () =>
-              _navigationController.openPage(context, HandleManagementPage())),
+          onTap: () => _navigationController.openPage(
+              context, HandleManagementOverviewPage())),
       SettingItem(
           icon: Icons.key,
           title: 'Change password',

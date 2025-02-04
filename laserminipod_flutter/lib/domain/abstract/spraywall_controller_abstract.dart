@@ -38,4 +38,6 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
   String? get nameErrorMessage;
 
   Future<(int, int)> getImageDimensions(String path);
+
+  TransformationController getSpraywallTransformationController();
 }

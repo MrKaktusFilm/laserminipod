@@ -1,11 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
@@ -34,63 +27,72 @@ class UiHelper {
   }
 
   static Widget getSpraywallPanel(
-    BuildContext context,
-    TransformationController viewTransformationController,
-    Widget Function(Handle handle) widgetFactory,
-  ) {
+      BuildContext context,
+      TransformationController viewTransformationController,
+      Widget Function(Handle handle) widgetFactory) {
+    return _buildBaseSpraywallPanel(
+      context,
+      viewTransformationController,
+      widgetFactory,
+    );
+  }
+
+  static Widget _buildBaseSpraywallPanel(
+      BuildContext context,
+      TransformationController viewTransformationController,
+      Widget Function(Handle handle) widgetFactory) {
+    var spraywallImagePath = 'assets/img/spraywall_example.jpg';
+
     return InteractiveViewer(
       transformationController: viewTransformationController,
       constrained: false,
       boundaryMargin: EdgeInsets.all(double.infinity),
       minScale: 0.2,
       maxScale: 10.0,
-      child: GestureDetector(
-        onTapDown: (details) {
-          var width = context.size!.width;
-          var height = context.size!.height;
-          print(details.localPosition);
-          print("$width | $height");
-        },
-        child: LimitedBox(
-          child: Container(
-              color: Colors.black,
-              child: Stack(
-                alignment: AlignmentDirectional.bottomEnd,
-                children: <Widget>[
-                  Image.asset(
-                    'assets/img/spraywall_example.jpg',
-                    fit: BoxFit.fitHeight,
-                  ),
-                  FutureBuilder<(int, int)>(
-                      future: Provider.of<SprayWallControllerAbstract>(context,
-                              listen: false)
-                          .getImageDimensions(
-                        '/../../assets/img/spraywall_example.jpg',
-                      ),
-                      builder: (
-                        context,
-                        AsyncSnapshot<(int, int)> snapshot,
-                      ) {
-                        if (snapshot.hasData) {
-                          return _buildSpraywallButtons(
-                              context, widgetFactory, snapshot.data!);
-                        } else if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          showErrorSnackbar("An error occured");
-                        }
-                        return const SizedBox.shrink();
-                      })
-                ],
-              )),
+      child: LimitedBox(
+        child: Container(
+          color: Colors.black,
+          child: Stack(
+            alignment: AlignmentDirectional.bottomEnd,
+            children: <Widget>[
+              Image.asset(
+                spraywallImagePath,
+                fit: BoxFit.fitHeight,
+              ),
+              _buildFutureImage(context, spraywallImagePath, widgetFactory),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  static Widget _buildSpraywallButtons(
+  static Widget _buildFutureImage(
+    BuildContext context,
+    String spraywallImagePath,
+    Widget Function(Handle handle) widgetFactory,
+  ) {
+    return FutureBuilder<(int, int)>(
+      future: Provider.of<SprayWallControllerAbstract>(context, listen: false)
+          .getImageDimensions(spraywallImagePath),
+      builder: (
+        context,
+        AsyncSnapshot<(int, int)> snapshot,
+      ) {
+        if (snapshot.hasData) {
+          return _buildFutureSpraywallButtons(
+              context, widgetFactory, snapshot.data!);
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          showErrorSnackbar("An error occured");
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  static Widget _buildFutureSpraywallButtons(
     BuildContext context,
     Widget Function(Handle handle) widgetFactory,
     (int, int) imageDimensions,
@@ -102,7 +104,6 @@ class UiHelper {
         context,
         AsyncSnapshot<List<Handle>> snapshot,
       ) {
-        // TODO: FutureBuilder für Image Größe
         if (snapshot.hasData) {
           List<Widget> positionedHandles = snapshot.data!.map((handle) {
             return Positioned(
@@ -126,18 +127,9 @@ class UiHelper {
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          showErrorSnackbar("An error occured");
         }
         return const SizedBox.shrink();
       },
     );
-  }
-
-  static Future<(int, int)> _loadImageDimensions() async {
-    File image =
-        new File('image.png'); // Or any other way to get a File instance.
-    var decodedImage = await decodeImageFromList(image.readAsBytesSync());
-    return (decodedImage.width, decodedImage.height);
   }
 }

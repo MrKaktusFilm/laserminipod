@@ -8,4 +8,10 @@ abstract class NavigationControllerAbstract extends ChangeNotifier {
   void closeCurrentScreen(BuildContext context);
 
   void openPage(BuildContext context, Widget page);
+
+  void switchToHandleManagementEdit(BuildContext context,
+      {TransformationController? startTransformation, int? selectedHandle});
+
+  void switchToHandleManagementOverview(BuildContext context,
+      {TransformationController? startTransformation});
 }

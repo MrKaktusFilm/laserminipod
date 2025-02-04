@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -186,11 +184,22 @@ class SpraywallController extends ChangeNotifier
 
   @override
   Future<(int, int)> getImageDimensions(String path) async {
-    ByteData data = await rootBundle.load('assets/img/spraywall_example.jpg');
-    Uint8List bytes = data.buffer.asUint8List();
+    try {
+      ByteData data = await rootBundle.load(path);
+      Uint8List bytes = data.buffer.asUint8List();
 
-    // Dekodiere das Bild
-    ui.Image decodedImage = await decodeImageFromList(bytes);
-    return (decodedImage.width, decodedImage.height);
+      // Dekodiere das Bild
+      ui.Image decodedImage = await decodeImageFromList(bytes);
+      return (decodedImage.width, decodedImage.height);
+    } on Exception {
+      UiHelper.showErrorSnackbar(
+          "An error occured while loading the image dimensions");
+      rethrow;
+    }
+  }
+
+  @override
+  TransformationController getSpraywallTransformationController() {
+    return TransformationController(Matrix4.identity()..scale(0.45));
   }
 }

@@ -22,7 +22,7 @@ class _SpraywallPageState extends State<SpraywallPage> {
       children: <Widget>[
         UiHelper.getSpraywallPanel(
           context,
-          TransformationController(Matrix4.identity()..scale(0.45)),
+          sprayWallController.getSpraywallTransformationController(),
           (handle) => SpraywallHandleButton(id: handle.id!),
         ),
         Align(

@@ -8,9 +8,11 @@ import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/data/handle_model.dart';
 import 'package:user_app/data/route_model.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/admin_controller.dart';
+import 'package:user_app/domain/handle_controller.dart';
 import 'package:user_app/domain/navigation_controller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:user_app/home.dart';
@@ -45,6 +47,7 @@ Future<void> main() async {
       SpraywallController(handleModel: handleModel, routeModel: routeModel);
   AdminControllerAbstract adminController =
       AdminController(navigationController: navigationController);
+  HandleControllerAbstract handleController = HandleController();
   runApp(
     MultiProvider(
       providers: [
@@ -54,6 +57,8 @@ Future<void> main() async {
             create: (_) => sprayWallController),
         ChangeNotifierProvider<AdminControllerAbstract>(
             create: (_) => adminController),
+        ChangeNotifierProvider<HandleControllerAbstract>(
+            create: (_) => handleController),
       ],
       child: const MyApp(),
     ),
