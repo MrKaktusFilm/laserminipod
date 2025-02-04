@@ -1,4 +1,9 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
@@ -177,5 +182,15 @@ class SpraywallController extends ChangeNotifier
   @override
   bool isLoading() {
     return _isLoading;
+  }
+
+  @override
+  Future<(int, int)> getImageDimensions(String path) async {
+    ByteData data = await rootBundle.load('assets/img/spraywall_example.jpg');
+    Uint8List bytes = data.buffer.asUint8List();
+
+    // Dekodiere das Bild
+    ui.Image decodedImage = await decodeImageFromList(bytes);
+    return (decodedImage.width, decodedImage.height);
   }
 }

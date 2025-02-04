@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:user_app/domain/ui_helper.dart';
+import 'package:user_app/views/spraywall/buttons/spraywall_handle_button.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 
 class HandleManagementPage extends StatefulWidget {
   const HandleManagementPage({super.key});
@@ -10,16 +14,49 @@ class HandleManagementPage extends StatefulWidget {
 class _HandleManagementPageState extends State<HandleManagementPage> {
   double handleDiameter = 50.0;
   Offset handlePosition = const Offset(0, 0);
-  TransformationController controller = TransformationController();
+  final TransformationController transformationController =
+      TransformationController();
+  final GlobalKey spraywallKey = GlobalKey();
 
   void addHandleData() {
-    final Matrix4 matrix = controller.value;
-    final double scale = matrix.getMaxScaleOnAxis();
-    final Offset imageOffset =
-        (handlePosition - Offset(matrix[12], matrix[13])) / scale;
+    final RenderBox? spraywallBox =
+        spraywallKey.currentContext?.findRenderObject() as RenderBox?;
+    if (spraywallBox == null) return;
 
-    debugPrint('Handle Position on Image: $imageOffset');
-    debugPrint('Handle Diameter: $handleDiameter');
+    // Hole die aktuelle Matrix
+    final Matrix4 matrix = transformationController.value;
+    final double scale = matrix.getMaxScaleOnAxis();
+
+    // Berechne die Position relativ zum Container
+    final Size spraywallSize = spraywallBox.size;
+    final Offset centerOffset =
+        Offset(spraywallSize.width / 2, spraywallSize.height / 2);
+
+    // Berechne die finale Position
+    final Offset adjustedPosition = (handlePosition + centerOffset);
+    final double x = adjustedPosition.dy; // Verwende dy für bottom
+    final double y =
+        spraywallSize.width - adjustedPosition.dx; // Verwende dx für right
+
+    // Berücksichtige den Scale-Faktor
+    final double scaledX = x / scale;
+    final double scaledY = y / scale;
+
+    // Speichere den Handle
+    final spraywallController =
+        Provider.of<SprayWallControllerAbstract>(context, listen: false);
+
+    debugPrint('Saved Handle Position - x: $scaledX, y: $scaledY');
+  }
+
+  void test() {
+    final Matrix4 matrix = transformationController.value;
+    final double scale = matrix.getMaxScaleOnAxis();
+
+    print(matrix);
+    print(scale);
+    print(matrix.getColumn(3) * 1 / scale);
+    print(context.size);
   }
 
   @override
@@ -30,14 +67,12 @@ class _HandleManagementPageState extends State<HandleManagementPage> {
       ),
       body: Stack(
         children: [
-          InteractiveViewer(
-            transformationController: controller,
-            panEnabled: true,
-            scaleEnabled: true,
-            constrained: false,
-            boundaryMargin: const EdgeInsets.all(double.infinity),
-            child: Center(
-              child: Image.asset('assets/img/spraywall_example.jpg'),
+          Container(
+            key: spraywallKey,
+            child: UiHelper.getSpraywallPanel(
+              context,
+              transformationController,
+              (handle) => SpraywallHandleButton(id: handle.id!),
             ),
           ),
           Center(
@@ -56,6 +91,8 @@ class _HandleManagementPageState extends State<HandleManagementPage> {
             ),
           ),
           Positioned(
+              bottom: 300, right: 300, child: SpraywallHandleButton(id: 10)),
+          Positioned(
             bottom: 20,
             left: 20,
             right: 20,
@@ -72,7 +109,7 @@ class _HandleManagementPageState extends State<HandleManagementPage> {
                   },
                 ),
                 ElevatedButton(
-                  onPressed: addHandleData,
+                  onPressed: test,
                   child: const Text('Add Handle Data'),
                 ),
               ],

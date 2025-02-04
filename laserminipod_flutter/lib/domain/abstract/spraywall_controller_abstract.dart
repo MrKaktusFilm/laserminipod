@@ -36,4 +36,6 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
   bool isLoading();
 
   String? get nameErrorMessage;
+
+  Future<(int, int)> getImageDimensions(String path);
 }
