@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
-import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_button.dart';
+import 'package:user_app/views/spraywall/spraywall_base_panel.dart';
 
 class HandleManagementOverviewPage extends StatefulWidget {
   const HandleManagementOverviewPage({super.key});
@@ -33,10 +33,9 @@ class _HandleManagementOverviewPageState
         children: [
           Container(
             key: spraywallKey,
-            child: UiHelper.getSpraywallPanel(
-              context,
-              transformationController,
-              (handle) => SpraywallHandleButton(id: handle.id!),
+            child: SpraywallBasePanel(
+              transformationController: transformationController,
+              widgetFactory: (handle) => SpraywallHandleButton(id: handle.id!),
             ),
           ),
           Align(

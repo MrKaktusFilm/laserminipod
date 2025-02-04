@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
-import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_floating_buttons.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_button.dart';
+import 'package:user_app/views/spraywall/spraywall_base_panel.dart';
 
 class SpraywallPage extends StatefulWidget {
   const SpraywallPage({super.key});
@@ -20,10 +20,10 @@ class _SpraywallPageState extends State<SpraywallPage> {
 
     return Stack(
       children: <Widget>[
-        UiHelper.getSpraywallPanel(
-          context,
-          sprayWallController.getSpraywallTransformationController(),
-          (handle) => SpraywallHandleButton(id: handle.id!),
+        SpraywallBasePanel(
+          transformationController:
+              sprayWallController.getSpraywallTransformationController(),
+          widgetFactory: (handle) => SpraywallHandleButton(id: handle.id!),
         ),
         Align(
           alignment: Alignment.bottomRight,
