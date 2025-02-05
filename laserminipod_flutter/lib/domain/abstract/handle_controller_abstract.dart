@@ -9,4 +9,6 @@ abstract class HandleControllerAbstract extends ChangeNotifier {
   void updateSelectedHandlePosition(Offset delta);
 
   void setSelectedHandleToMiddle(BuildContext context);
+
+  Future<bool> saveNewHandle();
 }

@@ -12,4 +12,31 @@ class HandleModel extends HandleModelAbstract {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> addHandle(int x, int y, int radius) async {
+    try {
+      return await handleEndpoint.addHandle(x, y, radius);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool> editHandle(int id, int x, int y, int radius) async {
+    try {
+      return await handleEndpoint.editHandle(id, x, y, radius);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool> removeHandle(int id) async {
+    try {
+      return await handleEndpoint.removeHandle(id);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

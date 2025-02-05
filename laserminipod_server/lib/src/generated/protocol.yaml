@@ -1,5 +1,8 @@
 handle:
   - loadAllHandles:
+  - addHandle:
+  - editHandle:
+  - removeHandle:
 route:
   - deleteRoute:
   - saveRoute:

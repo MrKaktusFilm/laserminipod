@@ -50,8 +50,8 @@ class SpraywallButtonBuilder extends StatelessWidget {
         if (snapshot.hasData) {
           List<Widget> positionedHandles = snapshot.data!.map((handle) {
             return Positioned(
-              top: handle.x.toDouble(),
-              left: handle.y.toDouble(),
+              top: handle.y.toDouble(),
+              left: handle.x.toDouble(),
               child: Consumer<SprayWallControllerAbstract>(
                 builder: (context, spraywallController, child) =>
                     widgetFactory(handle),

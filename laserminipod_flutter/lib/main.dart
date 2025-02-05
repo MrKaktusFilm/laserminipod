@@ -47,7 +47,8 @@ Future<void> main() async {
       SpraywallController(handleModel: handleModel, routeModel: routeModel);
   AdminControllerAbstract adminController =
       AdminController(navigationController: navigationController);
-  HandleControllerAbstract handleController = HandleController();
+  HandleControllerAbstract handleController =
+      HandleController(handleModel: handleModel);
   runApp(
     MultiProvider(
       providers: [

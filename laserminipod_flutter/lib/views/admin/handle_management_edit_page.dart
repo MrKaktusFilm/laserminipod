@@ -66,7 +66,9 @@ class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
                   );
                 }),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    handleController.saveNewHandle();
+                  },
                   child: const Text('Add Handle Data'),
                 ),
               ],

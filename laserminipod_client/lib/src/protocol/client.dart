@@ -29,6 +29,44 @@ class EndpointHandle extends _i1.EndpointRef {
         'loadAllHandles',
         {},
       );
+
+  _i2.Future<bool> addHandle(
+    int x,
+    int y,
+    int radius,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'handle',
+        'addHandle',
+        {
+          'x': x,
+          'y': y,
+          'radius': radius,
+        },
+      );
+
+  _i2.Future<bool> editHandle(
+    int id,
+    int x,
+    int y,
+    int radius,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'handle',
+        'editHandle',
+        {
+          'id': id,
+          'x': x,
+          'y': y,
+          'radius': radius,
+        },
+      );
+
+  _i2.Future<bool> removeHandle(int id) => caller.callServerEndpoint<bool>(
+        'handle',
+        'removeHandle',
+        {'id': id},
+      );
 }
 
 /// {@category Endpoint}

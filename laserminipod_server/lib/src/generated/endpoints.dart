@@ -52,7 +52,91 @@ class Endpoints extends _i1.EndpointDispatch {
           ) async =>
               (endpoints['handle'] as _i2.HandleEndpoint)
                   .loadAllHandles(session),
-        )
+        ),
+        'addHandle': _i1.MethodConnector(
+          name: 'addHandle',
+          params: {
+            'x': _i1.ParameterDescription(
+              name: 'x',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'y': _i1.ParameterDescription(
+              name: 'y',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'radius': _i1.ParameterDescription(
+              name: 'radius',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['handle'] as _i2.HandleEndpoint).addHandle(
+            session,
+            params['x'],
+            params['y'],
+            params['radius'],
+          ),
+        ),
+        'editHandle': _i1.MethodConnector(
+          name: 'editHandle',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'x': _i1.ParameterDescription(
+              name: 'x',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'y': _i1.ParameterDescription(
+              name: 'y',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'radius': _i1.ParameterDescription(
+              name: 'radius',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['handle'] as _i2.HandleEndpoint).editHandle(
+            session,
+            params['id'],
+            params['x'],
+            params['y'],
+            params['radius'],
+          ),
+        ),
+        'removeHandle': _i1.MethodConnector(
+          name: 'removeHandle',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['handle'] as _i2.HandleEndpoint).removeHandle(
+            session,
+            params['id'],
+          ),
+        ),
       },
     );
     connectors['route'] = _i1.EndpointConnector(
