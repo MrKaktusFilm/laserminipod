@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_floating_buttons.dart';
-import 'package:user_app/views/spraywall/buttons/spraywall_handle_button.dart';
+import 'package:user_app/views/spraywall/buttons/spraywall_handle_button2.dart';
 import 'package:user_app/views/spraywall/spraywall_base_panel.dart';
 
 class SpraywallPage extends StatefulWidget {
@@ -23,7 +23,10 @@ class _SpraywallPageState extends State<SpraywallPage> {
         SpraywallBasePanel(
           transformationController:
               sprayWallController.getSpraywallTransformationController(),
-          widgetFactory: (handle) => SpraywallHandleButton(id: handle.id!),
+          widgetFactory: (handle) => SpraywallHandleButton2(
+            id: handle.id!,
+            handleDiameter: handle.radius.toDouble(),
+          ),
         ),
         Align(
           alignment: Alignment.bottomRight,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
-import 'package:user_app/views/spraywall/spraywall_button_biulder.dart';
+import 'package:user_app/views/spraywall/spraywall_button_builder.dart';
 
 class SpraywallEditPanel extends StatelessWidget {
   final TransformationController transformationController;
