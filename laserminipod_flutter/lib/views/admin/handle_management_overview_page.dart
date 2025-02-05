@@ -35,7 +35,10 @@ class _HandleManagementOverviewPageState
             key: spraywallKey,
             child: SpraywallBasePanel(
               transformationController: transformationController,
-              widgetFactory: (handle) => SpraywallHandleButton(id: handle.id!),
+              widgetFactory: (handle) => SpraywallHandleButton(
+                id: handle.id!,
+                handleDiameter: handle.radius.toDouble(),
+              ),
             ),
           ),
           Align(

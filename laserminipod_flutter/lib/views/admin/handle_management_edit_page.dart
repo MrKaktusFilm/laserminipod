@@ -43,8 +43,8 @@ class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
             child: GestureDetector(
               child: SpraywallEditPanel(
                 transformationController: transformationController,
-                widgetFactory: (handle) =>
-                    SpraywallHandleButton(id: handle.id!),
+                widgetFactory: (handle) => SpraywallHandleButton(
+                    id: handle.id!, handleDiameter: handle.radius.toDouble()),
               ),
             ),
           ),
@@ -59,7 +59,7 @@ class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
                   return Slider(
                     value: handleControllerTemp.selectedHandleDiameter,
                     min: 20.0,
-                    max: 150.0,
+                    max: 300.0,
                     onChanged: (value) {
                       handleControllerTemp.setSelectedHandleDiameter(value);
                     },

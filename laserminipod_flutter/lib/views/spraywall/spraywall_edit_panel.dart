@@ -55,7 +55,7 @@ class SpraywallEditPanel extends StatelessWidget {
                         height: handleDiameter,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.red,
+                          color: Colors.blue,
                         ),
                       ),
                     ),
