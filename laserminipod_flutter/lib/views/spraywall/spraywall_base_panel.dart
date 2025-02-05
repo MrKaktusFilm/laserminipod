@@ -31,7 +31,7 @@ class SpraywallBasePanel extends StatelessWidget {
                 spraywallImagePath,
                 fit: BoxFit.fitHeight,
               ),
-              SpraywallButtonBiulder(
+              SpraywallButtonBuilder(
                   spraywallImagePath: spraywallImagePath,
                   widgetFactory: widgetFactory),
             ],

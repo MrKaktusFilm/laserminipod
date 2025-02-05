@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 
-class SpraywallButtonBiulder extends StatelessWidget {
+class SpraywallButtonBuilder extends StatelessWidget {
   final String spraywallImagePath;
   final Widget Function(Handle handle) widgetFactory;
 
-  const SpraywallButtonBiulder(
+  const SpraywallButtonBuilder(
       {super.key,
       required this.spraywallImagePath,
       required this.widgetFactory});
