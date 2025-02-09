@@ -8,4 +8,6 @@ abstract class HandleModelAbstract {
   Future<bool> editHandle(int id, int x, int y, int radius);
 
   Future<bool> removeHandle(int id);
+
+  Handle? getHandleById(int id);
 }

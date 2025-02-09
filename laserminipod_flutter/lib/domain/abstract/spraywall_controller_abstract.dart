@@ -31,8 +31,6 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
 
   Future<List<SpraywallRoute>> loadAllRoutes();
 
-  Future<List<Handle>> loadAllHandles();
-
   bool isLoading();
 
   String? get nameErrorMessage;

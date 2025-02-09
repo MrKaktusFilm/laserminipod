@@ -4,19 +4,39 @@ import 'package:user_app/main.dart';
 
 class HandleModel extends HandleModelAbstract {
   var handleEndpoint = client.handle;
+  List<Handle>? _handleCache;
+
+  HandleModel() {
+    _refresh();
+  }
+
+  Future<void> _refresh() async {
+    try {
+      _handleCache = await handleEndpoint.loadAllHandles();
+    } catch (e) {
+      print('Error loading handles: $e');
+      _handleCache = [];
+    }
+  }
+
   @override
   Future<List<Handle>> loadAllHandles() async {
-    try {
-      return await handleEndpoint.loadAllHandles();
-    } catch (e) {
-      rethrow;
+    if (_handleCache == null) {
+      await _refresh();
     }
+    print(_handleCache!.length);
+    return _handleCache ?? [];
   }
 
   @override
   Future<bool> addHandle(int x, int y, int radius) async {
     try {
-      return await handleEndpoint.addHandle(x, y, radius);
+      final result = await handleEndpoint.addHandle(x, y, radius);
+      if (result) {
+        // Refresh the cache
+        await _refresh();
+      }
+      return result;
     } catch (e) {
       rethrow;
     }
@@ -25,7 +45,12 @@ class HandleModel extends HandleModelAbstract {
   @override
   Future<bool> editHandle(int id, int x, int y, int radius) async {
     try {
-      return await handleEndpoint.editHandle(id, x, y, radius);
+      final result = await handleEndpoint.editHandle(id, x, y, radius);
+      if (result) {
+        // Refresh the cache
+        await _refresh();
+      }
+      return result;
     } catch (e) {
       rethrow;
     }
@@ -34,9 +59,23 @@ class HandleModel extends HandleModelAbstract {
   @override
   Future<bool> removeHandle(int id) async {
     try {
-      return await handleEndpoint.removeHandle(id);
+      final result = await handleEndpoint.removeHandle(id);
+      if (result) {
+        // Refresh the cache
+        await _refresh();
+      }
+      return result;
     } catch (e) {
       rethrow;
     }
+  }
+
+  /// Retrieves a specific handle by ID from the cache.
+  Handle? getHandleById(int id) {
+    if (_handleCache == null) {
+      print('Handles not initialized yet. Returning null.');
+      return null;
+    }
+    return _handleCache?.firstWhere((handle) => handle.id == id);
   }
 }

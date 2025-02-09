@@ -133,18 +133,6 @@ class SpraywallController extends ChangeNotifier
   }
 
   @override
-  Future<List<Handle>> loadAllHandles() async {
-    var handles;
-    try {
-      handles = await handleModel.loadAllHandles();
-    } on Exception {
-      UiHelper.showSnackbar(
-          "There was an error loading the handles", Colors.red);
-    }
-    return handles;
-  }
-
-  @override
   Future<void> deleteRoute(int id) async {
     await routeModel.deleteRoute(id);
     notifyListeners();

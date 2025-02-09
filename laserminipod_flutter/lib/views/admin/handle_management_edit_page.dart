@@ -7,6 +7,7 @@ import 'package:user_app/views/spraywall/spraywall_edit_panel.dart';
 
 class HandleManagementEditPage extends StatefulWidget {
   final TransformationController? startTransformation;
+  // null, if new handle is added
   final int? selectedHandle;
   const HandleManagementEditPage(
       {super.key, this.startTransformation, this.selectedHandle});
@@ -18,7 +19,21 @@ class HandleManagementEditPage extends StatefulWidget {
 
 class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
   double handleDiameter = 50.0;
+  late HandleControllerAbstract _handleController;
   final GlobalKey spraywallKey = GlobalKey();
+
+  @override
+  void initState() {
+    _handleController =
+        Provider.of<HandleControllerAbstract>(context, listen: false);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _handleController.deselectHandle();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +82,7 @@ class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
                 }),
                 ElevatedButton(
                   onPressed: () {
-                    handleController.saveNewHandle();
+                    handleController.saveNewHandle(context);
                   },
                   child: const Text('Add Handle Data'),
                 ),
