@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/views/spraywall/spraywall_button_builder.dart';
 
 class SpraywallBasePanel extends StatelessWidget {
@@ -13,7 +15,9 @@ class SpraywallBasePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var spraywallImagePath = 'assets/img/spraywall_example.jpg';
+    var spraywallImagePath =
+        Provider.of<ImageControllerAbstract>(context, listen: false)
+            .getImagePath();
 
     return InteractiveViewer(
       transformationController: transformationController,

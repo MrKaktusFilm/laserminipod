@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
@@ -168,22 +166,6 @@ class SpraywallController extends ChangeNotifier
   @override
   bool isLoading() {
     return _isLoading;
-  }
-
-  @override
-  Future<(int, int)> getImageDimensions(String path) async {
-    try {
-      ByteData data = await rootBundle.load(path);
-      Uint8List bytes = data.buffer.asUint8List();
-
-      // Dekodiere das Bild
-      ui.Image decodedImage = await decodeImageFromList(bytes);
-      return (decodedImage.width, decodedImage.height);
-    } on Exception {
-      UiHelper.showErrorSnackbar(
-          "An error occured while loading the image dimensions");
-      rethrow;
-    }
   }
 
   @override

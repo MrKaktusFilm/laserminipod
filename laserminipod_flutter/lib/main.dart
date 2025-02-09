@@ -9,10 +9,12 @@ import 'package:user_app/data/handle_model.dart';
 import 'package:user_app/data/route_model.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
+import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/admin_controller.dart';
 import 'package:user_app/domain/handle_controller.dart';
+import 'package:user_app/domain/image_controller.dart';
 import 'package:user_app/domain/navigation_controller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:user_app/home.dart';
@@ -49,6 +51,8 @@ Future<void> main() async {
       AdminController(navigationController: navigationController);
   HandleControllerAbstract handleController = HandleController(
       handleModel: handleModel, navigationController: navigationController);
+  ImageControllerAbstract imageController = ImageController();
+  await imageController.loadImageDimensions();
   runApp(
     MultiProvider(
       providers: [
@@ -60,6 +64,8 @@ Future<void> main() async {
             create: (_) => adminController),
         ChangeNotifierProvider<HandleControllerAbstract>(
             create: (_) => handleController),
+        ChangeNotifierProvider<ImageControllerAbstract>(
+            create: (_) => imageController),
       ],
       child: const MyApp(),
     ),
