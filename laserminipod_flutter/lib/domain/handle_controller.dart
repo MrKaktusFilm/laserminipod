@@ -63,7 +63,7 @@ class HandleController extends ChangeNotifier
   }
 
   @override
-  Future<bool> saveNewHandle(BuildContext context) async {
+  Future<bool> saveHandle(BuildContext context) async {
     if (selectedHandlePosition == null) {
       throw Exception('Handle position or diameter is null');
     }
@@ -103,5 +103,22 @@ class HandleController extends ChangeNotifier
   @override
   Future<List<Handle>> loadAllHandles() async {
     return await _handleModel.loadAllHandles();
+  }
+
+  @override
+  Future<bool> deleteHandle(BuildContext context) async {
+    bool success = false;
+    try {
+      success = await _handleModel.removeHandle(selectedHandleId!);
+    } on Exception {
+      UiHelper.showErrorSnackbar("Fehler beim löschen des Holds");
+    }
+
+    deselectHandle();
+
+    if (context.mounted) {
+      _navigationController.switchToHandleManagementOverview(context);
+    }
+    return success;
   }
 }

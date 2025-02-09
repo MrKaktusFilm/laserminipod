@@ -24,7 +24,6 @@ class HandleModel extends HandleModelAbstract {
     if (_handleCache == null) {
       await _refresh();
     }
-    print(_handleCache!.length);
     return _handleCache ?? [];
   }
 

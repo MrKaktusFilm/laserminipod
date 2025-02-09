@@ -64,31 +64,42 @@ class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
             ),
           ),
           Positioned(
-            bottom: 20,
+            bottom: 55,
             left: 20,
             right: 20,
-            child: Column(
-              children: [
-                Consumer<HandleControllerAbstract>(
-                    builder: (context, handleControllerTemp, child) {
-                  return Slider(
-                    value: handleControllerTemp.selectedHandleDiameter,
-                    min: 20.0,
-                    max: 300.0,
-                    onChanged: (value) {
-                      handleControllerTemp.setSelectedHandleDiameter(value);
-                    },
-                  );
-                }),
-                ElevatedButton(
-                  onPressed: () {
-                    handleController.saveNewHandle(context);
-                  },
-                  child: const Text('Add Handle Data'),
-                ),
-              ],
+            child: Consumer<HandleControllerAbstract>(
+                builder: (context, handleControllerTemp, child) {
+              return Slider(
+                value: handleControllerTemp.selectedHandleDiameter,
+                min: 20.0,
+                max: 300.0,
+                onChanged: (value) {
+                  handleControllerTemp.setSelectedHandleDiameter(value);
+                },
+              );
+            }),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              heroTag: 'saveButton',
+              onPressed: () {
+                handleController.saveHandle(context);
+              },
+              child: const Icon(Icons.save),
             ),
           ),
+          if (widget.selectedHandle != null)
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: FloatingActionButton(
+                heroTag: 'deleteButton',
+                onPressed: () {
+                  handleController.deleteHandle(context);
+                },
+                child: const Icon(Icons.delete),
+              ),
+            ),
         ],
       ),
     );
