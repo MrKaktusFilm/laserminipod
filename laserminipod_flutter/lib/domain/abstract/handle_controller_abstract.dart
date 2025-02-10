@@ -5,6 +5,7 @@ abstract class HandleControllerAbstract extends ChangeNotifier {
   Offset? get selectedHandlePosition;
   double get selectedHandleDiameter;
   int? get selectedHandleId;
+  TransformationController get transformationController;
 
   void setSelectedHandleDiameter(double value);
 

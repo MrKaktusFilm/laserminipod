@@ -34,6 +34,4 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
   bool isLoading();
 
   String? get nameErrorMessage;
-
-  TransformationController getSpraywallTransformationController();
 }

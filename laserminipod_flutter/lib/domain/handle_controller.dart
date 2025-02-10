@@ -13,6 +13,8 @@ class HandleController extends ChangeNotifier
   Offset? _selectedHandlePosition;
   double _selectedHandleDiameter = 40;
   int? _selectedHandleId;
+  TransformationController _transformationController =
+      TransformationController(Matrix4.identity()..scale(0.45));
 
   HandleController(
       {required HandleModelAbstract handleModel,
@@ -28,6 +30,10 @@ class HandleController extends ChangeNotifier
 
   @override
   int? get selectedHandleId => _selectedHandleId;
+
+  @override
+  TransformationController get transformationController =>
+      _transformationController;
 
   @override
   void setSelectedHandleId(int? id, BuildContext context) {
@@ -58,7 +64,7 @@ class HandleController extends ChangeNotifier
   @override
   void setSelectedHandleToMiddle(BuildContext context) {
     // TODO: Auf Mitte des Bildschirms setzen
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
     _selectedHandlePosition = Offset(500, 500); //size.width, size.height);
   }
 

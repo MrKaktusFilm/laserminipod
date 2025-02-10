@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
@@ -166,10 +165,5 @@ class SpraywallController extends ChangeNotifier
   @override
   bool isLoading() {
     return _isLoading;
-  }
-
-  @override
-  TransformationController getSpraywallTransformationController() {
-    return TransformationController(Matrix4.identity()..scale(0.45));
   }
 }
