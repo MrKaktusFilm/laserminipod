@@ -9,9 +9,7 @@ abstract class NavigationControllerAbstract extends ChangeNotifier {
 
   void openPage(BuildContext context, Widget page);
 
-  void switchToHandleManagementEdit(BuildContext context,
-      {TransformationController? startTransformation, int? selectedHandle});
+  void switchToHandleManagementEdit(BuildContext context);
 
-  void switchToHandleManagementOverview(BuildContext context,
-      {TransformationController? startTransformation});
+  void switchToHandleManagementOverview(BuildContext context);
 }

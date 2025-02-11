@@ -45,8 +45,7 @@ class _HandleManagementOverviewPageState
             child: FloatingActionButton(
               onPressed: () {
                 // TODO: transformationController fixen
-                navigationController.switchToHandleManagementEdit(context,
-                    startTransformation: transformationController);
+                navigationController.switchToHandleManagementEdit(context);
               },
               child: const Icon(Icons.add),
             ),

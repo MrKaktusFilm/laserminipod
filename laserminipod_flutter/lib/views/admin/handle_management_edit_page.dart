@@ -5,11 +5,9 @@ import 'package:user_app/views/spraywall/buttons/spraywall_handle_edit_button.da
 import 'package:user_app/views/spraywall/spraywall_edit_panel.dart';
 
 class HandleManagementEditPage extends StatefulWidget {
-  final TransformationController? startTransformation;
-  // null, if new handle is added
-  final int? selectedHandle;
-  const HandleManagementEditPage(
-      {super.key, this.startTransformation, this.selectedHandle});
+  const HandleManagementEditPage({
+    super.key,
+  });
 
   @override
   State<HandleManagementEditPage> createState() =>
@@ -42,9 +40,7 @@ class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
     final HandleControllerAbstract handleController =
         Provider.of<HandleControllerAbstract>(context, listen: false);
 
-    if (widget.selectedHandle == null) {
-      handleController.setSelectedHandleToMiddle(context);
-    }
+    handleController.setNewHandlePositionToScreenMiddle(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -88,7 +84,7 @@ class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
               child: const Icon(Icons.save),
             ),
           ),
-          if (widget.selectedHandle != null)
+          if (handleController.isHandleSelected())
             Align(
               alignment: Alignment.bottomLeft,
               child: FloatingActionButton(

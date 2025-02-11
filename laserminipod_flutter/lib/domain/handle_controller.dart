@@ -44,8 +44,7 @@ class HandleController extends ChangeNotifier
     _selectedHandleDiameter = handle!.radius.toDouble();
     _selectedHandlePosition = Offset(handle.x.toDouble(), handle.y.toDouble());
     if (context.mounted) {
-      _navigationController.switchToHandleManagementEdit(context,
-          selectedHandle: id);
+      _navigationController.switchToHandleManagementEdit(context);
     }
     notifyListeners();
   }
@@ -64,13 +63,16 @@ class HandleController extends ChangeNotifier
 
   /// isn't mathematical middle, only approximation
   @override
-  void setSelectedHandleToMiddle(BuildContext context) {
-    final Matrix4 matrix = Matrix4.inverted(_transformationController.value);
-    final size = MediaQuery.of(context).size;
+  void setNewHandlePositionToScreenMiddle(BuildContext context) {
+    if (!isHandleSelected()) {
+      final Matrix4 matrix = Matrix4.inverted(_transformationController.value);
+      final size = MediaQuery.of(context).size;
 
-    final Offset screenCenter = Offset(size.width / 2, size.height / 2.3);
+      final Offset screenCenter = Offset(size.width / 2, size.height / 2.3);
 
-    _selectedHandlePosition = MatrixUtils.transformPoint(matrix, screenCenter);
+      _selectedHandlePosition =
+          MatrixUtils.transformPoint(matrix, screenCenter);
+    }
   }
 
   @override
@@ -132,5 +134,10 @@ class HandleController extends ChangeNotifier
       _navigationController.switchToHandleManagementOverview(context);
     }
     return success;
+  }
+
+  @override
+  bool isHandleSelected() {
+    return _selectedHandleId != null;
   }
 }

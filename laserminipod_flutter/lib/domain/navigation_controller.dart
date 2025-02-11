@@ -28,20 +28,13 @@ class NavigationController extends ChangeNotifier
   }
 
   @override
-  void switchToHandleManagementEdit(BuildContext context,
-      {TransformationController? startTransformation, int? selectedHandle}) {
+  void switchToHandleManagementEdit(BuildContext context) {
     closeCurrentScreen(context);
-    openPage(
-        context,
-        HandleManagementEditPage(
-          startTransformation: startTransformation,
-          selectedHandle: selectedHandle,
-        ));
+    openPage(context, HandleManagementEditPage());
   }
 
   @override
-  void switchToHandleManagementOverview(BuildContext context,
-      {TransformationController? startTransformation}) {
+  void switchToHandleManagementOverview(BuildContext context) {
     closeCurrentScreen(context);
     openPage(context, HandleManagementOverviewPage());
   }
