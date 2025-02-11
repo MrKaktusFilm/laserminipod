@@ -10,10 +10,12 @@ class HandleController extends ChangeNotifier
   final HandleModelAbstract _handleModel;
   final NavigationControllerAbstract _navigationController;
 
+  static const double _startDiamter = 40;
+
   Offset? _selectedHandlePosition;
-  double _selectedHandleDiameter = 40;
+  double _selectedHandleDiameter = _startDiamter;
   int? _selectedHandleId;
-  TransformationController _transformationController =
+  final TransformationController _transformationController =
       TransformationController(Matrix4.identity()..scale(0.45));
 
   HandleController(
@@ -56,16 +58,19 @@ class HandleController extends ChangeNotifier
 
   @override
   void updateSelectedHandlePosition(Offset delta) {
-    // TODO: Boundaries einbauen
     _selectedHandlePosition = _selectedHandlePosition! + delta;
     notifyListeners();
   }
 
+  /// isn't mathematical middle, only approximation
   @override
   void setSelectedHandleToMiddle(BuildContext context) {
-    // TODO: Auf Mitte des Bildschirms setzen
-    // final size = MediaQuery.of(context).size;
-    _selectedHandlePosition = Offset(500, 500); //size.width, size.height);
+    final Matrix4 matrix = Matrix4.inverted(_transformationController.value);
+    final size = MediaQuery.of(context).size;
+
+    final Offset screenCenter = Offset(size.width / 2, size.height / 2.3);
+
+    _selectedHandlePosition = MatrixUtils.transformPoint(matrix, screenCenter);
   }
 
   @override
@@ -104,6 +109,7 @@ class HandleController extends ChangeNotifier
   @override
   void deselectHandle() {
     _selectedHandleId = null;
+    _selectedHandleDiameter = _startDiamter;
   }
 
   @override
