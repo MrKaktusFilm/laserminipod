@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
-import 'package:user_app/views/spraywall/buttons/spraywall_handle_edit_button.dart';
+import 'package:user_app/views/spraywall/buttons/spraywall_handle_button_template.dart';
 import 'package:user_app/views/spraywall/spraywall_edit_panel.dart';
 
 class HandleManagementEditPage extends StatefulWidget {
@@ -53,8 +53,10 @@ class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
             child: GestureDetector(
               child: SpraywallEditPanel(
                 transformationController: transformationController,
-                widgetFactory: (handle) => SpraywallHandleEditButton(
-                    handleDiameter: handle.radius.toDouble()),
+                widgetFactory: (handle) => SpraywallHandleButtonTemplate(
+                  handleDiameter: handle.radius.toDouble(),
+                  color: Colors.red,
+                ),
               ),
             ),
           ),

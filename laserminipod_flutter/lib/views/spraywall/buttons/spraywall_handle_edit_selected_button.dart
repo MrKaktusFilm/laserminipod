@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
+import 'package:user_app/views/spraywall/buttons/spraywall_handle_button_template.dart';
 
 class SpraywallHandleEditSelectedButton extends StatelessWidget {
   const SpraywallHandleEditSelectedButton({super.key});
@@ -25,18 +26,11 @@ class SpraywallHandleEditSelectedButton extends StatelessWidget {
               -handleDiameter / 2,
               imageDimensions.$2.toDouble() - handleDiameter / 2),
           child: GestureDetector(
-            onPanUpdate: (details) {
-              handleController.updateSelectedHandlePosition(details.delta);
-            },
-            child: Container(
-              width: handleDiameter,
-              height: handleDiameter,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.blue,
-              ),
-            ),
-          ),
+              onPanUpdate: (details) {
+                handleController.updateSelectedHandlePosition(details.delta);
+              },
+              child: SpraywallHandleButtonTemplate(
+                  handleDiameter: handleDiameter, color: Colors.blue)),
         );
       },
     );

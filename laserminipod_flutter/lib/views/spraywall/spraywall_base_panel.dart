@@ -3,6 +3,7 @@ import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/views/spraywall/spraywall_button_builder.dart';
+import 'package:user_app/views/spraywall/spraywall_image.dart';
 
 class SpraywallBasePanel extends StatelessWidget {
   final TransformationController transformationController;
@@ -22,7 +23,7 @@ class SpraywallBasePanel extends StatelessWidget {
     return InteractiveViewer(
       transformationController: transformationController,
       constrained: false,
-      boundaryMargin: EdgeInsets.all(double.infinity),
+      boundaryMargin: EdgeInsets.zero,
       minScale: 0.2,
       maxScale: 10.0,
       child: LimitedBox(
@@ -31,10 +32,8 @@ class SpraywallBasePanel extends StatelessWidget {
           child: Stack(
             alignment: AlignmentDirectional.bottomEnd,
             children: <Widget>[
-              Image.asset(
-                spraywallImagePath,
-                fit: BoxFit.fitHeight,
-              ),
+              SpraywallImage(),
+              // TODO: imagepath parameter entfernen
               SpraywallButtonBuilder(
                   spraywallImagePath: spraywallImagePath,
                   widgetFactory: widgetFactory),

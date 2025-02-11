@@ -15,8 +15,10 @@ class HandleController extends ChangeNotifier
   Offset? _selectedHandlePosition;
   double _selectedHandleDiameter = _startDiamter;
   int? _selectedHandleId;
+
+  // TODO: configure start transformation
   final TransformationController _transformationController =
-      TransformationController(Matrix4.identity()..scale(0.45));
+      TransformationController(Matrix4.identity());
 
   HandleController(
       {required HandleModelAbstract handleModel,

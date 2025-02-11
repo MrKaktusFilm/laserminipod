@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class SpraywallHandleEditButton extends StatelessWidget {
+class SpraywallHandleButtonTemplate extends StatelessWidget {
   final double handleDiameter;
-
-  const SpraywallHandleEditButton({super.key, required this.handleDiameter});
+  final Color color;
+  const SpraywallHandleButtonTemplate(
+      {super.key, required this.handleDiameter, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class SpraywallHandleEditButton extends StatelessWidget {
       height: handleDiameter,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.red,
+        color: color.withOpacity(0.5),
       ),
     );
   }
