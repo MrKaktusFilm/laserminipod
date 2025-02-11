@@ -19,7 +19,6 @@ class AdminController extends ChangeNotifier
 
   @override
   Future<void> logOut() async {
-    // TODO: navigate to home ; error handling
     try {
       await sessionManager.signOutDevice();
       // if user is currently on administration page, navigate to home

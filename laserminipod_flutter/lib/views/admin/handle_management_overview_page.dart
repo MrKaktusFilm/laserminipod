@@ -44,7 +44,6 @@ class _HandleManagementOverviewPageState
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
               onPressed: () {
-                // TODO: transformationController fixen
                 navigationController.switchToHandleManagementEdit(context);
               },
               child: const Icon(Icons.add),
