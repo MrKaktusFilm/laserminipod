@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_overview_button.dart';
 import 'package:user_app/views/spraywall/spraywall_base_panel.dart';
@@ -19,9 +18,6 @@ class _HandleManagementOverviewPageState
 
   @override
   Widget build(BuildContext context) {
-    final TransformationController transformationController =
-        Provider.of<HandleControllerAbstract>(context, listen: false)
-            .transformationController;
     final navigationController =
         Provider.of<NavigationControllerAbstract>(context, listen: false);
     return Scaffold(
@@ -33,7 +29,6 @@ class _HandleManagementOverviewPageState
           Container(
             key: spraywallKey,
             child: SpraywallBasePanel(
-              transformationController: transformationController,
               widgetFactory: (handle) => SpraywallHandleOverviewButton(
                 id: handle.id!,
                 handleDiameter: handle.radius.toDouble(),

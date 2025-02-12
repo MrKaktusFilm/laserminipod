@@ -6,13 +6,9 @@ import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 
 class SpraywallButtonBuilder extends StatelessWidget {
-  final String spraywallImagePath;
   final Widget Function(Handle handle) widgetFactory;
 
-  const SpraywallButtonBuilder(
-      {super.key,
-      required this.spraywallImagePath,
-      required this.widgetFactory});
+  const SpraywallButtonBuilder({super.key, required this.widgetFactory});
 
   @override
   Widget build(BuildContext context) {

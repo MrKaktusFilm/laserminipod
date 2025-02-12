@@ -18,7 +18,7 @@ class HandleController extends ChangeNotifier
 
   // TODO: configure start transformation
   final TransformationController _transformationController =
-      TransformationController(Matrix4.identity());
+      TransformationController(Matrix4.identity()..scale(0.45));
 
   HandleController(
       {required HandleModelAbstract handleModel,
