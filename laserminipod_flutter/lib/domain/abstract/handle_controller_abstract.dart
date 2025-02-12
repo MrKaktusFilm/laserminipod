@@ -24,4 +24,6 @@ abstract class HandleControllerAbstract extends ChangeNotifier {
   Future<bool> deleteHandle(BuildContext context);
 
   Future<List<Handle>> loadAllHandles();
+
+  void initializeTransformationController(Size containerSize);
 }

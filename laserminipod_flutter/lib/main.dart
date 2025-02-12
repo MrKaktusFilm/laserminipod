@@ -49,9 +49,11 @@ Future<void> main() async {
       SpraywallController(handleModel: handleModel, routeModel: routeModel);
   AdminControllerAbstract adminController =
       AdminController(navigationController: navigationController);
-  HandleControllerAbstract handleController = HandleController(
-      handleModel: handleModel, navigationController: navigationController);
   ImageControllerAbstract imageController = ImageController();
+  HandleControllerAbstract handleController = HandleController(
+      handleModel: handleModel,
+      navigationController: navigationController,
+      imageController: imageController);
   await imageController.loadImageDimensions();
   runApp(
     MultiProvider(

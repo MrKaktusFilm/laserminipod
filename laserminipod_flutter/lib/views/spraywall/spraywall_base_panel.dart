@@ -5,10 +5,27 @@ import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/views/spraywall/spraywall_button_builder.dart';
 import 'package:user_app/views/spraywall/spraywall_image.dart';
 
-class SpraywallBasePanel extends StatelessWidget {
+class SpraywallBasePanel extends StatefulWidget {
   final Widget Function(Handle handle) widgetFactory;
 
   const SpraywallBasePanel({super.key, required this.widgetFactory});
+
+  @override
+  State<SpraywallBasePanel> createState() => _SpraywallBasePanelState();
+}
+
+class _SpraywallBasePanelState extends State<SpraywallBasePanel> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    var handleController =
+        Provider.of<HandleControllerAbstract>(context, listen: false);
+
+    // Warte bis das Layout steht, dann berechne die Skalierung (context size needed)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      handleController.initializeTransformationController(context.size!);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +46,7 @@ class SpraywallBasePanel extends StatelessWidget {
             alignment: AlignmentDirectional.bottomEnd,
             children: <Widget>[
               SpraywallImage(),
-              SpraywallButtonBuilder(widgetFactory: widgetFactory),
+              SpraywallButtonBuilder(widgetFactory: widget.widgetFactory),
             ],
           ),
         ),

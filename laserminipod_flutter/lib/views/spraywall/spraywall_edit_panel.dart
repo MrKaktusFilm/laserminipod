@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_edit_selected_button.dart';
 import 'package:user_app/views/spraywall/spraywall_button_builder.dart';
 import 'package:user_app/views/spraywall/spraywall_image.dart';
 
-class SpraywallEditPanel extends StatelessWidget {
+class SpraywallEditPanel extends StatefulWidget {
   final TransformationController transformationController;
   final Widget Function(Handle handle) widgetFactory;
 
@@ -14,9 +16,26 @@ class SpraywallEditPanel extends StatelessWidget {
       required this.widgetFactory});
 
   @override
+  State<SpraywallEditPanel> createState() => _SpraywallEditPanelState();
+}
+
+class _SpraywallEditPanelState extends State<SpraywallEditPanel> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    var handleController =
+        Provider.of<HandleControllerAbstract>(context, listen: false);
+
+    // Warte bis das Layout steht, dann berechne die Skalierung (context size needed)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      handleController.initializeTransformationController(context.size!);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InteractiveViewer(
-      transformationController: transformationController,
+      transformationController: widget.transformationController,
       constrained: false,
       boundaryMargin: EdgeInsets.all(double.infinity),
       minScale: 0.2,
@@ -29,7 +48,7 @@ class SpraywallEditPanel extends StatelessWidget {
             children: <Widget>[
               SpraywallImage(),
               // TODO: imagepath parameter entfernen
-              SpraywallButtonBuilder(widgetFactory: widgetFactory),
+              SpraywallButtonBuilder(widgetFactory: widget.widgetFactory),
               SpraywallHandleEditSelectedButton(),
             ],
           ),
