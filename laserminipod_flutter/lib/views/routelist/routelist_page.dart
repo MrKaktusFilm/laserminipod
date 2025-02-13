@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/routelist/routelist_tile.dart';
 
@@ -17,7 +17,7 @@ class RouteListPage extends StatefulWidget {
 class _RouteListPageState extends State<RouteListPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<SprayWallControllerAbstract>(
+    return Consumer<RouteControllerAbstract>(
         builder: (context, spraywallContoller, child) {
       return FutureBuilder<List<SpraywallRoute>>(
         future: spraywallContoller.loadAllRoutes(),

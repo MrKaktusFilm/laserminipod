@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 
 class SaveRouteDialog extends StatefulWidget {
   const SaveRouteDialog({super.key});
@@ -14,7 +14,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
 
   void _onSave() async {
     final controller =
-        Provider.of<SprayWallControllerAbstract>(context, listen: false);
+        Provider.of<RouteControllerAbstract>(context, listen: false);
     if (_formKey.currentState!.validate()) {
       controller.saveCurrentRoute();
       Navigator.pop(context);
@@ -24,7 +24,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
   @override
   Widget build(BuildContext context) {
     final controller =
-        Provider.of<SprayWallControllerAbstract>(context, listen: false);
+        Provider.of<RouteControllerAbstract>(context, listen: false);
 
     return Form(
       key: _formKey,
@@ -48,17 +48,19 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
                   return controller.validateRouteName(input);
                 },
               ),
-              if (controller.isLoading())
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: CircularProgressIndicator(),
-                ),
+              // TODO: FutureBuilder einbauen
+              // if (controller.isLoading())
+              //   const Padding(
+              //     padding: EdgeInsets.symmetric(vertical: 10),
+              //     child: CircularProgressIndicator(),
+              //   ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   TextButton(
-                    onPressed: controller.isLoading() ? null : _onSave,
+                    onPressed:
+                        _onSave, //controller.isLoading() ? null : _onSave,
                     child: const Text("Speichern"),
                   ),
                   TextButton(

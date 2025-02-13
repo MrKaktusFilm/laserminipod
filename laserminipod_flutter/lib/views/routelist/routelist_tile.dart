@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 
 class RoutelistTile extends StatefulWidget {
@@ -22,7 +23,7 @@ class _RoutelistTileState extends State<RoutelistTile> {
   }
 
   void onDelete() {
-    Provider.of<SprayWallControllerAbstract>(context, listen: false)
+    Provider.of<RouteControllerAbstract>(context, listen: false)
         .openDeleteRouteDialog(widget.route.id!);
   }
 

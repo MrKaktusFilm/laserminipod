@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 
 class DeleteRouteDialog extends StatefulWidget {
   const DeleteRouteDialog({super.key, required this.id});
@@ -13,7 +13,7 @@ class DeleteRouteDialog extends StatefulWidget {
 
 class _DeleteRouteDialogState extends State<DeleteRouteDialog> {
   void onDelete() {
-    Provider.of<SprayWallControllerAbstract>(context, listen: false)
+    Provider.of<RouteControllerAbstract>(context, listen: false)
         .deleteRoute(widget.id);
     Navigator.pop(context);
   }

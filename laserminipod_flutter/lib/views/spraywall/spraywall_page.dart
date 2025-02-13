@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_floating_buttons.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_button.dart';
@@ -18,6 +19,9 @@ class _SpraywallPageState extends State<SpraywallPage> {
     var sprayWallController =
         Provider.of<SprayWallControllerAbstract>(context, listen: false);
 
+    var routeController =
+        Provider.of<RouteControllerAbstract>(context, listen: false);
+
     return Stack(
       children: <Widget>[
         SpraywallBasePanel(
@@ -30,7 +34,7 @@ class _SpraywallPageState extends State<SpraywallPage> {
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(
             onPressed: () {
-              sprayWallController.openSaveRouteDialog();
+              routeController.openSaveRouteDialog();
             },
             child: const Icon(Icons.save),
           ),

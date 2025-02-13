@@ -11,11 +11,13 @@ import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
+import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/admin_controller.dart';
 import 'package:user_app/domain/handle_controller.dart';
 import 'package:user_app/domain/image_controller.dart';
 import 'package:user_app/domain/navigation_controller.dart';
+import 'package:user_app/domain/route_contoller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:user_app/home.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
@@ -47,8 +49,10 @@ Future<void> main() async {
 
   // controller
   NavigationControllerAbstract navigationController = NavigationController();
-  SprayWallControllerAbstract sprayWallController =
+  SprayWallControllerAbstract spraywallController =
       SpraywallController(handleModel: handleModel, routeModel: routeModel);
+  RouteControllerAbstract routeController = RouteContoller(
+      routeModel: routeModel, spraywallController: spraywallController);
   AdminControllerAbstract adminController =
       AdminController(navigationController: navigationController);
   ImageControllerAbstract imageController = ImageController();
@@ -64,13 +68,15 @@ Future<void> main() async {
         ChangeNotifierProvider<NavigationControllerAbstract>(
             create: (_) => navigationController),
         ChangeNotifierProvider<SprayWallControllerAbstract>(
-            create: (_) => sprayWallController),
+            create: (_) => spraywallController),
         ChangeNotifierProvider<AdminControllerAbstract>(
             create: (_) => adminController),
         ChangeNotifierProvider<HandleControllerAbstract>(
             create: (_) => handleController),
         ChangeNotifierProvider<ImageControllerAbstract>(
             create: (_) => imageController),
+        ChangeNotifierProvider<RouteControllerAbstract>(
+            create: (_) => routeController),
       ],
       child: const MyApp(),
     ),
