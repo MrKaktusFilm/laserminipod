@@ -21,4 +21,6 @@ abstract class RouteControllerAbstract extends ChangeNotifier {
   Future<List<SpraywallRoute>> loadAllRoutes();
 
   String? get nameErrorMessage;
+
+  bool get isLoading;
 }

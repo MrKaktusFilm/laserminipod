@@ -48,12 +48,11 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
                   return controller.validateRouteName(input);
                 },
               ),
-              // TODO: FutureBuilder einbauen
-              // if (controller.isLoading())
-              //   const Padding(
-              //     padding: EdgeInsets.symmetric(vertical: 10),
-              //     child: CircularProgressIndicator(),
-              //   ),
+              if (controller.isLoading)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: CircularProgressIndicator(),
+                ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

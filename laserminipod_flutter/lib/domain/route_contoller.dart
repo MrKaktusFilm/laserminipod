@@ -11,40 +11,41 @@ class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
   final RouteModelAbstract routeModel;
   final SprayWallControllerAbstract spraywallController;
   bool _existsNameAlready = false;
+  bool _isLoading = false;
   String _name = "";
   String? _nameErrorMessage;
 
   RouteContoller({required this.routeModel, required this.spraywallController});
 
   @override
+  bool get isLoading => _isLoading;
+
+  @override
   void saveCurrentRoute() async {
+    _isLoading = true;
+    notifyListeners();
     try {
-      // check if route already exists
-      notifyListeners();
       final exists = await existsCurrentRouteAlready();
-      notifyListeners();
       if (exists) {
         UiHelper.showSnackbar("Die Route existiert bereits.", Colors.red);
         return;
       }
 
-      // save rout
       var currentRoute = spraywallController.getCurrentRoute();
       currentRoute.name = _name.trim();
-      notifyListeners();
-      final success = await routeModel.saveRoute(currentRoute);
-      notifyListeners();
 
+      final success = await routeModel.saveRoute(currentRoute);
       if (success) {
         UiHelper.showSnackbar("Route erfolgreich gespeichert.", Colors.green);
       } else {
         UiHelper.showSnackbar("Fehler beim Speichern der Route.", Colors.red);
       }
-
-      notifyListeners();
     } catch (e) {
       UiHelper.showSnackbar(
           "Ein Fehler ist aufgetreten: ${e.toString()}", Colors.red);
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
@@ -53,11 +54,9 @@ class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
     _name = input.trim();
     try {
       _existsNameAlready = await nameAlreadyAssigned(_name);
-      if (_existsNameAlready) {
-        _nameErrorMessage = "Eine andere Route hat bereits diesen Namen.";
-      } else {
-        _nameErrorMessage = null;
-      }
+      _nameErrorMessage = _existsNameAlready
+          ? "Eine andere Route hat bereits diesen Namen."
+          : null;
     } catch (e) {
       _nameErrorMessage = "Ein Fehler ist aufgetreten.";
     }
@@ -93,11 +92,9 @@ class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
     var routes;
     try {
       routes = await routeModel.loadAllRoutes();
-    } on Exception catch (e, stackTrace) {
+    } on Exception catch (e) {
       UiHelper.showSnackbar(
           "There was an error loading the routes: $e", Colors.red);
-      print('Fehler: $e');
-      print('Stacktrace: $stackTrace');
     }
     return routes;
   }
