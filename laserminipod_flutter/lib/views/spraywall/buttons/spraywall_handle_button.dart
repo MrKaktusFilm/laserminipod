@@ -33,6 +33,9 @@ class _SpraywallHandleButtonState extends State<SpraywallHandleButton> {
 
   @override
   Widget build(BuildContext context) {
+    var activated =
+        Provider.of<SprayWallControllerAbstract>(context, listen: false)
+            .isHandleActivated(widget.id);
     return GestureDetector(
         onTap: toggleActivated,
         child: activated == true
