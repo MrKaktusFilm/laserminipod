@@ -122,9 +122,11 @@ class SpraywallController extends ChangeNotifier
     var routes;
     try {
       routes = await routeModel.loadAllRoutes();
-    } on Exception {
+    } on Exception catch (e, stackTrace) {
       UiHelper.showSnackbar(
-          "There was an error loading the routes", Colors.red);
+          "There was an error loading the routes: $e", Colors.red);
+      print('Fehler: $e');
+      print('Stacktrace: $stackTrace');
     }
     return routes;
   }

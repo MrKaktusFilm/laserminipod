@@ -27,10 +27,12 @@ EmailAuthController authController = EmailAuthController(client.modules.auth);
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+final String serverURL = "http://192.168.178.152:8080/";
 
 Future<void> main() async {
   client = Client(
-    'http://10.0.2.2:8080/',
+    serverURL,
+    // 'http://10.0.2.2:8080/',
     authenticationKeyManager: FlutterAuthenticationKeyManager(),
   )..connectivityMonitor = FlutterConnectivityMonitor();
 
@@ -55,6 +57,7 @@ Future<void> main() async {
       navigationController: navigationController,
       imageController: imageController);
   await imageController.loadImageDimensions();
+
   runApp(
     MultiProvider(
       providers: [

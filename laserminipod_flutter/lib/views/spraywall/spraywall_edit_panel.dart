@@ -37,7 +37,7 @@ class _SpraywallEditPanelState extends State<SpraywallEditPanel> {
     return InteractiveViewer(
       transformationController: widget.transformationController,
       constrained: false,
-      boundaryMargin: EdgeInsets.all(double.infinity),
+      boundaryMargin: EdgeInsets.zero,
       minScale: 0.2,
       maxScale: 10.0,
       child: LimitedBox(
@@ -47,7 +47,6 @@ class _SpraywallEditPanelState extends State<SpraywallEditPanel> {
             alignment: AlignmentDirectional.bottomEnd,
             children: <Widget>[
               SpraywallImage(),
-              // TODO: imagepath parameter entfernen
               SpraywallButtonBuilder(widgetFactory: widget.widgetFactory),
               SpraywallHandleEditSelectedButton(),
             ],

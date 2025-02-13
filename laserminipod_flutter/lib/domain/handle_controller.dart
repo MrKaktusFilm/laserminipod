@@ -18,7 +18,6 @@ class HandleController extends ChangeNotifier
   double _selectedHandleDiameter = _startDiamter;
   int? _selectedHandleId;
 
-  // TODO: configure start transformation
   final TransformationController _transformationController =
       TransformationController(Matrix4.identity());
 
