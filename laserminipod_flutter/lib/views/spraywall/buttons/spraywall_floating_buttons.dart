@@ -9,6 +9,7 @@ class SpraywallFloatingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(onPressed: action, child: Icon(icon));
+    return FloatingActionButton(
+        heroTag: null, onPressed: action, child: Icon(icon));
   }
 }

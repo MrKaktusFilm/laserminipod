@@ -33,6 +33,7 @@ class _SpraywallPageState extends State<SpraywallPage> {
         Align(
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(
+            heroTag: null,
             onPressed: () {
               routeController.openSaveRouteDialog();
             },

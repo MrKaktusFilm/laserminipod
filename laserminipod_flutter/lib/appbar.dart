@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/dialogs/login_dialog.dart';
+import 'package:user_app/views/settings/settings_page.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -13,6 +15,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final adminController =
         Provider.of<AdminControllerAbstract>(context, listen: false);
+    final navigationController =
+        Provider.of<NavigationControllerAbstract>(context, listen: false);
 
     return AppBar(
       title: Text(title),
@@ -30,8 +34,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: adminController.logOut,
                   child: const Text('Logout'),
                 ),
-              const PopupMenuItem(
-                child: Text('Option 3'),
+              PopupMenuItem(
+                onTap: () =>
+                    navigationController.openPage(context, SettingsPage()),
+                child: const Text('Settings'),
               ),
             ];
           },

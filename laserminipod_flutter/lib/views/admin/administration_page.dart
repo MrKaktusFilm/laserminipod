@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/views/admin/change_password_page.dart';
 import 'package:user_app/views/admin/handle_management_overview_page.dart';
+import 'package:user_app/views/common/setting_item.dart';
 
 class AdministrationPage extends StatefulWidget {
   const AdministrationPage({super.key});
@@ -52,18 +53,4 @@ class _AdministrationPageState extends State<AdministrationPage> {
       },
     );
   }
-}
-
-class SettingItem {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final VoidCallback onTap;
-
-  SettingItem({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-  });
 }

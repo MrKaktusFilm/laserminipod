@@ -38,6 +38,7 @@ class _HandleManagementOverviewPageState
           Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
+              heroTag: null,
               onPressed: () {
                 navigationController.switchToHandleManagementEdit(context);
               },
