@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
-import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/routelist/routelist_tile.dart';
 
 class RouteListPage extends StatefulWidget {
@@ -36,8 +35,6 @@ class _RouteListPageState extends State<RouteListPage> {
                 });
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            UiHelper.showErrorSnackbar("An error occured");
           }
           return const SizedBox.shrink();
         },

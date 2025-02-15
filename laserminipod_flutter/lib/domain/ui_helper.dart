@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:user_app/main.dart';
 
@@ -21,5 +22,10 @@ class UiHelper {
       context: context!,
       builder: (BuildContext context) => dialog,
     );
+  }
+
+  static AppLocalizations getAppLocalization() {
+    final context = navigatorKey.currentState?.overlay?.context;
+    return AppLocalizations.of(context!)!;
   }
 }

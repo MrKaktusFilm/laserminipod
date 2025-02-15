@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_overview_button.dart';
 import 'package:user_app/views/spraywall/spraywall_base_panel.dart';
 
@@ -22,7 +23,7 @@ class _HandleManagementOverviewPageState
         Provider.of<NavigationControllerAbstract>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Handle Management'),
+        title: Text(UiHelper.getAppLocalization().holdManagementOptionTitle),
       ),
       body: Stack(
         children: [

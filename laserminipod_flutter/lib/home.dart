@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:user_app/appbar.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/admin/administration_page.dart';
 import 'package:user_app/views/routelist/routelist_page.dart';
 import 'package:user_app/views/spraywall/spraywall_page.dart';
@@ -25,10 +26,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var title = "Laser App";
+    final loc = UiHelper.getAppLocalization();
 
     return Scaffold(
-      appBar: HomeAppBar(title: title),
+      appBar: HomeAppBar(title: loc.appTitle),
       bottomNavigationBar:
           Consumer2<AdminControllerAbstract, NavigationControllerAbstract>(
         builder: (context, adminController, navigationController, child) {
@@ -39,19 +40,19 @@ class _HomePageState extends State<HomePage> {
             indicatorColor: Colors.amber,
             selectedIndex: navigationController.currentPageIndex,
             destinations: <Widget>[
-              const NavigationDestination(
+              NavigationDestination(
                 selectedIcon: Icon(Icons.home),
                 icon: Icon(Icons.home_outlined),
-                label: 'Spraywall',
+                label: loc.spraywallTitle,
               ),
-              const NavigationDestination(
+              NavigationDestination(
                 icon: Icon(Icons.list_sharp),
-                label: 'Routes',
+                label: loc.routeListTitle,
               ),
               if (adminController.hasAdminAccess())
-                const NavigationDestination(
+                NavigationDestination(
                   icon: Icon(Icons.settings),
-                  label: 'Administration',
+                  label: loc.administrationTitle,
                 ),
             ],
           );

@@ -17,6 +17,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         Provider.of<AdminControllerAbstract>(context, listen: false);
     final navigationController =
         Provider.of<NavigationControllerAbstract>(context, listen: false);
+    final loc = UiHelper.getAppLocalization();
 
     return AppBar(
       title: Text(title),
@@ -26,18 +27,18 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             return [
               if (!adminController.hasAdminAccess())
                 PopupMenuItem(
-                  child: const Text("Login"),
+                  child: Text(loc.login),
                   onTap: () => UiHelper.showWidgetDialog(const LoginDialog()),
                 ),
               if (adminController.hasAdminAccess())
                 PopupMenuItem(
                   onTap: adminController.logOut,
-                  child: const Text('Logout'),
+                  child: Text(loc.logout),
                 ),
               PopupMenuItem(
                 onTap: () =>
                     navigationController.openPage(context, SettingsPage()),
-                child: const Text('Settings'),
+                child: Text(loc.settingsTitle),
               ),
             ];
           },

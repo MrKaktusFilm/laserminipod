@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:user_app/domain/ui_helper.dart';
 
 class LanguageDialog extends StatelessWidget {
   final List<String> languages = ['Deutsch', 'English', 'Español', 'Français'];
@@ -10,8 +11,9 @@ class LanguageDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = UiHelper.getAppLocalization();
     return AlertDialog(
-      title: Text('Sprache auswählen'),
+      title: Text(loc.chooseLanguage),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: languages.map((language) {
@@ -30,7 +32,7 @@ class LanguageDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text('Abbrechen'),
+          child: Text(loc.cancel),
         ),
       ],
     );

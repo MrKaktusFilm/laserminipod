@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -43,7 +44,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Change Password'),
+        title: Text(UiHelper.getAppLocalization().changePasswordPageTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -56,12 +57,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 controller: _currentPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: 'Current Password',
+                  labelText: UiHelper.getAppLocalization()
+                      .changePasswordPageCurrentTextFieldLabel,
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your current password';
+                    return UiHelper.getAppLocalization()
+                        .changePasswordPageValidatorEmpty;
                   }
                   return null;
                 },
@@ -71,7 +74,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 controller: _newPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: 'New Password',
+                  labelText: UiHelper.getAppLocalization()
+                      .changePasswordPageNewTextFieldLabel,
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) =>
@@ -82,14 +86,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 controller: _confirmPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: 'Confirm New Password',
+                  labelText: UiHelper.getAppLocalization()
+                      .changePasswordPageConfirmTextFieldLabel,
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please confirm your new password';
+                    return UiHelper.getAppLocalization()
+                        .changePasswordPageValidatorConfirmEmpty;
                   } else if (value != _newPasswordController.text) {
-                    return 'Passwords do not match';
+                    return UiHelper.getAppLocalization()
+                        .changePasswordPageValidatorConfirmNoMatch;
                   }
                   return null;
                 },
@@ -103,7 +110,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: _changePassword,
-                child: Text('Change Password'),
+                child: Text(
+                    UiHelper.getAppLocalization().changePasswordPageButton),
               ),
             ],
           ),

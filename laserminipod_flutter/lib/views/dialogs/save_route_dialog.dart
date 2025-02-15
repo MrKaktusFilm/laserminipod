@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart'; // Importiere den UiHelper
 
 class SaveRouteDialog extends StatefulWidget {
   const SaveRouteDialog({super.key});
@@ -25,6 +26,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
   Widget build(BuildContext context) {
     final controller =
         Provider.of<RouteControllerAbstract>(context, listen: false);
+    final loc = UiHelper.getAppLocalization(); // Zugriff auf Lokalisierungen
 
     return Form(
       key: _formKey,
@@ -37,7 +39,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
             children: <Widget>[
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: "Name der Route:",
+                  labelText: loc.routeName, // Verwendung der Lokalisierung
                   filled: true,
                   errorText: controller.nameErrorMessage,
                 ),
@@ -58,15 +60,14 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   TextButton(
-                    onPressed:
-                        _onSave, //controller.isLoading() ? null : _onSave,
-                    child: const Text("Speichern"),
+                    onPressed: _onSave,
+                    child: Text(loc.save), // Verwendung der Lokalisierung
                   ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text("Abbrechen"),
+                    child: Text(loc.cancel), // Verwendung der Lokalisierung
                   ),
                 ],
               )

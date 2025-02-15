@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_button_template.dart';
 import 'package:user_app/views/spraywall/spraywall_edit_panel.dart';
 
@@ -44,7 +45,7 @@ class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Handle Management'),
+        title: Text(UiHelper.getAppLocalization().holdManagementOptionTitle),
       ),
       body: Stack(
         children: [

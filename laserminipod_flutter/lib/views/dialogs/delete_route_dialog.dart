@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart';
 
 class DeleteRouteDialog extends StatefulWidget {
   const DeleteRouteDialog({super.key, required this.id});
@@ -20,6 +21,8 @@ class _DeleteRouteDialogState extends State<DeleteRouteDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = UiHelper.getAppLocalization(); // Zugriff auf Lokalisierungen
+
     return Dialog(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -27,20 +30,20 @@ class _DeleteRouteDialogState extends State<DeleteRouteDialog> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text("Wollen Sie die Route wirklich löschen?"),
+            Text(loc.deleteRouteDialogText), // Verwendung der Lokalisierung
             const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 TextButton(
                   onPressed: onDelete,
-                  child: const Text("Löschen"),
+                  child: Text(loc.delete), // Verwendung der Lokalisierung
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text("Abbrechen"),
+                  child: Text(loc.cancel), // Verwendung der Lokalisierung
                 ),
               ],
             )

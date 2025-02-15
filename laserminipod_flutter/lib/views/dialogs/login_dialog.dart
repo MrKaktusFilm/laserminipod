@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart'; // Importiere den UiHelper
 
 class LoginDialog extends StatefulWidget {
   const LoginDialog({super.key});
@@ -46,9 +47,11 @@ class _LoginDialogState extends State<LoginDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = UiHelper.getAppLocalization(); // Zugriff auf Lokalisierungen
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Login'),
+        title: Text(loc.adminLoginTitle), // Verwendung der Lokalisierung
       ),
       body: Center(
         child: Padding(
@@ -60,16 +63,16 @@ class _LoginDialogState extends State<LoginDialog> {
               children: [
                 TextFormField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
+                  decoration: InputDecoration(
+                    labelText: loc.email, // Verwendung der Lokalisierung
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
+                      return loc.enterEmail; // Verwendung der Lokalisierung
                     }
                     if (!_isValidEmail(value)) {
-                      return 'Please enter a valid email';
+                      return loc.invalidEmail; // Verwendung der Lokalisierung
                     }
                     return null;
                   },
@@ -77,13 +80,13 @@ class _LoginDialogState extends State<LoginDialog> {
                 const SizedBox(height: 16.0),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
+                  decoration: InputDecoration(
+                    labelText: loc.password, // Verwendung der Lokalisierung
                   ),
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
+                      return loc.enterPassword; // Verwendung der Lokalisierung
                     }
                     return null;
                   },
@@ -99,7 +102,7 @@ class _LoginDialogState extends State<LoginDialog> {
                     ? const CircularProgressIndicator()
                     : ElevatedButton(
                         onPressed: _login,
-                        child: const Text('Login'),
+                        child: Text(loc.login), // Verwendung der Lokalisierung
                       ),
               ],
             ),

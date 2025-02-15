@@ -20,22 +20,23 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    // NavigationController hier initialisieren
+    final loc = UiHelper.getAppLocalization();
     _navigationController =
         Provider.of<NavigationControllerAbstract>(context, listen: false);
     settings = [
       SettingItem(
           icon: Icons.language,
-          title: 'Handle Management',
-          subtitle: 'Add, edit and delete handles',
+          title: loc.chooseLanguage,
+          subtitle: '',
           onTap: () => UiHelper.showWidgetDialog(LanguageDialog())),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
+    final loc = UiHelper.getAppLocalization();
     return Scaffold(
-      appBar: AppBar(title: const Text("Settings")),
+      appBar: AppBar(title: Text(loc.settingsTitle)),
       body: ListView.builder(
         itemCount: settings.length,
         itemBuilder: (context, index) {
