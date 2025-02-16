@@ -14,16 +14,15 @@ class HandleModel extends HandleModelAbstract {
     try {
       _handleCache = await handleEndpoint.loadAllHandles();
     } catch (e) {
-      rethrow;
-    } finally {
       _handleCache = [];
+      rethrow;
     }
   }
 
   @override
   Future<List<Handle>> loadAllHandles() async {
     try {
-      if (_handleCache == null) {
+      if (_handleCache == null || _handleCache!.isEmpty) {
         await _refresh();
       }
     } on Exception {
