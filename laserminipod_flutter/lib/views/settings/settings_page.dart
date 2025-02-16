@@ -34,6 +34,16 @@ class _SettingsPageState extends State<SettingsPage> {
           title: loc.chooseLanguage,
           subtitle: '',
           onTap: () => UiHelper.showWidgetDialog(LanguageDialog())),
+      SettingItem(
+          icon: Icons.description,
+          title: loc.termsAndConditions,
+          subtitle: '',
+          onTap: () {}),
+      SettingItem(
+          icon: Icons.privacy_tip,
+          title: loc.privacyPolicy,
+          subtitle: '',
+          onTap: () {}),
     ];
     return Consumer<LanguageControllerAbstract>(
         builder: (context, languageController, child) {

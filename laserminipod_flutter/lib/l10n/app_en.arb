@@ -49,5 +49,7 @@
     "routeAlreadyCreated": "The created route already exists",
     "routeLoadError": "There was an error loading the routes",
     "loadHandleError": "There was an error loading the holds",
-    "error": "An error occured"
+    "error": "An error occured",
+    "termsAndConditions": "Terms and Conditions",
+    "privacyPolicy": "Privacy Policy"
 }

@@ -49,5 +49,7 @@
     "routeAlreadyCreated": "Die erstellte Route existiert bereits",
     "routeLoadError": "Beim Laden der Routen ist ein Fehler aufgetreten",
     "loadHandleError": "Beim Laden der Griffe ist ein Fehler aufgetreten",
-    "error": "Ein Fehler ist aufgetreten"
+    "error": "Ein Fehler ist aufgetreten",
+    "termsAndConditions": "Geschäftsbedingungen",
+    "privacyPolicy": "Datenschutzerklärung"
 }
