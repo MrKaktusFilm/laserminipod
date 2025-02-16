@@ -23,9 +23,9 @@ class ImageController extends ChangeNotifier
       // Dekodiere das Bild
       ui.Image decodedImage = await decodeImageFromList(bytes);
       _imageDimensions = (decodedImage.width, decodedImage.height);
-    } on Exception {
+    } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
-          "An error occured while loading the image dimensions");
+          UiHelper.getAppLocalization().imageDimensionsError, e);
       rethrow;
     }
   }

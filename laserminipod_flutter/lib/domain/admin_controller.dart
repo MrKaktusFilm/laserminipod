@@ -8,9 +8,8 @@ class AdminController extends ChangeNotifier
     implements AdminControllerAbstract {
   final NavigationControllerAbstract _navigationController;
 
-  AdminController({
-    required NavigationControllerAbstract navigationController,
-  }) : _navigationController = navigationController;
+  AdminController({required NavigationControllerAbstract navigationController})
+      : _navigationController = navigationController;
 
   @override
   bool hasAdminAccess() {
@@ -21,12 +20,11 @@ class AdminController extends ChangeNotifier
   Future<void> logOut() async {
     try {
       await sessionManager.signOutDevice();
-      // if user is currently on administration page, navigate to home
       if (_navigationController.currentPageIndex == 2) {
         _navigationController.setPageIndex(0);
       }
-    } on Exception {
-      UiHelper.showErrorSnackbar("Es gab einen Fehler beim ausloggen");
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(UiHelper.getAppLocalization().logoutError, e);
     }
     notifyListeners();
   }
@@ -45,10 +43,10 @@ class AdminController extends ChangeNotifier
         }
         return null;
       } else {
-        return "Invalid login credentials";
+        return UiHelper.getAppLocalization().invalidLogin;
       }
     } catch (e) {
-      return 'Login failed: ${e.toString()}';
+      return UiHelper.getAppLocalization().loginFailed;
     } finally {
       notifyListeners();
     }
@@ -64,26 +62,27 @@ class AdminController extends ChangeNotifier
       if (isOldPasswordValid) {
         bool success = await client.user.changePassword(email, newPassword);
         if (success) {
-          UiHelper.showSnackbar("Password successfully changed", Colors.green);
+          UiHelper.showSnackbar(
+              UiHelper.getAppLocalization().passwordChanged, Colors.green);
           return null;
         } else {
-          return "An error occured. Password could'nt be changed";
+          return UiHelper.getAppLocalization().passwordChangeError;
         }
       } else {
-        return "Invalid login credentials";
+        return UiHelper.getAppLocalization().invalidLogin;
       }
     } catch (e) {
-      return "An error occured. Password could'nt be changed";
+      return UiHelper.getAppLocalization().passwordChangeError;
     }
   }
 
   @override
   String? validatePasswordRequirements(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter a new password';
+      return UiHelper.getAppLocalization().enterNewPassword;
     }
     if (value.length < 8) {
-      return "The password must be at least 8 characters long";
+      return UiHelper.getAppLocalization().passwordLengthError;
     }
     return null;
   }

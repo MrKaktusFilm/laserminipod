@@ -11,12 +11,14 @@ import 'package:user_app/data/route_model.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
+import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/admin_controller.dart';
 import 'package:user_app/domain/handle_controller.dart';
 import 'package:user_app/domain/image_controller.dart';
+import 'package:user_app/domain/language_controller.dart';
 import 'package:user_app/domain/navigation_controller.dart';
 import 'package:user_app/domain/route_contoller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
@@ -52,7 +54,7 @@ Future<void> main() async {
   NavigationControllerAbstract navigationController = NavigationController();
   SprayWallControllerAbstract spraywallController =
       SpraywallController(handleModel: handleModel, routeModel: routeModel);
-  RouteControllerAbstract routeController = RouteContoller(
+  RouteControllerAbstract routeController = RouteController(
       routeModel: routeModel, spraywallController: spraywallController);
   AdminControllerAbstract adminController =
       AdminController(navigationController: navigationController);
@@ -61,6 +63,7 @@ Future<void> main() async {
       handleModel: handleModel,
       navigationController: navigationController,
       imageController: imageController);
+  LanguageControllerAbstract languageController = LanguageController();
   await imageController.loadImageDimensions();
 
   runApp(
@@ -78,6 +81,8 @@ Future<void> main() async {
             create: (_) => imageController),
         ChangeNotifierProvider<RouteControllerAbstract>(
             create: (_) => routeController),
+        ChangeNotifierProvider<LanguageControllerAbstract>(
+            create: (_) => languageController),
       ],
       child: const MyApp(),
     ),
@@ -90,14 +95,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      scaffoldMessengerKey: scaffoldMessengerKey,
-      navigatorKey: navigatorKey,
-      title: 'Flutter Demo',
-      locale: Locale('en'),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: const HomePage(),
+    return Consumer<LanguageControllerAbstract>(
+      builder: (context, languageController, child) {
+        return MaterialApp(
+          key: ValueKey(languageController.currentLanguage.languageCode),
+          scaffoldMessengerKey: scaffoldMessengerKey,
+          navigatorKey: navigatorKey,
+          title: 'Flutter Demo',
+          locale: languageController.currentLanguage,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const HomePage(),
+        );
+      },
     );
   }
 }

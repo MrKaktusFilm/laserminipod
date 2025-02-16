@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
+import 'package:locale_names/locale_names.dart';
 
 class LanguageDialog extends StatelessWidget {
-  final List<String> languages = ['Deutsch', 'English', 'Español', 'Français'];
-  final String selectedLanguage = 'Deutsch';
-
-  LanguageDialog({
-    super.key,
-  });
+  LanguageDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     final loc = UiHelper.getAppLocalization();
+    final languageController = Provider.of<LanguageControllerAbstract>(context);
+    final supportedLanguages = languageController.supportedLanguages;
+    Locale selectedLanguage = languageController.currentLanguage;
+
     return AlertDialog(
       title: Text(loc.chooseLanguage),
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        children: languages.map((language) {
-          return RadioListTile<String>(
-            title: Text(language),
+        children: supportedLanguages.map((language) {
+          return RadioListTile<Locale>(
+            title: Text(language.nativeDisplayLanguage),
             value: language,
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
+                languageController.setLanguage(value);
                 Navigator.of(context).pop();
               }
             },

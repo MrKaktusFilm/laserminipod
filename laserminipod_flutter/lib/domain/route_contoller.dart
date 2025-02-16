@@ -7,7 +7,8 @@ import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/dialogs/delete_route_dialog.dart';
 import 'package:user_app/views/dialogs/save_route_dialog.dart';
 
-class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
+class RouteController extends ChangeNotifier
+    implements RouteControllerAbstract {
   final RouteModelAbstract routeModel;
   final SprayWallControllerAbstract spraywallController;
   bool _existsNameAlready = false;
@@ -15,7 +16,8 @@ class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
   String _name = "";
   String? _nameErrorMessage;
 
-  RouteContoller({required this.routeModel, required this.spraywallController});
+  RouteController(
+      {required this.routeModel, required this.spraywallController});
 
   @override
   bool get isLoading => _isLoading;
@@ -27,7 +29,8 @@ class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
     try {
       final exists = await existsCurrentRouteAlready();
       if (exists) {
-        UiHelper.showSnackbar("Die Route existiert bereits.", Colors.red);
+        UiHelper.showSnackbar(
+            UiHelper.getAppLocalization().routeExists, Colors.red);
         return;
       }
 
@@ -36,13 +39,15 @@ class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
 
       final success = await routeModel.saveRoute(currentRoute);
       if (success) {
-        UiHelper.showSnackbar("Route erfolgreich gespeichert.", Colors.green);
+        UiHelper.showSnackbar(
+            UiHelper.getAppLocalization().routeSaved, Colors.green);
       } else {
-        UiHelper.showSnackbar("Fehler beim Speichern der Route.", Colors.red);
+        UiHelper.showSnackbar(
+            UiHelper.getAppLocalization().routeSaveError, Colors.red);
       }
     } catch (e) {
-      UiHelper.showSnackbar(
-          "Ein Fehler ist aufgetreten: ${e.toString()}", Colors.red);
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().routeSaveError, e as Exception);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -55,10 +60,11 @@ class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
     try {
       _existsNameAlready = await nameAlreadyAssigned(_name);
       _nameErrorMessage = _existsNameAlready
-          ? "Eine andere Route hat bereits diesen Namen."
+          ? UiHelper.getAppLocalization().routeNameTaken
           : null;
     } catch (e) {
-      _nameErrorMessage = "Ein Fehler ist aufgetreten.";
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().error, e as Exception);
     }
     notifyListeners();
   }
@@ -66,7 +72,7 @@ class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
   @override
   String? validateRouteName(String? input) {
     if (input == null || input.isEmpty || input.trim().isEmpty) {
-      return "Der Name darf nicht leer sein.";
+      return UiHelper.getAppLocalization().routeNameEmpty;
     }
     return _nameErrorMessage;
   }
@@ -76,7 +82,7 @@ class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
     bool existsRouteAlready = await existsCurrentRouteAlready();
     if (existsRouteAlready) {
       UiHelper.showSnackbar(
-          "Die erstellte Route existiert bereits.", Colors.red);
+          UiHelper.getAppLocalization().routeAlreadyCreated, Colors.red);
     } else {
       UiHelper.showWidgetDialog(const SaveRouteDialog());
     }
@@ -93,8 +99,8 @@ class RouteContoller extends ChangeNotifier implements RouteControllerAbstract {
     try {
       routes = await routeModel.loadAllRoutes();
     } on Exception catch (e) {
-      UiHelper.showSnackbar(
-          "There was an error loading the routes: $e", Colors.red);
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().routeLoadError, e);
     }
     return routes;
   }

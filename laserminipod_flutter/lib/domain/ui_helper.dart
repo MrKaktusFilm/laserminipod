@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:user_app/main.dart';
 
 class UiHelper {
+  static bool debug = true;
+
   static void showSnackbar(String message, Color color) {
     scaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
@@ -12,7 +14,10 @@ class UiHelper {
     );
   }
 
-  static void showErrorSnackbar(String message) {
+  static void showErrorSnackbar(String message, Exception e) {
+    if (debug) {
+      message = '$message: $e';
+    }
     showSnackbar(message, Colors.red);
   }
 

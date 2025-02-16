@@ -101,8 +101,9 @@ class HandleController extends ChangeNotifier
             _selectedHandlePosition!.dy.toInt(),
             _selectedHandleDiameter.toInt());
       }
-    } on Exception {
-      UiHelper.showErrorSnackbar("Fehler beim Speichern");
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().saveHandleError, e);
     }
 
     deselectHandle();
@@ -121,7 +122,13 @@ class HandleController extends ChangeNotifier
 
   @override
   Future<List<Handle>> loadAllHandles() async {
-    return await _handleModel.loadAllHandles();
+    try {
+      return await _handleModel.loadAllHandles();
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().loadHandleError, e);
+      return [];
+    }
   }
 
   @override
@@ -129,8 +136,9 @@ class HandleController extends ChangeNotifier
     bool success = false;
     try {
       success = await _handleModel.removeHandle(selectedHandleId!);
-    } on Exception {
-      UiHelper.showErrorSnackbar("Fehler beim löschen des Holds");
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().deleteHandleError, e);
     }
 
     deselectHandle();
