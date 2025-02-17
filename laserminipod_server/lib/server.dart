@@ -1,5 +1,5 @@
 import 'package:laserminipod_server/src/di.dart';
-import 'package:laserminipod_server/src/helpers/user_helper.dart';
+import 'package:laserminipod_server/src/domain/user_service.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
 
@@ -32,7 +32,8 @@ Future<void> _ensureAdminUserExists(Serverpod pod) async {
 
   try {
     var hashedPassword = await auth.defaultGeneratePasswordHash(adminPassword);
-    await UserHelper.createUser(session, adminEmail, hashedPassword);
+    var userService = getIt<UserService>();
+    await userService.createUser(session, adminEmail, hashedPassword);
   } catch (e) {
     print('Error ensuring admin user exists: $e');
   } finally {
