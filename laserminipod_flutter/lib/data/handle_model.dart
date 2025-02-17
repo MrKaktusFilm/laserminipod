@@ -32,42 +32,33 @@ class HandleModel extends HandleModelAbstract {
   }
 
   @override
-  Future<bool> addHandle(int x, int y, int radius) async {
+  Future<void> addHandle(int x, int y, int radius) async {
     try {
-      final result = await handleEndpoint.addHandle(x, y, radius);
-      if (result) {
-        // Refresh the cache
-        await _refresh();
-      }
-      return result;
+      int id = await handleEndpoint.addHandle(x, y, radius);
+      _handleCache?.add(Handle(id: id, x: x, y: y, radius: radius));
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<bool> editHandle(int id, int x, int y, int radius) async {
+  Future<void> editHandle(int id, int x, int y, int radius) async {
     try {
-      final result = await handleEndpoint.editHandle(id, x, y, radius);
-      if (result) {
-        // Refresh the cache
-        await _refresh();
+      await handleEndpoint.editHandle(id, x, y, radius);
+      var index = _handleCache?.indexWhere((handle) => handle.id == id);
+      if (index != null && index >= 0) {
+        _handleCache?[index] = Handle(id: id, x: x, y: y, radius: radius);
       }
-      return result;
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<bool> removeHandle(int id) async {
+  Future<void> removeHandle(int id) async {
     try {
-      final result = await handleEndpoint.removeHandle(id);
-      if (result) {
-        // Refresh the cache
-        await _refresh();
-      }
-      return result;
+      await handleEndpoint.removeHandle(id);
+      _handleCache?.removeWhere((handle) => handle.id == id);
     } catch (e) {
       rethrow;
     }

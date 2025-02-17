@@ -81,21 +81,19 @@ class HandleController extends ChangeNotifier
   }
 
   @override
-  Future<bool> saveHandle(BuildContext context) async {
+  Future<void> saveHandle(BuildContext context) async {
     if (selectedHandlePosition == null) {
       throw Exception('Handle position or diameter is null');
     }
-    bool success = false;
-
     try {
       if (_selectedHandleId == null) {
-        success = await _handleModel.addHandle(
+        await _handleModel.addHandle(
           selectedHandlePosition!.dx.toInt(),
           selectedHandlePosition!.dy.toInt(),
           selectedHandleDiameter.toInt(),
         );
       } else {
-        success = await _handleModel.editHandle(
+        await _handleModel.editHandle(
             selectedHandleId!,
             _selectedHandlePosition!.dx.toInt(),
             _selectedHandlePosition!.dy.toInt(),
@@ -111,7 +109,6 @@ class HandleController extends ChangeNotifier
     if (context.mounted) {
       _navigationController.switchToHandleManagementOverview(context);
     }
-    return success;
   }
 
   @override
@@ -132,10 +129,9 @@ class HandleController extends ChangeNotifier
   }
 
   @override
-  Future<bool> deleteHandle(BuildContext context) async {
-    bool success = false;
+  Future<void> deleteHandle(BuildContext context) async {
     try {
-      success = await _handleModel.removeHandle(selectedHandleId!);
+      await _handleModel.removeHandle(selectedHandleId!);
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
           UiHelper.getAppLocalization().deleteHandleError, e);
@@ -146,7 +142,6 @@ class HandleController extends ChangeNotifier
     if (context.mounted) {
       _navigationController.switchToHandleManagementOverview(context);
     }
-    return success;
   }
 
   @override

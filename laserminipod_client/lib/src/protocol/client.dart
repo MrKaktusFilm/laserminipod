@@ -30,12 +30,13 @@ class EndpointHandle extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<bool> addHandle(
+  /// returns id of created handle
+  _i2.Future<int> addHandle(
     int x,
     int y,
     int radius,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<int>(
         'handle',
         'addHandle',
         {
@@ -45,13 +46,13 @@ class EndpointHandle extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<bool> editHandle(
+  _i2.Future<void> editHandle(
     int id,
     int x,
     int y,
     int radius,
   ) =>
-      caller.callServerEndpoint<bool>(
+      caller.callServerEndpoint<void>(
         'handle',
         'editHandle',
         {
@@ -62,7 +63,7 @@ class EndpointHandle extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<bool> removeHandle(int id) => caller.callServerEndpoint<bool>(
+  _i2.Future<void> removeHandle(int id) => caller.callServerEndpoint<void>(
         'handle',
         'removeHandle',
         {'id': id},

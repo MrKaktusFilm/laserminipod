@@ -162,7 +162,7 @@ class _HandleEndpoint {
     });
   }
 
-  _i3.Future<bool> addHandle(
+  _i3.Future<int> addHandle(
     _i1.TestSessionBuilder sessionBuilder,
     int x,
     int y,
@@ -189,7 +189,7 @@ class _HandleEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<bool>);
+        ) as _i3.Future<int>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -197,7 +197,7 @@ class _HandleEndpoint {
     });
   }
 
-  _i3.Future<bool> editHandle(
+  _i3.Future<void> editHandle(
     _i1.TestSessionBuilder sessionBuilder,
     int id,
     int x,
@@ -226,7 +226,7 @@ class _HandleEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<bool>);
+        ) as _i3.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -234,7 +234,7 @@ class _HandleEndpoint {
     });
   }
 
-  _i3.Future<bool> removeHandle(
+  _i3.Future<void> removeHandle(
     _i1.TestSessionBuilder sessionBuilder,
     int id,
   ) async {
@@ -255,7 +255,7 @@ class _HandleEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<bool>);
+        ) as _i3.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

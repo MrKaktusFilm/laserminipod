@@ -19,9 +19,9 @@ abstract class HandleControllerAbstract extends ChangeNotifier {
 
   void setNewHandlePositionToScreenMiddle(BuildContext context);
 
-  Future<bool> saveHandle(BuildContext context);
+  Future<void> saveHandle(BuildContext context);
 
-  Future<bool> deleteHandle(BuildContext context);
+  Future<void> deleteHandle(BuildContext context);
 
   Future<List<Handle>> loadAllHandles();
 
