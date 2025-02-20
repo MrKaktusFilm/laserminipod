@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 
 class CreateUserPage extends StatefulWidget {
@@ -40,7 +40,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
   @override
   Widget build(BuildContext context) {
     var adminController =
-        Provider.of<AdminControllerAbstract>(context, listen: false);
+        Provider.of<UserControllerAbstract>(context, listen: false);
     var loc = UiHelper.getAppLocalization();
 
     return Scaffold(

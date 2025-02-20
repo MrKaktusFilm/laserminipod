@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-abstract class AdminControllerAbstract extends ChangeNotifier {
-  bool hasAdminAccess();
+abstract class UserControllerAbstract extends ChangeNotifier {
+  bool isSignedIn();
 
   void logOut();
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/user/create_user_page.dart'; // Importiere den UiHelper
@@ -22,9 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
-    var temp =
-        await Provider.of<AdminControllerAbstract>(context, listen: false)
-            .logIn(_emailController.text, _passwordController.text, context);
+    var temp = await Provider.of<UserControllerAbstract>(context, listen: false)
+        .logIn(_emailController.text, _passwordController.text, context);
 
     setState(() {
       _errorMessage = temp;
@@ -41,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final adminController =
-        Provider.of<AdminControllerAbstract>(context, listen: false);
+        Provider.of<UserControllerAbstract>(context, listen: false);
     final loc = UiHelper.getAppLocalization(); // Zugriff auf Lokalisierungen
 
     return Scaffold(

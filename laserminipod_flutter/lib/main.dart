@@ -8,14 +8,14 @@ import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/data/handle_model.dart';
 import 'package:user_app/data/route_model.dart';
-import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
-import 'package:user_app/domain/admin_controller.dart';
+import 'package:user_app/domain/user_controller.dart';
 import 'package:user_app/domain/handle_controller.dart';
 import 'package:user_app/domain/image_controller.dart';
 import 'package:user_app/domain/language_controller.dart';
@@ -56,8 +56,8 @@ Future<void> main() async {
       SpraywallController(handleModel: handleModel, routeModel: routeModel);
   RouteControllerAbstract routeController = RouteController(
       routeModel: routeModel, spraywallController: spraywallController);
-  AdminControllerAbstract adminController =
-      AdminController(navigationController: navigationController);
+  UserControllerAbstract adminController =
+      UserController(navigationController: navigationController);
   ImageControllerAbstract imageController = ImageController();
   HandleControllerAbstract handleController = HandleController(
       handleModel: handleModel,
@@ -73,7 +73,7 @@ Future<void> main() async {
             create: (_) => navigationController),
         ChangeNotifierProvider<SprayWallControllerAbstract>(
             create: (_) => spraywallController),
-        ChangeNotifierProvider<AdminControllerAbstract>(
+        ChangeNotifierProvider<UserControllerAbstract>(
             create: (_) => adminController),
         ChangeNotifierProvider<HandleControllerAbstract>(
             create: (_) => handleController),

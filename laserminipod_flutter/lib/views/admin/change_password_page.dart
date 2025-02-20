@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -28,7 +28,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Future<void> _changePassword() async {
     if (_formKey.currentState!.validate()) {
       var adminController =
-          Provider.of<AdminControllerAbstract>(context, listen: false);
+          Provider.of<UserControllerAbstract>(context, listen: false);
       String? errorMessage = await adminController.changePasswordIfValid(
           _currentPasswordController.text, _newPasswordController.text);
       setState(() {
@@ -40,7 +40,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     var adminController =
-        Provider.of<AdminControllerAbstract>(context, listen: false);
+        Provider.of<UserControllerAbstract>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(

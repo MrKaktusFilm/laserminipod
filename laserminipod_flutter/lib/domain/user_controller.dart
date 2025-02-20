@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
 
-class AdminController extends ChangeNotifier
-    implements AdminControllerAbstract {
+class UserController extends ChangeNotifier implements UserControllerAbstract {
   final NavigationControllerAbstract _navigationController;
 
-  AdminController({required NavigationControllerAbstract navigationController})
+  UserController({required NavigationControllerAbstract navigationController})
       : _navigationController = navigationController;
 
   @override
-  bool hasAdminAccess() {
+  bool isSignedIn() {
     return sessionManager.isSignedIn;
   }
 

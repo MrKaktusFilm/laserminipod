@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/appbar.dart';
-import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
+import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/admin/administration_page.dart';
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: HomeAppBar(title: loc.appTitle),
       bottomNavigationBar:
-          Consumer2<AdminControllerAbstract, NavigationControllerAbstract>(
+          Consumer2<UserControllerAbstract, NavigationControllerAbstract>(
         builder: (context, adminController, navigationController, child) {
           return NavigationBar(
             onDestinationSelected: (int index) {
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.list_sharp),
                 label: loc.routeListTitle,
               ),
-              if (adminController.hasAdminAccess())
+              if (adminController.isSignedIn())
                 NavigationDestination(
                   icon: Icon(Icons.settings),
                   label: loc.administrationTitle,
