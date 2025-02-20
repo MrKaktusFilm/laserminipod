@@ -78,11 +78,21 @@ class AdminController extends ChangeNotifier
 
   @override
   String? validatePasswordRequirements(String? value) {
+    return _validatePasswordRequirements(value, false);
+  }
+
+  @override
+  String? validateNewPasswordRequirements(String? value) {
+    return _validatePasswordRequirements(value, true);
+  }
+
+  String? _validatePasswordRequirements(String? value, bool newPassword) {
+    var loc = UiHelper.getAppLocalization();
     if (value == null || value.isEmpty) {
-      return UiHelper.getAppLocalization().enterNewPassword;
+      return newPassword ? loc.enterNewPassword : loc.enterPassword;
     }
     if (value.length < 8) {
-      return UiHelper.getAppLocalization().passwordLengthError;
+      return loc.passwordLengthError;
     }
     return null;
   }

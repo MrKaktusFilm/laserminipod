@@ -77,7 +77,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       .changePasswordPageNewTextFieldLabel,
                 ),
                 validator: (value) =>
-                    adminController.validatePasswordRequirements(value),
+                    adminController.validateNewPasswordRequirements(value),
               ),
               SizedBox(height: 16.0),
               TextFormField(

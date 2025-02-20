@@ -12,5 +12,7 @@ abstract class AdminControllerAbstract extends ChangeNotifier {
 
   String? validatePasswordRequirements(String? value);
 
+  String? validateNewPasswordRequirements(String? value);
+
   bool isValidEmail(String email);
 }

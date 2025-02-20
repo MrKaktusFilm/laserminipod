@@ -14,14 +14,14 @@ class _CreateUserPageState extends State<CreateUserPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final _userNameController = TextEditingController();
-  final _newPasswordController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   String? _errorMessage;
 
   @override
   void dispose() {
     _userNameController.dispose();
-    _newPasswordController.dispose();
+    _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
   }
@@ -61,7 +61,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return loc.enterEmail; // Verwendung der Lokalisierung
+                    return loc.enterUsername;
                   }
                   return null;
                 },
@@ -78,17 +78,17 @@ class _CreateUserPageState extends State<CreateUserPage> {
                     return loc.enterEmail; // Verwendung der Lokalisierung
                   }
                   if (!adminController.isValidEmail(value)) {
-                    return loc.invalidEmail; // Verwendung der Lokalisierung
+                    return loc.invalidEmail;
                   }
                   return null;
                 },
               ),
               SizedBox(height: 16.0),
               TextFormField(
-                controller: _newPasswordController,
+                controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: loc.changePasswordPageNewTextFieldLabel,
+                  labelText: loc.enterPassword,
                 ),
                 validator: (value) =>
                     adminController.validatePasswordRequirements(value),
@@ -102,8 +102,8 @@ class _CreateUserPageState extends State<CreateUserPage> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return loc.changePasswordPageValidatorConfirmEmpty;
-                  } else if (value != _newPasswordController.text) {
+                    return loc.confirmPassword;
+                  } else if (value != _passwordController.text) {
                     return loc.changePasswordPageValidatorConfirmNoMatch;
                   }
                   return null;

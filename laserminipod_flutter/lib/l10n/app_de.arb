@@ -53,5 +53,7 @@
     "error": "Ein Fehler ist aufgetreten",
     "termsAndConditions": "Geschäftsbedingungen",
     "privacyPolicy": "Datenschutzerklärung",
-    "username": "Benutzername"
+    "username": "Benutzername",
+    "enterUsername": "Bitte geben Sie Ihren Benutzernamen ein",
+    "confirmPassword": "Bitte bestätigen Sie Ihr Passwort"
 }

@@ -53,5 +53,7 @@
     "error": "An error occured",
     "termsAndConditions": "Terms and Conditions",
     "privacyPolicy": "Privacy Policy",
-    "username": "Username"
+    "username": "Username",
+    "enterUsername": "Please enter your username",
+    "confirmPassword": "Please confirm your password"
 }
