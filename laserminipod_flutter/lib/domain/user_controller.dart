@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:user_app/data/abstract/user_model_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
 
 class UserController extends ChangeNotifier implements UserControllerAbstract {
+  final UserModelAbstract _userModel;
   final NavigationControllerAbstract _navigationController;
 
-  UserController({required NavigationControllerAbstract navigationController})
-      : _navigationController = navigationController;
+  UserController(
+      {required NavigationControllerAbstract navigationController,
+      required UserModelAbstract userModel})
+      : _navigationController = navigationController,
+        _userModel = userModel;
 
   @override
   bool isSignedIn() {
@@ -53,19 +58,17 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
 
   @override
   Future<String?> changePasswordIfValid(
-      String oldPassword, String newPassword) async {
+      BuildContext context, String oldPassword, String newPassword) async {
     try {
       String email = sessionManager.signedInUser!.email!;
       bool isOldPasswordValid =
-          await client.user.checkPassword(email, oldPassword);
+          await _userModel.checkPassword(email, oldPassword);
       if (isOldPasswordValid) {
-        bool success = await client.user.changePassword(email, newPassword);
-        if (success) {
-          UiHelper.showSnackbar(
-              UiHelper.getAppLocalization().passwordChanged, Colors.green);
-          return null;
-        } else {
-          return UiHelper.getAppLocalization().passwordChangeError;
+        await _userModel.changePassword(email, newPassword);
+        UiHelper.showSnackbar(
+            UiHelper.getAppLocalization().passwordChanged, Colors.green);
+        if (context.mounted) {
+          _navigationController.closeCurrentScreen(context);
         }
       } else {
         return UiHelper.getAppLocalization().invalidLogin;
@@ -73,6 +76,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     } catch (e) {
       return UiHelper.getAppLocalization().passwordChangeError;
     }
+    return null;
   }
 
   @override
@@ -104,5 +108,22 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     );
 
     return emailRegex.hasMatch(email);
+  }
+
+  @override
+  Future<String?> createUser(BuildContext context, String userName,
+      String email, String password) async {
+    try {
+      await _userModel.createUser(email, userName, password);
+      for (var i = 0; i < 2; i++) {
+        if (context.mounted) {
+          _navigationController.closeCurrentScreen(context);
+        }
+      }
+    } on Exception {
+      var loc = UiHelper.getAppLocalization();
+      return loc.createUserError;
+    }
+    return null;
   }
 }

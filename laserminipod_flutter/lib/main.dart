@@ -6,8 +6,10 @@ import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
+import 'package:user_app/data/abstract/user_model_abstract.dart';
 import 'package:user_app/data/handle_model.dart';
 import 'package:user_app/data/route_model.dart';
+import 'package:user_app/data/user_model.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
@@ -49,6 +51,7 @@ Future<void> main() async {
   // data models
   HandleModelAbstract handleModel = HandleModel();
   RouteModelAbstract routeModel = RouteModel();
+  UserModelAbstract userModel = UserModel();
 
   // controller
   NavigationControllerAbstract navigationController = NavigationController();
@@ -56,8 +59,8 @@ Future<void> main() async {
       SpraywallController(handleModel: handleModel, routeModel: routeModel);
   RouteControllerAbstract routeController = RouteController(
       routeModel: routeModel, spraywallController: spraywallController);
-  UserControllerAbstract adminController =
-      UserController(navigationController: navigationController);
+  UserControllerAbstract adminController = UserController(
+      navigationController: navigationController, userModel: userModel);
   ImageControllerAbstract imageController = ImageController();
   HandleControllerAbstract handleController = HandleController(
       handleModel: handleModel,

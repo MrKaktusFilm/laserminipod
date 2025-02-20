@@ -55,5 +55,6 @@
     "privacyPolicy": "Datenschutzerklärung",
     "username": "Benutzername",
     "enterUsername": "Bitte geben Sie Ihren Benutzernamen ein",
-    "confirmPassword": "Bitte bestätigen Sie Ihr Passwort"
+    "confirmPassword": "Bitte bestätigen Sie Ihr Passwort",
+    "createUserError": "Beim Erstellen des Accounts ist ein Fehler aufgetreten"
 }

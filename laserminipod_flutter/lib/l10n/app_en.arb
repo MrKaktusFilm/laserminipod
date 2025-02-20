@@ -55,5 +55,6 @@
     "privacyPolicy": "Privacy Policy",
     "username": "Username",
     "enterUsername": "Please enter your username",
-    "confirmPassword": "Please confirm your password"
+    "confirmPassword": "Please confirm your password",
+    "createUserError": "An error occured while creating an User"
 }

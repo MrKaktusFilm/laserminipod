@@ -11,18 +11,12 @@ class UserRepository {
   }
 
   Future<auth.UserInfo?> createUser(
-      Session session, String email, String hash) async {
-    var userInfo = auth.UserInfo(
-      blocked: false,
-      userIdentifier: email,
-      created: DateTime.now(),
-      scopeNames: [],
-    );
-    var userInfoDB = await auth.UserInfo.db.insertRow(session, userInfo);
+      Session session, auth.UserInfo userInfo, String hash) async {
+    var userInfoDB = await auth.Users.createUser(session, userInfo);
 
-    if (userInfoDB.id != null) {
+    if (userInfoDB!.id != null) {
       var emailAuth = auth.EmailAuth(
-        email: email,
+        email: userInfo.email!,
         userId: userInfoDB.id!,
         hash: hash,
       );

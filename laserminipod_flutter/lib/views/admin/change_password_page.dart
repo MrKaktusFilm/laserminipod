@@ -30,7 +30,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       var adminController =
           Provider.of<UserControllerAbstract>(context, listen: false);
       String? errorMessage = await adminController.changePasswordIfValid(
-          _currentPasswordController.text, _newPasswordController.text);
+          context,
+          _currentPasswordController.text,
+          _newPasswordController.text);
       setState(() {
         _errorMessage = errorMessage;
       });

@@ -28,9 +28,13 @@ class _CreateUserPageState extends State<CreateUserPage> {
 
   Future<void> _createUser() async {
     if (_formKey.currentState!.validate()) {
-      // var adminController =
-      //     Provider.of<AdminControllerAbstract>(context, listen: false);
-      String? errorMessage = "";
+      var userController =
+          Provider.of<UserControllerAbstract>(context, listen: false);
+      String? errorMessage = await userController.createUser(
+          context,
+          _userNameController.text,
+          _emailController.text,
+          _passwordController.text);
       setState(() {
         _errorMessage = errorMessage;
       });
