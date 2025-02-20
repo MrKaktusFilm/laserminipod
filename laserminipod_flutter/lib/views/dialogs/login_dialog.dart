@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
-import 'package:user_app/domain/ui_helper.dart'; // Importiere den UiHelper
+import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart';
+import 'package:user_app/views/user/create_user_page.dart'; // Importiere den UiHelper
 
 class LoginDialog extends StatefulWidget {
   const LoginDialog({super.key});
@@ -16,15 +18,6 @@ class _LoginDialogState extends State<LoginDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   String? _errorMessage;
-
-  bool _isValidEmail(String email) {
-    // Regulärer Ausdruck für eine valide E-Mail-Adresse
-    final emailRegex = RegExp(
-      r'^[a-zA-Z0-9.!#$%&\*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
-    );
-
-    return emailRegex.hasMatch(email);
-  }
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
@@ -47,6 +40,8 @@ class _LoginDialogState extends State<LoginDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final adminController =
+        Provider.of<AdminControllerAbstract>(context, listen: false);
     final loc = UiHelper.getAppLocalization(); // Zugriff auf Lokalisierungen
 
     return Scaffold(
@@ -71,7 +66,7 @@ class _LoginDialogState extends State<LoginDialog> {
                     if (value == null || value.isEmpty) {
                       return loc.enterEmail; // Verwendung der Lokalisierung
                     }
-                    if (!_isValidEmail(value)) {
+                    if (!adminController.isValidEmail(value)) {
                       return loc.invalidEmail; // Verwendung der Lokalisierung
                     }
                     return null;
@@ -104,11 +99,22 @@ class _LoginDialogState extends State<LoginDialog> {
                         onPressed: _login,
                         child: Text(loc.login), // Verwendung der Lokalisierung
                       ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: _register,
+                  child: Text(loc.register), // Verwendung der Lokalisierung
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _register() {
+    var navigationController =
+        Provider.of<NavigationControllerAbstract>(context, listen: false);
+    navigationController.openPage(context, CreateUserPage());
   }
 }

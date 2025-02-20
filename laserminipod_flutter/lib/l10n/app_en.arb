@@ -34,6 +34,7 @@
     "logoutError": "An error occured while logging out",
     "invalidLogin": "Invalid login credentials",
     "loginFailed": "An error occured while logging in",
+    "register": "Create account",
     "passwordChanged": "Password successfully changed",
     "passwordChangeError": "An error occurred. Password couldn't be changed",
     "enterNewPassword": "Please enter a new password",
@@ -51,5 +52,6 @@
     "loadHandleError": "There was an error loading the holds",
     "error": "An error occured",
     "termsAndConditions": "Terms and Conditions",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "username": "Username"
 }

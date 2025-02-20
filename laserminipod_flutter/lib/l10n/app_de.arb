@@ -34,6 +34,7 @@
     "logoutError": "Beim Abmelden ist ein Fehler aufgetreten",
     "invalidLogin": "Ungültige Anmeldedaten",
     "loginFailed": "Beim Anmelden ist ein Fehler aufgetreten",
+    "register": "Account erstellen",
     "passwordChanged": "Passwort erfolgreich geändert",
     "passwordChangeError": "Ein Fehler ist aufgetreten. Das Passwort konnte nicht geändert werden",
     "enterNewPassword": "Bitte geben Sie ein neues Passwort ein",
@@ -51,5 +52,6 @@
     "loadHandleError": "Beim Laden der Griffe ist ein Fehler aufgetreten",
     "error": "Ein Fehler ist aufgetreten",
     "termsAndConditions": "Geschäftsbedingungen",
-    "privacyPolicy": "Datenschutzerklärung"
+    "privacyPolicy": "Datenschutzerklärung",
+    "username": "Benutzername"
 }

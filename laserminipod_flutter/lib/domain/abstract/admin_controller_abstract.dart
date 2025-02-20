@@ -11,4 +11,6 @@ abstract class AdminControllerAbstract extends ChangeNotifier {
   Future<String?> changePasswordIfValid(String oldPassword, String newPassword);
 
   String? validatePasswordRequirements(String? value);
+
+  bool isValidEmail(String email);
 }

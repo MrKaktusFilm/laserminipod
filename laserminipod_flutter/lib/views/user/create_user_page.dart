@@ -3,34 +3,34 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 
-class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({super.key});
+class CreateUserPage extends StatefulWidget {
+  const CreateUserPage({super.key});
 
   @override
-  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
+  State<CreateUserPage> createState() => _CreateUserPageState();
 }
 
-class _ChangePasswordPageState extends State<ChangePasswordPage> {
+class _CreateUserPageState extends State<CreateUserPage> {
   final _formKey = GlobalKey<FormState>();
-  final _currentPasswordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final _userNameController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   String? _errorMessage;
 
   @override
   void dispose() {
-    _currentPasswordController.dispose();
+    _userNameController.dispose();
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  Future<void> _changePassword() async {
+  Future<void> _createUser() async {
     if (_formKey.currentState!.validate()) {
-      var adminController =
-          Provider.of<AdminControllerAbstract>(context, listen: false);
-      String? errorMessage = await adminController.changePasswordIfValid(
-          _currentPasswordController.text, _newPasswordController.text);
+      // var adminController =
+      //     Provider.of<AdminControllerAbstract>(context, listen: false);
+      String? errorMessage = "";
       setState(() {
         _errorMessage = errorMessage;
       });
@@ -41,10 +41,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Widget build(BuildContext context) {
     var adminController =
         Provider.of<AdminControllerAbstract>(context, listen: false);
+    var loc = UiHelper.getAppLocalization();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(UiHelper.getAppLocalization().changePasswordPageTitle),
+        title: Text(loc.register),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -54,16 +55,30 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextFormField(
-                controller: _currentPasswordController,
-                obscureText: true,
+                controller: _userNameController,
                 decoration: InputDecoration(
-                  labelText: UiHelper.getAppLocalization()
-                      .changePasswordPageCurrentTextFieldLabel,
+                  labelText: loc.username, // Verwendung der Lokalisierung
                 ),
                 validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return loc.enterEmail; // Verwendung der Lokalisierung
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: loc.email, // Verwendung der Lokalisierung
+                ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return UiHelper.getAppLocalization()
-                        .changePasswordPageValidatorEmpty;
+                    return loc.enterEmail; // Verwendung der Lokalisierung
+                  }
+                  if (!adminController.isValidEmail(value)) {
+                    return loc.invalidEmail; // Verwendung der Lokalisierung
                   }
                   return null;
                 },
@@ -73,8 +88,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 controller: _newPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: UiHelper.getAppLocalization()
-                      .changePasswordPageNewTextFieldLabel,
+                  labelText: loc.changePasswordPageNewTextFieldLabel,
                 ),
                 validator: (value) =>
                     adminController.validatePasswordRequirements(value),
@@ -84,16 +98,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 controller: _confirmPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: UiHelper.getAppLocalization()
-                      .changePasswordPageConfirmTextFieldLabel,
+                  labelText: loc.changePasswordPageConfirmTextFieldLabel,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return UiHelper.getAppLocalization()
-                        .changePasswordPageValidatorConfirmEmpty;
+                    return loc.changePasswordPageValidatorConfirmEmpty;
                   } else if (value != _newPasswordController.text) {
-                    return UiHelper.getAppLocalization()
-                        .changePasswordPageValidatorConfirmNoMatch;
+                    return loc.changePasswordPageValidatorConfirmNoMatch;
                   }
                   return null;
                 },
@@ -106,9 +117,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
               SizedBox(height: 32.0),
               ElevatedButton(
-                onPressed: _changePassword,
-                child: Text(
-                    UiHelper.getAppLocalization().changePasswordPageButton),
+                onPressed: _createUser,
+                child: Text(loc.register),
               ),
             ],
           ),

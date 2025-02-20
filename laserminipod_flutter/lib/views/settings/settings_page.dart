@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/language_controller_abstract.dart';
-import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/common/setting_item.dart';
 import 'package:user_app/views/settings/language_dialog.dart';
@@ -14,15 +13,15 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  late NavigationControllerAbstract _navigationController;
+  // late NavigationControllerAbstract _navigationController;
 
   late List<SettingItem> settings;
 
   @override
   void initState() {
     super.initState();
-    _navigationController =
-        Provider.of<NavigationControllerAbstract>(context, listen: false);
+    // _navigationController =
+    // Provider.of<NavigationControllerAbstract>(context, listen: false);
   }
 
   @override
