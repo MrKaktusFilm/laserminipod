@@ -5,14 +5,14 @@ import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/user/create_user_page.dart'; // Importiere den UiHelper
 
-class LoginDialog extends StatefulWidget {
-  const LoginDialog({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<LoginDialog> createState() => _LoginDialogState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginDialogState extends State<LoginDialog> {
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -49,7 +49,7 @@ class _LoginDialogState extends State<LoginDialog> {
         title: Text(loc.adminLoginTitle), // Verwendung der Lokalisierung
       ),
       body: Center(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,

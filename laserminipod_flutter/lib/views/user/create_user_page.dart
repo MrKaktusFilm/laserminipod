@@ -47,7 +47,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
       appBar: AppBar(
         title: Text(loc.register),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,

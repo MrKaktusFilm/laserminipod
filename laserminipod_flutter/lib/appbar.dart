@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/admin_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
-import 'package:user_app/views/dialogs/login_dialog.dart';
+import 'package:user_app/views/user/login_page.dart';
 import 'package:user_app/views/settings/settings_page.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -28,7 +28,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               if (!adminController.hasAdminAccess())
                 PopupMenuItem(
                   child: Text(loc.login),
-                  onTap: () => UiHelper.showWidgetDialog(const LoginDialog()),
+                  onTap: () =>
+                      navigationController.openPage(context, LoginPage()),
                 ),
               if (adminController.hasAdminAccess())
                 PopupMenuItem(
