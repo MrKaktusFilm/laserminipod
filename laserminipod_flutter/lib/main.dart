@@ -24,8 +24,8 @@ import 'package:user_app/domain/language_controller.dart';
 import 'package:user_app/domain/navigation_controller.dart';
 import 'package:user_app/domain/route_contoller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
-import 'package:user_app/home.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
+import 'package:user_app/routes.dart';
 
 // global variables
 late Client client;
@@ -100,15 +100,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LanguageControllerAbstract>(
       builder: (context, languageController, child) {
-        return MaterialApp(
+        return MaterialApp.router(
+          routerConfig: router,
           key: ValueKey(languageController.currentLanguage.languageCode),
           scaffoldMessengerKey: scaffoldMessengerKey,
-          navigatorKey: navigatorKey,
           title: 'Flutter Demo',
           locale: languageController.currentLanguage,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: const HomePage(),
         );
       },
     );

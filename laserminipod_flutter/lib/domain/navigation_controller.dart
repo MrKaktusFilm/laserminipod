@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
-import 'package:user_app/views/admin/handle_management_edit_page.dart';
-import 'package:user_app/views/admin/handle_management_overview_page.dart';
+import 'package:user_app/routes.dart';
 
 class NavigationController extends ChangeNotifier
     implements NavigationControllerAbstract {
@@ -23,19 +23,17 @@ class NavigationController extends ChangeNotifier
   }
 
   @override
-  void openPage(BuildContext context, Widget page) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+  void pushPage(BuildContext context, AppRoute page) {
+    GoRouter.of(context).go(page.fullPath);
   }
 
   @override
   void switchToHandleManagementEdit(BuildContext context) {
-    closeCurrentScreen(context);
-    openPage(context, HandleManagementEditPage());
+    pushPage(context, AppRoute.handleManagementEdit);
   }
 
   @override
   void switchToHandleManagementOverview(BuildContext context) {
-    closeCurrentScreen(context);
-    openPage(context, HandleManagementOverviewPage());
+    pushPage(context, AppRoute.handleManagementOverview);
   }
 }

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
-import 'package:user_app/views/user/create_user_page.dart'; // Importiere den UiHelper
+import 'package:user_app/routes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -114,6 +114,6 @@ class _LoginPageState extends State<LoginPage> {
   void _register() {
     var navigationController =
         Provider.of<NavigationControllerAbstract>(context, listen: false);
-    navigationController.openPage(context, CreateUserPage());
+    navigationController.pushPage(context, AppRoute.register);
   }
 }

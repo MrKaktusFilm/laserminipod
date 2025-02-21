@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
-import 'package:user_app/views/admin/change_password_page.dart';
-import 'package:user_app/views/admin/handle_management_overview_page.dart';
+import 'package:user_app/routes.dart';
 import 'package:user_app/views/common/setting_item.dart';
 
 class AdministrationPage extends StatefulWidget {
@@ -29,14 +28,14 @@ class _AdministrationPageState extends State<AdministrationPage> {
           icon: Icons.edit,
           title: UiHelper.getAppLocalization().holdManagementOptionTitle,
           subtitle: UiHelper.getAppLocalization().holdManagementOptionSubtitle,
-          onTap: () => _navigationController.openPage(
-              context, HandleManagementOverviewPage())),
+          onTap: () => _navigationController.pushPage(
+              context, AppRoute.handleManagementOverview)),
       SettingItem(
           icon: Icons.key,
           title: UiHelper.getAppLocalization().changePasswordOptionTitle,
           subtitle: UiHelper.getAppLocalization().changePasswordOptionSubtitle,
           onTap: () =>
-              _navigationController.openPage(context, ChangePasswordPage())),
+              _navigationController.pushPage(context, AppRoute.changePassword)),
     ];
   }
 

@@ -3,8 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
-import 'package:user_app/views/user/login_page.dart';
-import 'package:user_app/views/settings/settings_page.dart';
+import 'package:user_app/routes.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -29,7 +28,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 PopupMenuItem(
                   child: Text(loc.login),
                   onTap: () =>
-                      navigationController.openPage(context, LoginPage()),
+                      navigationController.pushPage(context, AppRoute.login),
                 ),
               if (adminController.isSignedIn())
                 PopupMenuItem(
@@ -38,7 +37,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               PopupMenuItem(
                 onTap: () =>
-                    navigationController.openPage(context, SettingsPage()),
+                    navigationController.pushPage(context, AppRoute.settings),
                 child: Text(loc.settingsTitle),
               ),
             ];

@@ -118,6 +118,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
       for (var i = 0; i < 2; i++) {
         if (context.mounted) {
           _navigationController.closeCurrentScreen(context);
+          logIn(email, password, context);
         }
       }
     } on Exception {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:user_app/routes.dart';
 
 abstract class NavigationControllerAbstract extends ChangeNotifier {
   int get currentPageIndex;
@@ -7,7 +8,7 @@ abstract class NavigationControllerAbstract extends ChangeNotifier {
 
   void closeCurrentScreen(BuildContext context);
 
-  void openPage(BuildContext context, Widget page);
+  void pushPage(BuildContext context, AppRoute page);
 
   void switchToHandleManagementEdit(BuildContext context);
 
