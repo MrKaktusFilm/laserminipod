@@ -25,17 +25,16 @@ void run(List<String> args) async {
 
 // Function to ensure an admin user exists.
 Future<void> _ensureAdminUserExists(Serverpod pod) async {
-  const adminEmail = 'test';
+  const adminEmail = 't@t.de';
   const adminPassword = 'pw';
   const adminUsername = 'admin';
 
   var session = await pod.createSession();
 
   try {
-    var hashedPassword = await auth.defaultGeneratePasswordHash(adminPassword);
     var userService = getIt<UserService>();
     await userService.createAdmin(
-        session, adminEmail, adminUsername, hashedPassword);
+        session, adminEmail, adminUsername, adminPassword);
   } catch (e) {
     print('Error ensuring admin user exists: $e');
   } finally {

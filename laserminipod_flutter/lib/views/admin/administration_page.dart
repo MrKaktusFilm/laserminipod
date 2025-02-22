@@ -30,12 +30,6 @@ class _AdministrationPageState extends State<AdministrationPage> {
           subtitle: UiHelper.getAppLocalization().holdManagementOptionSubtitle,
           onTap: () => _navigationController.pushPage(
               context, AppRoute.handleManagementOverview)),
-      SettingItem(
-          icon: Icons.key,
-          title: UiHelper.getAppLocalization().changePasswordOptionTitle,
-          subtitle: UiHelper.getAppLocalization().changePasswordOptionSubtitle,
-          onTap: () =>
-              _navigationController.pushPage(context, AppRoute.changePassword)),
     ];
   }
 
