@@ -136,4 +136,16 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     }
     return sessionManager.signedInUser!.scopeNames.contains(Scopes.admin.name);
   }
+
+  @override
+  Future<void> deleteUser() async {
+    // TODO: Admin check
+    try {
+      await _userModel.deleteUser(sessionManager.signedInUser!.email!);
+      logOut();
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().deleteUserError, e);
+    }
+  }
 }

@@ -171,6 +171,12 @@ class EndpointUser extends _i1.EndpointRef {
           'password': password,
         },
       );
+
+  _i2.Future<void> deleteUser(String email) => caller.callServerEndpoint<void>(
+        'user',
+        'deleteUser',
+        {'email': email},
+      );
 }
 
 class Modules {

@@ -16,6 +16,8 @@ abstract class UserControllerAbstract extends ChangeNotifier {
   Future<String?> createUser(
       BuildContext context, String userName, String email, String password);
 
+  Future<void> deleteUser();
+
   String? validatePasswordRequirements(String? value);
 
   String? validateNewPasswordRequirements(String? value);

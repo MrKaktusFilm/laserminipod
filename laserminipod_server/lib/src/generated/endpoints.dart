@@ -326,6 +326,24 @@ class Endpoints extends _i1.EndpointDispatch {
             params['password'],
           ),
         ),
+        'deleteUser': _i1.MethodConnector(
+          name: 'deleteUser',
+          params: {
+            'email': _i1.ParameterDescription(
+              name: 'email',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['user'] as _i4.UserEndpoint).deleteUser(
+            session,
+            params['email'],
+          ),
+        ),
       },
     );
     modules['serverpod_auth'] = _i6.Endpoints()..initializeEndpoints(server);

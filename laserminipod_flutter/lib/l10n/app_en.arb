@@ -58,5 +58,8 @@
     "confirmPassword": "Please confirm your password",
     "createUserError": "An error occured while creating an User",
     "loginRequired": "Only available for logged in users",
-    "adminRequired": "Admin rights are needed"
+    "adminRequired": "Admin rights are needed",
+    "deleteUserError": "An error occured while deleting your account",
+    "deleteUserDialog": "Do you really want to delete your account?",
+    "deleteUser": "Delete your account"
 }

@@ -34,4 +34,13 @@ class UserRepository {
       await auth.EmailAuth.db.updateRow(session, user);
     }
   }
+
+  Future<void> deleteUser(Session session, String email) async {
+    var user = await getUserByEmail(session, email);
+    if (user != null) {
+      await auth.EmailAuth.db.deleteRow(session, user);
+      await auth.UserInfo.db
+          .deleteWhere(session, where: (t) => t.id.equals(user.userId));
+    }
+  }
 }

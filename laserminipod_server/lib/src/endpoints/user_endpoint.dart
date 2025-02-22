@@ -20,4 +20,8 @@ class UserEndpoint extends Endpoint {
       Session session, String email, String userName, String password) async {
     return await _userService.createUser(session, email, userName, password);
   }
+
+  Future<void> deleteUser(Session session, String email) async {
+    await _userService.deleteUser(session, email);
+  }
 }

@@ -89,4 +89,20 @@ class UserService {
       return false;
     }
   }
+
+  Future<void> deleteUser(Session session, String email) async {
+    try {
+      var user = await _userRepository.getUserByEmail(session, email);
+      if (user == null) {
+        session.log('User not found: $email', level: LogLevel.warning);
+        return;
+      }
+
+      await _userRepository.deleteUser(session, email);
+      session.log('User deleted successfully: $email', level: LogLevel.info);
+    } catch (e, stackTrace) {
+      session.log('Error deleting user: $e\n$stackTrace',
+          level: LogLevel.error);
+    }
+  }
 }

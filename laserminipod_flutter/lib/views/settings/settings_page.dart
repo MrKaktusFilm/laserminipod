@@ -5,6 +5,7 @@ import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/routes.dart';
 import 'package:user_app/views/common/setting_item.dart';
+import 'package:user_app/views/dialogs/delete_user_dialog.dart';
 import 'package:user_app/views/settings/language_dialog.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -30,6 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final loc = UiHelper.getAppLocalization();
     settings = [
+      // TODO: show items only for logged in users
       SettingItem(
           icon: Icons.language,
           title: loc.chooseLanguage,
@@ -41,6 +43,11 @@ class _SettingsPageState extends State<SettingsPage> {
           subtitle: UiHelper.getAppLocalization().changePasswordOptionSubtitle,
           onTap: () =>
               _navigationController.pushPage(context, AppRoute.changePassword)),
+      SettingItem(
+          icon: Icons.delete_forever,
+          title: loc.deleteUser,
+          subtitle: '',
+          onTap: () => UiHelper.showWidgetDialog(DeleteUserDialog())),
       SettingItem(
           icon: Icons.description,
           title: loc.termsAndConditions,

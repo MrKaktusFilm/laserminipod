@@ -19,4 +19,9 @@ class UserModel implements UserModelAbstract {
       String email, String userName, String password) async {
     await userEndpoint.createUser(email, userName, password);
   }
+
+  @override
+  Future<void> deleteUser(String email) async {
+    await userEndpoint.deleteUser(email);
+  }
 }

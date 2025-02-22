@@ -58,5 +58,8 @@
     "confirmPassword": "Bitte bestätigen Sie Ihr Passwort",
     "createUserError": "Beim Erstellen des Accounts ist ein Fehler aufgetreten",
     "loginRequired": "Nur für eingeloggte Benutzer verfügbar",
-    "adminRequired": "Adminrechte benötigt"
+    "adminRequired": "Adminrechte benötigt",
+    "deleteUserError": "Beim Löschen Ihres Accounts ist ein Fehler aufgetreten",
+    "deleteUserDialog": "Möchten Sie Ihren Account wirklich löschen?",
+    "deleteUser": "Account löschen"
 }
