@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.list_sharp),
                 label: loc.routeListTitle,
               ),
-              if (adminController.isSignedIn())
+              if (adminController.hasAdminRights())
                 NavigationDestination(
                   icon: Icon(Icons.settings),
                   label: loc.administrationTitle,

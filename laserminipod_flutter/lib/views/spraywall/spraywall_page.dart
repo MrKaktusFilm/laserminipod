@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_floating_buttons.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_button.dart';
 import 'package:user_app/views/spraywall/spraywall_base_panel.dart';
@@ -22,32 +23,36 @@ class _SpraywallPageState extends State<SpraywallPage> {
     var routeController =
         Provider.of<RouteControllerAbstract>(context, listen: false);
 
-    return Stack(
-      children: <Widget>[
-        SpraywallBasePanel(
-          widgetFactory: (handle) => SpraywallHandleButton(
-            id: handle.id!,
-            handleDiameter: handle.radius.toDouble(),
+    return Consumer<UserControllerAbstract>(
+        builder: (context, userController, child) {
+      return Stack(
+        children: <Widget>[
+          SpraywallBasePanel(
+            widgetFactory: (handle) => SpraywallHandleButton(
+              id: handle.id!,
+              handleDiameter: handle.radius.toDouble(),
+            ),
           ),
-        ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: FloatingActionButton(
-            heroTag: null,
-            onPressed: () {
-              routeController.openSaveRouteDialog();
-            },
-            child: const Icon(Icons.save),
+          if (userController.isSignedIn())
+            Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  routeController.openSaveRouteDialog();
+                },
+                child: const Icon(Icons.save),
+              ),
+            ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: SpraywallFloatingButton(
+              icon: Icons.delete,
+              action: sprayWallController.clearCurrentRoute,
+            ),
           ),
-        ),
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: SpraywallFloatingButton(
-            icon: Icons.delete,
-            action: sprayWallController.clearCurrentRoute,
-          ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }

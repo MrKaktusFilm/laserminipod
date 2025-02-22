@@ -4,6 +4,7 @@ import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
+import 'package:user_app/routes.dart';
 
 class UserController extends ChangeNotifier implements UserControllerAbstract {
   final UserModelAbstract _userModel;
@@ -126,5 +127,13 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
       return loc.createUserError;
     }
     return null;
+  }
+
+  @override
+  bool hasAdminRights() {
+    if (!sessionManager.isSignedIn) {
+      return false;
+    }
+    return sessionManager.signedInUser!.scopeNames.contains(Scopes.admin.name);
   }
 }

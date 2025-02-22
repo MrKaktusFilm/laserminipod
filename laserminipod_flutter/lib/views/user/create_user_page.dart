@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
+import 'package:user_app/views/user/password_textfield.dart';
 
 class CreateUserPage extends StatefulWidget {
   const CreateUserPage({super.key});
@@ -88,22 +89,16 @@ class _CreateUserPageState extends State<CreateUserPage> {
                 },
               ),
               SizedBox(height: 16.0),
-              TextFormField(
+              PasswordTextField(
                 controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: loc.enterPassword,
-                ),
+                labelText: loc.enterPassword,
                 validator: (value) =>
                     adminController.validatePasswordRequirements(value),
               ),
               SizedBox(height: 16.0),
-              TextFormField(
+              PasswordTextField(
                 controller: _confirmPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: loc.changePasswordPageConfirmTextFieldLabel,
-                ),
+                labelText: loc.changePasswordPageConfirmTextFieldLabel,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return loc.confirmPassword;

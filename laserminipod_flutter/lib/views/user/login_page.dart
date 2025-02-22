@@ -4,6 +4,7 @@ import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/routes.dart';
+import 'package:user_app/views/user/password_textfield.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -45,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.adminLoginTitle), // Verwendung der Lokalisierung
+        title: Text(loc.login), // Verwendung der Lokalisierung
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -72,12 +73,9 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 const SizedBox(height: 16.0),
-                TextFormField(
+                PasswordTextField(
                   controller: _passwordController,
-                  decoration: InputDecoration(
-                    labelText: loc.password, // Verwendung der Lokalisierung
-                  ),
-                  obscureText: true,
+                  labelText: loc.password,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return loc.enterPassword; // Verwendung der Lokalisierung

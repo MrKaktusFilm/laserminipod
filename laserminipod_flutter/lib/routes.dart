@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/home.dart';
 import 'package:user_app/main.dart';
-import 'package:user_app/views/admin/change_password_page.dart';
+import 'package:user_app/views/user/change_password_page.dart';
 import 'package:user_app/views/admin/handle_management_edit_page.dart';
 import 'package:user_app/views/admin/handle_management_overview_page.dart';
 import 'package:user_app/views/settings/settings_page.dart';

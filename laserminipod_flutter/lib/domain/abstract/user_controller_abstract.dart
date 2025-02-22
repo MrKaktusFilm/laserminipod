@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 abstract class UserControllerAbstract extends ChangeNotifier {
   bool isSignedIn();
 
+  bool hasAdminRights();
+
   void logOut();
 
   /// returns error message for failed login

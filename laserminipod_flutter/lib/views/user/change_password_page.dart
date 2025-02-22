@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
+import 'package:user_app/views/user/password_textfield.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -44,6 +45,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     var adminController =
         Provider.of<UserControllerAbstract>(context, listen: false);
 
+    var loc = UiHelper.getAppLocalization();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(UiHelper.getAppLocalization().changePasswordPageTitle),
@@ -55,13 +58,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
+              PasswordTextField(
                 controller: _currentPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: UiHelper.getAppLocalization()
-                      .changePasswordPageCurrentTextFieldLabel,
-                ),
+                labelText: loc.changePasswordPageCurrentTextFieldLabel,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return UiHelper.getAppLocalization()
@@ -71,24 +70,16 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 },
               ),
               SizedBox(height: 16.0),
-              TextFormField(
+              PasswordTextField(
                 controller: _newPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: UiHelper.getAppLocalization()
-                      .changePasswordPageNewTextFieldLabel,
-                ),
+                labelText: loc.changePasswordPageNewTextFieldLabel,
                 validator: (value) =>
                     adminController.validateNewPasswordRequirements(value),
               ),
               SizedBox(height: 16.0),
-              TextFormField(
+              PasswordTextField(
                 controller: _confirmPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: UiHelper.getAppLocalization()
-                      .changePasswordPageConfirmTextFieldLabel,
-                ),
+                labelText: loc.changePasswordPageConfirmTextFieldLabel,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return UiHelper.getAppLocalization()
