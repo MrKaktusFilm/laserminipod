@@ -6,9 +6,11 @@ import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
+import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
 import 'package:user_app/data/abstract/user_model_abstract.dart';
 import 'package:user_app/data/handle_model.dart';
 import 'package:user_app/data/route_model.dart';
+import 'package:user_app/data/spraywall_model.dart';
 import 'package:user_app/data/user_model.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
@@ -52,11 +54,14 @@ Future<void> main() async {
   HandleModelAbstract handleModel = HandleModel();
   RouteModelAbstract routeModel = RouteModel();
   UserModelAbstract userModel = UserModel();
+  SpraywallModelAbstract spraywallModel = SpraywallModel();
 
   // controller
   NavigationControllerAbstract navigationController = NavigationController();
-  SprayWallControllerAbstract spraywallController =
-      SpraywallController(handleModel: handleModel, routeModel: routeModel);
+  SprayWallControllerAbstract spraywallController = SpraywallController(
+      handleModel: handleModel,
+      routeModel: routeModel,
+      spraywallModel: spraywallModel);
   RouteControllerAbstract routeController = RouteController(
       routeModel: routeModel, spraywallController: spraywallController);
   UserControllerAbstract adminController = UserController(

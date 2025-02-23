@@ -12,9 +12,10 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/handle_endpoint.dart' as _i2;
 import '../endpoints/route_endpoint.dart' as _i3;
-import '../endpoints/user_endpoint.dart' as _i4;
-import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i5;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i6;
+import '../endpoints/spraywall_endpoint.dart' as _i4;
+import '../endpoints/user_endpoint.dart' as _i5;
+import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i6;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i7;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -32,7 +33,13 @@ class Endpoints extends _i1.EndpointDispatch {
           'route',
           null,
         ),
-      'user': _i4.UserEndpoint()
+      'spraywall': _i4.SpraywallEndpoint()
+        ..initialize(
+          server,
+          'spraywall',
+          null,
+        ),
+      'user': _i5.UserEndpoint()
         ..initialize(
           server,
           'user',
@@ -166,7 +173,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'route': _i1.ParameterDescription(
               name: 'route',
-              type: _i1.getType<_i5.SpraywallRoute>(),
+              type: _i1.getType<_i6.SpraywallRoute>(),
               nullable: false,
             )
           },
@@ -202,7 +209,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'route': _i1.ParameterDescription(
               name: 'route',
-              type: _i1.getType<_i5.SpraywallRoute>(),
+              type: _i1.getType<_i6.SpraywallRoute>(),
               nullable: false,
             )
           },
@@ -244,6 +251,87 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['spraywall'] = _i1.EndpointConnector(
+      name: 'spraywall',
+      endpoint: endpoints['spraywall']!,
+      methodConnectors: {
+        'toggleHandle': _i1.MethodConnector(
+          name: 'toggleHandle',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['spraywall'] as _i4.SpraywallEndpoint).toggleHandle(
+            session,
+            params['id'],
+          ),
+        ),
+        'clearCurrentRoute': _i1.MethodConnector(
+          name: 'clearCurrentRoute',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['spraywall'] as _i4.SpraywallEndpoint)
+                  .clearCurrentRoute(session),
+        ),
+        'loadRoute': _i1.MethodConnector(
+          name: 'loadRoute',
+          params: {
+            'route': _i1.ParameterDescription(
+              name: 'route',
+              type: _i1.getType<_i6.SpraywallRoute>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['spraywall'] as _i4.SpraywallEndpoint).loadRoute(
+            session,
+            params['route'],
+          ),
+        ),
+        'getCurrentRoute': _i1.MethodConnector(
+          name: 'getCurrentRoute',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['spraywall'] as _i4.SpraywallEndpoint)
+                  .getCurrentRoute(session),
+        ),
+        'isHandleActivated': _i1.MethodConnector(
+          name: 'isHandleActivated',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['spraywall'] as _i4.SpraywallEndpoint)
+                  .isHandleActivated(
+            session,
+            params['id'],
+          ),
+        ),
+      },
+    );
     connectors['user'] = _i1.EndpointConnector(
       name: 'user',
       endpoint: endpoints['user']!,
@@ -266,7 +354,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i4.UserEndpoint).changePassword(
+              (endpoints['user'] as _i5.UserEndpoint).changePassword(
             session,
             params['email'],
             params['newPassword'],
@@ -290,7 +378,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i4.UserEndpoint).checkPassword(
+              (endpoints['user'] as _i5.UserEndpoint).checkPassword(
             session,
             params['email'],
             params['password'],
@@ -319,7 +407,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i4.UserEndpoint).createUser(
+              (endpoints['user'] as _i5.UserEndpoint).createUser(
             session,
             params['email'],
             params['userName'],
@@ -339,13 +427,13 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i4.UserEndpoint).deleteUser(
+              (endpoints['user'] as _i5.UserEndpoint).deleteUser(
             session,
             params['email'],
           ),
         ),
       },
     );
-    modules['serverpod_auth'] = _i6.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i7.Endpoints()..initializeEndpoints(server);
   }
 }

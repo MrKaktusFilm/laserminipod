@@ -11,6 +11,12 @@ route:
   - existsRouteAlready:
   - nameAlreadyAssigned:
   - test:
+spraywall:
+  - toggleHandle:
+  - clearCurrentRoute:
+  - loadRoute:
+  - getCurrentRoute:
+  - isHandleActivated:
 user:
   - changePassword:
   - checkPassword:

@@ -125,6 +125,46 @@ class EndpointRoute extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointSpraywall extends _i1.EndpointRef {
+  EndpointSpraywall(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'spraywall';
+
+  _i2.Future<bool> toggleHandle(int id) => caller.callServerEndpoint<bool>(
+        'spraywall',
+        'toggleHandle',
+        {'id': id},
+      );
+
+  _i2.Future<void> clearCurrentRoute() => caller.callServerEndpoint<void>(
+        'spraywall',
+        'clearCurrentRoute',
+        {},
+      );
+
+  _i2.Future<void> loadRoute(_i4.SpraywallRoute route) =>
+      caller.callServerEndpoint<void>(
+        'spraywall',
+        'loadRoute',
+        {'route': route},
+      );
+
+  _i2.Future<_i4.SpraywallRoute> getCurrentRoute() =>
+      caller.callServerEndpoint<_i4.SpraywallRoute>(
+        'spraywall',
+        'getCurrentRoute',
+        {},
+      );
+
+  _i2.Future<bool> isHandleActivated(int id) => caller.callServerEndpoint<bool>(
+        'spraywall',
+        'isHandleActivated',
+        {'id': id},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointUser extends _i1.EndpointRef {
   EndpointUser(_i1.EndpointCaller caller) : super(caller);
 
@@ -215,6 +255,7 @@ class Client extends _i1.ServerpodClientShared {
         ) {
     handle = EndpointHandle(this);
     route = EndpointRoute(this);
+    spraywall = EndpointSpraywall(this);
     user = EndpointUser(this);
     modules = Modules(this);
   }
@@ -222,6 +263,8 @@ class Client extends _i1.ServerpodClientShared {
   late final EndpointHandle handle;
 
   late final EndpointRoute route;
+
+  late final EndpointSpraywall spraywall;
 
   late final EndpointUser user;
 
@@ -231,6 +274,7 @@ class Client extends _i1.ServerpodClientShared {
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'handle': handle,
         'route': route,
+        'spraywall': spraywall,
         'user': user,
       };
 
