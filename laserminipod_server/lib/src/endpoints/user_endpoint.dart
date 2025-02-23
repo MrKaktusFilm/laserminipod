@@ -1,5 +1,6 @@
 import 'package:laserminipod_server/src/di.dart';
 import 'package:laserminipod_server/src/domain/user_service.dart';
+import 'package:laserminipod_server/src/extensions/endpoint_ext.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 
@@ -8,11 +9,13 @@ class UserEndpoint extends Endpoint {
 
   Future<void> changePassword(
       Session session, String email, String newPassword) async {
+    await validateUserScope(session);
     await _userService.changePassword(session, email, newPassword);
   }
 
   Future<bool> checkPassword(
       Session session, String email, String password) async {
+    await validateUserScope(session);
     return await _userService.checkPassword(session, email, password);
   }
 
@@ -22,6 +25,7 @@ class UserEndpoint extends Endpoint {
   }
 
   Future<void> deleteUser(Session session, String email) async {
+    await validateUserScope(session);
     await _userService.deleteUser(session, email);
   }
 }
