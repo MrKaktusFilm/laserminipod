@@ -40,7 +40,6 @@ class RouteController extends ChangeNotifier
 
       var currentRoute = spraywallController.getCurrentRoute();
 
-      // TODO: userId setzen
       final success = await routeModel.saveRoute(SpraywallRoute(
           name: _name.trim(),
           difficulty: difficulty,

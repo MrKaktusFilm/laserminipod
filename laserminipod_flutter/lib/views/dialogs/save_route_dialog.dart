@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/common/enums/boulder_grade_enum.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart'; // Importiere den UiHelper
 
@@ -87,11 +88,16 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
                         return Center(
                             child: RotatedBox(
                           quarterTurns: 1,
-                          child: Text('${index + 1}',
-                              style: TextStyle(fontSize: 18)),
+                          child: Text(
+                              BoulderGradeEnum.fromValue(index)!
+                                  .getfbScaleName(),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: BoulderGradeEnum.fromValue(index)!
+                                      .getDifficultyColor())),
                         ));
                       },
-                      childCount: 20,
+                      childCount: BoulderGradeEnum.values.length,
                     ),
                   ),
                 ),

@@ -139,7 +139,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
 
   @override
   Future<void> deleteUser() async {
-    // TODO: Admin check
+    // TODO: Admin check (nicht löschbar)
     try {
       await _userModel.deleteUser(sessionManager.signedInUser!.email!);
       logOut();

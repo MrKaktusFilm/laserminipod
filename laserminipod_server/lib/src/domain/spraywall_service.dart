@@ -20,7 +20,7 @@ class SpraywallService {
 
   /// loads the given route to the spraywall screen panel
   void loadRoute(Session session, SpraywallRoute route) {
-    currentRoute = route.handles;
+    currentRoute = [...route.handles];
     session.log('Loaded route. ID: ${route.id}');
   }
 

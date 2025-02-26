@@ -43,8 +43,7 @@ class SpraywallController extends ChangeNotifier
   @override
   void displayRoute(SpraywallRoute route) {
     spraywallModel.loadRoute(route);
-    // TODO: copy (auch im Service)
-    currentRoute = route.handles;
+    currentRoute = [...route.handles];
     notifyListeners();
   }
 
