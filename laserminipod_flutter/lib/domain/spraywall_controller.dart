@@ -11,8 +11,7 @@ class SpraywallController extends ChangeNotifier
   final HandleModelAbstract handleModel;
   final SpraywallModelAbstract spraywallModel;
 
-  SpraywallRoute currentRoute =
-      SpraywallRoute(handles: <int>[], id: 0, name: "");
+  List<int> currentRoute = [];
 
   SpraywallController(
       {required this.handleModel,
@@ -22,12 +21,12 @@ class SpraywallController extends ChangeNotifier
   @override
   bool toggleHandle(int id) {
     spraywallModel.toggleHandle(id);
-    if (currentRoute.handles.contains(id)) {
-      currentRoute.handles.remove(id);
+    if (currentRoute.contains(id)) {
+      currentRoute.remove(id);
       notifyListeners();
       return false;
     } else {
-      currentRoute.handles.add(id);
+      currentRoute.add(id);
       notifyListeners();
       return true;
     }
@@ -36,7 +35,7 @@ class SpraywallController extends ChangeNotifier
   @override
   void clearCurrentRoute() {
     spraywallModel.clearCurrentRoute();
-    currentRoute.handles = [];
+    currentRoute = [];
     notifyListeners();
   }
 
@@ -44,17 +43,19 @@ class SpraywallController extends ChangeNotifier
   @override
   void displayRoute(SpraywallRoute route) {
     spraywallModel.loadRoute(route);
-    currentRoute = route.copyWith();
+    // TODO: copy (auch im Service)
+    currentRoute = route.handles;
     notifyListeners();
   }
 
   @override
-  SpraywallRoute getCurrentRoute() {
+  List<int> getCurrentRoute() {
+    // TODO: Klasse für HandleMap bauen
     return currentRoute;
   }
 
   @override
   bool isHandleActivated(int id) {
-    return currentRoute.handles.contains(id);
+    return currentRoute.contains(id);
   }
 }

@@ -61,5 +61,7 @@
     "adminRequired": "Admin rights are needed",
     "deleteUserError": "An error occured while deleting your account",
     "deleteUserDialog": "Do you really want to delete your account?",
-    "deleteUser": "Delete your account"
+    "deleteUser": "Delete your account",
+    "routeDescription": "Description",
+    "selectDifficulty": "Select Difficulty"
 }

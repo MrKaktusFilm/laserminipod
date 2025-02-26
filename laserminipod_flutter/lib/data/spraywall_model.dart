@@ -19,11 +19,6 @@ class SpraywallModel implements SpraywallModelAbstract {
   }
 
   @override
-  Future<SpraywallRoute> getCurrentRoute() async {
-    return await client.spraywall.getCurrentRoute();
-  }
-
-  @override
   Future<bool> isHandleActivated(int id) async {
     return await client.spraywall.isHandleActivated(id);
   }

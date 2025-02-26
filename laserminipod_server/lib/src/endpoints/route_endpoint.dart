@@ -22,7 +22,7 @@ class RouteEndpoint extends Endpoint {
     return await _routeService.loadAllRoutes(session);
   }
 
-  Future<bool> existsRouteAlready(Session session, SpraywallRoute route) async {
+  Future<bool> existsRouteAlready(Session session, List<int> route) async {
     return await _routeService.existsRouteAlready(session, route);
   }
 

@@ -18,10 +18,6 @@ class SpraywallEndpoint extends Endpoint {
     _service.loadRoute(session, route);
   }
 
-  Future<SpraywallRoute> getCurrentRoute(Session session) async {
-    return _service.getCurrentRoute();
-  }
-
   Future<bool> isHandleActivated(Session session, int id) async {
     return _service.isHandleActivated(id);
   }

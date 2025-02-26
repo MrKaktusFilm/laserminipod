@@ -13,11 +13,14 @@ class SaveRouteDialog extends StatefulWidget {
 class _SaveRouteDialogState extends State<SaveRouteDialog> {
   final _formKey = GlobalKey<FormState>();
 
+  int _selectedDifficulty = 10;
+  String? _routeDescription;
+
   void _onSave() async {
     final controller =
         Provider.of<RouteControllerAbstract>(context, listen: false);
     if (_formKey.currentState!.validate()) {
-      controller.saveCurrentRoute();
+      controller.saveCurrentRoute(_routeDescription, _selectedDifficulty);
       Navigator.pop(context);
     }
   }
@@ -49,6 +52,49 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
                 validator: (input) {
                   return controller.validateRouteName(input);
                 },
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: loc.routeDescription,
+                  filled: true,
+                ),
+                maxLines: 3,
+                onChanged: (value) {
+                  setState(() {
+                    _routeDescription = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 10),
+              Text(loc.selectDifficulty,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              SizedBox(
+                height: 100,
+                child: RotatedBox(
+                  quarterTurns: 3,
+                  child: ListWheelScrollView.useDelegate(
+                    controller: FixedExtentScrollController(initialItem: 10),
+                    itemExtent: 40,
+                    physics: FixedExtentScrollPhysics(),
+                    onSelectedItemChanged: (index) {
+                      setState(() {
+                        _selectedDifficulty = index + 1;
+                      });
+                    },
+                    childDelegate: ListWheelChildBuilderDelegate(
+                      builder: (context, index) {
+                        return Center(
+                            child: RotatedBox(
+                          quarterTurns: 1,
+                          child: Text('${index + 1}',
+                              style: TextStyle(fontSize: 18)),
+                        ));
+                      },
+                      childCount: 20,
+                    ),
+                  ),
+                ),
               ),
               if (controller.isLoading)
                 const Padding(

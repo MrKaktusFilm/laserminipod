@@ -36,7 +36,7 @@ class RouteModel extends RouteModelAbstract {
   }
 
   @override
-  Future<bool> existsRouteAlready(SpraywallRoute route) async {
+  Future<bool> existsRouteAlready(List<int> route) async {
     try {
       return await routeEndpoint.existsRouteAlready(route);
     } on Exception {

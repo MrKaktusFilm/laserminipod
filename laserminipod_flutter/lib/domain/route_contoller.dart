@@ -3,6 +3,7 @@ import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/dialogs/delete_route_dialog.dart';
 import 'package:user_app/views/dialogs/save_route_dialog.dart';
@@ -11,19 +12,22 @@ class RouteController extends ChangeNotifier
     implements RouteControllerAbstract {
   final RouteModelAbstract routeModel;
   final SprayWallControllerAbstract spraywallController;
+  final UserControllerAbstract userController;
   bool _existsNameAlready = false;
   bool _isLoading = false;
   String _name = "";
   String? _nameErrorMessage;
 
   RouteController(
-      {required this.routeModel, required this.spraywallController});
+      {required this.routeModel,
+      required this.spraywallController,
+      required this.userController});
 
   @override
   bool get isLoading => _isLoading;
 
   @override
-  void saveCurrentRoute() async {
+  void saveCurrentRoute(String? description, int difficulty) async {
     _isLoading = true;
     notifyListeners();
     try {
@@ -35,9 +39,14 @@ class RouteController extends ChangeNotifier
       }
 
       var currentRoute = spraywallController.getCurrentRoute();
-      currentRoute.name = _name.trim();
 
-      final success = await routeModel.saveRoute(currentRoute);
+      // TODO: userId setzen
+      final success = await routeModel.saveRoute(SpraywallRoute(
+          name: _name.trim(),
+          difficulty: difficulty,
+          description: description,
+          handles: currentRoute,
+          userInfoId: userController.getSignedInUserId()!));
       if (success) {
         UiHelper.showSnackbar(
             UiHelper.getAppLocalization().routeSaved, Colors.green);

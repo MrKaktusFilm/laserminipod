@@ -39,10 +39,10 @@ class RouteService {
     return await _repository.getAll(session);
   }
 
-  Future<bool> existsRouteAlready(Session session, SpraywallRoute route) async {
+  Future<bool> existsRouteAlready(Session session, List<int> handles) async {
     var allRoutes = await _repository.getAll(session);
-    return allRoutes.any(
-        (existingRoute) => _compareLists(existingRoute.handles, route.handles));
+    return allRoutes
+        .any((existingRoute) => _compareLists(existingRoute.handles, handles));
   }
 
   Future<bool> nameAlreadyAssigned(Session session, String name) async {

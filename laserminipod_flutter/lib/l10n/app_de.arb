@@ -61,5 +61,7 @@
     "adminRequired": "Adminrechte benötigt",
     "deleteUserError": "Beim Löschen Ihres Accounts ist ein Fehler aufgetreten",
     "deleteUserDialog": "Möchten Sie Ihren Account wirklich löschen?",
-    "deleteUser": "Account löschen"
+    "deleteUser": "Account löschen",
+    "routeDescription": "Beschreibung",
+    "selectDifficulty": "Wähle den Schwierigkeitsgrad"
 }

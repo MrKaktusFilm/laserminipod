@@ -103,7 +103,7 @@ class EndpointRoute extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<bool> existsRouteAlready(_i4.SpraywallRoute route) =>
+  _i2.Future<bool> existsRouteAlready(List<int> route) =>
       caller.callServerEndpoint<bool>(
         'route',
         'existsRouteAlready',
@@ -148,13 +148,6 @@ class EndpointSpraywall extends _i1.EndpointRef {
         'spraywall',
         'loadRoute',
         {'route': route},
-      );
-
-  _i2.Future<_i4.SpraywallRoute> getCurrentRoute() =>
-      caller.callServerEndpoint<_i4.SpraywallRoute>(
-        'spraywall',
-        'getCurrentRoute',
-        {},
       );
 
   _i2.Future<bool> isHandleActivated(int id) => caller.callServerEndpoint<bool>(

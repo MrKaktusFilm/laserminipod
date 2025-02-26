@@ -7,7 +7,5 @@ abstract class SpraywallModelAbstract {
 
   Future<void> loadRoute(SpraywallRoute route);
 
-  Future<SpraywallRoute> getCurrentRoute();
-
   Future<bool> isHandleActivated(int id);
 }

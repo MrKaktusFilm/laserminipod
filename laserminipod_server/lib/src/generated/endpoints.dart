@@ -209,7 +209,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'route': _i1.ParameterDescription(
               name: 'route',
-              type: _i1.getType<_i6.SpraywallRoute>(),
+              type: _i1.getType<List<int>>(),
               nullable: false,
             )
           },
@@ -300,16 +300,6 @@ class Endpoints extends _i1.EndpointDispatch {
             session,
             params['route'],
           ),
-        ),
-        'getCurrentRoute': _i1.MethodConnector(
-          name: 'getCurrentRoute',
-          params: {},
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['spraywall'] as _i4.SpraywallEndpoint)
-                  .getCurrentRoute(session),
         ),
         'isHandleActivated': _i1.MethodConnector(
           name: 'isHandleActivated',

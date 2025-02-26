@@ -23,4 +23,6 @@ abstract class UserControllerAbstract extends ChangeNotifier {
   String? validateNewPasswordRequirements(String? value);
 
   bool isValidEmail(String email);
+
+  int? getSignedInUserId();
 }

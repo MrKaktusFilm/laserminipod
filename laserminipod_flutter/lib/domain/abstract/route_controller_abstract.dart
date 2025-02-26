@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 
 abstract class RouteControllerAbstract extends ChangeNotifier {
-  void saveCurrentRoute();
+  void saveCurrentRoute(String? description, int difficulty);
 
   void deleteRoute(int id);
 

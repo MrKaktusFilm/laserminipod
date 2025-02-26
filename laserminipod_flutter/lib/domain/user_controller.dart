@@ -148,4 +148,9 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
           UiHelper.getAppLocalization().deleteUserError, e);
     }
   }
+
+  @override
+  int? getSignedInUserId() {
+    return sessionManager.signedInUser!.id;
+  }
 }

@@ -7,7 +7,7 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
 
   void clearCurrentRoute();
 
-  SpraywallRoute getCurrentRoute();
+  List<int> getCurrentRoute();
 
   void displayRoute(SpraywallRoute route);
 
