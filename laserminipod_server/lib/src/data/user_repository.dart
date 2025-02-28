@@ -43,4 +43,12 @@ class UserRepository {
           .deleteWhere(session, where: (t) => t.id.equals(user.userId));
     }
   }
+
+  Future<auth.UserInfo?> getUserById(Session session, int id) async {
+    var users = await auth.UserInfo.db.find(
+      session,
+      where: (t) => t.id.equals(id),
+    );
+    return users.isNotEmpty ? users.first : null;
+  }
 }

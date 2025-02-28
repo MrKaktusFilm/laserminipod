@@ -1,3 +1,5 @@
+import 'package:serverpod_auth_client/serverpod_auth_client.dart';
+
 abstract class UserModelAbstract {
   Future<void> changePassword(String email, String newPassword);
 
@@ -6,4 +8,6 @@ abstract class UserModelAbstract {
   Future<void> createUser(String email, String userName, String password);
 
   Future<void> deleteUser(String email);
+
+  Future<UserInfo?> getUserById(int id);
 }

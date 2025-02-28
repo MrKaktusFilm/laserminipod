@@ -105,4 +105,8 @@ class UserService {
           level: LogLevel.error);
     }
   }
+
+  Future<auth.UserInfo?> getUserById(Session session, int id) async {
+    return await _userRepository.getUserById(session, id);
+  }
 }

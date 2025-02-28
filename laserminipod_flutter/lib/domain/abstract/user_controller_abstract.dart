@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 
 abstract class UserControllerAbstract extends ChangeNotifier {
   bool isSignedIn();
@@ -25,4 +26,6 @@ abstract class UserControllerAbstract extends ChangeNotifier {
   bool isValidEmail(String email);
 
   int? getSignedInUserId();
+
+  Future<UserInfo?> getUserById(int id);
 }

@@ -210,6 +210,13 @@ class EndpointUser extends _i1.EndpointRef {
         'deleteUser',
         {'email': email},
       );
+
+  _i2.Future<_i5.UserInfo?> getUserById(int id) =>
+      caller.callServerEndpoint<_i5.UserInfo?>(
+        'user',
+        'getUserById',
+        {'id': id},
+      );
 }
 
 class Modules {

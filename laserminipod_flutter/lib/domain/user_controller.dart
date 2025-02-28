@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 import 'package:user_app/data/abstract/user_model_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
@@ -152,5 +153,10 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   @override
   int? getSignedInUserId() {
     return sessionManager.signedInUser!.id;
+  }
+
+  @override
+  Future<UserInfo?> getUserById(int id) async {
+    return await _userModel.getUserById(id);
   }
 }
