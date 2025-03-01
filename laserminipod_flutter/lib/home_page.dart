@@ -4,26 +4,17 @@ import 'package:user_app/appbar.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
-import 'package:user_app/views/admin/administration_page.dart';
-import 'package:user_app/views/routelist/routelist_page.dart';
-import 'package:user_app/views/spraywall/spraywall_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Widget child;
+
+  const HomePage({super.key, required this.child});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentPageIndex = 0;
-
-  void navigateToSpraywall() {
-    setState(() {
-      currentPageIndex = 0;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final loc = UiHelper.getAppLocalization();
@@ -35,7 +26,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context, adminController, navigationController, child) {
           return NavigationBar(
             onDestinationSelected: (int index) {
-              navigationController.setPageIndex(index);
+              navigationController.setPageIndex(context, index);
             },
             indicatorColor: Colors.amber,
             selectedIndex: navigationController.currentPageIndex,
@@ -60,14 +51,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Consumer<NavigationControllerAbstract>(
         builder: (context, navigationController, child) {
-          final pages = [
-            const SpraywallPage(),
-            RouteListPage(
-              navigateToSpraywall: () => navigationController.setPageIndex(0),
-            ),
-            AdministrationPage(),
-          ];
-          return pages[navigationController.currentPageIndex];
+          return widget.child;
         },
       ),
     );

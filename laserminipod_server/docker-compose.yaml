@@ -5,7 +5,7 @@ services:
   postgres:
     image: postgres:16.3
     ports:
-      - '8090:5432'
+      - '5433:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: laserminipod
@@ -54,6 +54,7 @@ services:
 volumes:
   laserminipod_data:
   laserminipod_test_data:
+
 
 networks:
   my_network:

@@ -27,7 +27,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     try {
       await sessionManager.signOutDevice();
       if (_navigationController.currentPageIndex == 2) {
-        _navigationController.setPageIndex(0);
+        //_navigationController.setPageIndex(0);
       }
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(UiHelper.getAppLocalization().logoutError, e);

@@ -67,7 +67,8 @@ Future<void> main() async {
   RouteControllerAbstract routeController = RouteController(
       routeModel: routeModel,
       spraywallController: spraywallController,
-      userController: userController);
+      userController: userController,
+      navigationController: navigationController);
   ImageControllerAbstract imageController = ImageController();
   HandleControllerAbstract handleController = HandleController(
       handleModel: handleModel,

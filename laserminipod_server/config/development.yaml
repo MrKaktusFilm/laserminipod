@@ -29,8 +29,8 @@ webServer:
 
 # This is the database setup for your server.
 database:
-  host: host.docker.internal
-  port: 8090
+  host: localhost
+  port: 5433
   name: laserminipod
   user: postgres
 

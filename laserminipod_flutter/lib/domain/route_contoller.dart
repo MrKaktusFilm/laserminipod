@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
+import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
+import 'package:user_app/routes.dart';
 import 'package:user_app/views/dialogs/delete_route_dialog.dart';
 import 'package:user_app/views/dialogs/save_route_dialog.dart';
 
@@ -13,18 +15,45 @@ class RouteController extends ChangeNotifier
   final RouteModelAbstract routeModel;
   final SprayWallControllerAbstract spraywallController;
   final UserControllerAbstract userController;
+  final NavigationControllerAbstract navigationController;
   bool _existsNameAlready = false;
   bool _isLoading = false;
   String _name = "";
   String? _nameErrorMessage;
+  int _routeListTabIndex = 0;
+  List<SpraywallRoute> allRoutes = [];
 
   RouteController(
-      {required this.routeModel,
+      {required this.navigationController,
+      required this.routeModel,
       required this.spraywallController,
       required this.userController});
 
   @override
+  int get routeListTabIndex => _routeListTabIndex;
+
+  @override
   bool get isLoading => _isLoading;
+
+  @override
+  void setTabIndex(BuildContext context, int index) {
+    if (index != _routeListTabIndex) {
+      switch (index) {
+        case 0:
+          navigationController.goToPage(AppRoute.myprojects);
+          break;
+        case 1:
+          navigationController.goToPage(AppRoute.myroutes);
+          break;
+        case 2:
+          navigationController.goToPage(AppRoute.allroutes);
+          break;
+      }
+
+      _routeListTabIndex = index;
+      notifyListeners();
+    }
+  }
 
   @override
   void saveCurrentRoute(String? description, int difficulty) async {
@@ -102,15 +131,14 @@ class RouteController extends ChangeNotifier
   }
 
   @override
-  Future<List<SpraywallRoute>> loadAllRoutes() async {
-    var routes;
-    try {
-      routes = await routeModel.loadAllRoutes();
-    } on Exception catch (e) {
-      UiHelper.showErrorSnackbar(
-          UiHelper.getAppLocalization().routeLoadError, e);
-    }
-    return routes;
+  List<SpraywallRoute> getAllRoutes() {
+    return allRoutes;
+  }
+
+  @override
+  List<SpraywallRoute> getMyRoutes() {
+    int userId = userController.getSignedInUserId()!;
+    return allRoutes.where((route) => route.userInfoId == userId).toList();
   }
 
   @override
@@ -127,6 +155,16 @@ class RouteController extends ChangeNotifier
   @override
   Future<bool> nameAlreadyAssigned(String name) async {
     return routeModel.nameAlreadyAssigned(name);
+  }
+
+  @override
+  Future<void> loadAllRoutes() async {
+    try {
+      allRoutes = await routeModel.loadAllRoutes();
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().routeLoadError, e);
+    }
   }
 
   @override

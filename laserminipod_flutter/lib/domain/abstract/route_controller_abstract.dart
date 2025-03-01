@@ -18,9 +18,17 @@ abstract class RouteControllerAbstract extends ChangeNotifier {
 
   String? validateRouteName(String? input);
 
-  Future<List<SpraywallRoute>> loadAllRoutes();
+  Future<void> loadAllRoutes();
+
+  List<SpraywallRoute> getAllRoutes();
+
+  List<SpraywallRoute> getMyRoutes();
+
+  void setTabIndex(BuildContext context, int index);
 
   String? get nameErrorMessage;
 
   bool get isLoading;
+
+  int get routeListTabIndex;
 }
