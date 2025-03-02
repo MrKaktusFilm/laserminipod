@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
@@ -38,6 +39,7 @@ class RouteController extends ChangeNotifier
   @override
   void setTabIndex(BuildContext context, int index) {
     if (index != _routeListTabIndex) {
+      _routeListTabIndex = index;
       switch (index) {
         case 0:
           navigationController.goToPage(AppRoute.myprojects);
@@ -49,8 +51,6 @@ class RouteController extends ChangeNotifier
           navigationController.goToPage(AppRoute.allroutes);
           break;
       }
-
-      _routeListTabIndex = index;
       notifyListeners();
     }
   }
@@ -143,7 +143,9 @@ class RouteController extends ChangeNotifier
 
   @override
   Future<void> deleteRoute(int id) async {
+    // TODO: delete doesn't update the UI
     await routeModel.deleteRoute(id);
+    await loadAllRoutes();
     notifyListeners();
   }
 
@@ -158,13 +160,23 @@ class RouteController extends ChangeNotifier
   }
 
   @override
-  Future<void> loadAllRoutes() async {
+  Future<bool> loadAllRoutes() async {
     try {
       allRoutes = await routeModel.loadAllRoutes();
+      return true;
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
           UiHelper.getAppLocalization().routeLoadError, e);
     }
+    return false;
+  }
+
+  @override
+  String? tabRedirect(BuildContext context, GoRouterState state) {
+    if (!userController.isSignedIn()) return null;
+    if (_routeListTabIndex == 1) return AppRoute.myroutes.fullPath;
+    if (_routeListTabIndex == 2) return AppRoute.allroutes.fullPath;
+    return null;
   }
 
   @override

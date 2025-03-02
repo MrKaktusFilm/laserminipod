@@ -63,5 +63,8 @@
     "deleteUserDialog": "Do you really want to delete your account?",
     "deleteUser": "Delete your account",
     "routeDescription": "Description",
-    "selectDifficulty": "Select Difficulty"
+    "selectDifficulty": "Select Difficulty",
+    "myProjects": "My Projects",
+    "myRoutes": "My Routes",
+    "allRoutes": "All Routes"
 }

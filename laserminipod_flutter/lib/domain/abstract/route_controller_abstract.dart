@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 
 abstract class RouteControllerAbstract extends ChangeNotifier {
@@ -18,13 +19,15 @@ abstract class RouteControllerAbstract extends ChangeNotifier {
 
   String? validateRouteName(String? input);
 
-  Future<void> loadAllRoutes();
+  Future<bool> loadAllRoutes();
 
   List<SpraywallRoute> getAllRoutes();
 
   List<SpraywallRoute> getMyRoutes();
 
   void setTabIndex(BuildContext context, int index);
+
+  String? tabRedirect(BuildContext context, GoRouterState state);
 
   String? get nameErrorMessage;
 

@@ -63,5 +63,8 @@
     "deleteUserDialog": "Möchten Sie Ihren Account wirklich löschen?",
     "deleteUser": "Account löschen",
     "routeDescription": "Beschreibung",
-    "selectDifficulty": "Wähle den Schwierigkeitsgrad"
+    "selectDifficulty": "Wähle den Schwierigkeitsgrad",
+    "myProjects": "Meine Projekte",
+    "myRoutes": "Meine Routen",
+    "allRoutes": "Alle Routen"
 }

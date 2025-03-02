@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/home_page.dart';
 import 'package:user_app/main.dart';
@@ -27,6 +29,12 @@ final GoRouter router = GoRouter(
             path: AppRoute.home.fullPath,
             builder: (context, state) => SpraywallPage()),
         ShellRoute(
+          redirect: (context, state) {
+            // redirect user to previous selected tab
+            final routeController =
+                Provider.of<RouteControllerAbstract>(context, listen: false);
+            return routeController.tabRedirect(context, state);
+          },
           builder: (context, state, child) {
             return RouteListPage(child: child);
           },
@@ -45,6 +53,9 @@ final GoRouter router = GoRouter(
             ),
           ],
         ),
+        GoRoute(
+            path: AppRoute.allroutesGuest.fullPath,
+            builder: (context, state) => AllRoutesTab()),
         AuthenticatedGoRoute(
             path: AppRoute.administration.fullPath,
             builder: (context, state) => AdministrationPage()),
@@ -85,7 +96,8 @@ enum AppRoute {
   changePassword,
   myprojects,
   myroutes,
-  allroutes
+  allroutes,
+  allroutesGuest,
 }
 
 extension AppRouteExtension on AppRoute {
@@ -114,6 +126,8 @@ extension AppRouteExtension on AppRoute {
         name = 'allroutes';
       case AppRoute.administration:
         name = 'administration';
+      case AppRoute.allroutesGuest:
+        name = 'allroutesGuest';
     }
     return name;
   }
@@ -122,14 +136,15 @@ extension AppRouteExtension on AppRoute {
 }
 
 class AuthenticatedGoRoute extends GoRoute {
-  AuthenticatedGoRoute({
-    required super.path,
-    required Widget Function(BuildContext, GoRouterState) super.builder,
-    List<GoRoute> super.routes = const [],
-    bool adminNeeded = false,
-  }) : super(
+  AuthenticatedGoRoute(
+      {required super.path,
+      required Widget Function(BuildContext, GoRouterState) super.builder,
+      List<GoRoute> super.routes = const [],
+      bool adminNeeded = false,
+      String? redirect})
+      : super(
           redirect: (context, state) {
-            final String redirect = AppRoute.login.fullPath;
+            redirect ??= AppRoute.login.fullPath;
             if (!sessionManager.isSignedIn) {
               UiHelper.showSnackbar(
                   UiHelper.getAppLocalization().loginRequired, Colors.red);

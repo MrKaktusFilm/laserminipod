@@ -116,6 +116,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   Future<String?> createUser(BuildContext context, String userName,
       String email, String password) async {
     try {
+      // TODO: mail / username already taken check
       await _userModel.createUser(email, userName, password);
       for (var i = 0; i < 2; i++) {
         if (context.mounted) {
