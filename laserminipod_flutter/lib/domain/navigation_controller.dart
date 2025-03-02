@@ -43,6 +43,18 @@ class NavigationController extends ChangeNotifier
 
   @override
   void goToPage(AppRoute page) {
+    switch (page) {
+      case AppRoute.home:
+        _currentPageIndex = 0;
+        break;
+      case AppRoute.myprojects || AppRoute.myroutes || AppRoute.allroutes:
+        _currentPageIndex = 1;
+        break;
+      case AppRoute.administration:
+        _currentPageIndex = 2;
+        break;
+      default:
+    }
     navigatorKey.currentContext?.pushReplacement(page.fullPath);
   }
 

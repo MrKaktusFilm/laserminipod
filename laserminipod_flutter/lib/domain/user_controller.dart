@@ -118,6 +118,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     try {
       // TODO: mail / username already taken check
       await _userModel.createUser(email, userName, password);
+      // TODO: fix navigation
       for (var i = 0; i < 2; i++) {
         if (context.mounted) {
           _navigationController.closeCurrentScreen(context);
@@ -141,10 +142,12 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
 
   @override
   Future<void> deleteUser() async {
-    // TODO: Admin check (nicht löschbar)
+    // admins should not be deletable
+    if (hasAdminRights()) return;
     try {
       await _userModel.deleteUser(sessionManager.signedInUser!.email!);
       logOut();
+      _navigationController.goToPage(AppRoute.home);
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
           UiHelper.getAppLocalization().deleteUserError, e);

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/routes.dart';
-import 'package:user_app/views/common/setting_item.dart';
 
 class AdministrationPage extends StatefulWidget {
   const AdministrationPage({super.key});
@@ -15,16 +14,15 @@ class AdministrationPage extends StatefulWidget {
 class _AdministrationPageState extends State<AdministrationPage> {
   late NavigationControllerAbstract _navigationController;
 
-  late List<SettingItem> settings;
+  late List<_SettingItem> settings;
 
   @override
   void initState() {
     super.initState();
-    // NavigationController hier initialisieren
     _navigationController =
         Provider.of<NavigationControllerAbstract>(context, listen: false);
     settings = [
-      SettingItem(
+      _SettingItem(
           icon: Icons.edit,
           title: UiHelper.getAppLocalization().holdManagementOptionTitle,
           subtitle: UiHelper.getAppLocalization().holdManagementOptionSubtitle,
@@ -47,4 +45,18 @@ class _AdministrationPageState extends State<AdministrationPage> {
       },
     );
   }
+}
+
+class _SettingItem {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  _SettingItem({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
 }

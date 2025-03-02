@@ -165,6 +165,8 @@ class AuthenticatedGoRoute extends GoRoute {
 }
 
 enum Scopes {
+  guest,
   user,
   admin,
+  useronly, // not accessable for admins
 }

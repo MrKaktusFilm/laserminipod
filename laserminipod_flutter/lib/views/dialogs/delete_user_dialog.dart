@@ -14,7 +14,6 @@ class _DeleteUserDialogState extends State<DeleteUserDialog> {
   Future<void> onDelete() async {
     await Provider.of<UserControllerAbstract>(context, listen: false)
         .deleteUser();
-    // TODO: navigate to home
     Navigator.pop(context);
   }
 
