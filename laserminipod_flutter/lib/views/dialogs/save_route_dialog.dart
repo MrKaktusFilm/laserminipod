@@ -80,7 +80,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
                     physics: FixedExtentScrollPhysics(),
                     onSelectedItemChanged: (index) {
                       setState(() {
-                        _selectedDifficulty = index + 1;
+                        _selectedDifficulty = index;
                       });
                     },
                     childDelegate: ListWheelChildBuilderDelegate(
@@ -97,7 +97,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
                                       .getDifficultyColor())),
                         ));
                       },
-                      childCount: BoulderGradeEnum.values.length - 1,
+                      childCount: BoulderGradeEnum.values.length,
                     ),
                   ),
                 ),
