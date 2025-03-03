@@ -11,6 +11,6 @@ class MyRoutesTab extends StatelessWidget {
     final routeController =
         Provider.of<RouteControllerAbstract>(context, listen: false);
 
-    return RouteListTemplate(loadRoutes: routeController.getMyRoutes);
+    return RouteListTemplate(getRoutes: routeController.getMyRoutes);
   }
 }

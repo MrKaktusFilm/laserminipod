@@ -4,9 +4,9 @@ import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/views/routelist/routelist_tile.dart';
 
 class RouteListTemplate extends StatefulWidget {
-  const RouteListTemplate({super.key, required this.loadRoutes});
+  const RouteListTemplate({super.key, required this.getRoutes});
 
-  final Function() loadRoutes;
+  final Function() getRoutes;
 
   @override
   State<RouteListTemplate> createState() => _RouteListTemplateState();
@@ -15,9 +15,9 @@ class RouteListTemplate extends StatefulWidget {
 class _RouteListTemplateState extends State<RouteListTemplate> {
   @override
   Widget build(BuildContext context) {
-    final routes = widget.loadRoutes();
     return Consumer<RouteControllerAbstract>(
         builder: (context, spraywallContoller, child) {
+      final routes = widget.getRoutes();
       return ListView.builder(
           itemCount: routes?.length,
           itemBuilder: (BuildContext context, int index) {

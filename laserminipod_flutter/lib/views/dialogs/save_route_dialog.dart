@@ -97,7 +97,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
                                       .getDifficultyColor())),
                         ));
                       },
-                      childCount: BoulderGradeEnum.values.length,
+                      childCount: BoulderGradeEnum.values.length - 1,
                     ),
                   ),
                 ),
