@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/common/enums/boulder_grade_enum.dart';
+import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
+import 'package:user_app/routes.dart';
 
 class RoutelistTile extends StatefulWidget {
   const RoutelistTile({super.key, required this.route});
@@ -19,8 +21,8 @@ class _RoutelistTileState extends State<RoutelistTile> {
   void onTap() {
     Provider.of<SprayWallControllerAbstract>(context, listen: false)
         .displayRoute(widget.route);
-    // TODO: navigation to spraywall page
-    // Provider.of<NavigationControllerAbstract>(context, listen: false).pushPage(context, AppRoute.)
+    Provider.of<NavigationControllerAbstract>(context, listen: false)
+        .goToPage(AppRoute.home);
   }
 
   void onDelete() {

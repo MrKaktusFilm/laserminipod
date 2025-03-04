@@ -27,7 +27,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     try {
       await sessionManager.signOutDevice();
       if (_navigationController.currentPageIndex == 2) {
-        //_navigationController.setPageIndex(0);
+        _navigationController.goToPage(AppRoute.home);
       }
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(UiHelper.getAppLocalization().logoutError, e);
@@ -44,9 +44,6 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
         password.trim(),
       );
       if (result != null) {
-        if (context.mounted) {
-          Navigator.pop(context);
-        }
         return null;
       } else {
         return UiHelper.getAppLocalization().invalidLogin;
@@ -118,12 +115,19 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     try {
       // TODO: mail / username already taken check
       await _userModel.createUser(email, userName, password);
-      // TODO: fix navigation
-      for (var i = 0; i < 2; i++) {
-        if (context.mounted) {
-          _navigationController.closeCurrentScreen(context);
-          logIn(email, password, context);
+      try {
+        var result = await authController.signIn(
+          email.trim(),
+          password.trim(),
+        );
+
+        if (result == null) {
+          return UiHelper.getAppLocalization().invalidLogin;
         }
+      } catch (e) {
+        return UiHelper.getAppLocalization().loginFailed;
+      } finally {
+        notifyListeners();
       }
     } on Exception {
       var loc = UiHelper.getAppLocalization();

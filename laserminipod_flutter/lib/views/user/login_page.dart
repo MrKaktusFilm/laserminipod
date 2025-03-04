@@ -29,6 +29,11 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _errorMessage = temp;
     });
+
+    if (context.mounted) {
+      Provider.of<NavigationControllerAbstract>(context, listen: false)
+          .goToPage(AppRoute.home);
+    }
   }
 
   @override
