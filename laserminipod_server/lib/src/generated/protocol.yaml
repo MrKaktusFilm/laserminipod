@@ -10,6 +10,7 @@ route:
   - loadAllRoutes:
   - existsRouteAlready:
   - nameAlreadyAssigned:
+  - getHandleStatesForRoute:
   - test:
 spraywall:
   - toggleHandle:

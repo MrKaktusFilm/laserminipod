@@ -4,6 +4,6 @@ fields:
   name: String
   description: String?
   difficulty: int
-  handles: List<int>
   creationDate: DateTime, default=now
   userInfoId: int, relation(parent=serverpod_user_info)
+  routeHandleStates: List<RouteHandleState>?, relation

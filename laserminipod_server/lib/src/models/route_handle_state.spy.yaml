@@ -1,0 +1,6 @@
+class: RouteHandleState
+table: route_handle_state
+fields:
+  routeId: int, relation(parent=spraywallroute)
+  handleId: int, relation(parent=handle)
+  state: int

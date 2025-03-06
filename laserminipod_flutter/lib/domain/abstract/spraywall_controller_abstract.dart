@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:user_app/common/enums/handle_state_enum.dart';
 
 abstract class SprayWallControllerAbstract extends ChangeNotifier {
   /// return new activation state of given handle
-  bool toggleHandle(int id);
+  HandleStateEnum toggleHandle(int id);
 
   void clearCurrentRoute();
 
-  List<int> getCurrentRoute();
+  Map<int, HandleStateEnum> getCurrentRoute();
 
-  void displayRoute(SpraywallRoute route);
+  void displayRoute(Map<int, HandleStateEnum> route);
 
-  bool isHandleActivated(int id);
+  HandleStateEnum getHandleStatus(int id);
 }

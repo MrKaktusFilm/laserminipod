@@ -1,0 +1,138 @@
+{
+  "actions": [
+    {
+      "type": "createTable",
+      "createTable": {
+        "name": "route_handle_state",
+        "dartName": "RouteHandleState",
+        "module": "laserminipod",
+        "schema": "public",
+        "columns": [
+          {
+            "name": "id",
+            "columnType": 6,
+            "isNullable": false,
+            "columnDefault": "nextval('route_handle_state_id_seq'::regclass)",
+            "dartType": "int?"
+          },
+          {
+            "name": "routeId",
+            "columnType": 6,
+            "isNullable": false,
+            "dartType": "int"
+          },
+          {
+            "name": "handleId",
+            "columnType": 6,
+            "isNullable": false,
+            "dartType": "int"
+          },
+          {
+            "name": "state",
+            "columnType": 6,
+            "isNullable": false,
+            "dartType": "int"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "constraintName": "route_handle_state_fk_0",
+            "columns": [
+              "routeId"
+            ],
+            "referenceTable": "spraywallroute",
+            "referenceTableSchema": "public",
+            "referenceColumns": [
+              "id"
+            ],
+            "onUpdate": 3,
+            "onDelete": 3
+          },
+          {
+            "constraintName": "route_handle_state_fk_1",
+            "columns": [
+              "handleId"
+            ],
+            "referenceTable": "handle",
+            "referenceTableSchema": "public",
+            "referenceColumns": [
+              "id"
+            ],
+            "onUpdate": 3,
+            "onDelete": 3
+          }
+        ],
+        "indexes": [
+          {
+            "indexName": "route_handle_state_pkey",
+            "elements": [
+              {
+                "type": 0,
+                "definition": "id"
+              }
+            ],
+            "type": "btree",
+            "isUnique": true,
+            "isPrimary": true
+          },
+          {
+            "indexName": "enrollment_index_idx",
+            "elements": [
+              {
+                "type": 0,
+                "definition": "routeId"
+              },
+              {
+                "type": 0,
+                "definition": "handleId"
+              }
+            ],
+            "type": "btree",
+            "isUnique": true,
+            "isPrimary": false
+          }
+        ],
+        "managed": true
+      }
+    },
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "spraywallroute",
+        "schema": "public",
+        "addColumns": [],
+        "deleteColumns": [
+          "handles"
+        ],
+        "modifyColumns": [],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "columnDropped",
+            "message": "Column \"handles\" of table \"spraywallroute\" will be dropped.",
+            "table": "spraywallroute",
+            "columns": [
+              "handles"
+            ],
+            "destrucive": true
+          }
+        ]
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "columnDropped",
+      "message": "Column \"handles\" of table \"spraywallroute\" will be dropped.",
+      "table": "spraywallroute",
+      "columns": [
+        "handles"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}

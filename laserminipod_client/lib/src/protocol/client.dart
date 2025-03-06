@@ -103,7 +103,7 @@ class EndpointRoute extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<bool> existsRouteAlready(List<int> route) =>
+  _i2.Future<bool> existsRouteAlready(Map<int, int> route) =>
       caller.callServerEndpoint<bool>(
         'route',
         'existsRouteAlready',
@@ -115,6 +115,13 @@ class EndpointRoute extends _i1.EndpointRef {
         'route',
         'nameAlreadyAssigned',
         {'name': name},
+      );
+
+  _i2.Future<Map<int, int>> getHandleStatesForRoute(int routeId) =>
+      caller.callServerEndpoint<Map<int, int>>(
+        'route',
+        'getHandleStatesForRoute',
+        {'routeId': routeId},
       );
 
   _i2.Future<void> test() => caller.callServerEndpoint<void>(

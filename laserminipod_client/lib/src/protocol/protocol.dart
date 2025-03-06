@@ -11,11 +11,13 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'handle.dart' as _i2;
-import 'spraywall_route.dart' as _i3;
-import 'package:laserminipod_client/src/protocol/handle.dart' as _i4;
-import 'package:laserminipod_client/src/protocol/spraywall_route.dart' as _i5;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i6;
+import 'route_handle_state.dart' as _i3;
+import 'spraywall_route.dart' as _i4;
+import 'package:laserminipod_client/src/protocol/handle.dart' as _i5;
+import 'package:laserminipod_client/src/protocol/spraywall_route.dart' as _i6;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
 export 'handle.dart';
+export 'route_handle_state.dart';
 export 'spraywall_route.dart';
 export 'client.dart';
 
@@ -35,32 +37,44 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i2.Handle) {
       return _i2.Handle.fromJson(data) as T;
     }
-    if (t == _i3.SpraywallRoute) {
-      return _i3.SpraywallRoute.fromJson(data) as T;
+    if (t == _i3.RouteHandleState) {
+      return _i3.RouteHandleState.fromJson(data) as T;
+    }
+    if (t == _i4.SpraywallRoute) {
+      return _i4.SpraywallRoute.fromJson(data) as T;
     }
     if (t == _i1.getType<_i2.Handle?>()) {
       return (data != null ? _i2.Handle.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i3.SpraywallRoute?>()) {
-      return (data != null ? _i3.SpraywallRoute.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i3.RouteHandleState?>()) {
+      return (data != null ? _i3.RouteHandleState.fromJson(data) : null) as T;
     }
-    if (t == List<int>) {
-      return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
+    if (t == _i1.getType<_i4.SpraywallRoute?>()) {
+      return (data != null ? _i4.SpraywallRoute.fromJson(data) : null) as T;
     }
-    if (t == List<_i4.Handle>) {
-      return (data as List).map((e) => deserialize<_i4.Handle>(e)).toList()
+    if (t == _i1.getType<List<_i3.RouteHandleState>?>()) {
+      return (data != null
+          ? (data as List)
+              .map((e) => deserialize<_i3.RouteHandleState>(e))
+              .toList()
+          : null) as dynamic;
+    }
+    if (t == List<_i5.Handle>) {
+      return (data as List).map((e) => deserialize<_i5.Handle>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i5.SpraywallRoute>) {
+    if (t == List<_i6.SpraywallRoute>) {
       return (data as List)
-          .map((e) => deserialize<_i5.SpraywallRoute>(e))
+          .map((e) => deserialize<_i6.SpraywallRoute>(e))
           .toList() as dynamic;
     }
-    if (t == List<int>) {
-      return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
+    if (t == Map<int, int>) {
+      return Map.fromEntries((data as List).map((e) =>
+              MapEntry(deserialize<int>(e['k']), deserialize<int>(e['v']))))
+          as dynamic;
     }
     try {
-      return _i6.Protocol().deserialize<T>(data, t);
+      return _i7.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -72,10 +86,13 @@ class Protocol extends _i1.SerializationManager {
     if (data is _i2.Handle) {
       return 'Handle';
     }
-    if (data is _i3.SpraywallRoute) {
+    if (data is _i3.RouteHandleState) {
+      return 'RouteHandleState';
+    }
+    if (data is _i4.SpraywallRoute) {
       return 'SpraywallRoute';
     }
-    className = _i6.Protocol().getClassNameForObject(data);
+    className = _i7.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -91,12 +108,15 @@ class Protocol extends _i1.SerializationManager {
     if (dataClassName == 'Handle') {
       return deserialize<_i2.Handle>(data['data']);
     }
+    if (dataClassName == 'RouteHandleState') {
+      return deserialize<_i3.RouteHandleState>(data['data']);
+    }
     if (dataClassName == 'SpraywallRoute') {
-      return deserialize<_i3.SpraywallRoute>(data['data']);
+      return deserialize<_i4.SpraywallRoute>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth.')) {
       data['className'] = dataClassName.substring(15);
-      return _i6.Protocol().deserializeByClassName(data);
+      return _i7.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }

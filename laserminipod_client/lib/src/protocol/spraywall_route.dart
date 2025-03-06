@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
+import 'route_handle_state.dart' as _i2;
 
 abstract class SpraywallRoute implements _i1.SerializableModel {
   SpraywallRoute._({
@@ -17,9 +18,9 @@ abstract class SpraywallRoute implements _i1.SerializableModel {
     required this.name,
     this.description,
     required this.difficulty,
-    required this.handles,
     DateTime? creationDate,
     required this.userInfoId,
+    this.routeHandleStates,
   }) : creationDate = creationDate ?? DateTime.now();
 
   factory SpraywallRoute({
@@ -27,9 +28,9 @@ abstract class SpraywallRoute implements _i1.SerializableModel {
     required String name,
     String? description,
     required int difficulty,
-    required List<int> handles,
     DateTime? creationDate,
     required int userInfoId,
+    List<_i2.RouteHandleState>? routeHandleStates,
   }) = _SpraywallRouteImpl;
 
   factory SpraywallRoute.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -38,11 +39,13 @@ abstract class SpraywallRoute implements _i1.SerializableModel {
       name: jsonSerialization['name'] as String,
       description: jsonSerialization['description'] as String?,
       difficulty: jsonSerialization['difficulty'] as int,
-      handles:
-          (jsonSerialization['handles'] as List).map((e) => e as int).toList(),
       creationDate:
           _i1.DateTimeJsonExtension.fromJson(jsonSerialization['creationDate']),
       userInfoId: jsonSerialization['userInfoId'] as int,
+      routeHandleStates: (jsonSerialization['routeHandleStates'] as List?)
+          ?.map(
+              (e) => _i2.RouteHandleState.fromJson((e as Map<String, dynamic>)))
+          .toList(),
     );
   }
 
@@ -57,20 +60,20 @@ abstract class SpraywallRoute implements _i1.SerializableModel {
 
   int difficulty;
 
-  List<int> handles;
-
   DateTime creationDate;
 
   int userInfoId;
+
+  List<_i2.RouteHandleState>? routeHandleStates;
 
   SpraywallRoute copyWith({
     int? id,
     String? name,
     String? description,
     int? difficulty,
-    List<int>? handles,
     DateTime? creationDate,
     int? userInfoId,
+    List<_i2.RouteHandleState>? routeHandleStates,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -79,9 +82,11 @@ abstract class SpraywallRoute implements _i1.SerializableModel {
       'name': name,
       if (description != null) 'description': description,
       'difficulty': difficulty,
-      'handles': handles.toJson(),
       'creationDate': creationDate.toJson(),
       'userInfoId': userInfoId,
+      if (routeHandleStates != null)
+        'routeHandleStates':
+            routeHandleStates?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -99,17 +104,17 @@ class _SpraywallRouteImpl extends SpraywallRoute {
     required String name,
     String? description,
     required int difficulty,
-    required List<int> handles,
     DateTime? creationDate,
     required int userInfoId,
+    List<_i2.RouteHandleState>? routeHandleStates,
   }) : super._(
           id: id,
           name: name,
           description: description,
           difficulty: difficulty,
-          handles: handles,
           creationDate: creationDate,
           userInfoId: userInfoId,
+          routeHandleStates: routeHandleStates,
         );
 
   @override
@@ -118,18 +123,20 @@ class _SpraywallRouteImpl extends SpraywallRoute {
     String? name,
     Object? description = _Undefined,
     int? difficulty,
-    List<int>? handles,
     DateTime? creationDate,
     int? userInfoId,
+    Object? routeHandleStates = _Undefined,
   }) {
     return SpraywallRoute(
       id: id is int? ? id : this.id,
       name: name ?? this.name,
       description: description is String? ? description : this.description,
       difficulty: difficulty ?? this.difficulty,
-      handles: handles ?? this.handles.map((e0) => e0).toList(),
       creationDate: creationDate ?? this.creationDate,
       userInfoId: userInfoId ?? this.userInfoId,
+      routeHandleStates: routeHandleStates is List<_i2.RouteHandleState>?
+          ? routeHandleStates
+          : this.routeHandleStates?.map((e0) => e0.copyWith()).toList(),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:user_app/common/enums/handle_state_enum.dart';
 import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
@@ -11,7 +11,7 @@ class SpraywallController extends ChangeNotifier
   final HandleModelAbstract handleModel;
   final SpraywallModelAbstract spraywallModel;
 
-  List<int> currentRoute = [];
+  Map<int, HandleStateEnum> currentRoute = {};
 
   SpraywallController(
       {required this.handleModel,
@@ -19,42 +19,49 @@ class SpraywallController extends ChangeNotifier
       required this.spraywallModel});
 
   @override
-  bool toggleHandle(int id) {
+  HandleStateEnum toggleHandle(int id) {
     spraywallModel.toggleHandle(id);
-    if (currentRoute.contains(id)) {
+    if (currentRoute[id]!.isLastElement()) {
       currentRoute.remove(id);
+      return HandleStateEnum.deactivated;
+    }
+    if (currentRoute.containsKey(id)) {
+      currentRoute[id] = currentRoute[id]!.increase();
       notifyListeners();
-      return false;
+      return currentRoute[id]!;
     } else {
-      currentRoute.add(id);
+      currentRoute[id] = HandleStateEnum.normal;
       notifyListeners();
-      return true;
+      return HandleStateEnum.normal;
     }
   }
 
   @override
   void clearCurrentRoute() {
     spraywallModel.clearCurrentRoute();
-    currentRoute = [];
+    currentRoute = {};
     notifyListeners();
   }
 
   /// loads the given route to the spraywall screen panel
   @override
-  void displayRoute(SpraywallRoute route) {
-    spraywallModel.loadRoute(route);
-    currentRoute = [...route.handles];
+  void displayRoute(Map<int, HandleStateEnum> route) {
+    // TODO: fix
+    // spraywallModel.loadRoute(route);
+    currentRoute = route;
     notifyListeners();
   }
 
   @override
-  List<int> getCurrentRoute() {
-    // TODO: Klasse für HandleMap bauen
+  Map<int, HandleStateEnum> getCurrentRoute() {
     return currentRoute;
   }
 
   @override
-  bool isHandleActivated(int id) {
-    return currentRoute.contains(id);
+  HandleStateEnum getHandleStatus(int id) {
+    if (!currentRoute.containsKey(id)) {
+      return HandleStateEnum.deactivated;
+    }
+    return currentRoute[id]!;
   }
 }

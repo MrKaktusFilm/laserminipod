@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:user_app/common/enums/handle_state_enum.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
@@ -57,6 +58,7 @@ class RouteController extends ChangeNotifier
 
   @override
   void saveCurrentRoute(String? description, int difficulty) async {
+    // TODO: filter deactivated handles
     _isLoading = true;
     notifyListeners();
     try {
@@ -67,13 +69,14 @@ class RouteController extends ChangeNotifier
         return;
       }
 
-      var currentRoute = spraywallController.getCurrentRoute();
+      var handleStates =
+          _convertHandleMap(spraywallController.getCurrentRoute());
 
       final success = await routeModel.saveRoute(SpraywallRoute(
           name: _name.trim(),
           difficulty: difficulty,
           description: description,
-          handles: currentRoute,
+          routeHandleStates: handleStates,
           userInfoId: userController.getSignedInUserId()!));
       if (success) {
         UiHelper.showSnackbar(
@@ -143,7 +146,6 @@ class RouteController extends ChangeNotifier
 
   @override
   Future<void> deleteRoute(int id) async {
-    // TODO: delete doesn't update the UI
     await routeModel.deleteRoute(id);
     await loadAllRoutes();
     notifyListeners();
@@ -151,7 +153,12 @@ class RouteController extends ChangeNotifier
 
   @override
   Future<bool> existsCurrentRouteAlready() async {
-    return routeModel.existsRouteAlready(spraywallController.getCurrentRoute());
+    var handleStates = spraywallController.getCurrentRoute();
+    Map<int, int> handleStatesInt = {};
+    handleStates.forEach((id, state) {
+      handleStatesInt[id] = state.value;
+    });
+    return routeModel.existsRouteAlready(handleStatesInt);
   }
 
   @override
@@ -179,6 +186,23 @@ class RouteController extends ChangeNotifier
     return null;
   }
 
+  List<RouteHandleState> _convertHandleMap(
+      Map<int, HandleStateEnum> handleMap) {
+    List<RouteHandleState> handleStates = [];
+    handleMap.forEach((id, state) => handleStates
+        .add(RouteHandleState(routeId: -1, handleId: id, state: state.value)));
+    return handleStates;
+  }
+
   @override
   String? get nameErrorMessage => _nameErrorMessage;
+
+  @override
+  Future<void> displayRoute(int routeId) async {
+    Map<int, int> mapInts = await routeModel.getHandleStatesForRoute(routeId);
+    Map<int, HandleStateEnum> mapStates = {};
+    mapInts.forEach(
+        (id, state) => mapStates[id] = HandleStateEnum.fromValue(state)!);
+    spraywallController.displayRoute(mapStates);
+  }
 }
