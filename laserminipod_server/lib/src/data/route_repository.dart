@@ -24,6 +24,11 @@ class RouteRepository {
     return result;
   }
 
+  Future<List<int>> getAllIds(Session session) async {
+    List<SpraywallRoute> routes = await getAll(session);
+    return routes.map((route) => route.id!).toList();
+  }
+
   Future<List<SpraywallRoute>> getByName(Session session, String name) async {
     return await SpraywallRoute.db.find(
       session,

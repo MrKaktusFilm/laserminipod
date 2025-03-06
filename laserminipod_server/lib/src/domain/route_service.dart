@@ -1,6 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:laserminipod_server/src/data/route_handle_state_repository.dart';
 import 'package:laserminipod_server/src/data/route_repository.dart';
-import 'package:laserminipod_server/src/extensions/spraywall_route_ext.dart';
 import 'package:laserminipod_server/src/generated/spraywall_route.dart';
 import 'package:serverpod/serverpod.dart';
 
@@ -46,10 +46,9 @@ class RouteService {
   }
 
   Future<bool> existsRouteAlready(Session session, Map<int, int> route) async {
-    // TODO: fix
-    var allRoutes = await _repository.getAll(session);
+    var allRoutes = await _getHandleStatesForAllRoutes(session);
     return allRoutes
-        .any((existingRoute) => existingRoute.areRoutesIdentical(route));
+        .any((existingRoute) => MapEquality().equals(existingRoute, route));
   }
 
   Future<bool> nameAlreadyAssigned(Session session, String name) async {
@@ -66,6 +65,16 @@ class RouteService {
       stateMap[state.handleId] = state.state;
     }
     return stateMap;
+  }
+
+  Future<List<Map<int, int>>> _getHandleStatesForAllRoutes(
+      Session session) async {
+    List<int> routeIds = await _repository.getAllIds(session);
+    List<Map<int, int>> maps = [];
+    for (var id in routeIds) {
+      maps.add(await getHandleStatesForRoute(session, id));
+    }
+    return maps;
   }
 
   void test(Session session) {

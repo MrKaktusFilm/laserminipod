@@ -21,12 +21,12 @@ class SpraywallController extends ChangeNotifier
   @override
   HandleStateEnum toggleHandle(int id) {
     spraywallModel.toggleHandle(id);
-    if (currentRoute[id]!.isLastElement()) {
-      currentRoute.remove(id);
-      return HandleStateEnum.deactivated;
-    }
     if (currentRoute.containsKey(id)) {
       currentRoute[id] = currentRoute[id]!.increase();
+      if (currentRoute[id] == HandleStateEnum.deactivated) {
+        currentRoute.remove(id);
+        return HandleStateEnum.deactivated;
+      }
       notifyListeners();
       return currentRoute[id]!;
     } else {
