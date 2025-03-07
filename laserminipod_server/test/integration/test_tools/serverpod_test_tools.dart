@@ -516,9 +516,10 @@ class _SpraywallEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<bool> toggleHandle(
+  _i3.Future<void> toggleHandle(
     _i1.TestSessionBuilder sessionBuilder,
     int id,
+    int state,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -531,13 +532,16 @@ class _SpraywallEndpoint {
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'spraywall',
           methodName: 'toggleHandle',
-          parameters: _i1.testObjectToJson({'id': id}),
+          parameters: _i1.testObjectToJson({
+            'id': id,
+            'state': state,
+          }),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<bool>);
+        ) as _i3.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -574,7 +578,7 @@ class _SpraywallEndpoint {
 
   _i3.Future<void> loadRoute(
     _i1.TestSessionBuilder sessionBuilder,
-    _i5.SpraywallRoute route,
+    Map<int, int> route,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -594,35 +598,6 @@ class _SpraywallEndpoint {
           _localUniqueSession,
           _localCallContext.arguments,
         ) as _i3.Future<void>);
-        return _localReturnValue;
-      } finally {
-        await _localUniqueSession.close();
-      }
-    });
-  }
-
-  _i3.Future<bool> isHandleActivated(
-    _i1.TestSessionBuilder sessionBuilder,
-    int id,
-  ) async {
-    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
-      var _localUniqueSession =
-          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-        endpoint: 'spraywall',
-        method: 'isHandleActivated',
-      );
-      try {
-        var _localCallContext = await _endpointDispatch.getMethodCallContext(
-          createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'spraywall',
-          methodName: 'isHandleActivated',
-          parameters: _i1.testObjectToJson({'id': id}),
-          serializationManager: _serializationManager,
-        );
-        var _localReturnValue = await (_localCallContext.method.call(
-          _localUniqueSession,
-          _localCallContext.arguments,
-        ) as _i3.Future<bool>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

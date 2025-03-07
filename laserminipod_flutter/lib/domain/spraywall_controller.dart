@@ -20,20 +20,23 @@ class SpraywallController extends ChangeNotifier
 
   @override
   HandleStateEnum toggleHandle(int id) {
-    spraywallModel.toggleHandle(id);
+    HandleStateEnum? newState;
     if (currentRoute.containsKey(id)) {
       currentRoute[id] = currentRoute[id]!.increase();
       if (currentRoute[id] == HandleStateEnum.deactivated) {
         currentRoute.remove(id);
-        return HandleStateEnum.deactivated;
+        newState = HandleStateEnum.deactivated;
+      } else {
+        newState = currentRoute[id]!;
       }
-      notifyListeners();
-      return currentRoute[id]!;
     } else {
       currentRoute[id] = HandleStateEnum.normal;
-      notifyListeners();
-      return HandleStateEnum.normal;
+      newState = HandleStateEnum.normal;
     }
+    // fire and forget
+    spraywallModel.toggleHandle(id, newState.value);
+    notifyListeners();
+    return newState;
   }
 
   @override
@@ -46,8 +49,9 @@ class SpraywallController extends ChangeNotifier
   /// loads the given route to the spraywall screen panel
   @override
   void displayRoute(Map<int, HandleStateEnum> route) {
-    // TODO: fix
-    // spraywallModel.loadRoute(route);
+    Map<int, int> routeIntMap = {};
+    route.forEach((id, state) => routeIntMap[id] = state.value);
+    spraywallModel.uploadRoute(routeIntMap);
     currentRoute = route;
     notifyListeners();
   }

@@ -1,32 +1,22 @@
-import 'package:laserminipod_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 
 class SpraywallService {
-  List<int> currentRoute = [];
+  Map<int, int> currentRoute = {};
 
-  bool toggleHandle(int id) {
-    if (currentRoute.contains(id)) {
+  void toggleHandle(int id, int status) {
+    if (status == 4 && currentRoute.containsKey(id)) {
       currentRoute.remove(id);
-      return false;
-    } else {
-      currentRoute.add(id);
-      return true;
+      return;
     }
+    currentRoute[id] = status;
   }
 
   void clearCurrentRoute() {
-    currentRoute = [];
+    currentRoute = {};
   }
 
   /// loads the given route to the spraywall screen panel
-  void loadRoute(Session session, SpraywallRoute route) {
-    currentRoute = route.routeHandleStates!
-        .map((routeHandleState) => routeHandleState.handleId)
-        .toList();
-    session.log('Loaded route. ID: ${route.id}');
-  }
-
-  bool isHandleActivated(int id) {
-    return currentRoute.contains(id);
+  void loadRoute(Session session, Map<int, int> route) {
+    currentRoute = Map.from(route);
   }
 }

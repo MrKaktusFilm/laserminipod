@@ -138,10 +138,17 @@ class EndpointSpraywall extends _i1.EndpointRef {
   @override
   String get name => 'spraywall';
 
-  _i2.Future<bool> toggleHandle(int id) => caller.callServerEndpoint<bool>(
+  _i2.Future<void> toggleHandle(
+    int id,
+    int state,
+  ) =>
+      caller.callServerEndpoint<void>(
         'spraywall',
         'toggleHandle',
-        {'id': id},
+        {
+          'id': id,
+          'state': state,
+        },
       );
 
   _i2.Future<void> clearCurrentRoute() => caller.callServerEndpoint<void>(
@@ -150,17 +157,11 @@ class EndpointSpraywall extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<void> loadRoute(_i4.SpraywallRoute route) =>
+  _i2.Future<void> loadRoute(Map<int, int> route) =>
       caller.callServerEndpoint<void>(
         'spraywall',
         'loadRoute',
         {'route': route},
-      );
-
-  _i2.Future<bool> isHandleActivated(int id) => caller.callServerEndpoint<bool>(
-        'spraywall',
-        'isHandleActivated',
-        {'id': id},
       );
 }
 

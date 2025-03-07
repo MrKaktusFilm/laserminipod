@@ -1,11 +1,10 @@
-import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
 import 'package:user_app/main.dart';
 
 class SpraywallModel implements SpraywallModelAbstract {
   @override
-  Future<bool> toggleHandle(int id) async {
-    return await client.spraywall.toggleHandle(id);
+  Future<void> toggleHandle(int id, int state) async {
+    await client.spraywall.toggleHandle(id, state);
   }
 
   @override
@@ -14,12 +13,7 @@ class SpraywallModel implements SpraywallModelAbstract {
   }
 
   @override
-  Future<void> loadRoute(SpraywallRoute route) async {
+  Future<void> uploadRoute(Map<int, int> route) async {
     await client.spraywall.loadRoute(route);
-  }
-
-  @override
-  Future<bool> isHandleActivated(int id) async {
-    return await client.spraywall.isHandleActivated(id);
   }
 }

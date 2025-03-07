@@ -58,7 +58,6 @@ class RouteController extends ChangeNotifier
 
   @override
   void saveCurrentRoute(String? description, int difficulty) async {
-    // TODO: filter deactivated handles
     _isLoading = true;
     notifyListeners();
     try {

@@ -280,7 +280,12 @@ class Endpoints extends _i1.EndpointDispatch {
               name: 'id',
               type: _i1.getType<int>(),
               nullable: false,
-            )
+            ),
+            'state': _i1.ParameterDescription(
+              name: 'state',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
           },
           call: (
             _i1.Session session,
@@ -289,6 +294,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['spraywall'] as _i4.SpraywallEndpoint).toggleHandle(
             session,
             params['id'],
+            params['state'],
           ),
         ),
         'clearCurrentRoute': _i1.MethodConnector(
@@ -306,7 +312,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'route': _i1.ParameterDescription(
               name: 'route',
-              type: _i1.getType<_i6.SpraywallRoute>(),
+              type: _i1.getType<Map<int, int>>(),
               nullable: false,
             )
           },
@@ -317,25 +323,6 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['spraywall'] as _i4.SpraywallEndpoint).loadRoute(
             session,
             params['route'],
-          ),
-        ),
-        'isHandleActivated': _i1.MethodConnector(
-          name: 'isHandleActivated',
-          params: {
-            'id': _i1.ParameterDescription(
-              name: 'id',
-              type: _i1.getType<int>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['spraywall'] as _i4.SpraywallEndpoint)
-                  .isHandleActivated(
-            session,
-            params['id'],
           ),
         ),
       },

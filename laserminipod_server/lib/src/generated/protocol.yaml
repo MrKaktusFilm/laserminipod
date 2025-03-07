@@ -16,7 +16,6 @@ spraywall:
   - toggleHandle:
   - clearCurrentRoute:
   - loadRoute:
-  - isHandleActivated:
 user:
   - changePassword:
   - checkPassword:
