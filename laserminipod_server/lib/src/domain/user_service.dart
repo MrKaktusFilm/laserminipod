@@ -48,6 +48,7 @@ class UserService {
     } catch (e, stackTrace) {
       session.log('Error creating user: $e\n$stackTrace',
           level: LogLevel.error);
+      rethrow;
     }
     return userInfo;
   }
@@ -70,6 +71,7 @@ class UserService {
     } catch (e, stackTrace) {
       session.log('Error changing password: $e\n$stackTrace',
           level: LogLevel.error);
+      rethrow;
     }
   }
 
@@ -86,7 +88,7 @@ class UserService {
     } catch (e, stackTrace) {
       session.log('Error checking password: $e\n$stackTrace',
           level: LogLevel.error);
-      return false;
+      rethrow;
     }
   }
 
@@ -103,10 +105,17 @@ class UserService {
     } catch (e, stackTrace) {
       session.log('Error deleting user: $e\n$stackTrace',
           level: LogLevel.error);
+      rethrow;
     }
   }
 
   Future<auth.UserInfo?> getUserById(Session session, int id) async {
-    return await _userRepository.getUserById(session, id);
+    try {
+      return await _userRepository.getUserById(session, id);
+    } on Exception catch (e, stackTrace) {
+      session.log('Error getting user by id: $e\n$stackTrace',
+          level: LogLevel.error);
+      rethrow;
+    }
   }
 }

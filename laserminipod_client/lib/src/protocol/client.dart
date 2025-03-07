@@ -123,12 +123,6 @@ class EndpointRoute extends _i1.EndpointRef {
         'getHandleStatesForRoute',
         {'routeId': routeId},
       );
-
-  _i2.Future<void> test() => caller.callServerEndpoint<void>(
-        'route',
-        'test',
-        {},
-      );
 }
 
 /// {@category Endpoint}

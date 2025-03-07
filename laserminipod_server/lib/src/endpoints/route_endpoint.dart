@@ -34,8 +34,4 @@ class RouteEndpoint extends Endpoint {
       Session session, int routeId) async {
     return await _routeService.getHandleStatesForRoute(session, routeId);
   }
-
-  Future<void> test(Session session) async {
-    _routeService.test(session);
-  }
 }
