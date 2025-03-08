@@ -66,5 +66,7 @@
     "selectDifficulty": "Select Difficulty",
     "myProjects": "My Projects",
     "myRoutes": "My Routes",
-    "allRoutes": "All Routes"
+    "allRoutes": "All Routes",
+    "userNameTaken": "The username is already taken",
+    "emailTaken": "An user with this email already exists"
 }

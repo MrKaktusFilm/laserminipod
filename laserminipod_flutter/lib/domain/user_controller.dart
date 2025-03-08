@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 import 'package:user_app/data/abstract/user_model_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
@@ -112,8 +113,8 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   @override
   Future<String?> createUser(BuildContext context, String userName,
       String email, String password) async {
+    var loc = UiHelper.getAppLocalization();
     try {
-      // TODO: mail / username already taken check
       await _userModel.createUser(email, userName, password);
       try {
         var result = await authController.signIn(
@@ -129,8 +130,14 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
       } finally {
         notifyListeners();
       }
+    } on CreateUserException catch (e) {
+      if (e.message.contains("email")) {
+        return loc.emailTaken;
+      }
+      if (e.message.contains("username")) {
+        return loc.userNameTaken;
+      }
     } on Exception {
-      var loc = UiHelper.getAppLocalization();
       return loc.createUserError;
     }
     return null;

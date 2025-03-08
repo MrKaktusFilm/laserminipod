@@ -10,6 +10,15 @@ class UserRepository {
     return users.isNotEmpty ? users.first : null;
   }
 
+  Future<auth.UserInfo?> getUserByUsername(
+      Session session, String username) async {
+    var users = await auth.UserInfo.db.find(
+      session,
+      where: (t) => t.userName.equals(username),
+    );
+    return users.isNotEmpty ? users.first : null;
+  }
+
   Future<auth.UserInfo?> createUser(
       Session session, auth.UserInfo userInfo, String hash) async {
     var userInfoDB = await auth.Users.createUser(session, userInfo);

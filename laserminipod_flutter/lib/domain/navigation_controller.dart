@@ -55,7 +55,7 @@ class NavigationController extends ChangeNotifier
         break;
       default:
     }
-    navigatorKey.currentContext?.pushReplacement(page.fullPath);
+    navigatorKey.currentContext?.go(page.fullPath);
   }
 
   @override

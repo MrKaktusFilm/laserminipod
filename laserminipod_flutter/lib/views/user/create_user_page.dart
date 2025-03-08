@@ -41,7 +41,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
       setState(() {
         _errorMessage = errorMessage;
       });
-      if (context.mounted) {
+      if (context.mounted && errorMessage == null) {
         Provider.of<NavigationControllerAbstract>(context, listen: false)
             .goToPage(AppRoute.home);
       }

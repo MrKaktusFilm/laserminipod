@@ -17,6 +17,7 @@ void run(List<String> args) async {
     authenticationHandler: auth.authenticationHandler,
   );
 
+  // TODO: fix error output
   await _ensureAdminUserExists(pod);
 
   // Start the server.
