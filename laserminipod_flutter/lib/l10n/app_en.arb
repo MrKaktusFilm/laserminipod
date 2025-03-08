@@ -49,6 +49,7 @@
     "routeNameEmpty": "The name cannot be empty",
     "routeAlreadyCreated": "The created route already exists",
     "routeLoadError": "There was an error loading the routes",
+    "routeDeleteError": "There was an error deleting the route",
     "loadHandleError": "There was an error loading the holds",
     "error": "An error occured",
     "termsAndConditions": "Terms and Conditions",

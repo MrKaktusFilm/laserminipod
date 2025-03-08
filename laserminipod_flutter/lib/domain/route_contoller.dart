@@ -145,9 +145,14 @@ class RouteController extends ChangeNotifier
 
   @override
   Future<void> deleteRoute(int id) async {
-    await routeModel.deleteRoute(id);
+    try {
+      await routeModel.deleteRoute(id);
+      notifyListeners();
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().routeDeleteError, e);
+    }
     await loadAllRoutes();
-    notifyListeners();
   }
 
   @override
@@ -198,10 +203,15 @@ class RouteController extends ChangeNotifier
 
   @override
   Future<void> displayRoute(int routeId) async {
-    Map<int, int> mapInts = await routeModel.getHandleStatesForRoute(routeId);
-    Map<int, HandleStateEnum> mapStates = {};
-    mapInts.forEach(
-        (id, state) => mapStates[id] = HandleStateEnum.fromValue(state)!);
-    spraywallController.displayRoute(mapStates);
+    try {
+      Map<int, int> mapInts = await routeModel.getHandleStatesForRoute(routeId);
+      Map<int, HandleStateEnum> mapStates = {};
+      mapInts.forEach(
+          (id, state) => mapStates[id] = HandleStateEnum.fromValue(state)!);
+      spraywallController.displayRoute(mapStates);
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().routeLoadError, e);
+    }
   }
 }

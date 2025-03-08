@@ -170,6 +170,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     return sessionManager.signedInUser!.id;
   }
 
+  /// exception handling in view
   @override
   Future<UserInfo?> getUserById(int id) async {
     return await _userModel.getUserById(id);

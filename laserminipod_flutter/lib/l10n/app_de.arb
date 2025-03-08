@@ -68,5 +68,6 @@
     "myRoutes": "Meine Routen",
     "allRoutes": "Alle Routen",
     "userNameTaken": "Der Benutzername ist bereits vergeben",
-    "emailTaken": "Es existiert bereits ein Nutzer mit dieser Email"
+    "emailTaken": "Es existiert bereits ein Nutzer mit dieser Email",
+    "routeDeleteError": "Beim Löschen der Route ist ein Fehler aufgetreten"
 }
