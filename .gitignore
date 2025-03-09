@@ -1,0 +1,59 @@
+# Compiled Object files
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+*.dll
+*.dylib
+*.so
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Visual Studio files
+*.opensdf
+*.sdf
+*.vcxproj.user
+*.vcxproj.filters
+*.ipch
+*.tlog
+*.log
+*.vspscc
+*.vssscc
+*.ncb
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+# Other files
+*.DS_Store
+*.directory
+.idea/
+.vscode/

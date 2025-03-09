@@ -1,9 +1,13 @@
+import 'package:laserminipod_server/src/domain/cpp_service.dart';
 import 'package:laserminipod_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 
 class SpraywallService {
   SpraywallRoute currentRoute =
       SpraywallRoute(handles: <int>[], id: 0, name: "");
+  final CppService cppService;
+
+  SpraywallService(this.cppService);
 
   bool toggleHandle(int id) {
     if (currentRoute.handles.contains(id)) {
@@ -17,6 +21,7 @@ class SpraywallService {
 
   void clearCurrentRoute() {
     currentRoute.handles = [];
+    cppService.hello();
   }
 
   /// loads the given route to the spraywall screen panel
