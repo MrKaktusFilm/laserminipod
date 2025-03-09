@@ -17,29 +17,14 @@ void run(List<String> args) async {
     authenticationHandler: auth.authenticationHandler,
   );
 
-  // TODO: fix error output
-  await _ensureAdminUserExists(pod);
-
   // Start the server.
   await pod.start();
+
+  // Initialize the user service.
+  init(pod);
 }
 
-// Function to ensure an admin user exists.
-Future<void> _ensureAdminUserExists(Serverpod pod) async {
-  const adminEmail = 't@t.de';
-  const adminPassword = 'pw';
-  const adminUsername = 'admin';
-
-  var session = await pod.createSession();
-
-  try {
-    var userService = getIt<UserService>();
-    await userService.createAdmin(
-        session, adminEmail, adminUsername, adminPassword);
-  } catch (e) {
-    print('Error ensuring admin user exists: $e');
-  } finally {
-    // Close the session
-    await session.close();
-  }
+void init(Serverpod pod) {
+  final userService = getIt<UserService>();
+  userService.initialize(pod);
 }

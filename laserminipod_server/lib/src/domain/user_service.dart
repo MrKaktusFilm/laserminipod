@@ -8,6 +8,18 @@ class UserService {
 
   UserService(this._userRepository);
 
+  Future<void> initialize(Serverpod pod) async {
+    var session = await pod.createSession();
+    try {
+      await ensureAdminUserExists(session);
+    } catch (e) {
+      session.log('Error ensuring admin user exists in constructor: $e',
+          level: LogLevel.error);
+    } finally {
+      await session.close();
+    }
+  }
+
   Future<auth.UserInfo?> createUser(
       Session session, String email, String userName, String password) async {
     return await _createUser(session, email, userName, password, ['user']);
@@ -123,5 +135,24 @@ class UserService {
           level: LogLevel.error);
       rethrow;
     }
+  }
+
+  Future<void> ensureAdminUserExists(Session session) async {
+    const adminEmail = 't@t.de';
+    const adminPassword = 'pw';
+    const adminUsername = 'admin';
+
+    try {
+      var existingAdmin =
+          await _userRepository.getUserByEmail(session, adminEmail);
+      if (existingAdmin != null) {
+        session.log('Admin user already exists: $adminEmail',
+            level: LogLevel.info);
+        return;
+      }
+      await createAdmin(session, adminEmail, adminUsername, adminPassword);
+      session.log('Admin user created successfully: $adminEmail',
+          level: LogLevel.info);
+    } catch (e) {}
   }
 }
