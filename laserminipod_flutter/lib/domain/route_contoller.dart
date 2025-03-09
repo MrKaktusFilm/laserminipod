@@ -24,6 +24,8 @@ class RouteController extends ChangeNotifier
   String? _nameErrorMessage;
   int _routeListTabIndex = 0;
   List<SpraywallRoute> allRoutes = [];
+  List<int> _projects = [];
+  List<int> _sents = [];
 
   RouteController(
       {required this.navigationController,
@@ -147,12 +149,15 @@ class RouteController extends ChangeNotifier
   Future<void> deleteRoute(int id) async {
     try {
       await routeModel.deleteRoute(id);
+      allRoutes.removeWhere((route) => route.id == id);
+      _sents.remove(id);
+      _projects.remove(id);
       notifyListeners();
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
           UiHelper.getAppLocalization().routeDeleteError, e);
     }
-    await loadAllRoutes();
+    await loadRouteInfo();
   }
 
   @override
@@ -171,9 +176,14 @@ class RouteController extends ChangeNotifier
   }
 
   @override
-  Future<bool> loadAllRoutes() async {
+  Future<bool> loadRouteInfo() async {
     try {
       allRoutes = await routeModel.loadAllRoutes();
+      if (userController.isSignedIn()) {
+        int userId = userController.getSignedInUserId()!;
+        _projects = await routeModel.loadProjects(userId);
+        _sents = await routeModel.loadSents(userId);
+      }
       return true;
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
@@ -213,5 +223,69 @@ class RouteController extends ChangeNotifier
       UiHelper.showErrorSnackbar(
           UiHelper.getAppLocalization().routeLoadError, e);
     }
+  }
+
+  @override
+  Future<void> addProjectForUser(int routeId) async {
+    try {
+      int userId = userController.getSignedInUserId()!;
+      await routeModel.addProjectForUser(routeId, userId);
+      _projects.add(routeId);
+      UiHelper.showSnackbar(
+          UiHelper.getAppLocalization().projectAdded, Colors.green);
+      notifyListeners();
+    } catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().error, e as Exception);
+    }
+  }
+
+  @override
+  Future<void> deleteProjectForUser(int routeId) async {
+    try {
+      int userId = userController.getSignedInUserId()!;
+      await routeModel.deleteProjectForUser(routeId, userId);
+      _projects.remove(routeId);
+      notifyListeners();
+    } catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().error, e as Exception);
+    }
+  }
+
+  @override
+  Future<void> addSentForUser(int routeId) async {
+    try {
+      int userId = userController.getSignedInUserId()!;
+      await routeModel.addSentForUser(routeId, userId);
+      _sents.add(routeId);
+      notifyListeners();
+    } catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().error, e as Exception);
+    }
+  }
+
+  @override
+  Future<void> deleteSentForUser(int routeId) async {
+    try {
+      int userId = userController.getSignedInUserId()!;
+      await routeModel.deleteSentForUser(routeId, userId);
+      _sents.remove(routeId);
+      notifyListeners();
+    } catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().error, e as Exception);
+    }
+  }
+
+  @override
+  List<SpraywallRoute> getMyProjects() {
+    return allRoutes.where((route) => _projects.contains(route.id)).toList();
+  }
+
+  @override
+  bool isSent(int routeId) {
+    return _sents.contains(routeId);
   }
 }

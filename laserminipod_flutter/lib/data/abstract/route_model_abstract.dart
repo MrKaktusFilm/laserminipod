@@ -12,4 +12,16 @@ abstract class RouteModelAbstract {
   Future<bool> nameAlreadyAssigned(String name);
 
   Future<Map<int, int>> getHandleStatesForRoute(int routeId);
+
+  Future<void> addProjectForUser(int routeId, int userId);
+
+  Future<void> deleteProjectForUser(int routeId, int userId);
+
+  Future<void> addSentForUser(int routeId, int userId);
+
+  Future<void> deleteSentForUser(int routeId, int userId);
+
+  Future<List<int>> loadProjects(int userId);
+
+  Future<List<int>> loadSents(int userId);
 }

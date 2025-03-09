@@ -49,7 +49,7 @@ class _RouteListPageState extends State<RouteListPage> {
     }
 
     return FutureBuilder(
-        future: routeController.loadAllRoutes(),
+        future: routeController.loadRouteInfo(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return content;

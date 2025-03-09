@@ -1,14 +1,20 @@
 import 'package:collection/collection.dart';
-import 'package:laserminipod_server/src/data/route_handle_state_repository.dart';
+import 'package:laserminipod_server/src/data/route_handle_state_repository.dart'
+    as state;
 import 'package:laserminipod_server/src/data/route_repository.dart';
+import 'package:laserminipod_server/src/data/route_user_projects_repository.dart';
+import 'package:laserminipod_server/src/data/route_user_sents_repository.dart';
 import 'package:laserminipod_server/src/generated/spraywall_route.dart';
 import 'package:serverpod/serverpod.dart';
 
 class RouteService {
   final RouteRepository _repository;
-  final RouteHandleStateRepository _handleStateRepository;
+  final state.RouteHandleStateRepository _handleStateRepository;
+  final RouteUserProjectsRepository _routeUserProjectsRepository;
+  final RouteUserSentsRepository _routeUserSentsRepository;
 
-  RouteService(this._repository, this._handleStateRepository);
+  RouteService(this._repository, this._handleStateRepository,
+      this._routeUserProjectsRepository, this._routeUserSentsRepository);
 
   Future<void> deleteRoute(Session session, int id) async {
     try {
@@ -110,5 +116,39 @@ class RouteService {
           level: LogLevel.error);
       rethrow;
     }
+  }
+
+  Future<List<int>> loadProjects(Session session, int userId) async {
+    var routes =
+        await _routeUserProjectsRepository.loadRoutesForUser(session, userId);
+    return routes.map((route) => route.routeId).toList();
+  }
+
+  Future<List<int>> loadSents(Session session, int userId) async {
+    var routes =
+        await _routeUserSentsRepository.loadRoutesForUser(session, userId);
+    return routes.map((route) => route.routeId).toList();
+  }
+
+  Future<void> addProjectForUser(
+      Session session, int routeId, int userId) async {
+    await _routeUserProjectsRepository.addRouteForUser(
+        session, routeId, userId);
+  }
+
+  Future<void> deleteProjectForUser(
+      Session session, int routeId, int userId) async {
+    await _routeUserProjectsRepository.deleteRouteForUser(
+        session, routeId, userId);
+  }
+
+  Future<void> addSentForUser(Session session, int routeId, int userId) async {
+    await _routeUserSentsRepository.addRouteForUser(session, routeId, userId);
+  }
+
+  Future<void> deleteSentForUser(
+      Session session, int routeId, int userId) async {
+    await _routeUserSentsRepository.deleteRouteForUser(
+        session, routeId, userId);
   }
 }

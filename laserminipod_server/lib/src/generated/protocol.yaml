@@ -11,6 +11,12 @@ route:
   - existsRouteAlready:
   - nameAlreadyAssigned:
   - getHandleStatesForRoute:
+  - loadProjects:
+  - loadSents:
+  - addProjectForUser:
+  - deleteProjectForUser:
+  - addSentForUser:
+  - deleteSentForUser:
 spraywall:
   - toggleHandle:
   - clearCurrentRoute:

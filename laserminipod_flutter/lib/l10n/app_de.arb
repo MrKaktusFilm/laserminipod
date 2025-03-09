@@ -69,5 +69,12 @@
     "allRoutes": "Alle Routen",
     "userNameTaken": "Der Benutzername ist bereits vergeben",
     "emailTaken": "Es existiert bereits ein Nutzer mit dieser Email",
-    "routeDeleteError": "Beim Löschen der Route ist ein Fehler aufgetreten"
+    "routeDeleteError": "Beim Löschen der Route ist ein Fehler aufgetreten",
+    "projectAdded": "Zu Projekten hinzugefügt",
+    "projectLoadError": "Beim Laden der Projekte ist ein Fehler aufgetreten",
+    "addToProjects": "Zu Projekten hinzufügen",
+    "removeFromProjects": "Aus Projekten entfernen",
+    "addToSents": "Geschafft!",
+    "removeFromSents": "Nicht geschafft",
+    "emptyRouteList": "Diese Leere... so leer"
 }

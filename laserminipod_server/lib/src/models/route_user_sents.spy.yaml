@@ -1,0 +1,11 @@
+class: RouteUserSents
+table: route_user_sents
+fields:
+    # Foreign key to the spraywall_route table
+    routeId: int, relation(parent=spraywallroute)
+    # Foreign key to the user_info table
+    userId: int, relation(parent=serverpod_user_info)
+indexes:
+    route_user_sents_unique_idx:
+        fields: routeId, userId
+        unique: true

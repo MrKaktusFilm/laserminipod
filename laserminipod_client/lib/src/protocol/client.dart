@@ -123,6 +123,72 @@ class EndpointRoute extends _i1.EndpointRef {
         'getHandleStatesForRoute',
         {'routeId': routeId},
       );
+
+  _i2.Future<List<int>> loadProjects(int userId) =>
+      caller.callServerEndpoint<List<int>>(
+        'route',
+        'loadProjects',
+        {'userId': userId},
+      );
+
+  _i2.Future<List<int>> loadSents(int userId) =>
+      caller.callServerEndpoint<List<int>>(
+        'route',
+        'loadSents',
+        {'userId': userId},
+      );
+
+  _i2.Future<void> addProjectForUser(
+    int routeId,
+    int userId,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'route',
+        'addProjectForUser',
+        {
+          'routeId': routeId,
+          'userId': userId,
+        },
+      );
+
+  _i2.Future<void> deleteProjectForUser(
+    int routeId,
+    int userId,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'route',
+        'deleteProjectForUser',
+        {
+          'routeId': routeId,
+          'userId': userId,
+        },
+      );
+
+  _i2.Future<void> addSentForUser(
+    int routeId,
+    int userId,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'route',
+        'addSentForUser',
+        {
+          'routeId': routeId,
+          'userId': userId,
+        },
+      );
+
+  _i2.Future<void> deleteSentForUser(
+    int routeId,
+    int userId,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'route',
+        'deleteSentForUser',
+        {
+          'routeId': routeId,
+          'userId': userId,
+        },
+      );
 }
 
 /// {@category Endpoint}

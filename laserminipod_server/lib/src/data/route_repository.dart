@@ -3,6 +3,19 @@ import '../generated/protocol.dart';
 
 class RouteRepository {
   Future<void> deleteById(Session session, int id) async {
+    // Delete related RouteHandleState entries
+    await RouteHandleState.db
+        .deleteWhere(session, where: (t) => t.routeId.equals(id));
+
+    // Delete related RouteUserProjects entries
+    await RouteUserProjects.db
+        .deleteWhere(session, where: (t) => t.routeId.equals(id));
+
+    // Delete related RouteUserSents entries
+    await RouteUserSents.db
+        .deleteWhere(session, where: (t) => t.routeId.equals(id));
+
+    // Delete the route itself
     await SpraywallRoute.db.deleteWhere(session, where: (t) => t.id.equals(id));
   }
 

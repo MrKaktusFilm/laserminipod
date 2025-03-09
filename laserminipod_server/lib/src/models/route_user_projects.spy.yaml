@@ -1,0 +1,12 @@
+# Represents the many-to-many relationship between users and routes
+class: RouteUserProjects
+table: route_user_projects
+fields:
+    # Foreign key to the spraywall_route table
+    routeId: int, relation(parent=spraywallroute)
+    # Foreign key to the user_info table
+    userId: int, relation(parent=serverpod_user_info)
+indexes:
+    route_user_projects_unique_idx:
+        fields: routeId, userId
+        unique: true

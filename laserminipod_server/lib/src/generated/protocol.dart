@@ -15,12 +15,16 @@ import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
 import 'exceptions/create_user_exception.dart' as _i4;
 import 'handle.dart' as _i5;
 import 'route_handle_state.dart' as _i6;
-import 'spraywall_route.dart' as _i7;
-import 'package:laserminipod_server/src/generated/handle.dart' as _i8;
-import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i9;
+import 'route_user_projects.dart' as _i7;
+import 'route_user_sents.dart' as _i8;
+import 'spraywall_route.dart' as _i9;
+import 'package:laserminipod_server/src/generated/handle.dart' as _i10;
+import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i11;
 export 'exceptions/create_user_exception.dart';
 export 'handle.dart';
 export 'route_handle_state.dart';
+export 'route_user_projects.dart';
+export 'route_user_sents.dart';
 export 'spraywall_route.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -169,6 +173,170 @@ class Protocol extends _i1.SerializationManagerServer {
       managed: true,
     ),
     _i2.TableDefinition(
+      name: 'route_user_projects',
+      dartName: 'RouteUserProjects',
+      schema: 'public',
+      module: 'laserminipod',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'route_user_projects_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'routeId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'route_user_projects_fk_0',
+          columns: ['routeId'],
+          referenceTable: 'spraywallroute',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        ),
+        _i2.ForeignKeyDefinition(
+          constraintName: 'route_user_projects_fk_1',
+          columns: ['userId'],
+          referenceTable: 'serverpod_user_info',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        ),
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'route_user_projects_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'route_user_projects_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'routeId',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'route_user_sents',
+      dartName: 'RouteUserSents',
+      schema: 'public',
+      module: 'laserminipod',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'route_user_sents_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'routeId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'route_user_sents_fk_0',
+          columns: ['routeId'],
+          referenceTable: 'spraywallroute',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        ),
+        _i2.ForeignKeyDefinition(
+          constraintName: 'route_user_sents_fk_1',
+          columns: ['userId'],
+          referenceTable: 'serverpod_user_info',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        ),
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'route_user_sents_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'route_user_sents_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'routeId',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
       name: 'spraywallroute',
       dartName: 'SpraywallRoute',
       schema: 'public',
@@ -261,8 +429,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i6.RouteHandleState) {
       return _i6.RouteHandleState.fromJson(data) as T;
     }
-    if (t == _i7.SpraywallRoute) {
-      return _i7.SpraywallRoute.fromJson(data) as T;
+    if (t == _i7.RouteUserProjects) {
+      return _i7.RouteUserProjects.fromJson(data) as T;
+    }
+    if (t == _i8.RouteUserSents) {
+      return _i8.RouteUserSents.fromJson(data) as T;
+    }
+    if (t == _i9.SpraywallRoute) {
+      return _i9.SpraywallRoute.fromJson(data) as T;
     }
     if (t == _i1.getType<_i4.CreateUserException?>()) {
       return (data != null ? _i4.CreateUserException.fromJson(data) : null)
@@ -274,8 +448,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i6.RouteHandleState?>()) {
       return (data != null ? _i6.RouteHandleState.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i7.SpraywallRoute?>()) {
-      return (data != null ? _i7.SpraywallRoute.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i7.RouteUserProjects?>()) {
+      return (data != null ? _i7.RouteUserProjects.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i8.RouteUserSents?>()) {
+      return (data != null ? _i8.RouteUserSents.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i9.SpraywallRoute?>()) {
+      return (data != null ? _i9.SpraywallRoute.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<List<_i6.RouteHandleState>?>()) {
       return (data != null
@@ -284,19 +464,22 @@ class Protocol extends _i1.SerializationManagerServer {
               .toList()
           : null) as dynamic;
     }
-    if (t == List<_i8.Handle>) {
-      return (data as List).map((e) => deserialize<_i8.Handle>(e)).toList()
+    if (t == List<_i10.Handle>) {
+      return (data as List).map((e) => deserialize<_i10.Handle>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i9.SpraywallRoute>) {
+    if (t == List<_i11.SpraywallRoute>) {
       return (data as List)
-          .map((e) => deserialize<_i9.SpraywallRoute>(e))
+          .map((e) => deserialize<_i11.SpraywallRoute>(e))
           .toList() as dynamic;
     }
     if (t == Map<int, int>) {
       return Map.fromEntries((data as List).map((e) =>
               MapEntry(deserialize<int>(e['k']), deserialize<int>(e['v']))))
           as dynamic;
+    }
+    if (t == List<int>) {
+      return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -320,7 +503,13 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i6.RouteHandleState) {
       return 'RouteHandleState';
     }
-    if (data is _i7.SpraywallRoute) {
+    if (data is _i7.RouteUserProjects) {
+      return 'RouteUserProjects';
+    }
+    if (data is _i8.RouteUserSents) {
+      return 'RouteUserSents';
+    }
+    if (data is _i9.SpraywallRoute) {
       return 'SpraywallRoute';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -349,8 +538,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'RouteHandleState') {
       return deserialize<_i6.RouteHandleState>(data['data']);
     }
+    if (dataClassName == 'RouteUserProjects') {
+      return deserialize<_i7.RouteUserProjects>(data['data']);
+    }
+    if (dataClassName == 'RouteUserSents') {
+      return deserialize<_i8.RouteUserSents>(data['data']);
+    }
     if (dataClassName == 'SpraywallRoute') {
-      return deserialize<_i7.SpraywallRoute>(data['data']);
+      return deserialize<_i9.SpraywallRoute>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -382,8 +577,12 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i5.Handle.t;
       case _i6.RouteHandleState:
         return _i6.RouteHandleState.t;
-      case _i7.SpraywallRoute:
-        return _i7.SpraywallRoute.t;
+      case _i7.RouteUserProjects:
+        return _i7.RouteUserProjects.t;
+      case _i8.RouteUserSents:
+        return _i8.RouteUserSents.t;
+      case _i9.SpraywallRoute:
+        return _i9.SpraywallRoute.t;
     }
     return null;
   }

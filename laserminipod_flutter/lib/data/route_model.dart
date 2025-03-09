@@ -57,4 +57,58 @@ class RouteModel extends RouteModelAbstract {
   Future<Map<int, int>> getHandleStatesForRoute(int routeId) async {
     return await routeEndpoint.getHandleStatesForRoute(routeId);
   }
+
+  @override
+  Future<void> addProjectForUser(int routeId, int userId) async {
+    try {
+      await routeEndpoint.addProjectForUser(routeId, userId);
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteProjectForUser(int routeId, int userId) async {
+    try {
+      await routeEndpoint.deleteProjectForUser(routeId, userId);
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> addSentForUser(int routeId, int userId) async {
+    try {
+      await routeEndpoint.addSentForUser(routeId, userId);
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteSentForUser(int routeId, int userId) async {
+    try {
+      await routeEndpoint.deleteSentForUser(routeId, userId);
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<int>> loadProjects(int userId) async {
+    try {
+      return await routeEndpoint.loadProjects(userId);
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<int>> loadSents(int userId) async {
+    try {
+      return await routeEndpoint.loadSents(userId);
+    } on Exception {
+      rethrow;
+    }
+  }
 }

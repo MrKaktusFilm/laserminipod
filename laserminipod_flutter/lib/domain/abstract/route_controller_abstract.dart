@@ -19,7 +19,7 @@ abstract class RouteControllerAbstract extends ChangeNotifier {
 
   String? validateRouteName(String? input);
 
-  Future<bool> loadAllRoutes();
+  Future<bool> loadRouteInfo();
 
   Future<void> displayRoute(int routeId);
 
@@ -36,4 +36,16 @@ abstract class RouteControllerAbstract extends ChangeNotifier {
   bool get isLoading;
 
   int get routeListTabIndex;
+
+  Future<void> addProjectForUser(int routeId);
+
+  Future<void> deleteProjectForUser(int routeId);
+
+  Future<void> addSentForUser(int routeId);
+
+  Future<void> deleteSentForUser(int routeId);
+
+  List<SpraywallRoute> getMyProjects();
+
+  bool isSent(int routeId);
 }

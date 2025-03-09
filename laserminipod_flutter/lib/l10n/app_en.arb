@@ -69,5 +69,12 @@
     "myRoutes": "My Routes",
     "allRoutes": "All Routes",
     "userNameTaken": "The username is already taken",
-    "emailTaken": "An user with this email already exists"
+    "emailTaken": "An user with this email already exists",
+    "projectAdded": "Added to projects",
+    "projectLoadError": "An error occurred while loading the projects",
+    "addToProjects": "Add to Projects",
+    "removeFromProjects": "Remove from Projects",
+    "addToSents": "Completed!",
+    "removeFromSents": "Not completed",
+    "emptyRouteList": "This emptiness... it's consuming me"
 }

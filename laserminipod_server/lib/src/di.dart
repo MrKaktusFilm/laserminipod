@@ -2,6 +2,8 @@ import 'package:get_it/get_it.dart';
 import 'package:laserminipod_server/src/data/handle_repository.dart';
 import 'package:laserminipod_server/src/data/route_handle_state_repository.dart';
 import 'package:laserminipod_server/src/data/route_repository.dart';
+import 'package:laserminipod_server/src/data/route_user_projects_repository.dart';
+import 'package:laserminipod_server/src/data/route_user_sents_repository.dart';
 import 'package:laserminipod_server/src/data/user_repository.dart';
 import 'package:laserminipod_server/src/domain/cpp_service.dart';
 import 'package:laserminipod_server/src/domain/handle_service.dart';
@@ -18,8 +20,17 @@ void setupDependencies() {
   getIt.registerLazySingleton<RouteRepository>(() => RouteRepository());
   getIt.registerLazySingleton<RouteHandleStateRepository>(
       () => RouteHandleStateRepository());
+  getIt.registerLazySingleton<RouteUserProjectsRepository>(
+      () => RouteUserProjectsRepository());
+  getIt.registerLazySingleton<RouteUserSentsRepository>(
+      () => RouteUserSentsRepository());
+
   getIt.registerLazySingleton<RouteService>(() => RouteService(
-      getIt<RouteRepository>(), getIt<RouteHandleStateRepository>()));
+        getIt<RouteRepository>(),
+        getIt<RouteHandleStateRepository>(),
+        getIt<RouteUserProjectsRepository>(),
+        getIt<RouteUserSentsRepository>(),
+      ));
   getIt.registerLazySingleton<UserRepository>(() => UserRepository());
   getIt.registerLazySingleton<UserService>(
       () => UserService(getIt<UserRepository>()));

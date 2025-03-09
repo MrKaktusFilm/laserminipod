@@ -258,6 +258,138 @@ class Endpoints extends _i1.EndpointDispatch {
             params['routeId'],
           ),
         ),
+        'loadProjects': _i1.MethodConnector(
+          name: 'loadProjects',
+          params: {
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['route'] as _i3.RouteEndpoint).loadProjects(
+            session,
+            params['userId'],
+          ),
+        ),
+        'loadSents': _i1.MethodConnector(
+          name: 'loadSents',
+          params: {
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['route'] as _i3.RouteEndpoint).loadSents(
+            session,
+            params['userId'],
+          ),
+        ),
+        'addProjectForUser': _i1.MethodConnector(
+          name: 'addProjectForUser',
+          params: {
+            'routeId': _i1.ParameterDescription(
+              name: 'routeId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['route'] as _i3.RouteEndpoint).addProjectForUser(
+            session,
+            params['routeId'],
+            params['userId'],
+          ),
+        ),
+        'deleteProjectForUser': _i1.MethodConnector(
+          name: 'deleteProjectForUser',
+          params: {
+            'routeId': _i1.ParameterDescription(
+              name: 'routeId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['route'] as _i3.RouteEndpoint).deleteProjectForUser(
+            session,
+            params['routeId'],
+            params['userId'],
+          ),
+        ),
+        'addSentForUser': _i1.MethodConnector(
+          name: 'addSentForUser',
+          params: {
+            'routeId': _i1.ParameterDescription(
+              name: 'routeId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['route'] as _i3.RouteEndpoint).addSentForUser(
+            session,
+            params['routeId'],
+            params['userId'],
+          ),
+        ),
+        'deleteSentForUser': _i1.MethodConnector(
+          name: 'deleteSentForUser',
+          params: {
+            'routeId': _i1.ParameterDescription(
+              name: 'routeId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['route'] as _i3.RouteEndpoint).deleteSentForUser(
+            session,
+            params['routeId'],
+            params['userId'],
+          ),
+        ),
       },
     );
     connectors['spraywall'] = _i1.EndpointConnector(
