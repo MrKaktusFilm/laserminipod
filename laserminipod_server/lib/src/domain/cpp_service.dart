@@ -2,8 +2,8 @@ import 'dart:ffi' as ffi;
 import 'dart:io';
 import 'package:path/path.dart' as path;
 
-typedef hello_world_func = ffi.Void Function();
-typedef SayHello = void Function();
+typedef SayHelloFunc = ffi.Void Function(ffi.Int32, ffi.Int32, ffi.Double);
+typedef SayHello = void Function(int, int, double);
 
 class CppService {
   late final SayHello _sayHello;
@@ -12,11 +12,11 @@ class CppService {
         'LaserControll', 'x64', 'Debug', 'LaserControll.dll');
     final dylib = ffi.DynamicLibrary.open(libraryPath);
     _sayHello = dylib
-        .lookup<ffi.NativeFunction<hello_world_func>>('HalloWelt')
+        .lookup<ffi.NativeFunction<SayHelloFunc>>('HalloWeltParameter')
         .asFunction();
   }
 
-  void hello() {
-    _sayHello();
+  void hello(int x, int y, double radius) {
+    _sayHello(x, y, radius);
   }
 }
