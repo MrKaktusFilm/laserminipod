@@ -49,6 +49,7 @@
     "routeNameEmpty": "The name cannot be empty",
     "routeAlreadyCreated": "The created route already exists",
     "routeLoadError": "There was an error loading the routes",
+    "routeDeleteError": "There was an error deleting the route",
     "loadHandleError": "There was an error loading the holds",
     "error": "An error occured",
     "termsAndConditions": "Terms and Conditions",
@@ -61,5 +62,12 @@
     "adminRequired": "Admin rights are needed",
     "deleteUserError": "An error occured while deleting your account",
     "deleteUserDialog": "Do you really want to delete your account?",
-    "deleteUser": "Delete your account"
+    "deleteUser": "Delete your account",
+    "routeDescription": "Description",
+    "selectDifficulty": "Select Difficulty",
+    "myProjects": "My Projects",
+    "myRoutes": "My Routes",
+    "allRoutes": "All Routes",
+    "userNameTaken": "The username is already taken",
+    "emailTaken": "An user with this email already exists"
 }

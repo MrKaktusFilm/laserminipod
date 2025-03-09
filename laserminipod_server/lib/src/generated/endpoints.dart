@@ -209,7 +209,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'route': _i1.ParameterDescription(
               name: 'route',
-              type: _i1.getType<_i6.SpraywallRoute>(),
+              type: _i1.getType<Map<int, int>>(),
               nullable: false,
             )
           },
@@ -240,14 +240,23 @@ class Endpoints extends _i1.EndpointDispatch {
             params['name'],
           ),
         ),
-        'test': _i1.MethodConnector(
-          name: 'test',
-          params: {},
+        'getHandleStatesForRoute': _i1.MethodConnector(
+          name: 'getHandleStatesForRoute',
+          params: {
+            'routeId': _i1.ParameterDescription(
+              name: 'routeId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
           call: (
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).test(session),
+              (endpoints['route'] as _i3.RouteEndpoint).getHandleStatesForRoute(
+            session,
+            params['routeId'],
+          ),
         ),
       },
     );
@@ -262,7 +271,12 @@ class Endpoints extends _i1.EndpointDispatch {
               name: 'id',
               type: _i1.getType<int>(),
               nullable: false,
-            )
+            ),
+            'state': _i1.ParameterDescription(
+              name: 'state',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
           },
           call: (
             _i1.Session session,
@@ -271,6 +285,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['spraywall'] as _i4.SpraywallEndpoint).toggleHandle(
             session,
             params['id'],
+            params['state'],
           ),
         ),
         'clearCurrentRoute': _i1.MethodConnector(
@@ -288,7 +303,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'route': _i1.ParameterDescription(
               name: 'route',
-              type: _i1.getType<_i6.SpraywallRoute>(),
+              type: _i1.getType<Map<int, int>>(),
               nullable: false,
             )
           },
@@ -299,35 +314,6 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['spraywall'] as _i4.SpraywallEndpoint).loadRoute(
             session,
             params['route'],
-          ),
-        ),
-        'getCurrentRoute': _i1.MethodConnector(
-          name: 'getCurrentRoute',
-          params: {},
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['spraywall'] as _i4.SpraywallEndpoint)
-                  .getCurrentRoute(session),
-        ),
-        'isHandleActivated': _i1.MethodConnector(
-          name: 'isHandleActivated',
-          params: {
-            'id': _i1.ParameterDescription(
-              name: 'id',
-              type: _i1.getType<int>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['spraywall'] as _i4.SpraywallEndpoint)
-                  .isHandleActivated(
-            session,
-            params['id'],
           ),
         ),
       },
@@ -430,6 +416,24 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['user'] as _i5.UserEndpoint).deleteUser(
             session,
             params['email'],
+          ),
+        ),
+        'getUserById': _i1.MethodConnector(
+          name: 'getUserById',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['user'] as _i5.UserEndpoint).getUserById(
+            session,
+            params['id'],
           ),
         ),
       },

@@ -10,27 +10,43 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
+import 'route_handle_state.dart' as _i2;
 
 abstract class SpraywallRoute
     implements _i1.TableRow, _i1.ProtocolSerialization {
   SpraywallRoute._({
     this.id,
     required this.name,
-    required this.handles,
-  });
+    this.description,
+    required this.difficulty,
+    DateTime? creationDate,
+    required this.userInfoId,
+    this.routeHandleStates,
+  }) : creationDate = creationDate ?? DateTime.now();
 
   factory SpraywallRoute({
     int? id,
     required String name,
-    required List<int> handles,
+    String? description,
+    required int difficulty,
+    DateTime? creationDate,
+    required int userInfoId,
+    List<_i2.RouteHandleState>? routeHandleStates,
   }) = _SpraywallRouteImpl;
 
   factory SpraywallRoute.fromJson(Map<String, dynamic> jsonSerialization) {
     return SpraywallRoute(
       id: jsonSerialization['id'] as int?,
       name: jsonSerialization['name'] as String,
-      handles:
-          (jsonSerialization['handles'] as List).map((e) => e as int).toList(),
+      description: jsonSerialization['description'] as String?,
+      difficulty: jsonSerialization['difficulty'] as int,
+      creationDate:
+          _i1.DateTimeJsonExtension.fromJson(jsonSerialization['creationDate']),
+      userInfoId: jsonSerialization['userInfoId'] as int,
+      routeHandleStates: (jsonSerialization['routeHandleStates'] as List?)
+          ?.map(
+              (e) => _i2.RouteHandleState.fromJson((e as Map<String, dynamic>)))
+          .toList(),
     );
   }
 
@@ -43,7 +59,15 @@ abstract class SpraywallRoute
 
   String name;
 
-  List<int> handles;
+  String? description;
+
+  int difficulty;
+
+  DateTime creationDate;
+
+  int userInfoId;
+
+  List<_i2.RouteHandleState>? routeHandleStates;
 
   @override
   _i1.Table get table => t;
@@ -51,14 +75,24 @@ abstract class SpraywallRoute
   SpraywallRoute copyWith({
     int? id,
     String? name,
-    List<int>? handles,
+    String? description,
+    int? difficulty,
+    DateTime? creationDate,
+    int? userInfoId,
+    List<_i2.RouteHandleState>? routeHandleStates,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
       'name': name,
-      'handles': handles.toJson(),
+      if (description != null) 'description': description,
+      'difficulty': difficulty,
+      'creationDate': creationDate.toJson(),
+      'userInfoId': userInfoId,
+      if (routeHandleStates != null)
+        'routeHandleStates':
+            routeHandleStates?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -67,12 +101,19 @@ abstract class SpraywallRoute
     return {
       if (id != null) 'id': id,
       'name': name,
-      'handles': handles.toJson(),
+      if (description != null) 'description': description,
+      'difficulty': difficulty,
+      'creationDate': creationDate.toJson(),
+      'userInfoId': userInfoId,
+      if (routeHandleStates != null)
+        'routeHandleStates': routeHandleStates?.toJson(
+            valueToJson: (v) => v.toJsonForProtocol()),
     };
   }
 
-  static SpraywallRouteInclude include() {
-    return SpraywallRouteInclude._();
+  static SpraywallRouteInclude include(
+      {_i2.RouteHandleStateIncludeList? routeHandleStates}) {
+    return SpraywallRouteInclude._(routeHandleStates: routeHandleStates);
   }
 
   static SpraywallRouteIncludeList includeList({
@@ -107,23 +148,41 @@ class _SpraywallRouteImpl extends SpraywallRoute {
   _SpraywallRouteImpl({
     int? id,
     required String name,
-    required List<int> handles,
+    String? description,
+    required int difficulty,
+    DateTime? creationDate,
+    required int userInfoId,
+    List<_i2.RouteHandleState>? routeHandleStates,
   }) : super._(
           id: id,
           name: name,
-          handles: handles,
+          description: description,
+          difficulty: difficulty,
+          creationDate: creationDate,
+          userInfoId: userInfoId,
+          routeHandleStates: routeHandleStates,
         );
 
   @override
   SpraywallRoute copyWith({
     Object? id = _Undefined,
     String? name,
-    List<int>? handles,
+    Object? description = _Undefined,
+    int? difficulty,
+    DateTime? creationDate,
+    int? userInfoId,
+    Object? routeHandleStates = _Undefined,
   }) {
     return SpraywallRoute(
       id: id is int? ? id : this.id,
       name: name ?? this.name,
-      handles: handles ?? this.handles.map((e0) => e0).toList(),
+      description: description is String? ? description : this.description,
+      difficulty: difficulty ?? this.difficulty,
+      creationDate: creationDate ?? this.creationDate,
+      userInfoId: userInfoId ?? this.userInfoId,
+      routeHandleStates: routeHandleStates is List<_i2.RouteHandleState>?
+          ? routeHandleStates
+          : this.routeHandleStates?.map((e0) => e0.copyWith()).toList(),
     );
   }
 }
@@ -135,29 +194,102 @@ class SpraywallRouteTable extends _i1.Table {
       'name',
       this,
     );
-    handles = _i1.ColumnSerializable(
-      'handles',
+    description = _i1.ColumnString(
+      'description',
+      this,
+    );
+    difficulty = _i1.ColumnInt(
+      'difficulty',
+      this,
+    );
+    creationDate = _i1.ColumnDateTime(
+      'creationDate',
+      this,
+      hasDefault: true,
+    );
+    userInfoId = _i1.ColumnInt(
+      'userInfoId',
       this,
     );
   }
 
   late final _i1.ColumnString name;
 
-  late final _i1.ColumnSerializable handles;
+  late final _i1.ColumnString description;
+
+  late final _i1.ColumnInt difficulty;
+
+  late final _i1.ColumnDateTime creationDate;
+
+  late final _i1.ColumnInt userInfoId;
+
+  _i2.RouteHandleStateTable? ___routeHandleStates;
+
+  _i1.ManyRelation<_i2.RouteHandleStateTable>? _routeHandleStates;
+
+  _i2.RouteHandleStateTable get __routeHandleStates {
+    if (___routeHandleStates != null) return ___routeHandleStates!;
+    ___routeHandleStates = _i1.createRelationTable(
+      relationFieldName: '__routeHandleStates',
+      field: SpraywallRoute.t.id,
+      foreignField: _i2
+          .RouteHandleState.t.$_spraywallrouteRoutehandlestatesSpraywallrouteId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i2.RouteHandleStateTable(tableRelation: foreignTableRelation),
+    );
+    return ___routeHandleStates!;
+  }
+
+  _i1.ManyRelation<_i2.RouteHandleStateTable> get routeHandleStates {
+    if (_routeHandleStates != null) return _routeHandleStates!;
+    var relationTable = _i1.createRelationTable(
+      relationFieldName: 'routeHandleStates',
+      field: SpraywallRoute.t.id,
+      foreignField: _i2
+          .RouteHandleState.t.$_spraywallrouteRoutehandlestatesSpraywallrouteId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i2.RouteHandleStateTable(tableRelation: foreignTableRelation),
+    );
+    _routeHandleStates = _i1.ManyRelation<_i2.RouteHandleStateTable>(
+      tableWithRelations: relationTable,
+      table: _i2.RouteHandleStateTable(
+          tableRelation: relationTable.tableRelation!.lastRelation),
+    );
+    return _routeHandleStates!;
+  }
 
   @override
   List<_i1.Column> get columns => [
         id,
         name,
-        handles,
+        description,
+        difficulty,
+        creationDate,
+        userInfoId,
       ];
+
+  @override
+  _i1.Table? getRelationTable(String relationField) {
+    if (relationField == 'routeHandleStates') {
+      return __routeHandleStates;
+    }
+    return null;
+  }
 }
 
 class SpraywallRouteInclude extends _i1.IncludeObject {
-  SpraywallRouteInclude._();
+  SpraywallRouteInclude._(
+      {_i2.RouteHandleStateIncludeList? routeHandleStates}) {
+    _routeHandleStates = routeHandleStates;
+  }
+
+  _i2.RouteHandleStateIncludeList? _routeHandleStates;
 
   @override
-  Map<String, _i1.Include?> get includes => {};
+  Map<String, _i1.Include?> get includes =>
+      {'routeHandleStates': _routeHandleStates};
 
   @override
   _i1.Table get table => SpraywallRoute.t;
@@ -186,6 +318,14 @@ class SpraywallRouteIncludeList extends _i1.IncludeList {
 class SpraywallRouteRepository {
   const SpraywallRouteRepository._();
 
+  final attach = const SpraywallRouteAttachRepository._();
+
+  final attachRow = const SpraywallRouteAttachRowRepository._();
+
+  final detach = const SpraywallRouteDetachRepository._();
+
+  final detachRow = const SpraywallRouteDetachRowRepository._();
+
   Future<List<SpraywallRoute>> find(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<SpraywallRouteTable>? where,
@@ -195,6 +335,7 @@ class SpraywallRouteRepository {
     bool orderDescending = false,
     _i1.OrderByListBuilder<SpraywallRouteTable>? orderByList,
     _i1.Transaction? transaction,
+    SpraywallRouteInclude? include,
   }) async {
     return session.db.find<SpraywallRoute>(
       where: where?.call(SpraywallRoute.t),
@@ -204,6 +345,7 @@ class SpraywallRouteRepository {
       limit: limit,
       offset: offset,
       transaction: transaction,
+      include: include,
     );
   }
 
@@ -215,6 +357,7 @@ class SpraywallRouteRepository {
     bool orderDescending = false,
     _i1.OrderByListBuilder<SpraywallRouteTable>? orderByList,
     _i1.Transaction? transaction,
+    SpraywallRouteInclude? include,
   }) async {
     return session.db.findFirstRow<SpraywallRoute>(
       where: where?.call(SpraywallRoute.t),
@@ -223,6 +366,7 @@ class SpraywallRouteRepository {
       orderDescending: orderDescending,
       offset: offset,
       transaction: transaction,
+      include: include,
     );
   }
 
@@ -230,10 +374,12 @@ class SpraywallRouteRepository {
     _i1.Session session,
     int id, {
     _i1.Transaction? transaction,
+    SpraywallRouteInclude? include,
   }) async {
     return session.db.findById<SpraywallRoute>(
       id,
       transaction: transaction,
+      include: include,
     );
   }
 
@@ -327,6 +473,123 @@ class SpraywallRouteRepository {
     return session.db.count<SpraywallRoute>(
       where: where?.call(SpraywallRoute.t),
       limit: limit,
+      transaction: transaction,
+    );
+  }
+}
+
+class SpraywallRouteAttachRepository {
+  const SpraywallRouteAttachRepository._();
+
+  Future<void> routeHandleStates(
+    _i1.Session session,
+    SpraywallRoute spraywallRoute,
+    List<_i2.RouteHandleState> routeHandleState, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (routeHandleState.any((e) => e.id == null)) {
+      throw ArgumentError.notNull('routeHandleState.id');
+    }
+    if (spraywallRoute.id == null) {
+      throw ArgumentError.notNull('spraywallRoute.id');
+    }
+
+    var $routeHandleState = routeHandleState
+        .map((e) => _i2.RouteHandleStateImplicit(
+              e,
+              $_spraywallrouteRoutehandlestatesSpraywallrouteId:
+                  spraywallRoute.id,
+            ))
+        .toList();
+    await session.db.update<_i2.RouteHandleState>(
+      $routeHandleState,
+      columns: [
+        _i2.RouteHandleState.t.$_spraywallrouteRoutehandlestatesSpraywallrouteId
+      ],
+      transaction: transaction,
+    );
+  }
+}
+
+class SpraywallRouteAttachRowRepository {
+  const SpraywallRouteAttachRowRepository._();
+
+  Future<void> routeHandleStates(
+    _i1.Session session,
+    SpraywallRoute spraywallRoute,
+    _i2.RouteHandleState routeHandleState, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (routeHandleState.id == null) {
+      throw ArgumentError.notNull('routeHandleState.id');
+    }
+    if (spraywallRoute.id == null) {
+      throw ArgumentError.notNull('spraywallRoute.id');
+    }
+
+    var $routeHandleState = _i2.RouteHandleStateImplicit(
+      routeHandleState,
+      $_spraywallrouteRoutehandlestatesSpraywallrouteId: spraywallRoute.id,
+    );
+    await session.db.updateRow<_i2.RouteHandleState>(
+      $routeHandleState,
+      columns: [
+        _i2.RouteHandleState.t.$_spraywallrouteRoutehandlestatesSpraywallrouteId
+      ],
+      transaction: transaction,
+    );
+  }
+}
+
+class SpraywallRouteDetachRepository {
+  const SpraywallRouteDetachRepository._();
+
+  Future<void> routeHandleStates(
+    _i1.Session session,
+    List<_i2.RouteHandleState> routeHandleState, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (routeHandleState.any((e) => e.id == null)) {
+      throw ArgumentError.notNull('routeHandleState.id');
+    }
+
+    var $routeHandleState = routeHandleState
+        .map((e) => _i2.RouteHandleStateImplicit(
+              e,
+              $_spraywallrouteRoutehandlestatesSpraywallrouteId: null,
+            ))
+        .toList();
+    await session.db.update<_i2.RouteHandleState>(
+      $routeHandleState,
+      columns: [
+        _i2.RouteHandleState.t.$_spraywallrouteRoutehandlestatesSpraywallrouteId
+      ],
+      transaction: transaction,
+    );
+  }
+}
+
+class SpraywallRouteDetachRowRepository {
+  const SpraywallRouteDetachRowRepository._();
+
+  Future<void> routeHandleStates(
+    _i1.Session session,
+    _i2.RouteHandleState routeHandleState, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (routeHandleState.id == null) {
+      throw ArgumentError.notNull('routeHandleState.id');
+    }
+
+    var $routeHandleState = _i2.RouteHandleStateImplicit(
+      routeHandleState,
+      $_spraywallrouteRoutehandlestatesSpraywallrouteId: null,
+    );
+    await session.db.updateRow<_i2.RouteHandleState>(
+      $routeHandleState,
+      columns: [
+        _i2.RouteHandleState.t.$_spraywallrouteRoutehandlestatesSpraywallrouteId
+      ],
       transaction: transaction,
     );
   }

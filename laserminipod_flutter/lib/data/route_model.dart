@@ -36,7 +36,7 @@ class RouteModel extends RouteModelAbstract {
   }
 
   @override
-  Future<bool> existsRouteAlready(SpraywallRoute route) async {
+  Future<bool> existsRouteAlready(Map<int, int> route) async {
     try {
       return await routeEndpoint.existsRouteAlready(route);
     } on Exception {
@@ -51,5 +51,10 @@ class RouteModel extends RouteModelAbstract {
     } on Exception {
       rethrow;
     }
+  }
+
+  @override
+  Future<Map<int, int>> getHandleStatesForRoute(int routeId) async {
+    return await routeEndpoint.getHandleStatesForRoute(routeId);
   }
 }

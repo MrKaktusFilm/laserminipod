@@ -103,7 +103,7 @@ class EndpointRoute extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<bool> existsRouteAlready(_i4.SpraywallRoute route) =>
+  _i2.Future<bool> existsRouteAlready(Map<int, int> route) =>
       caller.callServerEndpoint<bool>(
         'route',
         'existsRouteAlready',
@@ -117,10 +117,11 @@ class EndpointRoute extends _i1.EndpointRef {
         {'name': name},
       );
 
-  _i2.Future<void> test() => caller.callServerEndpoint<void>(
+  _i2.Future<Map<int, int>> getHandleStatesForRoute(int routeId) =>
+      caller.callServerEndpoint<Map<int, int>>(
         'route',
-        'test',
-        {},
+        'getHandleStatesForRoute',
+        {'routeId': routeId},
       );
 }
 
@@ -131,10 +132,17 @@ class EndpointSpraywall extends _i1.EndpointRef {
   @override
   String get name => 'spraywall';
 
-  _i2.Future<bool> toggleHandle(int id) => caller.callServerEndpoint<bool>(
+  _i2.Future<void> toggleHandle(
+    int id,
+    int state,
+  ) =>
+      caller.callServerEndpoint<void>(
         'spraywall',
         'toggleHandle',
-        {'id': id},
+        {
+          'id': id,
+          'state': state,
+        },
       );
 
   _i2.Future<void> clearCurrentRoute() => caller.callServerEndpoint<void>(
@@ -143,24 +151,11 @@ class EndpointSpraywall extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<void> loadRoute(_i4.SpraywallRoute route) =>
+  _i2.Future<void> loadRoute(Map<int, int> route) =>
       caller.callServerEndpoint<void>(
         'spraywall',
         'loadRoute',
         {'route': route},
-      );
-
-  _i2.Future<_i4.SpraywallRoute> getCurrentRoute() =>
-      caller.callServerEndpoint<_i4.SpraywallRoute>(
-        'spraywall',
-        'getCurrentRoute',
-        {},
-      );
-
-  _i2.Future<bool> isHandleActivated(int id) => caller.callServerEndpoint<bool>(
-        'spraywall',
-        'isHandleActivated',
-        {'id': id},
       );
 }
 
@@ -216,6 +211,13 @@ class EndpointUser extends _i1.EndpointRef {
         'user',
         'deleteUser',
         {'email': email},
+      );
+
+  _i2.Future<_i5.UserInfo?> getUserById(int id) =>
+      caller.callServerEndpoint<_i5.UserInfo?>(
+        'user',
+        'getUserById',
+        {'id': id},
       );
 }
 

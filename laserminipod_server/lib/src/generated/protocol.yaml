@@ -10,15 +10,14 @@ route:
   - loadAllRoutes:
   - existsRouteAlready:
   - nameAlreadyAssigned:
-  - test:
+  - getHandleStatesForRoute:
 spraywall:
   - toggleHandle:
   - clearCurrentRoute:
   - loadRoute:
-  - getCurrentRoute:
-  - isHandleActivated:
 user:
   - changePassword:
   - checkPassword:
   - createUser:
   - deleteUser:
+  - getUserById:

@@ -1,0 +1,127 @@
+{
+  "actions": [
+    {
+      "type": "deleteTable",
+      "deleteTable": "route_handle_state"
+    },
+    {
+      "type": "createTable",
+      "createTable": {
+        "name": "route_handle_state",
+        "dartName": "RouteHandleState",
+        "module": "laserminipod",
+        "schema": "public",
+        "columns": [
+          {
+            "name": "id",
+            "columnType": 6,
+            "isNullable": false,
+            "columnDefault": "nextval('route_handle_state_id_seq'::regclass)",
+            "dartType": "int?"
+          },
+          {
+            "name": "routeId",
+            "columnType": 6,
+            "isNullable": false,
+            "dartType": "int"
+          },
+          {
+            "name": "handleId",
+            "columnType": 6,
+            "isNullable": false,
+            "dartType": "int"
+          },
+          {
+            "name": "state",
+            "columnType": 6,
+            "isNullable": false,
+            "dartType": "int"
+          },
+          {
+            "name": "_spraywallrouteRoutehandlestatesSpraywallrouteId",
+            "columnType": 6,
+            "isNullable": true,
+            "dartType": "int?"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "constraintName": "route_handle_state_fk_0",
+            "columns": [
+              "routeId"
+            ],
+            "referenceTable": "spraywallroute",
+            "referenceTableSchema": "public",
+            "referenceColumns": [
+              "id"
+            ],
+            "onUpdate": 3,
+            "onDelete": 3
+          },
+          {
+            "constraintName": "route_handle_state_fk_1",
+            "columns": [
+              "handleId"
+            ],
+            "referenceTable": "handle",
+            "referenceTableSchema": "public",
+            "referenceColumns": [
+              "id"
+            ],
+            "onUpdate": 3,
+            "onDelete": 3
+          },
+          {
+            "constraintName": "route_handle_state_fk_2",
+            "columns": [
+              "_spraywallrouteRoutehandlestatesSpraywallrouteId"
+            ],
+            "referenceTable": "spraywallroute",
+            "referenceTableSchema": "public",
+            "referenceColumns": [
+              "id"
+            ],
+            "onUpdate": 3,
+            "onDelete": 3
+          }
+        ],
+        "indexes": [
+          {
+            "indexName": "route_handle_state_pkey",
+            "elements": [
+              {
+                "type": 0,
+                "definition": "id"
+              }
+            ],
+            "type": "btree",
+            "isUnique": true,
+            "isPrimary": true
+          }
+        ],
+        "managed": true
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "columnDropped",
+      "message": "Column \"routeIdId\" of table \"route_handle_state\" will be dropped.",
+      "table": "route_handle_state",
+      "columns": [
+        "routeIdId"
+      ],
+      "destrucive": true
+    },
+    {
+      "type": "tableDropped",
+      "message": "One or more columns are added to table \"route_handle_state\" which cannot be added in a table migration. The complete table will be deleted and recreated.",
+      "table": "route_handle_state",
+      "columns": [
+        "routeId"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}

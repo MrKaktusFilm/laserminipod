@@ -1,3 +1,4 @@
+import 'package:serverpod_auth_client/src/protocol/user_info.dart';
 import 'package:user_app/data/abstract/user_model_abstract.dart';
 import 'package:user_app/main.dart';
 
@@ -23,5 +24,10 @@ class UserModel implements UserModelAbstract {
   @override
   Future<void> deleteUser(String email) async {
     await userEndpoint.deleteUser(email);
+  }
+
+  @override
+  Future<UserInfo?> getUserById(int id) async {
+    return await userEndpoint.getUserById(id);
   }
 }

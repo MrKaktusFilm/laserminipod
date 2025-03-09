@@ -28,4 +28,8 @@ class UserEndpoint extends Endpoint {
     await validateUserScope(session);
     await _userService.deleteUser(session, email);
   }
+
+  Future<UserInfo?> getUserById(Session session, int id) async {
+    return await _userService.getUserById(session, id);
+  }
 }

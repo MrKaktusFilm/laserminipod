@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 import 'package:user_app/data/abstract/user_model_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
@@ -26,7 +28,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     try {
       await sessionManager.signOutDevice();
       if (_navigationController.currentPageIndex == 2) {
-        _navigationController.setPageIndex(0);
+        _navigationController.goToPage(AppRoute.home);
       }
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(UiHelper.getAppLocalization().logoutError, e);
@@ -43,9 +45,6 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
         password.trim(),
       );
       if (result != null) {
-        if (context.mounted) {
-          Navigator.pop(context);
-        }
         return null;
       } else {
         return UiHelper.getAppLocalization().invalidLogin;
@@ -114,16 +113,31 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   @override
   Future<String?> createUser(BuildContext context, String userName,
       String email, String password) async {
+    var loc = UiHelper.getAppLocalization();
     try {
       await _userModel.createUser(email, userName, password);
-      for (var i = 0; i < 2; i++) {
-        if (context.mounted) {
-          _navigationController.closeCurrentScreen(context);
-          logIn(email, password, context);
+      try {
+        var result = await authController.signIn(
+          email.trim(),
+          password.trim(),
+        );
+
+        if (result == null) {
+          return UiHelper.getAppLocalization().invalidLogin;
         }
+      } catch (e) {
+        return UiHelper.getAppLocalization().loginFailed;
+      } finally {
+        notifyListeners();
+      }
+    } on CreateUserException catch (e) {
+      if (e.message.contains("email")) {
+        return loc.emailTaken;
+      }
+      if (e.message.contains("username")) {
+        return loc.userNameTaken;
       }
     } on Exception {
-      var loc = UiHelper.getAppLocalization();
       return loc.createUserError;
     }
     return null;
@@ -139,13 +153,26 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
 
   @override
   Future<void> deleteUser() async {
-    // TODO: Admin check
+    // admins should not be deletable
+    if (hasAdminRights()) return;
     try {
       await _userModel.deleteUser(sessionManager.signedInUser!.email!);
       logOut();
+      _navigationController.goToPage(AppRoute.home);
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
           UiHelper.getAppLocalization().deleteUserError, e);
     }
+  }
+
+  @override
+  int? getSignedInUserId() {
+    return sessionManager.signedInUser!.id;
+  }
+
+  /// exception handling in view
+  @override
+  Future<UserInfo?> getUserById(int id) async {
+    return await _userModel.getUserById(id);
   }
 }

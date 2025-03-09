@@ -61,5 +61,13 @@
     "adminRequired": "Adminrechte benötigt",
     "deleteUserError": "Beim Löschen Ihres Accounts ist ein Fehler aufgetreten",
     "deleteUserDialog": "Möchten Sie Ihren Account wirklich löschen?",
-    "deleteUser": "Account löschen"
+    "deleteUser": "Account löschen",
+    "routeDescription": "Beschreibung",
+    "selectDifficulty": "Wähle den Schwierigkeitsgrad",
+    "myProjects": "Meine Projekte",
+    "myRoutes": "Meine Routen",
+    "allRoutes": "Alle Routen",
+    "userNameTaken": "Der Benutzername ist bereits vergeben",
+    "emailTaken": "Es existiert bereits ein Nutzer mit dieser Email",
+    "routeDeleteError": "Beim Löschen der Route ist ein Fehler aufgetreten"
 }

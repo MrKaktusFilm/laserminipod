@@ -7,7 +7,9 @@ abstract class RouteModelAbstract {
 
   Future<List<SpraywallRoute>> loadAllRoutes();
 
-  Future<bool> existsRouteAlready(SpraywallRoute route);
+  Future<bool> existsRouteAlready(Map<int, int> route);
 
   Future<bool> nameAlreadyAssigned(String name);
+
+  Future<Map<int, int>> getHandleStatesForRoute(int routeId);
 }

@@ -10,26 +10,42 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
+import 'route_handle_state.dart' as _i2;
 
 abstract class SpraywallRoute implements _i1.SerializableModel {
   SpraywallRoute._({
     this.id,
     required this.name,
-    required this.handles,
-  });
+    this.description,
+    required this.difficulty,
+    DateTime? creationDate,
+    required this.userInfoId,
+    this.routeHandleStates,
+  }) : creationDate = creationDate ?? DateTime.now();
 
   factory SpraywallRoute({
     int? id,
     required String name,
-    required List<int> handles,
+    String? description,
+    required int difficulty,
+    DateTime? creationDate,
+    required int userInfoId,
+    List<_i2.RouteHandleState>? routeHandleStates,
   }) = _SpraywallRouteImpl;
 
   factory SpraywallRoute.fromJson(Map<String, dynamic> jsonSerialization) {
     return SpraywallRoute(
       id: jsonSerialization['id'] as int?,
       name: jsonSerialization['name'] as String,
-      handles:
-          (jsonSerialization['handles'] as List).map((e) => e as int).toList(),
+      description: jsonSerialization['description'] as String?,
+      difficulty: jsonSerialization['difficulty'] as int,
+      creationDate:
+          _i1.DateTimeJsonExtension.fromJson(jsonSerialization['creationDate']),
+      userInfoId: jsonSerialization['userInfoId'] as int,
+      routeHandleStates: (jsonSerialization['routeHandleStates'] as List?)
+          ?.map(
+              (e) => _i2.RouteHandleState.fromJson((e as Map<String, dynamic>)))
+          .toList(),
     );
   }
 
@@ -40,19 +56,37 @@ abstract class SpraywallRoute implements _i1.SerializableModel {
 
   String name;
 
-  List<int> handles;
+  String? description;
+
+  int difficulty;
+
+  DateTime creationDate;
+
+  int userInfoId;
+
+  List<_i2.RouteHandleState>? routeHandleStates;
 
   SpraywallRoute copyWith({
     int? id,
     String? name,
-    List<int>? handles,
+    String? description,
+    int? difficulty,
+    DateTime? creationDate,
+    int? userInfoId,
+    List<_i2.RouteHandleState>? routeHandleStates,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
       'name': name,
-      'handles': handles.toJson(),
+      if (description != null) 'description': description,
+      'difficulty': difficulty,
+      'creationDate': creationDate.toJson(),
+      'userInfoId': userInfoId,
+      if (routeHandleStates != null)
+        'routeHandleStates':
+            routeHandleStates?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -68,23 +102,41 @@ class _SpraywallRouteImpl extends SpraywallRoute {
   _SpraywallRouteImpl({
     int? id,
     required String name,
-    required List<int> handles,
+    String? description,
+    required int difficulty,
+    DateTime? creationDate,
+    required int userInfoId,
+    List<_i2.RouteHandleState>? routeHandleStates,
   }) : super._(
           id: id,
           name: name,
-          handles: handles,
+          description: description,
+          difficulty: difficulty,
+          creationDate: creationDate,
+          userInfoId: userInfoId,
+          routeHandleStates: routeHandleStates,
         );
 
   @override
   SpraywallRoute copyWith({
     Object? id = _Undefined,
     String? name,
-    List<int>? handles,
+    Object? description = _Undefined,
+    int? difficulty,
+    DateTime? creationDate,
+    int? userInfoId,
+    Object? routeHandleStates = _Undefined,
   }) {
     return SpraywallRoute(
       id: id is int? ? id : this.id,
       name: name ?? this.name,
-      handles: handles ?? this.handles.map((e0) => e0).toList(),
+      description: description is String? ? description : this.description,
+      difficulty: difficulty ?? this.difficulty,
+      creationDate: creationDate ?? this.creationDate,
+      userInfoId: userInfoId ?? this.userInfoId,
+      routeHandleStates: routeHandleStates is List<_i2.RouteHandleState>?
+          ? routeHandleStates
+          : this.routeHandleStates?.map((e0) => e0.copyWith()).toList(),
     );
   }
 }

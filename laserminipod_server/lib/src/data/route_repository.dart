@@ -7,16 +7,33 @@ class RouteRepository {
   }
 
   Future<void> insert(Session session, SpraywallRoute route) async {
-    await SpraywallRoute.db.insert(session, [route]);
+    var savedRoute = await SpraywallRoute.db.insert(session, [route]);
+
+    if (route.routeHandleStates != null) {
+      for (var handleState in route.routeHandleStates!) {
+        handleState.routeId = savedRoute[0].id!;
+        await RouteHandleState.db.insert(session, [handleState]);
+      }
+    }
   }
 
   Future<List<SpraywallRoute>> getAll(Session session) async {
-    return await SpraywallRoute.db.find(session);
+    var result = await SpraywallRoute.db.find(
+      session,
+    );
+    return result;
+  }
+
+  Future<List<int>> getAllIds(Session session) async {
+    List<SpraywallRoute> routes = await getAll(session);
+    return routes.map((route) => route.id!).toList();
   }
 
   Future<List<SpraywallRoute>> getByName(Session session, String name) async {
-    return await SpraywallRoute.db
-        .find(session, where: (t) => t.name.equals(name));
+    return await SpraywallRoute.db.find(
+      session,
+      where: (t) => t.name.equals(name),
+    );
   }
 
   Future<int> getNewId(Session session) async {

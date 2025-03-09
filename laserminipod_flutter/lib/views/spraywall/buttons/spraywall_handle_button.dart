@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/common/enums/handle_state_enum.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_button_template.dart';
 
@@ -14,7 +15,7 @@ class SpraywallHandleButton extends StatefulWidget {
 }
 
 class _SpraywallHandleButtonState extends State<SpraywallHandleButton> {
-  bool activated = false;
+  HandleStateEnum activated = HandleStateEnum.deactivated;
 
   void toggleActivated() {
     setState(() {
@@ -28,20 +29,17 @@ class _SpraywallHandleButtonState extends State<SpraywallHandleButton> {
   void initState() {
     super.initState();
     activated = Provider.of<SprayWallControllerAbstract>(context, listen: false)
-        .isHandleActivated(widget.id);
+        .getHandleStatus(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    var activated =
-        Provider.of<SprayWallControllerAbstract>(context, listen: false)
-            .isHandleActivated(widget.id);
+    var state = Provider.of<SprayWallControllerAbstract>(context, listen: false)
+        .getHandleStatus(widget.id);
     return GestureDetector(
         onTap: toggleActivated,
-        child: activated == true
-            ? SpraywallHandleButtonTemplate(
-                handleDiameter: widget.handleDiameter, color: Colors.green)
-            : SpraywallHandleButtonTemplate(
-                handleDiameter: widget.handleDiameter, color: Colors.red));
+        child: SpraywallHandleButtonTemplate(
+            handleDiameter: widget.handleDiameter,
+            color: state.getStateColor()));
   }
 }

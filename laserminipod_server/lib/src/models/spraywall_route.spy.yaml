@@ -2,4 +2,8 @@ class: SpraywallRoute
 table: spraywallroute
 fields:
   name: String
-  handles: List<int>
+  description: String?
+  difficulty: int
+  creationDate: DateTime, default=now
+  userInfoId: int, relation(parent=serverpod_user_info)
+  routeHandleStates: List<RouteHandleState>?, relation

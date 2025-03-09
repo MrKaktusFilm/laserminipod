@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
-import 'package:user_app/views/routelist/routelist_tile.dart';
+import 'package:user_app/domain/abstract/user_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart';
+import 'package:user_app/views/routelist/all_routes_tab.dart';
 
 class RouteListPage extends StatefulWidget {
-  const RouteListPage({super.key, required this.navigateToSpraywall});
+  final Widget child;
 
-  final VoidCallback navigateToSpraywall;
+  const RouteListPage({super.key, required this.child});
 
   @override
   State<RouteListPage> createState() => _RouteListPageState();
@@ -16,29 +17,44 @@ class RouteListPage extends StatefulWidget {
 class _RouteListPageState extends State<RouteListPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<RouteControllerAbstract>(
-        builder: (context, spraywallContoller, child) {
-      return FutureBuilder<List<SpraywallRoute>>(
-        future: spraywallContoller.loadAllRoutes(),
-        builder: (context, AsyncSnapshot<List<SpraywallRoute>> snapshot) {
-          List<SpraywallRoute>? routes = [];
+    final loc = UiHelper.getAppLocalization();
+    final userController =
+        Provider.of<UserControllerAbstract>(context, listen: false);
+    final routeController =
+        Provider.of<RouteControllerAbstract>(context, listen: false);
+    Widget content;
+
+    if (!userController.isSignedIn()) {
+      // only show allRoutes tab for guests
+      content = AllRoutesTab();
+    } else {
+      content = DefaultTabController(
+          length: 3,
+          initialIndex: routeController.routeListTabIndex,
+          child: Column(
+            children: [
+              TabBar(
+                onTap: (index) {
+                  routeController.setTabIndex(context, index);
+                },
+                tabs: [
+                  Tab(icon: Icon(Icons.flag), text: loc.myProjects),
+                  Tab(icon: Icon(Icons.route), text: loc.myRoutes),
+                  Tab(icon: Icon(Icons.terrain), text: loc.allRoutes),
+                ],
+              ),
+              Expanded(child: widget.child)
+            ],
+          ));
+    }
+
+    return FutureBuilder(
+        future: routeController.loadAllRoutes(),
+        builder: (context, snapshot) {
           if (snapshot.hasData) {
-            routes = snapshot.data;
-            return ListView.builder(
-                itemCount: routes?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                      child: RoutelistTile(
-                    route: routes![index],
-                    navigateToSpraywall: widget.navigateToSpraywall,
-                  ));
-                });
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return content;
           }
-          return const SizedBox.shrink();
-        },
-      );
-    });
+          return Center(child: CircularProgressIndicator());
+        });
   }
 }

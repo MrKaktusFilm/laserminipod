@@ -1,4 +1,5 @@
 import 'package:laserminipod_server/src/data/user_repository.dart';
+import 'package:laserminipod_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
 
@@ -21,11 +22,16 @@ class UserService {
       String userName, String password, List<String> scopes) async {
     auth.UserInfo? userInfo;
     try {
-      // TODO: check username
-      var existingUser = await _userRepository.getUserByEmail(session, email);
-      if (existingUser != null) {
-        session.log('User already exists: $email', level: LogLevel.warning);
-        return null;
+      var existingMail = await _userRepository.getUserByEmail(session, email);
+      if (existingMail != null) {
+        throw CreateUserException(
+            message: "User with email $email already exists");
+      }
+      var existingUsername =
+          await _userRepository.getUserByUsername(session, userName);
+      if (existingUsername != null) {
+        throw CreateUserException(
+            message: "User with username $userName already exists");
       }
 
       userInfo = auth.UserInfo(
@@ -48,6 +54,7 @@ class UserService {
     } catch (e, stackTrace) {
       session.log('Error creating user: $e\n$stackTrace',
           level: LogLevel.error);
+      rethrow;
     }
     return userInfo;
   }
@@ -70,6 +77,7 @@ class UserService {
     } catch (e, stackTrace) {
       session.log('Error changing password: $e\n$stackTrace',
           level: LogLevel.error);
+      rethrow;
     }
   }
 
@@ -86,7 +94,7 @@ class UserService {
     } catch (e, stackTrace) {
       session.log('Error checking password: $e\n$stackTrace',
           level: LogLevel.error);
-      return false;
+      rethrow;
     }
   }
 
@@ -103,6 +111,17 @@ class UserService {
     } catch (e, stackTrace) {
       session.log('Error deleting user: $e\n$stackTrace',
           level: LogLevel.error);
+      rethrow;
+    }
+  }
+
+  Future<auth.UserInfo?> getUserById(Session session, int id) async {
+    try {
+      return await _userRepository.getUserById(session, id);
+    } on Exception catch (e, stackTrace) {
+      session.log('Error getting user by id: $e\n$stackTrace',
+          level: LogLevel.error);
+      rethrow;
     }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:user_app/common/enums/handle_state_enum.dart';
 import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
@@ -11,8 +11,7 @@ class SpraywallController extends ChangeNotifier
   final HandleModelAbstract handleModel;
   final SpraywallModelAbstract spraywallModel;
 
-  SpraywallRoute currentRoute =
-      SpraywallRoute(handles: <int>[], id: 0, name: "");
+  Map<int, HandleStateEnum> currentRoute = {};
 
   SpraywallController(
       {required this.handleModel,
@@ -20,41 +19,53 @@ class SpraywallController extends ChangeNotifier
       required this.spraywallModel});
 
   @override
-  bool toggleHandle(int id) {
-    spraywallModel.toggleHandle(id);
-    if (currentRoute.handles.contains(id)) {
-      currentRoute.handles.remove(id);
-      notifyListeners();
-      return false;
+  HandleStateEnum toggleHandle(int id) {
+    HandleStateEnum? newState;
+    if (currentRoute.containsKey(id)) {
+      currentRoute[id] = currentRoute[id]!.increase();
+      if (currentRoute[id] == HandleStateEnum.deactivated) {
+        currentRoute.remove(id);
+        newState = HandleStateEnum.deactivated;
+      } else {
+        newState = currentRoute[id]!;
+      }
     } else {
-      currentRoute.handles.add(id);
-      notifyListeners();
-      return true;
+      currentRoute[id] = HandleStateEnum.normal;
+      newState = HandleStateEnum.normal;
     }
+    // fire and forget
+    spraywallModel.toggleHandle(id, newState.value);
+    notifyListeners();
+    return newState;
   }
 
   @override
   void clearCurrentRoute() {
     spraywallModel.clearCurrentRoute();
-    currentRoute.handles = [];
+    currentRoute = {};
     notifyListeners();
   }
 
   /// loads the given route to the spraywall screen panel
   @override
-  void displayRoute(SpraywallRoute route) {
-    spraywallModel.loadRoute(route);
-    currentRoute = route.copyWith();
+  void displayRoute(Map<int, HandleStateEnum> route) {
+    Map<int, int> routeIntMap = {};
+    route.forEach((id, state) => routeIntMap[id] = state.value);
+    spraywallModel.uploadRoute(routeIntMap);
+    currentRoute = route;
     notifyListeners();
   }
 
   @override
-  SpraywallRoute getCurrentRoute() {
+  Map<int, HandleStateEnum> getCurrentRoute() {
     return currentRoute;
   }
 
   @override
-  bool isHandleActivated(int id) {
-    return currentRoute.handles.contains(id);
+  HandleStateEnum getHandleStatus(int id) {
+    if (!currentRoute.containsKey(id)) {
+      return HandleStateEnum.deactivated;
+    }
+    return currentRoute[id]!;
   }
 }

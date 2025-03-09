@@ -62,10 +62,13 @@ Future<void> main() async {
       handleModel: handleModel,
       routeModel: routeModel,
       spraywallModel: spraywallModel);
-  RouteControllerAbstract routeController = RouteController(
-      routeModel: routeModel, spraywallController: spraywallController);
-  UserControllerAbstract adminController = UserController(
+  UserControllerAbstract userController = UserController(
       navigationController: navigationController, userModel: userModel);
+  RouteControllerAbstract routeController = RouteController(
+      routeModel: routeModel,
+      spraywallController: spraywallController,
+      userController: userController,
+      navigationController: navigationController);
   ImageControllerAbstract imageController = ImageController();
   HandleControllerAbstract handleController = HandleController(
       handleModel: handleModel,
@@ -82,7 +85,7 @@ Future<void> main() async {
         ChangeNotifierProvider<SprayWallControllerAbstract>(
             create: (_) => spraywallController),
         ChangeNotifierProvider<UserControllerAbstract>(
-            create: (_) => adminController),
+            create: (_) => userController),
         ChangeNotifierProvider<HandleControllerAbstract>(
             create: (_) => handleController),
         ChangeNotifierProvider<ImageControllerAbstract>(

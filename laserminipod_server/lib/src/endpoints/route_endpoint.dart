@@ -22,7 +22,7 @@ class RouteEndpoint extends Endpoint {
     return await _routeService.loadAllRoutes(session);
   }
 
-  Future<bool> existsRouteAlready(Session session, SpraywallRoute route) async {
+  Future<bool> existsRouteAlready(Session session, Map<int, int> route) async {
     return await _routeService.existsRouteAlready(session, route);
   }
 
@@ -30,7 +30,8 @@ class RouteEndpoint extends Endpoint {
     return await _routeService.nameAlreadyAssigned(session, name);
   }
 
-  Future<void> test(Session session) async {
-    _routeService.test(session);
+  Future<Map<int, int>> getHandleStatesForRoute(
+      Session session, int routeId) async {
+    return await _routeService.getHandleStatesForRoute(session, routeId);
   }
 }
