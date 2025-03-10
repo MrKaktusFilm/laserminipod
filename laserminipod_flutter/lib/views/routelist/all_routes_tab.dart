@@ -16,6 +16,6 @@ class _AllRoutesTabState extends State<AllRoutesTab> {
     final routeController =
         Provider.of<RouteControllerAbstract>(context, listen: false);
 
-    return RouteListTemplate(getRoutes: routeController.getAllRoutes);
+    return RouteListTemplate(getRoutes: routeController.getAllRoutesFiltered);
   }
 }

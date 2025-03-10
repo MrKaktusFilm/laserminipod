@@ -12,6 +12,7 @@ import 'package:user_app/data/handle_model.dart';
 import 'package:user_app/data/route_model.dart';
 import 'package:user_app/data/spraywall_model.dart';
 import 'package:user_app/data/user_model.dart';
+import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
@@ -19,6 +20,7 @@ import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/domain/filter_controller.dart';
 import 'package:user_app/domain/user_controller.dart';
 import 'package:user_app/domain/handle_controller.dart';
 import 'package:user_app/domain/image_controller.dart';
@@ -64,11 +66,13 @@ Future<void> main() async {
       spraywallModel: spraywallModel);
   UserControllerAbstract userController = UserController(
       navigationController: navigationController, userModel: userModel);
+  FilterControllerAbstract filterController = FilterController();
   RouteControllerAbstract routeController = RouteController(
       routeModel: routeModel,
       spraywallController: spraywallController,
       userController: userController,
-      navigationController: navigationController);
+      navigationController: navigationController,
+      filterController: filterController);
   ImageControllerAbstract imageController = ImageController();
   HandleControllerAbstract handleController = HandleController(
       handleModel: handleModel,
@@ -76,6 +80,7 @@ Future<void> main() async {
       imageController: imageController);
   LanguageControllerAbstract languageController = LanguageController();
   await imageController.loadImageDimensions();
+  Filters(routeController: routeController);
 
   runApp(
     MultiProvider(
@@ -94,6 +99,8 @@ Future<void> main() async {
             create: (_) => routeController),
         ChangeNotifierProvider<LanguageControllerAbstract>(
             create: (_) => languageController),
+        ChangeNotifierProvider<FilterControllerAbstract>(
+            create: (_) => filterController),
       ],
       child: const MyApp(),
     ),

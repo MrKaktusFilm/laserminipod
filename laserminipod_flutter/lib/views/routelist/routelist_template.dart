@@ -27,14 +27,17 @@ class _RouteListTemplateState extends State<RouteListTemplate> {
           ),
         );
       }
-      return ListView.builder(
+      return Expanded(
+        child: ListView.builder(
           itemCount: routes.length,
           itemBuilder: (BuildContext context, int index) {
             return Card(
                 child: RoutelistTile(
               route: routes[index],
             ));
-          });
+          },
+        ),
+      );
     });
   }
 }

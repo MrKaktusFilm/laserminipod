@@ -4,6 +4,7 @@ import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/routelist/all_routes_tab.dart';
+import 'package:user_app/views/routelist/filter_bottom_sheet.dart';
 
 class RouteListPage extends StatefulWidget {
   final Widget child;
@@ -43,6 +44,10 @@ class _RouteListPageState extends State<RouteListPage> {
                   Tab(icon: Icon(Icons.terrain), text: loc.allRoutes),
                 ],
               ),
+              FilledButton(
+                onPressed: _openFilterSheet,
+                child: Text('Filter'),
+              ),
               Expanded(child: widget.child)
             ],
           ));
@@ -56,5 +61,10 @@ class _RouteListPageState extends State<RouteListPage> {
           }
           return Center(child: CircularProgressIndicator());
         });
+  }
+
+  void _openFilterSheet() {
+    showBottomSheet(
+        context: context, builder: (context) => FilterBottomSheet());
   }
 }

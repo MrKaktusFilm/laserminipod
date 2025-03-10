@@ -23,7 +23,7 @@ abstract class RouteControllerAbstract extends ChangeNotifier {
 
   Future<void> displayRoute(int routeId);
 
-  List<SpraywallRoute> getAllRoutes();
+  List<SpraywallRoute> getAllRoutesFiltered();
 
   List<SpraywallRoute> getMyRoutes();
 

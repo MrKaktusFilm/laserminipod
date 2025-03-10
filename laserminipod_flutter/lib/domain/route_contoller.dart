@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/common/enums/handle_state_enum.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
+import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
@@ -18,6 +19,7 @@ class RouteController extends ChangeNotifier
   final SprayWallControllerAbstract spraywallController;
   final UserControllerAbstract userController;
   final NavigationControllerAbstract navigationController;
+  final FilterControllerAbstract filterController;
   bool _existsNameAlready = false;
   bool _isLoading = false;
   String _name = "";
@@ -31,7 +33,8 @@ class RouteController extends ChangeNotifier
       {required this.navigationController,
       required this.routeModel,
       required this.spraywallController,
-      required this.userController});
+      required this.userController,
+      required this.filterController});
 
   @override
   int get routeListTabIndex => _routeListTabIndex;
@@ -135,14 +138,16 @@ class RouteController extends ChangeNotifier
   }
 
   @override
-  List<SpraywallRoute> getAllRoutes() {
-    return allRoutes;
+  List<SpraywallRoute> getAllRoutesFiltered() {
+    return filterController.applyFilters(allRoutes);
   }
 
   @override
   List<SpraywallRoute> getMyRoutes() {
     int userId = userController.getSignedInUserId()!;
-    return allRoutes.where((route) => route.userInfoId == userId).toList();
+    return getAllRoutesFiltered()
+        .where((route) => route.userInfoId == userId)
+        .toList();
   }
 
   @override
@@ -281,7 +286,9 @@ class RouteController extends ChangeNotifier
 
   @override
   List<SpraywallRoute> getMyProjects() {
-    return allRoutes.where((route) => _projects.contains(route.id)).toList();
+    return getAllRoutesFiltered()
+        .where((route) => _projects.contains(route.id))
+        .toList();
   }
 
   @override
