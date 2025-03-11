@@ -5,25 +5,41 @@ import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 
 class FilterController extends ChangeNotifier
     implements FilterControllerAbstract {
-  final List<FilterType> _activeFilters = [];
+  final List<FilterType> _filters = [];
+
+  FilterController() {
+    _initFilters();
+  }
 
   @override
   void setFilter(FilterName name, dynamic value) {
-    _activeFilters.removeWhere((filterType) => filterType.name == name);
-    if (value != null) {
-      _activeFilters.add(FilterType(name, value));
-    }
+    _filters.firstWhere((filterType) => filterType.name == name).filterValue =
+        value;
+    // _activeFilters.removeWhere((filterType) => filterType.name == name);
+    // if (value != null) {
+    //   _activeFilters.add(FilterType(name, value));
+    // }
     notifyListeners();
   }
 
   @override
+  dynamic getFilterValue(FilterName name) {
+    return _filters
+        .firstWhere((filterType) => filterType.name == name)
+        .filterValue;
+  }
+
+  @override
   List<SpraywallRoute> applyFilters(List<SpraywallRoute> routes) {
+    var activeFilters =
+        _filters.where((filterType) => filterType.filterValue != null);
     return routes
         .where((route) =>
-            _activeFilters.every((filterType) => _getFilter(filterType)(route)))
+            activeFilters.every((filterType) => _getFilter(filterType)(route)))
         .toList();
   }
 
+  // returns Filter function for given type, ready to be applied to a routeList
   RouteFilter _getFilter(FilterType filterType) {
     FilterName name = filterType.name;
     dynamic value = filterType.filterValue;
@@ -36,8 +52,15 @@ class FilterController extends ChangeNotifier
         throw UnimplementedError('Filter not implemented for $name');
     }
   }
+
+  void _initFilters() {
+    for (var filterName in FilterName.values) {
+      _filters.add(FilterType(filterName));
+    }
+  }
 }
 
+/// holds logic for applying filters to routes
 class Filters {
   final RouteControllerAbstract _routeController;
   static late final Filters _this;
@@ -62,11 +85,16 @@ enum FilterName {
   const FilterName(this.name);
 }
 
+/// saves currently selected value for the named filter
 class FilterType<T> {
   final FilterName name;
-  final T? _filterValue;
+  T? _filterValue;
 
-  FilterType(this.name, this._filterValue);
+  FilterType(this.name);
 
   T? get filterValue => _filterValue;
+
+  set filterValue(T? value) {
+    _filterValue = value;
+  }
 }

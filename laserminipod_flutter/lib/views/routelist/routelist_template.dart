@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/routelist/routelist_tile.dart';
@@ -16,8 +17,8 @@ class RouteListTemplate extends StatefulWidget {
 class _RouteListTemplateState extends State<RouteListTemplate> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<RouteControllerAbstract>(
-        builder: (context, spraywallContoller, child) {
+    return Consumer2<RouteControllerAbstract, FilterControllerAbstract>(
+        builder: (context, spraywallContoller, filterController, child) {
       final routes = widget.getRoutes();
       if (routes == null || routes.isEmpty) {
         return Center(
@@ -27,16 +28,14 @@ class _RouteListTemplateState extends State<RouteListTemplate> {
           ),
         );
       }
-      return Expanded(
-        child: ListView.builder(
-          itemCount: routes.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Card(
-                child: RoutelistTile(
-              route: routes[index],
-            ));
-          },
-        ),
+      return ListView.builder(
+        itemCount: routes.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+              child: RoutelistTile(
+            route: routes[index],
+          ));
+        },
       );
     });
   }

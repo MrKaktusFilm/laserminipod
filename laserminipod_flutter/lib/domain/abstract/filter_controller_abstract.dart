@@ -8,4 +8,6 @@ abstract class FilterControllerAbstract extends ChangeNotifier {
   List<SpraywallRoute> applyFilters(List<SpraywallRoute> routes);
 
   void setFilter(FilterName name, dynamic value);
+
+  dynamic getFilterValue(FilterName name);
 }
