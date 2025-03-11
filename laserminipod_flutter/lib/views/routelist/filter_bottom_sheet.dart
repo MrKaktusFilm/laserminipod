@@ -44,32 +44,32 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    List<ListTile> filterItems = [
-      // sent filter
-      ListTile(
-        title: Text('Sent'),
-        trailing: Consumer<FilterControllerAbstract>(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // sent filter
+        Consumer<FilterControllerAbstract>(
             builder: (context, filterController, child) {
-          return DropdownButton<bool?>(
-            value: filterController.getFilterValue(FilterName.sent),
-            items: [
-              DropdownMenuItem(value: null, child: Text('---')),
-              DropdownMenuItem(value: true, child: Text('Sent')),
-              DropdownMenuItem(value: false, child: Text('Not sent'))
+          return DropdownMenu<bool?>(
+            label: Text('Sent'),
+            initialSelection: filterController.getFilterValue(FilterName.sent),
+            dropdownMenuEntries: [
+              DropdownMenuEntry(value: null, label: '---'),
+              DropdownMenuEntry(value: true, label: 'Sent'),
+              DropdownMenuEntry(value: false, label: 'Not sent')
             ],
-            onChanged: (value) {
+            onSelected: (value) {
               filterController.setFilter(FilterName.sent, value);
             },
           );
         }),
-      ),
 
-      // name filter
-      ListTile(
-        title: Text('Name'),
-        subtitle: Consumer<FilterControllerAbstract>(
+        // route name filter
+        Consumer<FilterControllerAbstract>(
             builder: (context, filterController, child) {
           return TextField(
+            decoration: InputDecoration(labelText: 'Route name'),
             controller: _routeNameController,
             onChanged: (value) {
               if (value.trim().isEmpty) {
@@ -80,12 +80,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             },
           );
         }),
-      ),
 
-      // creator filter
-      ListTile(
-        title: Text('Creator'),
-        trailing: Consumer<FilterControllerAbstract>(
+        // creator filter
+        Consumer<FilterControllerAbstract>(
             builder: (context, filterController, child) {
           return FutureBuilder(
               future: _userController.loadAllUsers(),
@@ -99,6 +96,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     0, DropdownMenuEntry<int?>(value: null, label: '---'));
 
                 return DropdownMenu<int?>(
+                  label: Text('Creator'),
                   initialSelection:
                       filterController.getFilterValue(FilterName.creator),
                   controller: _creatorController,
@@ -111,13 +109,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 );
               });
         }),
-      ),
-    ];
-
-    return ListView.builder(
-        itemCount: filterItems.length,
-        itemBuilder: (context, index) {
-          return filterItems[index];
-        });
+      ],
+    );
   }
 }
