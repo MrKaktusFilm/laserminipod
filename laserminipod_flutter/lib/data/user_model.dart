@@ -30,4 +30,9 @@ class UserModel implements UserModelAbstract {
   Future<UserInfo?> getUserById(int id) async {
     return await userEndpoint.getUserById(id);
   }
+
+  @override
+  Future<List<UserInfo>> getAllUsers() async {
+    return await userEndpoint.getAllUsers();
+  }
 }

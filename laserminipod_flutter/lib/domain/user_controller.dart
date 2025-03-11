@@ -12,6 +12,8 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   final UserModelAbstract _userModel;
   final NavigationControllerAbstract _navigationController;
 
+  List<UserInfo> _users = [];
+
   UserController(
       {required NavigationControllerAbstract navigationController,
       required UserModelAbstract userModel})
@@ -175,4 +177,19 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   Future<UserInfo?> getUserById(int id) async {
     return await _userModel.getUserById(id);
   }
+
+  @override
+  Future<bool> loadAllUsers() async {
+    try {
+      _users = await _userModel.getAllUsers();
+    } catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().error, e as Exception);
+      _users = [];
+    }
+    return true;
+  }
+
+  @override
+  List<UserInfo> get users => _users;
 }

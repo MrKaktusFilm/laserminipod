@@ -27,3 +27,4 @@ user:
   - createUser:
   - deleteUser:
   - getUserById:
+  - getAllUsers:

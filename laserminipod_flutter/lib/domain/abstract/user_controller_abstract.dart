@@ -28,4 +28,8 @@ abstract class UserControllerAbstract extends ChangeNotifier {
   int? getSignedInUserId();
 
   Future<UserInfo?> getUserById(int id);
+
+  Future<bool> loadAllUsers();
+
+  List<UserInfo> get users;
 }

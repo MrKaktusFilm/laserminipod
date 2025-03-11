@@ -155,4 +155,14 @@ class UserService {
           level: LogLevel.info);
     } catch (e) {}
   }
+
+  Future<List<auth.UserInfo>> getAllUsers(Session session) async {
+    try {
+      return await _userRepository.getAllUsers(session);
+    } catch (e, stackTrace) {
+      session.log('Error fetching users: $e\n$stackTrace',
+          level: LogLevel.error);
+      rethrow;
+    }
+  }
 }

@@ -60,4 +60,8 @@ class UserRepository {
     );
     return users.isNotEmpty ? users.first : null;
   }
+
+  Future<List<auth.UserInfo>> getAllUsers(Session session) async {
+    return await auth.UserInfo.db.find(session);
+  }
 }

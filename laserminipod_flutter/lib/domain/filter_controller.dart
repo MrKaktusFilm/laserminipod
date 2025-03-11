@@ -47,7 +47,10 @@ class FilterController extends ChangeNotifier
     switch (name) {
       case FilterName.sent:
         return Filters.instance.sentFilter(value as bool);
-      // Add more cases here for other filters
+      case FilterName.routeName:
+        return Filters.instance.routeNameFilter(value as String);
+      case FilterName.creator:
+        return Filters.instance.creatorFilter(value as int);
       default:
         throw UnimplementedError('Filter not implemented for $name');
     }
@@ -75,10 +78,20 @@ class Filters {
   RouteFilter sentFilter(bool sent) {
     return (route) => _routeController.isSent(route.id!) == sent;
   }
+
+  RouteFilter routeNameFilter(String name) {
+    return (route) => route.name.contains(name);
+  }
+
+  RouteFilter creatorFilter(int userId) {
+    return (route) => route.userInfoId == userId;
+  }
 }
 
 enum FilterName {
-  sent("sentFilter");
+  sent("sentFilter"),
+  routeName("routeNameFilter"),
+  creator("creatorFilter");
 
   final String name;
 
@@ -88,13 +101,7 @@ enum FilterName {
 /// saves currently selected value for the named filter
 class FilterType<T> {
   final FilterName name;
-  T? _filterValue;
+  T? filterValue;
 
   FilterType(this.name);
-
-  T? get filterValue => _filterValue;
-
-  set filterValue(T? value) {
-    _filterValue = value;
-  }
 }

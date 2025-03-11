@@ -285,6 +285,13 @@ class EndpointUser extends _i1.EndpointRef {
         'getUserById',
         {'id': id},
       );
+
+  _i2.Future<List<_i5.UserInfo>> getAllUsers() =>
+      caller.callServerEndpoint<List<_i5.UserInfo>>(
+        'user',
+        'getAllUsers',
+        {},
+      );
 }
 
 class Modules {

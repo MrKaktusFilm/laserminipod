@@ -10,4 +10,6 @@ abstract class UserModelAbstract {
   Future<void> deleteUser(String email);
 
   Future<UserInfo?> getUserById(int id);
+
+  Future<List<UserInfo>> getAllUsers();
 }

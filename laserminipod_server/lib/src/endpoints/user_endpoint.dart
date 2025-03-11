@@ -32,4 +32,8 @@ class UserEndpoint extends Endpoint {
   Future<UserInfo?> getUserById(Session session, int id) async {
     return await _userService.getUserById(session, id);
   }
+
+  Future<List<UserInfo>> getAllUsers(Session session) async {
+    return await _userService.getAllUsers(session);
+  }
 }

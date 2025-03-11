@@ -568,6 +568,15 @@ class Endpoints extends _i1.EndpointDispatch {
             params['id'],
           ),
         ),
+        'getAllUsers': _i1.MethodConnector(
+          name: 'getAllUsers',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['user'] as _i5.UserEndpoint).getAllUsers(session),
+        ),
       },
     );
     modules['serverpod_auth'] = _i7.Endpoints()..initializeEndpoints(server);
