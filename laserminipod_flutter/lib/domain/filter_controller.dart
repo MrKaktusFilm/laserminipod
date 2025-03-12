@@ -20,6 +20,7 @@ class FilterController extends ChangeNotifier
     //   _activeFilters.add(FilterType(name, value));
     // }
     notifyListeners();
+    print('$name, $value');
   }
 
   @override
@@ -51,6 +52,10 @@ class FilterController extends ChangeNotifier
         return Filters.instance.routeNameFilter(value as String);
       case FilterName.creator:
         return Filters.instance.creatorFilter(value as int);
+      case FilterName.minDifficulty:
+        return Filters.instance.minDifficultyFilter(value as int);
+      case FilterName.maxDifficulty:
+        return Filters.instance.maxDifficultyFilter(value as int);
       default:
         throw UnimplementedError('Filter not implemented for $name');
     }
@@ -86,12 +91,22 @@ class Filters {
   RouteFilter creatorFilter(int userId) {
     return (route) => route.userInfoId == userId;
   }
+
+  RouteFilter minDifficultyFilter(int difficulty) {
+    return (route) => route.difficulty >= difficulty;
+  }
+
+  RouteFilter maxDifficultyFilter(int difficulty) {
+    return (route) => route.difficulty <= difficulty;
+  }
 }
 
 enum FilterName {
   sent("sentFilter"),
   routeName("routeNameFilter"),
-  creator("creatorFilter");
+  creator("creatorFilter"),
+  minDifficulty("minDifficultyFilter"),
+  maxDifficulty("maxDifficultyFilter");
 
   final String name;
 

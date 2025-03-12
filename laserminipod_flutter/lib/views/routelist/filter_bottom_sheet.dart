@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/filter_controller.dart';
+import 'package:user_app/views/difficulty_wheel.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   const FilterBottomSheet({super.key});
@@ -15,6 +16,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   late TextEditingController _routeNameController;
   final TextEditingController _creatorController = TextEditingController();
   late UserControllerAbstract _userController;
+
+  bool minDifficultyActive = false;
+  bool maxDifficultyActive = false;
 
   @override
   void initState() {
@@ -34,6 +38,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     });
 
     _userController.loadAllUsers();
+
+    minDifficultyActive =
+        filterController.getFilterValue(FilterName.minDifficulty) != null;
+    maxDifficultyActive =
+        filterController.getFilterValue(FilterName.maxDifficulty) != null;
   }
 
   @override
@@ -44,10 +53,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: fix navigation issue
+
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 10),
+
         // sent filter
         Consumer<FilterControllerAbstract>(
             builder: (context, filterController, child) {
@@ -64,6 +76,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             },
           );
         }),
+        const SizedBox(height: 10),
 
         // route name filter
         Consumer<FilterControllerAbstract>(
@@ -80,6 +93,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             },
           );
         }),
+        const SizedBox(height: 20),
 
         // creator filter
         Consumer<FilterControllerAbstract>(
@@ -109,6 +123,80 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 );
               });
         }),
+        const SizedBox(height: 10),
+
+        // min difficulty filter
+        Row(
+          children: [
+            Checkbox(
+                value: minDifficultyActive,
+                onChanged: (value) {
+                  setState(() {
+                    minDifficultyActive = value!;
+                    final filterController =
+                        Provider.of<FilterControllerAbstract>(context,
+                            listen: false);
+                    if (minDifficultyActive) {
+                      filterController.setFilter(
+                          FilterName.minDifficulty, 10); // default value
+                    } else {
+                      filterController.setFilter(
+                          FilterName.minDifficulty, null);
+                    }
+                  });
+                }),
+            SizedBox(width: 10),
+            Text('Minimum difficulty')
+          ],
+        ),
+        if (minDifficultyActive)
+          Consumer<FilterControllerAbstract>(
+              builder: (context, filterController, child) {
+            return DifficultyWheel(
+              onDifficultyChanged: (p0) =>
+                  filterController.setFilter(FilterName.minDifficulty, p0),
+              initialDifficulty:
+                  filterController.getFilterValue(FilterName.minDifficulty),
+            );
+          }),
+
+        const SizedBox(height: 10),
+
+        // max difficulty filter
+        Row(
+          children: [
+            Checkbox(
+                value: maxDifficultyActive,
+                onChanged: (value) {
+                  setState(() {
+                    maxDifficultyActive = value!;
+                    final filterController =
+                        Provider.of<FilterControllerAbstract>(context,
+                            listen: false);
+                    if (maxDifficultyActive) {
+                      filterController.setFilter(
+                          FilterName.maxDifficulty, 10); // default value
+                    } else {
+                      filterController.setFilter(
+                          FilterName.maxDifficulty, null);
+                    }
+                  });
+                }),
+            SizedBox(width: 10),
+            Text('Maximum difficulty')
+          ],
+        ),
+        if (maxDifficultyActive)
+          Consumer<FilterControllerAbstract>(
+              builder: (context, filterController, child) {
+            return DifficultyWheel(
+              onDifficultyChanged: (p0) =>
+                  filterController.setFilter(FilterName.maxDifficulty, p0),
+              initialDifficulty:
+                  filterController.getFilterValue(FilterName.maxDifficulty),
+            );
+          }),
+        const SizedBox(height: 10),
       ],
     );
   }
