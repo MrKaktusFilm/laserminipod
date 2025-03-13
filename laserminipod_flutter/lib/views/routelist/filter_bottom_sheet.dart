@@ -46,14 +46,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: fix navigation issue
     var loc = UiHelper.getAppLocalization();
 
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 10),
+          const SizedBox(height: 30),
           // sorting
           Consumer<FilterControllerAbstract>(
               builder: (context, filterController, child) {

@@ -64,7 +64,13 @@ class _RouteListPageState extends State<RouteListPage> {
   }
 
   void _openFilterSheet() {
-    showBottomSheet(
-        context: context, builder: (context) => FilterBottomSheet());
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Add this line
+      builder: (context) => FractionallySizedBox(
+        heightFactor: 0.9, // Adjust the height factor as needed
+        child: FilterBottomSheet(),
+      ),
+    );
   }
 }
