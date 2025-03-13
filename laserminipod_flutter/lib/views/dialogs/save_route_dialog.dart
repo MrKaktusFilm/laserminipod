@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/common/enums/boulder_grade_enum.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
-import 'package:user_app/domain/ui_helper.dart'; // Importiere den UiHelper
+import 'package:user_app/domain/ui_helper.dart';
+import 'package:user_app/views/difficulty_wheel.dart'; // Importiere den UiHelper
 
 class SaveRouteDialog extends StatefulWidget {
   const SaveRouteDialog({super.key});
@@ -24,6 +24,12 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
       controller.saveCurrentRoute(_routeDescription, _selectedDifficulty);
       Navigator.pop(context);
     }
+  }
+
+  void _onDifficultyChanged(int difficulty) {
+    setState(() {
+      _selectedDifficulty = difficulty;
+    });
   }
 
   @override
@@ -70,37 +76,8 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
               const SizedBox(height: 10),
               Text(loc.selectDifficulty,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              SizedBox(
-                height: 100,
-                child: RotatedBox(
-                  quarterTurns: 3,
-                  child: ListWheelScrollView.useDelegate(
-                    controller: FixedExtentScrollController(initialItem: 10),
-                    itemExtent: 40,
-                    physics: FixedExtentScrollPhysics(),
-                    onSelectedItemChanged: (index) {
-                      setState(() {
-                        _selectedDifficulty = index;
-                      });
-                    },
-                    childDelegate: ListWheelChildBuilderDelegate(
-                      builder: (context, index) {
-                        return Center(
-                            child: RotatedBox(
-                          quarterTurns: 1,
-                          child: Text(
-                              BoulderGradeEnum.fromValue(index)!
-                                  .getfbScaleName(),
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: BoulderGradeEnum.fromValue(index)!
-                                      .getDifficultyColor())),
-                        ));
-                      },
-                      childCount: BoulderGradeEnum.values.length,
-                    ),
-                  ),
-                ),
+              DifficultyWheel(
+                onDifficultyChanged: _onDifficultyChanged,
               ),
               if (controller.isLoading)
                 const Padding(
