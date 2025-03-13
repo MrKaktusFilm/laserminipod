@@ -139,7 +139,7 @@ class RouteController extends ChangeNotifier
 
   @override
   List<SpraywallRoute> getAllRoutesFiltered() {
-    return filterController.applyFilters(allRoutes);
+    return filterController.applyFiltersAndSorting(allRoutes);
   }
 
   @override

@@ -6,6 +6,7 @@ import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 class FilterController extends ChangeNotifier
     implements FilterControllerAbstract {
   final List<FilterType> _filters = [];
+  SortationName _sortation = SortationName.alphabetical;
 
   FilterController() {
     _initFilters();
@@ -15,12 +16,7 @@ class FilterController extends ChangeNotifier
   void setFilter(FilterName name, dynamic value) {
     _filters.firstWhere((filterType) => filterType.name == name).filterValue =
         value;
-    // _activeFilters.removeWhere((filterType) => filterType.name == name);
-    // if (value != null) {
-    //   _activeFilters.add(FilterType(name, value));
-    // }
     notifyListeners();
-    print('$name, $value');
   }
 
   @override
@@ -30,14 +26,27 @@ class FilterController extends ChangeNotifier
         .filterValue;
   }
 
-  @override
-  List<SpraywallRoute> applyFilters(List<SpraywallRoute> routes) {
+  List<SpraywallRoute> _applyFilters(List<SpraywallRoute> routes) {
     var activeFilters =
         _filters.where((filterType) => filterType.filterValue != null);
     return routes
         .where((route) =>
             activeFilters.every((filterType) => _getFilter(filterType)(route)))
         .toList();
+  }
+
+  @override
+  void resetFilters() {
+    for (var filterType in _filters) {
+      filterType.filterValue = null;
+    }
+    notifyListeners();
+  }
+
+  @override
+  bool isFilterActive(FilterName name) {
+    return _filters.firstWhere((filter) => filter.name == name).filterValue !=
+        null;
   }
 
   // returns Filter function for given type, ready to be applied to a routeList
@@ -66,10 +75,48 @@ class FilterController extends ChangeNotifier
       _filters.add(FilterType(filterName));
     }
   }
+
+  RouteComperator _getSortation(SortationName sortation) {
+    switch (sortation) {
+      case SortationName.alphabetical:
+        return (a, b) =>
+            a.name.trim().toUpperCase().compareTo(b.name.trim().toUpperCase());
+      case SortationName.newest:
+        return (a, b) => b.creationDate.compareTo(a.creationDate);
+      case SortationName.oldest:
+        return (a, b) => a.creationDate.compareTo(b.creationDate);
+      case SortationName.hardest:
+        return (a, b) => b.difficulty.compareTo(a.difficulty);
+      case SortationName.easiest:
+        return (a, b) => a.difficulty.compareTo(b.difficulty);
+      case SortationName.mostSents:
+      // return (a, b) => b.sentCount.compareTo(a.sentCount);
+      case SortationName.leastSents:
+      // return (a, b) => a.sentCount.compareTo(b.sentCount);
+      default:
+        throw UnimplementedError('Sortation not implemented for $sortation');
+    }
+  }
+
+  @override
+  List<SpraywallRoute> applyFiltersAndSorting(List<SpraywallRoute> routes) {
+    var filteredRoutes = _applyFilters(routes);
+    return filteredRoutes..sort(_getSortation(_sortation));
+  }
+
+  @override
+  SortationName get sortation => _sortation;
+
+  @override
+  void setSortation(SortationName sortation) {
+    _sortation = sortation;
+    notifyListeners();
+  }
 }
 
 /// holds logic for applying filters to routes
 class Filters {
+  // TODO: Integrate into controller, use routeModel
   final RouteControllerAbstract _routeController;
   static late final Filters _this;
 
@@ -119,4 +166,37 @@ class FilterType<T> {
   T? filterValue;
 
   FilterType(this.name);
+}
+
+enum SortationName {
+  alphabetical(0),
+  newest(1),
+  oldest(2),
+  hardest(3),
+  easiest(4),
+  mostSents(5),
+  leastSents(6);
+
+  final int value;
+
+  const SortationName(this.value);
+
+  String getName() {
+    switch (this) {
+      case SortationName.alphabetical:
+        return 'Alphabetical';
+      case SortationName.newest:
+        return 'Newest first';
+      case SortationName.oldest:
+        return 'Oldest first';
+      case SortationName.hardest:
+        return 'Hardest first';
+      case SortationName.easiest:
+        return 'Easiest first';
+      case SortationName.mostSents:
+        return 'Most sents first';
+      case SortationName.leastSents:
+        return 'Least sents first';
+    }
+  }
 }

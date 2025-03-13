@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:user_app/common/enums/boulder_grade_enum.dart';
 
 class DifficultyWheel extends StatelessWidget {
+  static const default_difficulty = 10;
+
   final void Function(int)? onDifficultyChanged;
   final int? initialDifficulty;
 
@@ -15,8 +17,8 @@ class DifficultyWheel extends StatelessWidget {
       child: RotatedBox(
         quarterTurns: 3,
         child: ListWheelScrollView.useDelegate(
-          controller:
-              FixedExtentScrollController(initialItem: initialDifficulty ?? 10),
+          controller: FixedExtentScrollController(
+              initialItem: initialDifficulty ?? default_difficulty),
           itemExtent: 40,
           physics: FixedExtentScrollPhysics(),
           onSelectedItemChanged: (index) {
