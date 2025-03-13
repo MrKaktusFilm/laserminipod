@@ -13,8 +13,9 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:laserminipod_client/src/protocol/handle.dart' as _i3;
 import 'package:laserminipod_client/src/protocol/spraywall_route.dart' as _i4;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i5;
-import 'protocol.dart' as _i6;
+import 'package:laserminipod_client/src/protocol/route_user_sents.dart' as _i5;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i6;
+import 'protocol.dart' as _i7;
 
 /// {@category Endpoint}
 class EndpointHandle extends _i1.EndpointRef {
@@ -131,11 +132,11 @@ class EndpointRoute extends _i1.EndpointRef {
         {'userId': userId},
       );
 
-  _i2.Future<List<int>> loadSents(int userId) =>
-      caller.callServerEndpoint<List<int>>(
+  _i2.Future<List<_i5.RouteUserSents>> loadSents() =>
+      caller.callServerEndpoint<List<_i5.RouteUserSents>>(
         'route',
         'loadSents',
-        {'userId': userId},
+        {},
       );
 
   _i2.Future<void> addProjectForUser(
@@ -258,12 +259,12 @@ class EndpointUser extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<_i5.UserInfo?> createUser(
+  _i2.Future<_i6.UserInfo?> createUser(
     String email,
     String userName,
     String password,
   ) =>
-      caller.callServerEndpoint<_i5.UserInfo?>(
+      caller.callServerEndpoint<_i6.UserInfo?>(
         'user',
         'createUser',
         {
@@ -279,15 +280,15 @@ class EndpointUser extends _i1.EndpointRef {
         {'email': email},
       );
 
-  _i2.Future<_i5.UserInfo?> getUserById(int id) =>
-      caller.callServerEndpoint<_i5.UserInfo?>(
+  _i2.Future<_i6.UserInfo?> getUserById(int id) =>
+      caller.callServerEndpoint<_i6.UserInfo?>(
         'user',
         'getUserById',
         {'id': id},
       );
 
-  _i2.Future<List<_i5.UserInfo>> getAllUsers() =>
-      caller.callServerEndpoint<List<_i5.UserInfo>>(
+  _i2.Future<List<_i6.UserInfo>> getAllUsers() =>
+      caller.callServerEndpoint<List<_i6.UserInfo>>(
         'user',
         'getAllUsers',
         {},
@@ -296,10 +297,10 @@ class EndpointUser extends _i1.EndpointRef {
 
 class Modules {
   Modules(Client client) {
-    auth = _i5.Caller(client);
+    auth = _i6.Caller(client);
   }
 
-  late final _i5.Caller auth;
+  late final _i6.Caller auth;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -318,7 +319,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i6.Protocol(),
+          _i7.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,

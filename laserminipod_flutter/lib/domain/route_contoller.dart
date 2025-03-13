@@ -27,7 +27,6 @@ class RouteController extends ChangeNotifier
   int _routeListTabIndex = 0;
   List<SpraywallRoute> allRoutes = [];
   List<int> _projects = [];
-  List<int> _sents = [];
 
   RouteController(
       {required this.navigationController,
@@ -155,7 +154,6 @@ class RouteController extends ChangeNotifier
     try {
       await routeModel.deleteRoute(id);
       allRoutes.removeWhere((route) => route.id == id);
-      _sents.remove(id);
       _projects.remove(id);
       notifyListeners();
     } on Exception catch (e) {
@@ -187,7 +185,7 @@ class RouteController extends ChangeNotifier
       if (userController.isSignedIn()) {
         int userId = userController.getSignedInUserId()!;
         _projects = await routeModel.loadProjects(userId);
-        _sents = await routeModel.loadSents(userId);
+        await routeModel.loadSents();
       }
       return true;
     } on Exception catch (e) {
@@ -263,7 +261,6 @@ class RouteController extends ChangeNotifier
     try {
       int userId = userController.getSignedInUserId()!;
       await routeModel.addSentForUser(routeId, userId);
-      _sents.add(routeId);
       notifyListeners();
     } catch (e) {
       UiHelper.showErrorSnackbar(
@@ -276,7 +273,6 @@ class RouteController extends ChangeNotifier
     try {
       int userId = userController.getSignedInUserId()!;
       await routeModel.deleteSentForUser(routeId, userId);
-      _sents.remove(routeId);
       notifyListeners();
     } catch (e) {
       UiHelper.showErrorSnackbar(
@@ -293,6 +289,6 @@ class RouteController extends ChangeNotifier
 
   @override
   bool isSent(int routeId) {
-    return _sents.contains(routeId);
+    return routeModel.isSent(routeId, userController.getSignedInUserId()!);
   }
 }

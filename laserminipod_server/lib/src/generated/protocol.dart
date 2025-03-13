@@ -20,6 +20,8 @@ import 'route_user_sents.dart' as _i8;
 import 'spraywall_route.dart' as _i9;
 import 'package:laserminipod_server/src/generated/handle.dart' as _i10;
 import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i11;
+import 'package:laserminipod_server/src/generated/route_user_sents.dart'
+    as _i12;
 export 'exceptions/create_user_exception.dart';
 export 'handle.dart';
 export 'route_handle_state.dart';
@@ -480,6 +482,11 @@ class Protocol extends _i1.SerializationManagerServer {
     }
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
+    }
+    if (t == List<_i12.RouteUserSents>) {
+      return (data as List)
+          .map((e) => deserialize<_i12.RouteUserSents>(e))
+          .toList() as dynamic;
     }
     if (t == List<_i3.UserInfo>) {
       return (data as List).map((e) => deserialize<_i3.UserInfo>(e)).toList()

@@ -278,21 +278,12 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
         'loadSents': _i1.MethodConnector(
           name: 'loadSents',
-          params: {
-            'userId': _i1.ParameterDescription(
-              name: 'userId',
-              type: _i1.getType<int>(),
-              nullable: false,
-            )
-          },
+          params: {},
           call: (
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).loadSents(
-            session,
-            params['userId'],
-          ),
+              (endpoints['route'] as _i3.RouteEndpoint).loadSents(session),
         ),
         'addProjectForUser': _i1.MethodConnector(
           name: 'addProjectForUser',

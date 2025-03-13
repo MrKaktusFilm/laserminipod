@@ -18,7 +18,8 @@ import 'route_user_sents.dart' as _i6;
 import 'spraywall_route.dart' as _i7;
 import 'package:laserminipod_client/src/protocol/handle.dart' as _i8;
 import 'package:laserminipod_client/src/protocol/spraywall_route.dart' as _i9;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i10;
+import 'package:laserminipod_client/src/protocol/route_user_sents.dart' as _i10;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i11;
 export 'exceptions/create_user_exception.dart';
 export 'handle.dart';
 export 'route_handle_state.dart';
@@ -101,12 +102,17 @@ class Protocol extends _i1.SerializationManager {
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
-    if (t == List<_i10.UserInfo>) {
-      return (data as List).map((e) => deserialize<_i10.UserInfo>(e)).toList()
+    if (t == List<_i10.RouteUserSents>) {
+      return (data as List)
+          .map((e) => deserialize<_i10.RouteUserSents>(e))
+          .toList() as dynamic;
+    }
+    if (t == List<_i11.UserInfo>) {
+      return (data as List).map((e) => deserialize<_i11.UserInfo>(e)).toList()
           as dynamic;
     }
     try {
-      return _i10.Protocol().deserialize<T>(data, t);
+      return _i11.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -133,7 +139,7 @@ class Protocol extends _i1.SerializationManager {
     if (data is _i7.SpraywallRoute) {
       return 'SpraywallRoute';
     }
-    className = _i10.Protocol().getClassNameForObject(data);
+    className = _i11.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -166,7 +172,7 @@ class Protocol extends _i1.SerializationManager {
     }
     if (dataClassName.startsWith('serverpod_auth.')) {
       data['className'] = dataClassName.substring(15);
-      return _i10.Protocol().deserializeByClassName(data);
+      return _i11.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }

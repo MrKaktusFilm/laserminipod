@@ -66,7 +66,7 @@ Future<void> main() async {
       spraywallModel: spraywallModel);
   UserControllerAbstract userController = UserController(
       navigationController: navigationController, userModel: userModel);
-  FilterControllerAbstract filterController = FilterController();
+  FilterControllerAbstract filterController = FilterController(routeModel);
   RouteControllerAbstract routeController = RouteController(
       routeModel: routeModel,
       spraywallController: spraywallController,
@@ -80,7 +80,6 @@ Future<void> main() async {
       imageController: imageController);
   LanguageControllerAbstract languageController = LanguageController();
   await imageController.loadImageDimensions();
-  Filters(routeController: routeController);
 
   runApp(
     MultiProvider(

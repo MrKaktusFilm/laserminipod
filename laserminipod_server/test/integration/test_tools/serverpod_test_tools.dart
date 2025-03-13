@@ -16,7 +16,8 @@ import 'package:serverpod/serverpod.dart' as _i2;
 import 'dart:async' as _i3;
 import 'package:laserminipod_server/src/generated/handle.dart' as _i4;
 import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i5;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i6;
+import 'package:laserminipod_server/src/generated/route_user_sents.dart' as _i6;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i7;
 import 'package:laserminipod_server/src/generated/protocol.dart';
 import 'package:laserminipod_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -508,10 +509,8 @@ class _RouteEndpoint {
     });
   }
 
-  _i3.Future<List<int>> loadSents(
-    _i1.TestSessionBuilder sessionBuilder,
-    int userId,
-  ) async {
+  _i3.Future<List<_i6.RouteUserSents>> loadSents(
+      _i1.TestSessionBuilder sessionBuilder) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
@@ -523,13 +522,13 @@ class _RouteEndpoint {
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'route',
           methodName: 'loadSents',
-          parameters: _i1.testObjectToJson({'userId': userId}),
+          parameters: _i1.testObjectToJson({}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<List<int>>);
+        ) as _i3.Future<List<_i6.RouteUserSents>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -846,7 +845,7 @@ class _UserEndpoint {
     });
   }
 
-  _i3.Future<_i6.UserInfo?> createUser(
+  _i3.Future<_i7.UserInfo?> createUser(
     _i1.TestSessionBuilder sessionBuilder,
     String email,
     String userName,
@@ -873,7 +872,7 @@ class _UserEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i6.UserInfo?>);
+        ) as _i3.Future<_i7.UserInfo?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -910,7 +909,7 @@ class _UserEndpoint {
     });
   }
 
-  _i3.Future<_i6.UserInfo?> getUserById(
+  _i3.Future<_i7.UserInfo?> getUserById(
     _i1.TestSessionBuilder sessionBuilder,
     int id,
   ) async {
@@ -931,7 +930,7 @@ class _UserEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i6.UserInfo?>);
+        ) as _i3.Future<_i7.UserInfo?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -939,7 +938,7 @@ class _UserEndpoint {
     });
   }
 
-  _i3.Future<List<_i6.UserInfo>> getAllUsers(
+  _i3.Future<List<_i7.UserInfo>> getAllUsers(
       _i1.TestSessionBuilder sessionBuilder) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -958,7 +957,7 @@ class _UserEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<List<_i6.UserInfo>>);
+        ) as _i3.Future<List<_i7.UserInfo>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

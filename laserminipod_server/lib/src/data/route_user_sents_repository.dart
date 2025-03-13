@@ -27,4 +27,8 @@ class RouteUserSentsRepository {
       where: (t) => t.userId.equals(userId),
     );
   }
+
+  Future<List<RouteUserSents>> loadAllSents(Session session) async {
+    return await RouteUserSents.db.find(session);
+  }
 }

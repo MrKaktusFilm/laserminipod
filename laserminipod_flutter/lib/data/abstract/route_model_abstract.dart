@@ -23,5 +23,11 @@ abstract class RouteModelAbstract {
 
   Future<List<int>> loadProjects(int userId);
 
-  Future<List<int>> loadSents(int userId);
+  Future<List<RouteUserSents>> loadSents();
+
+  bool isSent(int routeId, int userId);
+
+  List<SpraywallRoute> get allRoutes;
+
+  List<RouteUserSents> get allSents;
 }

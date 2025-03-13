@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/src/protocol/spraywall_route.dart';
+import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
-import 'package:user_app/domain/abstract/route_controller_abstract.dart';
+import 'package:user_app/main.dart';
 
 class FilterController extends ChangeNotifier
     implements FilterControllerAbstract {
   final List<FilterType> _filters = [];
   SortationName _sortation = SortationName.alphabetical;
 
-  FilterController() {
+  final RouteModelAbstract _routeModel;
+
+  FilterController(this._routeModel) {
     _initFilters();
   }
 
@@ -56,15 +59,17 @@ class FilterController extends ChangeNotifier
 
     switch (name) {
       case FilterName.sent:
-        return Filters.instance.sentFilter(value as bool);
+        return (route) =>
+            _routeModel.isSent(route.id!, sessionManager.signedInUser!.id!) ==
+            value;
       case FilterName.routeName:
-        return Filters.instance.routeNameFilter(value as String);
+        return (route) => route.name.contains(value);
       case FilterName.creator:
-        return Filters.instance.creatorFilter(value as int);
+        return (route) => route.userInfoId == value;
       case FilterName.minDifficulty:
-        return Filters.instance.minDifficultyFilter(value as int);
+        return (route) => route.difficulty >= value;
       case FilterName.maxDifficulty:
-        return Filters.instance.maxDifficultyFilter(value as int);
+        return (route) => route.difficulty <= value;
       default:
         throw UnimplementedError('Filter not implemented for $name');
     }
@@ -111,40 +116,6 @@ class FilterController extends ChangeNotifier
   void setSortation(SortationName sortation) {
     _sortation = sortation;
     notifyListeners();
-  }
-}
-
-/// holds logic for applying filters to routes
-class Filters {
-  // TODO: Integrate into controller, use routeModel
-  final RouteControllerAbstract _routeController;
-  static late final Filters _this;
-
-  static Filters get instance => _this;
-
-  Filters({required RouteControllerAbstract routeController})
-      : _routeController = routeController {
-    _this = this;
-  }
-
-  RouteFilter sentFilter(bool sent) {
-    return (route) => _routeController.isSent(route.id!) == sent;
-  }
-
-  RouteFilter routeNameFilter(String name) {
-    return (route) => route.name.contains(name);
-  }
-
-  RouteFilter creatorFilter(int userId) {
-    return (route) => route.userInfoId == userId;
-  }
-
-  RouteFilter minDifficultyFilter(int difficulty) {
-    return (route) => route.difficulty >= difficulty;
-  }
-
-  RouteFilter maxDifficultyFilter(int difficulty) {
-    return (route) => route.difficulty <= difficulty;
   }
 }
 

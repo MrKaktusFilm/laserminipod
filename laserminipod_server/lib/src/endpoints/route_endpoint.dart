@@ -42,9 +42,9 @@ class RouteEndpoint extends Endpoint {
     return await _routeService.loadProjects(session, userId);
   }
 
-  Future<List<int>> loadSents(Session session, int userId) async {
+  Future<List<RouteUserSents>> loadSents(Session session) async {
     await validateUserScope(session);
-    return await _routeService.loadSents(session, userId);
+    return await _routeService.loadSents(session);
   }
 
   Future<void> addProjectForUser(

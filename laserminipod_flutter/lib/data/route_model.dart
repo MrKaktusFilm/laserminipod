@@ -4,7 +4,8 @@ import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/main.dart';
 
 class RouteModel extends RouteModelAbstract {
-  var routes = <SpraywallRoute>[];
+  var _routes = <SpraywallRoute>[];
+  var _sents = <RouteUserSents>[];
   int idIndex = 0;
   var routeEndpoint = client.route;
 
@@ -12,6 +13,7 @@ class RouteModel extends RouteModelAbstract {
   Future<void> deleteRoute(int id) async {
     try {
       await routeEndpoint.deleteRoute(id);
+      _routes.removeWhere((route) => route.id == id);
     } on Exception {
       rethrow;
     }
@@ -20,7 +22,11 @@ class RouteModel extends RouteModelAbstract {
   @override
   Future<bool> saveRoute(SpraywallRoute route) async {
     try {
-      return await routeEndpoint.saveRoute(route.copyWith());
+      bool success = await routeEndpoint.saveRoute(route.copyWith());
+      if (success) {
+        _routes.add(route);
+      }
+      return success;
     } on Exception {
       rethrow;
     }
@@ -29,7 +35,8 @@ class RouteModel extends RouteModelAbstract {
   @override
   Future<List<SpraywallRoute>> loadAllRoutes() async {
     try {
-      return await routeEndpoint.loadAllRoutes();
+      _routes = await routeEndpoint.loadAllRoutes();
+      return _routes;
     } on Exception {
       rethrow;
     }
@@ -38,7 +45,7 @@ class RouteModel extends RouteModelAbstract {
   @override
   Future<bool> existsRouteAlready(Map<int, int> route) async {
     try {
-      // TODO: fix and catch
+// TODO: fix and catch
       return await routeEndpoint.existsRouteAlready(route);
     } on Exception {
       rethrow;
@@ -81,6 +88,7 @@ class RouteModel extends RouteModelAbstract {
   Future<void> addSentForUser(int routeId, int userId) async {
     try {
       await routeEndpoint.addSentForUser(routeId, userId);
+      _sents.add(RouteUserSents(routeId: routeId, userId: userId));
     } on Exception {
       rethrow;
     }
@@ -90,6 +98,8 @@ class RouteModel extends RouteModelAbstract {
   Future<void> deleteSentForUser(int routeId, int userId) async {
     try {
       await routeEndpoint.deleteSentForUser(routeId, userId);
+      _sents.removeWhere(
+          (sent) => sent.routeId == routeId && sent.userId == userId);
     } on Exception {
       rethrow;
     }
@@ -105,11 +115,24 @@ class RouteModel extends RouteModelAbstract {
   }
 
   @override
-  Future<List<int>> loadSents(int userId) async {
+  Future<List<RouteUserSents>> loadSents() async {
     try {
-      return await routeEndpoint.loadSents(userId);
+      _sents = await routeEndpoint.loadSents();
+      return _sents;
     } on Exception {
       rethrow;
     }
+  }
+
+  @override
+  List<SpraywallRoute> get allRoutes => _routes;
+
+  @override
+  List<RouteUserSents> get allSents => _sents;
+
+  @override
+  bool isSent(int routeId, int userId) {
+    return _sents
+        .any((sent) => sent.routeId == routeId && sent.userId == userId);
   }
 }

@@ -4,6 +4,8 @@ import 'package:laserminipod_server/src/data/route_handle_state_repository.dart'
 import 'package:laserminipod_server/src/data/route_repository.dart';
 import 'package:laserminipod_server/src/data/route_user_projects_repository.dart';
 import 'package:laserminipod_server/src/data/route_user_sents_repository.dart';
+import 'package:laserminipod_server/src/generated/route_user_sents.dart'
+    as sents;
 import 'package:laserminipod_server/src/generated/spraywall_route.dart';
 import 'package:serverpod/serverpod.dart';
 
@@ -124,10 +126,8 @@ class RouteService {
     return routes.map((route) => route.routeId).toList();
   }
 
-  Future<List<int>> loadSents(Session session, int userId) async {
-    var routes =
-        await _routeUserSentsRepository.loadRoutesForUser(session, userId);
-    return routes.map((route) => route.routeId).toList();
+  Future<List<sents.RouteUserSents>> loadSents(Session session) async {
+    return await _routeUserSentsRepository.loadAllSents(session);
   }
 
   Future<void> addProjectForUser(
