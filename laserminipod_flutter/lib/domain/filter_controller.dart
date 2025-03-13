@@ -124,6 +124,11 @@ class FilterController extends ChangeNotifier
     _sortation = sortation;
     notifyListeners();
   }
+
+  @override
+  int getActiveFilterCount() {
+    return _filters.where((filter) => filter.filterValue != null).length;
+  }
 }
 
 enum FilterName {

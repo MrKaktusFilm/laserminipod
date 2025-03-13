@@ -19,4 +19,6 @@ abstract class FilterControllerAbstract extends ChangeNotifier {
   SortationName get sortation;
 
   void setSortation(SortationName sortation);
+
+  int getActiveFilterCount();
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
@@ -44,10 +45,17 @@ class _RouteListPageState extends State<RouteListPage> {
                   Tab(icon: Icon(Icons.terrain), text: loc.allRoutes),
                 ],
               ),
-              FilledButton(
-                onPressed: _openFilterSheet,
-                child: Text('Filter'),
-              ),
+              Consumer<FilterControllerAbstract>(
+                  builder: (context, filtercontroller, child) {
+                return Badge.count(
+                  count: filtercontroller.getActiveFilterCount(),
+                  isLabelVisible: filtercontroller.getActiveFilterCount() > 0,
+                  child: FilledButton(
+                    onPressed: _openFilterSheet,
+                    child: Text('Filter'),
+                  ),
+                );
+              }),
               Expanded(child: widget.child)
             ],
           ));
@@ -67,6 +75,7 @@ class _RouteListPageState extends State<RouteListPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true, // Add this line
+      enableDrag: true,
       builder: (context) => FractionallySizedBox(
         heightFactor: 0.9, // Adjust the height factor as needed
         child: FilterBottomSheet(),
