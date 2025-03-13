@@ -95,12 +95,18 @@ class FilterController extends ChangeNotifier
       case SortationName.easiest:
         return (a, b) => a.difficulty.compareTo(b.difficulty);
       case SortationName.mostSents:
-      // return (a, b) => b.sentCount.compareTo(a.sentCount);
+        return (a, b) => _sentCount(b).compareTo(_sentCount(a));
       case SortationName.leastSents:
-      // return (a, b) => a.sentCount.compareTo(b.sentCount);
+        return (a, b) => _sentCount(a).compareTo(_sentCount(b));
       default:
         throw UnimplementedError('Sortation not implemented for $sortation');
     }
+  }
+
+  int _sentCount(SpraywallRoute route) {
+    return _routeModel.allSents
+        .where((sent) => sent.routeId == route.id)
+        .length;
   }
 
   @override
