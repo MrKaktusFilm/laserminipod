@@ -1,11 +1,13 @@
 import 'package:laserminipod_server/src/data/handle_repository.dart' as repo;
+import 'package:laserminipod_server/src/data/route_handle_state_repository.dart';
 import 'package:serverpod/serverpod.dart';
 import '../generated/handle.dart';
 
 class HandleService {
   final repo.HandleRepository _repository;
+  final RouteHandleStateRepository _routeHandleStateRepository;
 
-  HandleService(this._repository);
+  HandleService(this._repository, this._routeHandleStateRepository);
 
   Future<List<Handle>> loadAllHandles(Session session) async {
     try {
@@ -58,7 +60,8 @@ class HandleService {
       if (handle == null) {
         throw Exception('Handle with id=$id not found.');
       }
-
+      await _routeHandleStateRepository.deleteRouteHandleStatesForHandle(
+          session, id);
       await _repository.delete(session, handle);
       session.log('Removed handle id=$id', level: LogLevel.info);
     } catch (e, stackTrace) {

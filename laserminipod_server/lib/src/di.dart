@@ -15,8 +15,6 @@ final GetIt getIt = GetIt.instance;
 
 void setupDependencies() {
   getIt.registerLazySingleton<HandleRepository>(() => HandleRepository());
-  getIt.registerLazySingleton<HandleService>(
-      () => HandleService(getIt<HandleRepository>()));
   getIt.registerLazySingleton<RouteRepository>(() => RouteRepository());
   getIt.registerLazySingleton<RouteHandleStateRepository>(
       () => RouteHandleStateRepository());
@@ -25,6 +23,8 @@ void setupDependencies() {
   getIt.registerLazySingleton<RouteUserSentsRepository>(
       () => RouteUserSentsRepository());
 
+  getIt.registerLazySingleton<HandleService>(() => HandleService(
+      getIt<HandleRepository>(), getIt<RouteHandleStateRepository>()));
   getIt.registerLazySingleton<RouteService>(() => RouteService(
         getIt<RouteRepository>(),
         getIt<RouteHandleStateRepository>(),

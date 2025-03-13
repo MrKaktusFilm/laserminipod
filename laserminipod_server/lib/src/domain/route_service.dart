@@ -20,7 +20,8 @@ class RouteService {
 
   Future<void> deleteRoute(Session session, int id) async {
     try {
-      await _handleStateRepository.deleteRouteHandleStates(session, id);
+      await _handleStateRepository.deleteRouteHandleStatesForRoutes(
+          session, id);
       await _repository.deleteById(session, id);
       session.log('Route with ID: $id successfully deleted',
           level: LogLevel.info);

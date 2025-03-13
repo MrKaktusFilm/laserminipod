@@ -8,9 +8,18 @@ class RouteHandleStateRepository {
         .find(session, where: (p0) => p0.routeId.equals(routeId));
   }
 
-  Future<void> deleteRouteHandleStates(Session session, int routeId) async {
+  Future<void> deleteRouteHandleStatesForRoutes(
+      Session session, int routeId) async {
     var deletedStates = await RouteHandleState.db
         .deleteWhere(session, where: (state) => state.routeId.equals(routeId));
+    session
+        .log('${deletedStates.length} routeHandleStates successfully deleted');
+  }
+
+  Future<void> deleteRouteHandleStatesForHandle(
+      Session session, int handleId) async {
+    var deletedStates = await RouteHandleState.db.deleteWhere(session,
+        where: (state) => state.handleId.equals(handleId));
     session
         .log('${deletedStates.length} routeHandleStates successfully deleted');
   }
