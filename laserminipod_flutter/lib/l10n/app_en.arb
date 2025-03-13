@@ -76,5 +76,20 @@
     "removeFromProjects": "Remove from Projects",
     "addToSents": "Completed!",
     "removeFromSents": "Not completed",
-    "emptyRouteList": "This emptiness... it's consuming me"
+    "emptyRouteList": "This emptiness... it's consuming me",
+    "sorting": "Sorting",
+    "sent": "Sent",
+    "notSent": "Not sent",
+    "none": "---",
+    "creator": "Creator",
+    "minDifficulty": "Minimum difficulty",
+    "maxDifficulty": "Maximum difficulty",
+    "resetFilters": "Reset filters",
+    "alphabetical": "Alphabetical",
+    "newest": "Newest first",
+    "oldest": "Oldest first",
+    "hardest": "Hardest first",
+    "easiest": "Easiest first",
+    "mostSents": "Most sents first",
+    "leastSents": "Least sents first"
 }

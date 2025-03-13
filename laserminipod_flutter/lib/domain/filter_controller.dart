@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laserminipod_client/src/protocol/spraywall_route.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
 
 class FilterController extends ChangeNotifier
@@ -159,21 +160,22 @@ enum SortationName {
   const SortationName(this.value);
 
   String getName() {
+    var loc = UiHelper.getAppLocalization();
     switch (this) {
       case SortationName.alphabetical:
-        return 'Alphabetical';
+        return loc.alphabetical;
       case SortationName.newest:
-        return 'Newest first';
+        return loc.newest;
       case SortationName.oldest:
-        return 'Oldest first';
+        return loc.oldest;
       case SortationName.hardest:
-        return 'Hardest first';
+        return loc.hardest;
       case SortationName.easiest:
-        return 'Easiest first';
+        return loc.easiest;
       case SortationName.mostSents:
-        return 'Most sents first';
+        return loc.mostSents;
       case SortationName.leastSents:
-        return 'Least sents first';
+        return loc.leastSents;
     }
   }
 }

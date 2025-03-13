@@ -76,5 +76,20 @@
     "removeFromProjects": "Aus Projekten entfernen",
     "addToSents": "Geschafft!",
     "removeFromSents": "Nicht geschafft",
-    "emptyRouteList": "Diese Leere... so leer"
+    "emptyRouteList": "Diese Leere... so leer",
+    "sorting": "Sortierung",
+    "sent": "Geschafft",
+    "notSent": "Nicht geschafft",
+    "none": "---",
+    "creator": "Ersteller",
+    "minDifficulty": "Minimale Schwierigkeit",
+    "maxDifficulty": "Maximale Schwierigkeit",
+    "resetFilters": "Filter zurücksetzen",
+    "alphabetical": "Alphabetisch",
+    "newest": "Neueste zuerst",
+    "oldest": "Älteste zuerst",
+    "hardest": "Schwierigste zuerst",
+    "easiest": "Einfachste zuerst",
+    "mostSents": "Am meisten geschaffte zuerst",
+    "leastSents": "Am wenigsten geschaffte zuerst"
 }

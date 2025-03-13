@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/filter_controller.dart';
+import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/difficulty_wheel.dart';
 
 class FilterBottomSheet extends StatefulWidget {
@@ -46,6 +47,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   @override
   Widget build(BuildContext context) {
     // TODO: fix navigation issue
+    var loc = UiHelper.getAppLocalization();
 
     return SingleChildScrollView(
       child: Column(
@@ -56,7 +58,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           Consumer<FilterControllerAbstract>(
               builder: (context, filterController, child) {
             return DropdownMenu<SortationName>(
-              label: Text('Sorting'),
+              label: Text(loc.sorting),
               initialSelection: filterController.sortation,
               dropdownMenuEntries: [
                 DropdownMenuEntry(
@@ -95,13 +97,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           Consumer<FilterControllerAbstract>(
               builder: (context, filterController, child) {
             return DropdownMenu<bool?>(
-              label: Text('Sent'),
+              label: Text(loc.sent),
               initialSelection:
                   filterController.getFilterValue(FilterName.sent),
               dropdownMenuEntries: [
-                DropdownMenuEntry(value: null, label: '---'),
-                DropdownMenuEntry(value: true, label: 'Sent'),
-                DropdownMenuEntry(value: false, label: 'Not sent')
+                DropdownMenuEntry(value: null, label: loc.none),
+                DropdownMenuEntry(value: true, label: loc.sent),
+                DropdownMenuEntry(value: false, label: loc.notSent)
               ],
               onSelected: (value) {
                 filterController.setFilter(FilterName.sent, value);
@@ -114,7 +116,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           Consumer<FilterControllerAbstract>(
               builder: (context, filterController, child) {
             return TextField(
-              decoration: InputDecoration(labelText: 'Route name'),
+              decoration: InputDecoration(labelText: loc.routeName),
               controller: _routeNameController,
               onChanged: (value) {
                 if (value.trim().isEmpty) {
@@ -139,10 +141,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   }).toList();
                   // add 'deselect' entry
                   entries.insert(
-                      0, DropdownMenuEntry<int?>(value: null, label: '---'));
+                      0, DropdownMenuEntry<int?>(value: null, label: loc.none));
 
                   return DropdownMenu<int?>(
-                    label: Text('Creator'),
+                    label: Text(loc.creator),
                     initialSelection:
                         filterController.getFilterValue(FilterName.creator),
                     controller: _creatorController,
@@ -183,7 +185,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     });
               }),
               SizedBox(width: 10),
-              Text('Minimum difficulty')
+              Text(loc.minDifficulty)
             ],
           ),
           Consumer<FilterControllerAbstract>(
@@ -226,7 +228,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     });
               }),
               SizedBox(width: 10),
-              Text('Maximum difficulty')
+              Text(loc.maxDifficulty)
             ],
           ),
           Consumer<FilterControllerAbstract>(
@@ -250,7 +252,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   Provider.of<FilterControllerAbstract>(context, listen: false);
               filterController.resetFilters();
             },
-            child: Text('Reset filters'),
+            child: Text(loc.resetFilters),
           ),
         ],
       ),
