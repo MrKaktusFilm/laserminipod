@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:laserminipod_server/src/data/handle_repository.dart';
 import 'package:laserminipod_server/src/data/route_handle_state_repository.dart';
+import 'package:laserminipod_server/src/data/route_likes_repository.dart';
 import 'package:laserminipod_server/src/data/route_repository.dart';
 import 'package:laserminipod_server/src/data/route_user_projects_repository.dart';
 import 'package:laserminipod_server/src/data/route_user_sents_repository.dart';
@@ -30,6 +31,7 @@ void setupDependencies() {
         getIt<RouteHandleStateRepository>(),
         getIt<RouteUserProjectsRepository>(),
         getIt<RouteUserSentsRepository>(),
+        getIt<RouteLikesRepository>(),
       ));
   getIt.registerLazySingleton<UserRepository>(() => UserRepository());
   getIt.registerLazySingleton<UserService>(

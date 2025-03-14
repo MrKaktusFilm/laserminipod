@@ -6,6 +6,8 @@ import 'package:user_app/main.dart';
 class RouteModel extends RouteModelAbstract {
   var _routes = <SpraywallRoute>[];
   var _sents = <RouteUserSents>[];
+  List<int> _likes = [];
+  Map<int, int> _likeCounts = {};
   int idIndex = 0;
   var routeEndpoint = client.route;
 
@@ -134,5 +136,37 @@ class RouteModel extends RouteModelAbstract {
   bool isSent(int routeId, int userId) {
     return _sents
         .any((sent) => sent.routeId == routeId && sent.userId == userId);
+  }
+
+  @override
+  List<int> getLikesForLoggedInUser() {
+    return _likes;
+  }
+
+  @override
+  Map<int, int> getLikeCountsForRoutes() {
+    return _likeCounts;
+  }
+
+  @override
+  Future<void> toggleLikeForUser(int routeId, int userId) async {
+    await routeEndpoint.toggleLikeForUser(routeId, userId);
+    if (_likes.contains(routeId)) {
+      _likes.remove(routeId);
+      _likeCounts[routeId] = _likeCounts[routeId]! - 1;
+    } else {
+      _likes.add(routeId);
+      _likeCounts[routeId] = _likeCounts[routeId]! + 1;
+    }
+  }
+
+  @override
+  Future<void> loadLikeCounts() async {
+    _likeCounts = await routeEndpoint.getLikeCountsForRoutes();
+  }
+
+  @override
+  Future<void> loadLikesForUser(int userId) async {
+    _likes = await routeEndpoint.getLikesForUser(userId);
   }
 }

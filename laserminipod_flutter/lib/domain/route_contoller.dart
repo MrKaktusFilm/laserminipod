@@ -25,7 +25,6 @@ class RouteController extends ChangeNotifier
   String _name = "";
   String? _nameErrorMessage;
   int _routeListTabIndex = 0;
-  List<SpraywallRoute> allRoutes = [];
   List<int> _projects = [];
 
   RouteController(
@@ -138,7 +137,7 @@ class RouteController extends ChangeNotifier
 
   @override
   List<SpraywallRoute> getAllRoutesFiltered() {
-    return filterController.applyFiltersAndSorting(allRoutes);
+    return filterController.applyFiltersAndSorting(routeModel.allRoutes);
   }
 
   @override
@@ -153,7 +152,6 @@ class RouteController extends ChangeNotifier
   Future<void> deleteRoute(int id) async {
     try {
       await routeModel.deleteRoute(id);
-      allRoutes.removeWhere((route) => route.id == id);
       _projects.remove(id);
       notifyListeners();
     } on Exception catch (e) {
@@ -178,15 +176,19 @@ class RouteController extends ChangeNotifier
     return routeModel.nameAlreadyAssigned(name);
   }
 
+  /// load all data for routes, projects, sents and likes into cache from db
   @override
   Future<bool> loadRouteInfo() async {
     try {
-      allRoutes = await routeModel.loadAllRoutes();
+      await routeModel.loadAllRoutes();
       if (userController.isSignedIn()) {
         int userId = userController.getSignedInUserId()!;
         _projects = await routeModel.loadProjects(userId);
         await routeModel.loadSents();
       }
+      // load like info
+      routeModel.loadLikeCounts();
+      routeModel.loadLikesForUser(userController.getSignedInUserId()!);
       return true;
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
@@ -290,5 +292,30 @@ class RouteController extends ChangeNotifier
   @override
   bool isSent(int routeId) {
     return routeModel.isSent(routeId, userController.getSignedInUserId()!);
+  }
+
+  @override
+  int getLikeCount(int routeId) {
+    if (routeModel.getLikeCountsForRoutes().containsKey(routeId)) {
+      return routeModel.getLikeCountsForRoutes()[routeId]!;
+    }
+    return 0;
+  }
+
+  @override
+  bool isLiked(int routeId) {
+    return routeModel.getLikesForLoggedInUser().contains(routeId);
+  }
+
+  @override
+  Future<void> toggleLike(int routeId) async {
+    try {
+      int userId = userController.getSignedInUserId()!;
+      await routeModel.toggleLikeForUser(routeId, userId);
+      notifyListeners();
+    } catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().error, e as Exception);
+    }
   }
 }

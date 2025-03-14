@@ -17,6 +17,9 @@ route:
   - deleteProjectForUser:
   - addSentForUser:
   - deleteSentForUser:
+  - getLikesForUser:
+  - getLikeCountsForRoutes:
+  - toggleLikeForUser:
 spraywall:
   - toggleHandle:
   - clearCurrentRoute:

@@ -190,6 +190,33 @@ class EndpointRoute extends _i1.EndpointRef {
           'userId': userId,
         },
       );
+
+  _i2.Future<List<int>> getLikesForUser(int userId) =>
+      caller.callServerEndpoint<List<int>>(
+        'route',
+        'getLikesForUser',
+        {'userId': userId},
+      );
+
+  _i2.Future<Map<int, int>> getLikeCountsForRoutes() =>
+      caller.callServerEndpoint<Map<int, int>>(
+        'route',
+        'getLikeCountsForRoutes',
+        {},
+      );
+
+  _i2.Future<void> toggleLikeForUser(
+    int routeId,
+    int userId,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'route',
+        'toggleLikeForUser',
+        {
+          'routeId': routeId,
+          'userId': userId,
+        },
+      );
 }
 
 /// {@category Endpoint}

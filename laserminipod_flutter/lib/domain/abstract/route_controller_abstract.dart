@@ -48,4 +48,11 @@ abstract class RouteControllerAbstract extends ChangeNotifier {
   List<SpraywallRoute> getMyProjects();
 
   bool isSent(int routeId);
+
+  /// true if logged in user liked the route
+  bool isLiked(int routeId);
+
+  int getLikeCount(int routeId);
+
+  Future<void> toggleLike(int routeId);
 }

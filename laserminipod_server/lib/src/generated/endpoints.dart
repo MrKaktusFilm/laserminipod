@@ -381,6 +381,58 @@ class Endpoints extends _i1.EndpointDispatch {
             params['userId'],
           ),
         ),
+        'getLikesForUser': _i1.MethodConnector(
+          name: 'getLikesForUser',
+          params: {
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['route'] as _i3.RouteEndpoint).getLikesForUser(
+            session,
+            params['userId'],
+          ),
+        ),
+        'getLikeCountsForRoutes': _i1.MethodConnector(
+          name: 'getLikeCountsForRoutes',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['route'] as _i3.RouteEndpoint)
+                  .getLikeCountsForRoutes(session),
+        ),
+        'toggleLikeForUser': _i1.MethodConnector(
+          name: 'toggleLikeForUser',
+          params: {
+            'routeId': _i1.ParameterDescription(
+              name: 'routeId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['route'] as _i3.RouteEndpoint).toggleLikeForUser(
+            session,
+            params['routeId'],
+            params['userId'],
+          ),
+        ),
       },
     );
     connectors['spraywall'] = _i1.EndpointConnector(

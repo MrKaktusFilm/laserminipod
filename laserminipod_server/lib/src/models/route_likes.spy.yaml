@@ -1,0 +1,11 @@
+class: RouteLikes
+table: route_likes
+fields:
+    # Foreign key to the spraywall_route table
+    routeId: int, relation(parent=spraywallroute)
+    # Foreign key to the user_info table
+    userId: int, relation(parent=serverpod_user_info)
+indexes:
+    route_likes_unique_idx:
+        fields: routeId, userId
+        unique: true

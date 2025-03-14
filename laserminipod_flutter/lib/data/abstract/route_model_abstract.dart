@@ -30,4 +30,14 @@ abstract class RouteModelAbstract {
   List<SpraywallRoute> get allRoutes;
 
   List<RouteUserSents> get allSents;
+
+  Future<void> loadLikeCounts();
+
+  Future<void> loadLikesForUser(int userId);
+
+  List<int> getLikesForLoggedInUser();
+
+  Map<int, int> getLikeCountsForRoutes();
+
+  Future<void> toggleLikeForUser(int routeId, int userId);
 }

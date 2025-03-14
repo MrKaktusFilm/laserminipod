@@ -8,15 +8,22 @@ import 'package:laserminipod_server/src/generated/route_user_sents.dart'
     as sents;
 import 'package:laserminipod_server/src/generated/spraywall_route.dart';
 import 'package:serverpod/serverpod.dart';
+import 'package:laserminipod_server/src/data/route_likes_repository.dart';
 
 class RouteService {
   final RouteRepository _repository;
   final state.RouteHandleStateRepository _handleStateRepository;
   final RouteUserProjectsRepository _routeUserProjectsRepository;
   final RouteUserSentsRepository _routeUserSentsRepository;
+  final RouteLikesRepository _routeLikesRepository;
 
-  RouteService(this._repository, this._handleStateRepository,
-      this._routeUserProjectsRepository, this._routeUserSentsRepository);
+  RouteService(
+    this._repository,
+    this._handleStateRepository,
+    this._routeUserProjectsRepository,
+    this._routeUserSentsRepository,
+    this._routeLikesRepository,
+  );
 
   Future<void> deleteRoute(Session session, int id) async {
     try {
@@ -151,5 +158,50 @@ class RouteService {
       Session session, int routeId, int userId) async {
     await _routeUserSentsRepository.deleteRouteForUser(
         session, routeId, userId);
+  }
+
+  /// returns list of routeIds that the user has liked
+  Future<List<int>> getLikesForUser(Session session, int userId) async {
+    try {
+      return await _routeLikesRepository.getLikesForUser(session, userId);
+    } catch (e, stackTrace) {
+      session.log('Error getting likes for user: $e\n$stackTrace',
+          level: LogLevel.error);
+      rethrow;
+    }
+  }
+
+  /// returns a map with routeId as key and number of likes as value
+  Future<Map<int, int>> getLikeCountsForRoutes(Session session) async {
+    try {
+      var likes = await _routeLikesRepository.getAllLikes(session);
+      var likeCounts = <int, int>{};
+      for (var like in likes) {
+        likeCounts.update(like.routeId, (value) => value + 1,
+            ifAbsent: () => 1);
+      }
+      return likeCounts;
+    } catch (e, stackTrace) {
+      session.log('Error getting likes for routes: $e\n$stackTrace',
+          level: LogLevel.error);
+      rethrow;
+    }
+  }
+
+  Future<void> toggleLikeForUser(
+      Session session, int routeId, int userId) async {
+    try {
+      var hasLiked = await _routeLikesRepository.hasUserLikedRoute(
+          session, routeId, userId);
+      if (hasLiked) {
+        await _routeLikesRepository.deleteLikeForUser(session, routeId, userId);
+      } else {
+        await _routeLikesRepository.addLikeForUser(session, routeId, userId);
+      }
+    } catch (e, stackTrace) {
+      session.log('Error adding like for user: $e\n$stackTrace',
+          level: LogLevel.error);
+      rethrow;
+    }
   }
 }
