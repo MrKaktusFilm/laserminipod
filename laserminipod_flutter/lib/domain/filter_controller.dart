@@ -59,6 +59,7 @@ class FilterController extends ChangeNotifier
     dynamic value = filterType.filterValue;
 
     switch (name) {
+      // TODO: fix for guest user
       case FilterName.sent:
         return (route) =>
             _routeModel.isSent(route.id!, sessionManager.signedInUser!.id!) ==

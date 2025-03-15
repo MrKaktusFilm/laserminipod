@@ -17,9 +17,7 @@ class _RouteLikeButtonState extends State<RouteLikeButton> {
   late final RouteControllerAbstract routeController;
 
   Future<void> _onPressed() async {
-    if (userController.isSignedIn()) {
-      await routeController.toggleLike(widget.routeId);
-    }
+    await routeController.toggleLike(widget.routeId);
   }
 
   Color _getColor() {
@@ -41,16 +39,21 @@ class _RouteLikeButtonState extends State<RouteLikeButton> {
 
   @override
   Widget build(BuildContext context) {
+    bool isSignedIn = userController.isSignedIn();
+
     return Consumer<RouteControllerAbstract>(
         builder: (context, routeController, child) {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           IconButton(
-            icon: Icon(Icons.arrow_upward),
-            onPressed: _onPressed,
+            icon: Icon(Icons.thumb_up_alt),
+            onPressed: isSignedIn ? _onPressed : null,
             color: _getColor(),
           ),
-          Text(routeController.getLikeCount(widget.routeId).toString())
+          // TODO: fix missing load if likes sometimes
+          Text(routeController.getLikeCount(widget.routeId).toString()),
+          SizedBox(width: 10),
         ],
       );
     });

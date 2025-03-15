@@ -75,12 +75,10 @@ class _RoutelistTileState extends State<RoutelistTile> {
                   userController.getSignedInUserId() == widget.route.userInfoId;
             }
             return Card(
+              color: isSent ? const Color.fromARGB(255, 156, 241, 158) : null,
               child: Column(
                 children: [
                   ListTile(
-                    tileColor: isSent
-                        ? const Color.fromARGB(255, 156, 241, 158)
-                        : null,
                     title: Text(widget.route.name),
                     // TODO: internationalization
                     subtitle: Text(
@@ -138,10 +136,7 @@ class _RoutelistTileState extends State<RoutelistTile> {
                           )
                         : null,
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: RouteLikeButton(routeId: widget.route.id!),
-                  )
+                  RouteLikeButton(routeId: widget.route.id!),
                 ],
               ),
             );
