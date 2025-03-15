@@ -192,4 +192,20 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
 
   @override
   List<UserInfo> get users => _users;
+
+  @override
+  String? getSignedInEmail() {
+    if (isSignedIn()) {
+      return sessionManager.signedInUser!.email;
+    }
+    return null;
+  }
+
+  @override
+  String? getSignedInUserName() {
+    if (isSignedIn()) {
+      return sessionManager.signedInUser!.userName;
+    }
+    return null;
+  }
 }

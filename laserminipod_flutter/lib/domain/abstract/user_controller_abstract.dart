@@ -27,6 +27,10 @@ abstract class UserControllerAbstract extends ChangeNotifier {
 
   int? getSignedInUserId();
 
+  String? getSignedInUserName();
+
+  String? getSignedInEmail();
+
   Future<UserInfo?> getUserById(int id);
 
   Future<bool> loadAllUsers();

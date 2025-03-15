@@ -79,17 +79,38 @@ class _SettingsPageState extends State<SettingsPage> {
         builder: (context, languageController, child) {
       return Scaffold(
         appBar: AppBar(title: Text(loc.settingsTitle)),
-        body: ListView.builder(
-          itemCount: settings.length,
-          itemBuilder: (context, index) {
-            final item = settings[index];
-            return ListTile(
-                key: ValueKey(languageController.currentLanguage.languageCode),
-                leading: Icon(item.icon, color: Colors.blue),
-                title: Text(item.title),
-                subtitle: Text(item.subtitle),
-                onTap: item.onTap);
-          },
+        body: Column(
+          children: [
+            if (_userController.isSignedIn())
+              ListTile(
+                leading: CircleAvatar(
+                  radius: 35,
+                  backgroundColor: Colors.teal.shade100,
+                  child: Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
+                ),
+                title: Text(_userController.getSignedInUserName()!),
+                subtitle: Text(_userController.getSignedInEmail()!),
+              ),
+            if (_userController.isSignedIn()) Divider(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: settings.length,
+                itemBuilder: (context, index) {
+                  final item = settings[index];
+                  return ListTile(
+                      key: ValueKey(
+                          languageController.currentLanguage.languageCode),
+                      leading: Icon(item.icon, color: Colors.blue),
+                      title: Text(item.title),
+                      subtitle: Text(item.subtitle),
+                      onTap: item.onTap);
+                },
+              ),
+            ),
+          ],
         ),
       );
     });
