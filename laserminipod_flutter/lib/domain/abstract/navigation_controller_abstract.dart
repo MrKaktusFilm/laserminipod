@@ -11,8 +11,4 @@ abstract class NavigationControllerAbstract extends ChangeNotifier {
   void pushPage(BuildContext context, AppRoute page);
 
   void goToPage(AppRoute page);
-
-  void switchToHandleManagementEdit(BuildContext context);
-
-  void switchToHandleManagementOverview(BuildContext context);
 }

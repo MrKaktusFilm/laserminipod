@@ -5,6 +5,7 @@ import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
+import 'package:user_app/routes.dart';
 
 class HandleController extends ChangeNotifier
     implements HandleControllerAbstract {
@@ -49,7 +50,7 @@ class HandleController extends ChangeNotifier
     _selectedHandleDiameter = handle!.radius.toDouble();
     _selectedHandlePosition = Offset(handle.x.toDouble(), handle.y.toDouble());
     if (context.mounted) {
-      _navigationController.switchToHandleManagementEdit(context);
+      _navigationController.pushPage(context, AppRoute.handleManagementEdit);
     }
     notifyListeners();
   }
@@ -107,7 +108,7 @@ class HandleController extends ChangeNotifier
     deselectHandle();
 
     if (context.mounted) {
-      _navigationController.switchToHandleManagementOverview(context);
+      _navigationController.closeCurrentScreen(context);
     }
   }
 
@@ -140,7 +141,7 @@ class HandleController extends ChangeNotifier
     deselectHandle();
 
     if (context.mounted) {
-      _navigationController.switchToHandleManagementOverview(context);
+      _navigationController.closeCurrentScreen(context);
     }
   }
 

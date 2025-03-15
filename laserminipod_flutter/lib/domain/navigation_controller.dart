@@ -57,14 +57,4 @@ class NavigationController extends ChangeNotifier
     }
     navigatorKey.currentContext?.go(page.fullPath);
   }
-
-  @override
-  void switchToHandleManagementEdit(BuildContext context) {
-    pushPage(context, AppRoute.handleManagementEdit);
-  }
-
-  @override
-  void switchToHandleManagementOverview(BuildContext context) {
-    pushPage(context, AppRoute.handleManagementOverview);
-  }
 }

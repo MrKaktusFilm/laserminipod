@@ -105,7 +105,7 @@ extension AppRouteExtension on AppRoute {
     String name = "";
     switch (this) {
       case AppRoute.handleManagementEdit:
-        name = 'handleManagementEdit';
+        name = 'handleManagementOverview/handleManagementEdit';
       case AppRoute.handleManagementOverview:
         name = 'handleManagementOverview';
       case AppRoute.login:

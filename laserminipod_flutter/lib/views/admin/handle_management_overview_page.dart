@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
+import 'package:user_app/routes.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_overview_button.dart';
 import 'package:user_app/views/spraywall/spraywall_base_panel.dart';
 
@@ -41,7 +42,8 @@ class _HandleManagementOverviewPageState
             child: FloatingActionButton(
               heroTag: null,
               onPressed: () {
-                navigationController.switchToHandleManagementEdit(context);
+                navigationController.pushPage(
+                    context, AppRoute.handleManagementEdit);
               },
               child: const Icon(Icons.add),
             ),
