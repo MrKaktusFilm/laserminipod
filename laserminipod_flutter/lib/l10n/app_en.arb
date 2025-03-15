@@ -92,5 +92,6 @@
     "easiest": "Easiest first",
     "mostSents": "Most sents first",
     "leastSents": "Least sents first",
-    "filter": "Filter"
+    "filter": "Filter",
+    "routeEmpty": "Please select a route first"
 }

@@ -7,8 +7,6 @@ abstract class RouteControllerAbstract extends ChangeNotifier {
 
   void deleteRoute(int id);
 
-  Future<bool> existsCurrentRouteAlready();
-
   Future<bool> nameAlreadyAssigned(String name);
 
   void updateNameStatus(String input);

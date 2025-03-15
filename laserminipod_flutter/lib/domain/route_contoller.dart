@@ -64,10 +64,8 @@ class RouteController extends ChangeNotifier
     _isLoading = true;
     notifyListeners();
     try {
-      final exists = await existsCurrentRouteAlready();
-      if (exists) {
-        UiHelper.showSnackbar(
-            UiHelper.getAppLocalization().routeExists, Colors.red);
+      final savable = await _isCurrentRouteSavable();
+      if (!savable) {
         return;
       }
 
@@ -121,12 +119,13 @@ class RouteController extends ChangeNotifier
 
   @override
   void openSaveRouteDialog() async {
-    bool existsRouteAlready = await existsCurrentRouteAlready();
-    if (existsRouteAlready) {
-      UiHelper.showSnackbar(
-          UiHelper.getAppLocalization().routeAlreadyCreated, Colors.red);
-    } else {
-      UiHelper.showWidgetDialog(const SaveRouteDialog());
+    try {
+      bool savable = await _isCurrentRouteSavable();
+      if (savable) {
+        UiHelper.showWidgetDialog(const SaveRouteDialog());
+      }
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(UiHelper.getAppLocalization().error, e);
     }
   }
 
@@ -161,14 +160,39 @@ class RouteController extends ChangeNotifier
     await loadRouteInfo();
   }
 
-  @override
-  Future<bool> existsCurrentRouteAlready() async {
+  Future<bool> _existsCurrentRouteAlready() async {
     var handleStates = spraywallController.getCurrentRoute();
+    if (handleStates.isEmpty) {
+      UiHelper.showSnackbar(
+          UiHelper.getAppLocalization().routeEmpty, Colors.red);
+      return true;
+    }
+
     Map<int, int> handleStatesInt = {};
     handleStates.forEach((id, state) {
       handleStatesInt[id] = state.value;
     });
-    return routeModel.existsRouteAlready(handleStatesInt);
+    try {
+      return routeModel.existsRouteAlready(handleStatesInt);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> _isCurrentRouteSavable() async {
+    var handleStates = spraywallController.getCurrentRoute();
+    if (handleStates.isEmpty) {
+      UiHelper.showSnackbar(
+          UiHelper.getAppLocalization().routeEmpty, Colors.red);
+      return false;
+    }
+    bool exists = await _existsCurrentRouteAlready();
+    if (exists) {
+      UiHelper.showSnackbar(
+          UiHelper.getAppLocalization().routeExists, Colors.red);
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -187,9 +211,6 @@ class RouteController extends ChangeNotifier
         await routeModel.loadSents();
         routeModel.loadLikesForUser(userId);
       }
-      // load like info
-      // routeModel.loadLikeCounts();
-      routeModel.loadLikeCounts();
       return true;
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(

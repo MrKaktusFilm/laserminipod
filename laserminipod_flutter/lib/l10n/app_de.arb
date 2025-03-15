@@ -92,5 +92,6 @@
     "easiest": "Einfachste zuerst",
     "mostSents": "Am meisten geschaffte zuerst",
     "leastSents": "Am wenigsten geschaffte zuerst",
-    "filter": "Filter"
+    "filter": "Filter",
+    "routeEmpty": "Bitte zuerst eine Route auswählen"
 }
