@@ -189,7 +189,7 @@ class RouteController extends ChangeNotifier
       }
       // load like info
       // routeModel.loadLikeCounts();
-      routeModel.loadAllLikes();
+      routeModel.loadLikeCounts();
       return true;
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
@@ -296,11 +296,16 @@ class RouteController extends ChangeNotifier
   }
 
   @override
-  int getLikeCount(int routeId) {
-    if (routeModel.getLikeCounts().containsKey(routeId)) {
-      return routeModel.getLikeCounts()[routeId]!;
+  Future<int> getLikeCount(int routeId) async {
+    var likeCounts = await routeModel.loadLikeCounts();
+    if (likeCounts.containsKey(routeId)) {
+      return likeCounts[routeId]!;
     }
     return 0;
+    // if (routeModel.getLikeCounts().containsKey(routeId)) {
+    //   return routeModel.getLikeCounts()[routeId]!;
+    // }
+    // return 0;
   }
 
   @override

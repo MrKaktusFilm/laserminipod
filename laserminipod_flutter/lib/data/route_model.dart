@@ -7,7 +7,6 @@ class RouteModel extends RouteModelAbstract {
   var _routes = <SpraywallRoute>[];
   var _sents = <RouteUserSents>[];
   List<int> _likes = [];
-  Map<int, int> _likeCounts = {};
   int idIndex = 0;
   var routeEndpoint = client.route;
 
@@ -144,19 +143,12 @@ class RouteModel extends RouteModelAbstract {
   }
 
   @override
-  Map<int, int> getLikeCounts() {
-    return _likeCounts;
-  }
-
-  @override
   Future<void> toggleLikeForUser(int routeId, int userId) async {
     await routeEndpoint.toggleLikeForUser(routeId, userId);
     if (_likes.contains(routeId)) {
       _likes.remove(routeId);
-      _likeCounts[routeId] = _likeCounts[routeId]! - 1;
     } else {
       _likes.add(routeId);
-      _likeCounts[routeId] = (_likeCounts[routeId] ?? 0) + 1;
     }
   }
 
@@ -166,11 +158,12 @@ class RouteModel extends RouteModelAbstract {
   }
 
   @override
-  Future<void> loadAllLikes() async {
-    _likeCounts = {};
+  Future<Map<int, int>> loadLikeCounts() async {
+    Map<int, int> likeCounts = {};
     var likes = await routeEndpoint.getAllLikes();
     for (var like in likes) {
-      _likeCounts.update(like.routeId, (value) => value + 1, ifAbsent: () => 1);
+      likeCounts.update(like.routeId, (value) => value + 1, ifAbsent: () => 1);
     }
+    return likeCounts;
   }
 }

@@ -51,8 +51,15 @@ class _RouteLikeButtonState extends State<RouteLikeButton> {
             onPressed: isSignedIn ? _onPressed : null,
             color: _getColor(),
           ),
-          // TODO: fix missing load if likes sometimes
-          Text(routeController.getLikeCount(widget.routeId).toString()),
+          FutureBuilder(
+              future: routeController.getLikeCount(widget.routeId),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text('${snapshot.data}');
+                } else {
+                  return Text('?');
+                }
+              }),
           SizedBox(width: 10),
         ],
       );

@@ -33,11 +33,9 @@ abstract class RouteModelAbstract {
 
   Future<void> loadLikesForUser(int userId);
 
-  Future<void> loadAllLikes();
+  Future<Map<int, int>> loadLikeCounts();
 
   List<int> getLikesForLoggedInUser();
-
-  Map<int, int> getLikeCounts();
 
   Future<void> toggleLikeForUser(int routeId, int userId);
 }

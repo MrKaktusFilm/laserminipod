@@ -61,7 +61,6 @@ class FilterController extends ChangeNotifier
     dynamic value = filterType.filterValue;
 
     switch (name) {
-      // TODO: fix for guest user
       case FilterName.sent:
         if (_userController.isSignedIn() == false) {
           return (route) => false;
