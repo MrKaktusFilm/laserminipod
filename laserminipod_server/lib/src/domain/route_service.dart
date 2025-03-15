@@ -4,18 +4,20 @@ import 'package:laserminipod_server/src/data/route_handle_state_repository.dart'
 import 'package:laserminipod_server/src/data/route_repository.dart';
 import 'package:laserminipod_server/src/data/route_user_projects_repository.dart';
 import 'package:laserminipod_server/src/data/route_user_sents_repository.dart';
+import 'package:laserminipod_server/src/generated/route_likes.dart';
 import 'package:laserminipod_server/src/generated/route_user_sents.dart'
     as sents;
 import 'package:laserminipod_server/src/generated/spraywall_route.dart';
 import 'package:serverpod/serverpod.dart';
-import 'package:laserminipod_server/src/data/route_likes_repository.dart';
+import 'package:laserminipod_server/src/data/route_likes_repository.dart'
+    as likes;
 
 class RouteService {
   final RouteRepository _repository;
   final state.RouteHandleStateRepository _handleStateRepository;
   final RouteUserProjectsRepository _routeUserProjectsRepository;
   final RouteUserSentsRepository _routeUserSentsRepository;
-  final RouteLikesRepository _routeLikesRepository;
+  final likes.RouteLikesRepository _routeLikesRepository;
 
   RouteService(
     this._repository,
@@ -171,21 +173,8 @@ class RouteService {
     }
   }
 
-  /// returns a map with routeId as key and number of likes as value
-  Future<Map<int, int>> getLikeCountsForRoutes(Session session) async {
-    try {
-      var likes = await _routeLikesRepository.getAllLikes(session);
-      var likeCounts = <int, int>{};
-      for (var like in likes) {
-        likeCounts.update(like.routeId, (value) => value + 1,
-            ifAbsent: () => 1);
-      }
-      return likeCounts;
-    } catch (e, stackTrace) {
-      session.log('Error getting likes for routes: $e\n$stackTrace',
-          level: LogLevel.error);
-      rethrow;
-    }
+  Future<List<RouteLikes>> getAllLikes(Session session) async {
+    return await _routeLikesRepository.getAllLikes(session);
   }
 
   Future<void> toggleLikeForUser(

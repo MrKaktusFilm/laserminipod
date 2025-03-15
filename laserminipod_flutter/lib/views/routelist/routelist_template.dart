@@ -31,10 +31,9 @@ class _RouteListTemplateState extends State<RouteListTemplate> {
       return ListView.builder(
         itemCount: routes.length,
         itemBuilder: (BuildContext context, int index) {
-          return Card(
-              child: RoutelistTile(
+          return RoutelistTile(
             route: routes[index],
-          ));
+          );
         },
       );
     });

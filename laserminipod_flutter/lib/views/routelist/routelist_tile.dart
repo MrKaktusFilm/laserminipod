@@ -7,6 +7,7 @@ import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/routes.dart';
+import 'package:user_app/views/routelist/route_like_button.dart';
 
 class RoutelistTile extends StatefulWidget {
   const RoutelistTile({super.key, required this.route});
@@ -62,62 +63,86 @@ class _RoutelistTileState extends State<RoutelistTile> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var userInfo = snapshot.data;
-            bool isProject =
-                routeController.getMyProjects().contains(widget.route);
-            bool isSent = routeController.isSent(widget.route.id!);
-            bool isCreator = userController.isSignedIn() &&
-                userController.getSignedInUserId() == widget.route.userInfoId;
-            return ListTile(
-              tileColor:
-                  isSent ? const Color.fromARGB(255, 156, 241, 158) : null,
-              title: Text(widget.route.name),
-              // TODO: internationalization
-              subtitle: Text(
-                  'Description: ${widget.route.description} \nDifficulty: ${BoulderGradeEnum.fromValue(widget.route.difficulty)!.getfbScaleName()} \nCreated at ${widget.route.creationDate} \n by ${userInfo!.userName}'),
-              onTap: onTap,
-              trailing: PopupMenuButton<String>(
-                onSelected: (value) {
-                  switch (value) {
-                    case 'delete':
-                      onDelete();
-                      break;
-                    case 'addToProjects':
-                      isProject ? onRemoveFromProjects() : onAddToProjects();
-                      break;
-                    case 'addToSents':
-                      isSent ? onRemoveFromSents() : onAddToSents();
-                      break;
-                  }
-                },
-                itemBuilder: (BuildContext context) {
-                  return [
-                    if (isCreator)
-                      PopupMenuItem(
-                        value: 'delete',
-                        child: ListTile(
-                          leading: Icon(Icons.delete),
-                          title: Text(loc.delete),
-                        ),
-                      ),
-                    PopupMenuItem(
-                      value: 'addToProjects',
-                      child: ListTile(
-                        leading: Icon(isProject ? Icons.remove : Icons.add),
-                        title: Text(isProject
-                            ? loc.removeFromProjects
-                            : loc.addToProjects),
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: 'addToSents',
-                      child: ListTile(
-                        leading: Icon(isSent ? Icons.close : Icons.check),
-                        title: Text(
-                            !isSent ? loc.addToSents : loc.removeFromSents),
-                      ),
-                    ),
-                  ];
-                },
+            bool isProject = false;
+            bool isSent = false;
+            bool isCreator = false;
+
+            if (userController.isSignedIn()) {
+              isProject =
+                  routeController.getMyProjects().contains(widget.route);
+              isSent = routeController.isSent(widget.route.id!);
+              isCreator = userController.isSignedIn() &&
+                  userController.getSignedInUserId() == widget.route.userInfoId;
+            }
+            return Card(
+              child: Column(
+                children: [
+                  ListTile(
+                    tileColor: isSent
+                        ? const Color.fromARGB(255, 156, 241, 158)
+                        : null,
+                    title: Text(widget.route.name),
+                    // TODO: internationalization
+                    subtitle: Text(
+                        'Description: ${widget.route.description} \nDifficulty: ${BoulderGradeEnum.fromValue(widget.route.difficulty)!.getfbScaleName()} \nCreated at ${widget.route.creationDate} \n by ${userInfo!.userName}'),
+                    onTap: onTap,
+                    trailing: userController.isSignedIn()
+                        ? PopupMenuButton<String>(
+                            onSelected: (value) {
+                              switch (value) {
+                                case 'delete':
+                                  onDelete();
+                                  break;
+                                case 'addToProjects':
+                                  isProject
+                                      ? onRemoveFromProjects()
+                                      : onAddToProjects();
+                                  break;
+                                case 'addToSents':
+                                  isSent ? onRemoveFromSents() : onAddToSents();
+                                  break;
+                              }
+                            },
+                            itemBuilder: (BuildContext context) {
+                              return [
+                                if (isCreator)
+                                  PopupMenuItem(
+                                    value: 'delete',
+                                    child: ListTile(
+                                      leading: Icon(Icons.delete),
+                                      title: Text(loc.delete),
+                                    ),
+                                  ),
+                                PopupMenuItem(
+                                  value: 'addToProjects',
+                                  child: ListTile(
+                                    leading: Icon(
+                                        isProject ? Icons.remove : Icons.add),
+                                    title: Text(isProject
+                                        ? loc.removeFromProjects
+                                        : loc.addToProjects),
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: 'addToSents',
+                                  child: ListTile(
+                                    leading: Icon(
+                                        isSent ? Icons.close : Icons.check),
+                                    title: Text(!isSent
+                                        ? loc.addToSents
+                                        : loc.removeFromSents),
+                                  ),
+                                ),
+                              ];
+                            },
+                          )
+                        : null,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: RouteLikeButton(routeId: widget.route.id!),
+                  )
+                ],
               ),
             );
           }

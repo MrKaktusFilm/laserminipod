@@ -399,15 +399,14 @@ class Endpoints extends _i1.EndpointDispatch {
             params['userId'],
           ),
         ),
-        'getLikeCountsForRoutes': _i1.MethodConnector(
-          name: 'getLikeCountsForRoutes',
+        'getAllLikes': _i1.MethodConnector(
+          name: 'getAllLikes',
           params: {},
           call: (
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint)
-                  .getLikeCountsForRoutes(session),
+              (endpoints['route'] as _i3.RouteEndpoint).getAllLikes(session),
         ),
         'toggleLikeForUser': _i1.MethodConnector(
           name: 'toggleLikeForUser',

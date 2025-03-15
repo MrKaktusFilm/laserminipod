@@ -75,9 +75,8 @@ class RouteEndpoint extends Endpoint {
     return await _routeService.getLikesForUser(session, userId);
   }
 
-  Future<Map<int, int>> getLikeCountsForRoutes(Session session) async {
-    await validateUserScope(session);
-    return await _routeService.getLikeCountsForRoutes(session);
+  Future<List<RouteLikes>> getAllLikes(Session session) async {
+    return await _routeService.getAllLikes(session);
   }
 
   Future<void> toggleLikeForUser(

@@ -31,13 +31,13 @@ abstract class RouteModelAbstract {
 
   List<RouteUserSents> get allSents;
 
-  Future<void> loadLikeCounts();
-
   Future<void> loadLikesForUser(int userId);
+
+  Future<void> loadAllLikes();
 
   List<int> getLikesForLoggedInUser();
 
-  Map<int, int> getLikeCountsForRoutes();
+  Map<int, int> getLikeCounts();
 
   Future<void> toggleLikeForUser(int routeId, int userId);
 }

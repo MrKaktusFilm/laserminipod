@@ -185,10 +185,11 @@ class RouteController extends ChangeNotifier
         int userId = userController.getSignedInUserId()!;
         _projects = await routeModel.loadProjects(userId);
         await routeModel.loadSents();
+        routeModel.loadLikesForUser(userId);
       }
       // load like info
-      routeModel.loadLikeCounts();
-      routeModel.loadLikesForUser(userController.getSignedInUserId()!);
+      // routeModel.loadLikeCounts();
+      routeModel.loadAllLikes();
       return true;
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
@@ -296,8 +297,8 @@ class RouteController extends ChangeNotifier
 
   @override
   int getLikeCount(int routeId) {
-    if (routeModel.getLikeCountsForRoutes().containsKey(routeId)) {
-      return routeModel.getLikeCountsForRoutes()[routeId]!;
+    if (routeModel.getLikeCounts().containsKey(routeId)) {
+      return routeModel.getLikeCounts()[routeId]!;
     }
     return 0;
   }

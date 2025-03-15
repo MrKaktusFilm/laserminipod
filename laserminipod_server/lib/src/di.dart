@@ -23,6 +23,8 @@ void setupDependencies() {
       () => RouteUserProjectsRepository());
   getIt.registerLazySingleton<RouteUserSentsRepository>(
       () => RouteUserSentsRepository());
+  getIt.registerLazySingleton<RouteLikesRepository>(
+      () => RouteLikesRepository());
 
   getIt.registerLazySingleton<HandleService>(() => HandleService(
       getIt<HandleRepository>(), getIt<RouteHandleStateRepository>()));

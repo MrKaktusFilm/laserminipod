@@ -17,7 +17,8 @@ import 'dart:async' as _i3;
 import 'package:laserminipod_server/src/generated/handle.dart' as _i4;
 import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i5;
 import 'package:laserminipod_server/src/generated/route_user_sents.dart' as _i6;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i7;
+import 'package:laserminipod_server/src/generated/route_likes.dart' as _i7;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i8;
 import 'package:laserminipod_server/src/generated/protocol.dart';
 import 'package:laserminipod_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -697,26 +698,26 @@ class _RouteEndpoint {
     });
   }
 
-  _i3.Future<Map<int, int>> getLikeCountsForRoutes(
+  _i3.Future<List<_i7.RouteLikes>> getAllLikes(
       _i1.TestSessionBuilder sessionBuilder) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
         endpoint: 'route',
-        method: 'getLikeCountsForRoutes',
+        method: 'getAllLikes',
       );
       try {
         var _localCallContext = await _endpointDispatch.getMethodCallContext(
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'route',
-          methodName: 'getLikeCountsForRoutes',
+          methodName: 'getAllLikes',
           parameters: _i1.testObjectToJson({}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<Map<int, int>>);
+        ) as _i3.Future<List<_i7.RouteLikes>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -934,7 +935,7 @@ class _UserEndpoint {
     });
   }
 
-  _i3.Future<_i7.UserInfo?> createUser(
+  _i3.Future<_i8.UserInfo?> createUser(
     _i1.TestSessionBuilder sessionBuilder,
     String email,
     String userName,
@@ -961,7 +962,7 @@ class _UserEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i7.UserInfo?>);
+        ) as _i3.Future<_i8.UserInfo?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -998,7 +999,7 @@ class _UserEndpoint {
     });
   }
 
-  _i3.Future<_i7.UserInfo?> getUserById(
+  _i3.Future<_i8.UserInfo?> getUserById(
     _i1.TestSessionBuilder sessionBuilder,
     int id,
   ) async {
@@ -1019,7 +1020,7 @@ class _UserEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i7.UserInfo?>);
+        ) as _i3.Future<_i8.UserInfo?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1027,7 +1028,7 @@ class _UserEndpoint {
     });
   }
 
-  _i3.Future<List<_i7.UserInfo>> getAllUsers(
+  _i3.Future<List<_i8.UserInfo>> getAllUsers(
       _i1.TestSessionBuilder sessionBuilder) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -1046,7 +1047,7 @@ class _UserEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<List<_i7.UserInfo>>);
+        ) as _i3.Future<List<_i8.UserInfo>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

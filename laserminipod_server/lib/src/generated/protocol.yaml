@@ -18,7 +18,7 @@ route:
   - addSentForUser:
   - deleteSentForUser:
   - getLikesForUser:
-  - getLikeCountsForRoutes:
+  - getAllLikes:
   - toggleLikeForUser:
 spraywall:
   - toggleHandle:

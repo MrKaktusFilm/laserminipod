@@ -144,7 +144,7 @@ class RouteModel extends RouteModelAbstract {
   }
 
   @override
-  Map<int, int> getLikeCountsForRoutes() {
+  Map<int, int> getLikeCounts() {
     return _likeCounts;
   }
 
@@ -156,17 +156,21 @@ class RouteModel extends RouteModelAbstract {
       _likeCounts[routeId] = _likeCounts[routeId]! - 1;
     } else {
       _likes.add(routeId);
-      _likeCounts[routeId] = _likeCounts[routeId]! + 1;
+      _likeCounts[routeId] = (_likeCounts[routeId] ?? 0) + 1;
     }
-  }
-
-  @override
-  Future<void> loadLikeCounts() async {
-    _likeCounts = await routeEndpoint.getLikeCountsForRoutes();
   }
 
   @override
   Future<void> loadLikesForUser(int userId) async {
     _likes = await routeEndpoint.getLikesForUser(userId);
+  }
+
+  @override
+  Future<void> loadAllLikes() async {
+    _likeCounts = {};
+    var likes = await routeEndpoint.getAllLikes();
+    for (var like in likes) {
+      _likeCounts.update(like.routeId, (value) => value + 1, ifAbsent: () => 1);
+    }
   }
 }
