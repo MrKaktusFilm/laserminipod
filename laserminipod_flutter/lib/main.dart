@@ -66,7 +66,8 @@ Future<void> main() async {
       spraywallModel: spraywallModel);
   UserControllerAbstract userController = UserController(
       navigationController: navigationController, userModel: userModel);
-  FilterControllerAbstract filterController = FilterController(routeModel);
+  FilterControllerAbstract filterController =
+      FilterController(routeModel, userController);
   RouteControllerAbstract routeController = RouteController(
       routeModel: routeModel,
       spraywallController: spraywallController,

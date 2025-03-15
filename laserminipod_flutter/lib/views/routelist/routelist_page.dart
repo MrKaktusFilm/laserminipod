@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/routelist/all_routes_tab.dart';
 import 'package:user_app/views/routelist/filter_bottom_sheet.dart';
+import 'package:user_app/views/routelist/filter_button.dart';
 
 class RouteListPage extends StatefulWidget {
   final Widget child;
@@ -28,7 +28,12 @@ class _RouteListPageState extends State<RouteListPage> {
 
     if (!userController.isSignedIn()) {
       // only show allRoutes tab for guests
-      content = AllRoutesTab();
+      content = Column(
+        children: [
+          FilterButton(onPressed: _openFilterSheet),
+          Expanded(child: AllRoutesTab()),
+        ],
+      );
     } else {
       content = DefaultTabController(
           length: 3,
@@ -45,17 +50,7 @@ class _RouteListPageState extends State<RouteListPage> {
                   Tab(icon: Icon(Icons.terrain), text: loc.allRoutes),
                 ],
               ),
-              Consumer<FilterControllerAbstract>(
-                  builder: (context, filtercontroller, child) {
-                return Badge.count(
-                  count: filtercontroller.getActiveFilterCount(),
-                  isLabelVisible: filtercontroller.getActiveFilterCount() > 0,
-                  child: FilledButton(
-                    onPressed: _openFilterSheet,
-                    child: Text('Filter'),
-                  ),
-                );
-              }),
+              FilterButton(onPressed: _openFilterSheet),
               Expanded(child: widget.child)
             ],
           ));

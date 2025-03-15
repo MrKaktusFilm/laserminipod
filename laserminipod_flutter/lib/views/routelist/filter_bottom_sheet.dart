@@ -47,6 +47,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   @override
   Widget build(BuildContext context) {
     var loc = UiHelper.getAppLocalization();
+    final userController = Provider.of<UserControllerAbstract>(context);
 
     return SingleChildScrollView(
       child: Column(
@@ -93,23 +94,24 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           ),
 
           // sent filter
-          Consumer<FilterControllerAbstract>(
-              builder: (context, filterController, child) {
-            return DropdownMenu<bool?>(
-              label: Text(loc.sent),
-              initialSelection:
-                  filterController.getFilterValue(FilterName.sent),
-              dropdownMenuEntries: [
-                DropdownMenuEntry(value: null, label: loc.none),
-                DropdownMenuEntry(value: true, label: loc.sent),
-                DropdownMenuEntry(value: false, label: loc.notSent)
-              ],
-              onSelected: (value) {
-                filterController.setFilter(FilterName.sent, value);
-              },
-            );
-          }),
-          const SizedBox(height: 10),
+          if (userController.isSignedIn())
+            Consumer<FilterControllerAbstract>(
+                builder: (context, filterController, child) {
+              return DropdownMenu<bool?>(
+                label: Text(loc.sent),
+                initialSelection:
+                    filterController.getFilterValue(FilterName.sent),
+                dropdownMenuEntries: [
+                  DropdownMenuEntry(value: null, label: loc.none),
+                  DropdownMenuEntry(value: true, label: loc.sent),
+                  DropdownMenuEntry(value: false, label: loc.notSent)
+                ],
+                onSelected: (value) {
+                  filterController.setFilter(FilterName.sent, value);
+                },
+              );
+            }),
+          if (userController.isSignedIn()) const SizedBox(height: 10),
 
           // route name filter
           Consumer<FilterControllerAbstract>(

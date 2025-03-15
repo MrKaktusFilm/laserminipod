@@ -91,5 +91,6 @@
     "hardest": "Schwierigste zuerst",
     "easiest": "Einfachste zuerst",
     "mostSents": "Am meisten geschaffte zuerst",
-    "leastSents": "Am wenigsten geschaffte zuerst"
+    "leastSents": "Am wenigsten geschaffte zuerst",
+    "filter": "Filter"
 }

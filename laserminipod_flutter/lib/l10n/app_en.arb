@@ -91,5 +91,6 @@
     "hardest": "Hardest first",
     "easiest": "Easiest first",
     "mostSents": "Most sents first",
-    "leastSents": "Least sents first"
+    "leastSents": "Least sents first",
+    "filter": "Filter"
 }

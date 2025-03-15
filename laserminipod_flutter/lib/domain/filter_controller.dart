@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laserminipod_client/src/protocol/spraywall_route.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
+import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
 
@@ -11,8 +12,9 @@ class FilterController extends ChangeNotifier
   SortationName _sortation = SortationName.alphabetical;
 
   final RouteModelAbstract _routeModel;
+  final UserControllerAbstract _userController;
 
-  FilterController(this._routeModel) {
+  FilterController(this._routeModel, this._userController) {
     _initFilters();
   }
 
@@ -61,6 +63,9 @@ class FilterController extends ChangeNotifier
     switch (name) {
       // TODO: fix for guest user
       case FilterName.sent:
+        if (_userController.isSignedIn() == false) {
+          return (route) => false;
+        }
         return (route) =>
             _routeModel.isSent(route.id!, sessionManager.signedInUser!.id!) ==
             value;
@@ -113,6 +118,14 @@ class FilterController extends ChangeNotifier
 
   @override
   List<SpraywallRoute> applyFiltersAndSorting(List<SpraywallRoute> routes) {
+    // reset sent filters if user is not signed in and sent filter is active
+    if (_userController.isSignedIn() == false &&
+        isFilterActive(FilterName.sent)) {
+      _filters
+          .firstWhere((filterType) => filterType.name == FilterName.sent)
+          .filterValue = null;
+    }
+
     var filteredRoutes = _applyFilters(routes);
     return filteredRoutes..sort(_getSortation(_sortation));
   }
@@ -128,7 +141,13 @@ class FilterController extends ChangeNotifier
 
   @override
   int getActiveFilterCount() {
-    return _filters.where((filter) => filter.filterValue != null).length;
+    int count = _filters.where((filter) => filter.filterValue != null).length;
+    // decrease filter count if sent filter is falsly active for guest user
+    if (_userController.isSignedIn() == false &&
+        isFilterActive(FilterName.sent)) {
+      count--;
+    }
+    return count;
   }
 }
 
