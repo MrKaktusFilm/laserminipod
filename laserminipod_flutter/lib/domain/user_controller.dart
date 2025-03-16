@@ -208,4 +208,12 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     }
     return null;
   }
+
+  @override
+  Future<void> setUserName(String newUserName) async {
+    await _userModel.setUserName(getSignedInUserId()!, newUserName);
+    // update username in current session
+    sessionManager.signedInUser!.userName = newUserName;
+    notifyListeners();
+  }
 }

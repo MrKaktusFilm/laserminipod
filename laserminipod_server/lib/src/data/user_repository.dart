@@ -64,4 +64,15 @@ class UserRepository {
   Future<List<auth.UserInfo>> getAllUsers(Session session) async {
     return await auth.UserInfo.db.find(session);
   }
+
+  Future<void> updateUserName(
+      Session session, int userId, String newUserName) async {
+    var user = await getUserById(session, userId);
+    if (user == null) {
+      throw Exception('User with userId $userId does not exist');
+    }
+    user.userName = newUserName;
+
+    await auth.UserInfo.db.updateRow(session, user);
+  }
 }

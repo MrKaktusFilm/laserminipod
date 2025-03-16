@@ -321,6 +321,19 @@ class EndpointUser extends _i1.EndpointRef {
         'getAllUsers',
         {},
       );
+
+  _i2.Future<void> setUserName(
+    int userId,
+    String newUserName,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'user',
+        'setUserName',
+        {
+          'userId': userId,
+          'newUserName': newUserName,
+        },
+      );
 }
 
 class Modules {

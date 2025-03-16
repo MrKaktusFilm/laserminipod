@@ -31,3 +31,4 @@ user:
   - deleteUser:
   - getUserById:
   - getAllUsers:
+  - setUserName:

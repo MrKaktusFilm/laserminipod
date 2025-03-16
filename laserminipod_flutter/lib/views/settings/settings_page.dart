@@ -5,6 +5,7 @@ import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/routes.dart';
+import 'package:user_app/views/dialogs/change_username_dialog.dart';
 import 'package:user_app/views/dialogs/delete_user_dialog.dart';
 import 'package:user_app/views/settings/language_dialog.dart';
 
@@ -82,18 +83,23 @@ class _SettingsPageState extends State<SettingsPage> {
         body: Column(
           children: [
             if (_userController.isSignedIn())
-              ListTile(
-                leading: CircleAvatar(
-                  radius: 35,
-                  backgroundColor: Colors.teal.shade100,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
+              Consumer<UserControllerAbstract>(
+                  builder: (context, userController, child) {
+                return ListTile(
+                  leading: CircleAvatar(
+                    radius: 35,
+                    backgroundColor: Colors.teal.shade100,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                title: Text(_userController.getSignedInUserName()!),
-                subtitle: Text(_userController.getSignedInEmail()!),
-              ),
+                  title: Text(userController.getSignedInUserName()!),
+                  subtitle: Text(userController.getSignedInEmail()!),
+                  trailing: IconButton(
+                      onPressed: _changeUserName, icon: Icon(Icons.edit)),
+                );
+              }),
             if (_userController.isSignedIn()) Divider(),
             Expanded(
               child: ListView.builder(
@@ -114,6 +120,10 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       );
     });
+  }
+
+  void _changeUserName() {
+    UiHelper.showWidgetDialog(ChangeUsernameDialog());
   }
 }
 

@@ -36,4 +36,10 @@ class UserEndpoint extends Endpoint {
   Future<List<UserInfo>> getAllUsers(Session session) async {
     return await _userService.getAllUsers(session);
   }
+
+  Future<void> setUserName(
+      Session session, int userId, String newUserName) async {
+    await validateUserScope(session);
+    return await _userService.setUserName(session, userId, newUserName);
+  }
 }

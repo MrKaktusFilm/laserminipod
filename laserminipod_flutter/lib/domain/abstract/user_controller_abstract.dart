@@ -36,4 +36,6 @@ abstract class UserControllerAbstract extends ChangeNotifier {
   Future<bool> loadAllUsers();
 
   List<UserInfo> get users;
+
+  Future<void> setUserName(String newUserName);
 }

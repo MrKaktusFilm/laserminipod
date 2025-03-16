@@ -35,4 +35,9 @@ class UserModel implements UserModelAbstract {
   Future<List<UserInfo>> getAllUsers() async {
     return await userEndpoint.getAllUsers();
   }
+
+  @override
+  Future<void> setUserName(int userId, String newUserName) async {
+    await userEndpoint.setUserName(userId, newUserName);
+  }
 }

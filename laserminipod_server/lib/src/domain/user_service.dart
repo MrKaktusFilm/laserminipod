@@ -165,4 +165,17 @@ class UserService {
       rethrow;
     }
   }
+
+  Future<void> setUserName(
+      Session session, int userId, String newUserName) async {
+    try {
+      await _userRepository.updateUserName(session, userId, newUserName);
+      session.log('Username successfully updated for userId: $userId',
+          level: LogLevel.info);
+    } catch (e, stackTrace) {
+      session.log('Error updating username: $e\n$stackTrace',
+          level: LogLevel.error);
+      rethrow;
+    }
+  }
 }

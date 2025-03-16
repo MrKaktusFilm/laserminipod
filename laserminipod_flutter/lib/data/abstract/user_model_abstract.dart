@@ -12,4 +12,6 @@ abstract class UserModelAbstract {
   Future<UserInfo?> getUserById(int id);
 
   Future<List<UserInfo>> getAllUsers();
+
+  Future<void> setUserName(int userId, String newUserName);
 }

@@ -93,5 +93,6 @@
     "mostSents": "Am meisten geschaffte zuerst",
     "leastSents": "Am wenigsten geschaffte zuerst",
     "filter": "Filter",
-    "routeEmpty": "Bitte zuerst eine Route auswählen"
+    "routeEmpty": "Bitte zuerst eine Route auswählen",
+    "newUserName": "Neuer Benutzername"
 }
