@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/routes.dart';
 import 'package:user_app/views/dialogs/change_username_dialog.dart';
 import 'package:user_app/views/dialogs/delete_user_dialog.dart';
@@ -85,15 +87,11 @@ class _SettingsPageState extends State<SettingsPage> {
             if (_userController.isSignedIn())
               Consumer<UserControllerAbstract>(
                   builder: (context, userController, child) {
+                sessionManager.signedInUser!.imageUrl = sessionManager
+                    .signedInUser!.imageUrl!
+                    .replaceFirst('http://0.0.0.0:8080/', serverURL);
                 return ListTile(
-                  leading: CircleAvatar(
-                    radius: 35,
-                    backgroundColor: Colors.teal.shade100,
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                    ),
-                  ),
+                  leading: UserImageButton(sessionManager: sessionManager),
                   title: Text(userController.getSignedInUserName()!),
                   subtitle: Text(userController.getSignedInEmail()!),
                   trailing: IconButton(

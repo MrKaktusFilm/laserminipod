@@ -47,9 +47,7 @@ Future<void> main() async {
     authenticationKeyManager: FlutterAuthenticationKeyManager(),
   )..connectivityMonitor = FlutterConnectivityMonitor();
 
-  sessionManager = SessionManager(
-    caller: client.modules.auth,
-  );
+  sessionManager = SessionManager(caller: client.modules.auth);
   await sessionManager.initialize();
 
   // data models
