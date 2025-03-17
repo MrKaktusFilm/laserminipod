@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
+import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:user_app/common/enums/boulder_grade_enum.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
@@ -79,6 +80,15 @@ class _RoutelistTileState extends State<RoutelistTile> {
               child: Column(
                 children: [
                   ListTile(
+                    leading: FutureBuilder(
+                        future:
+                            userController.getUserById(widget.route.userInfoId),
+                        builder: (context, snapshot) {
+                          return CircularUserImage(
+                            userInfo: snapshot.data,
+                            size: 50.0,
+                          );
+                        }),
                     title: Text(widget.route.name),
                     // TODO: internationalization
                     subtitle: Text(

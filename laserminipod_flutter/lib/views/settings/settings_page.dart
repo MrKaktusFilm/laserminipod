@@ -87,9 +87,6 @@ class _SettingsPageState extends State<SettingsPage> {
             if (_userController.isSignedIn())
               Consumer<UserControllerAbstract>(
                   builder: (context, userController, child) {
-                sessionManager.signedInUser!.imageUrl = sessionManager
-                    .signedInUser!.imageUrl!
-                    .replaceFirst('http://0.0.0.0:8080/', serverURL);
                 return ListTile(
                   leading: UserImageButton(sessionManager: sessionManager),
                   title: Text(userController.getSignedInUserName()!),

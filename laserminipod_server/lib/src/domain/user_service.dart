@@ -1,3 +1,4 @@
+import 'package:laserminipod_server/src/data/user_image_repository.dart';
 import 'package:laserminipod_server/src/data/user_repository.dart';
 import 'package:laserminipod_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
@@ -5,8 +6,9 @@ import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
 
 class UserService {
   final UserRepository _userRepository;
+  final UserImageRepository _userImageRepository;
 
-  UserService(this._userRepository);
+  UserService(this._userRepository, this._userImageRepository);
 
   Future<void> initialize(Serverpod pod) async {
     var session = await pod.createSession();
@@ -129,7 +131,10 @@ class UserService {
 
   Future<auth.UserInfo?> getUserById(Session session, int id) async {
     try {
-      return await _userRepository.getUserById(session, id);
+      var user = await _userRepository.getUserById(session, id);
+      String? imageUrl = await _userImageRepository.getImageUrl(session, id);
+      user?.imageUrl = imageUrl;
+      return user;
     } on Exception catch (e, stackTrace) {
       session.log('Error getting user by id: $e\n$stackTrace',
           level: LogLevel.error);
