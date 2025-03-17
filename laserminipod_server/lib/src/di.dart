@@ -5,7 +5,6 @@ import 'package:laserminipod_server/src/data/route_likes_repository.dart';
 import 'package:laserminipod_server/src/data/route_repository.dart';
 import 'package:laserminipod_server/src/data/route_user_projects_repository.dart';
 import 'package:laserminipod_server/src/data/route_user_sents_repository.dart';
-import 'package:laserminipod_server/src/data/user_image_repository.dart';
 import 'package:laserminipod_server/src/data/user_repository.dart';
 import 'package:laserminipod_server/src/domain/cpp_service.dart';
 import 'package:laserminipod_server/src/domain/handle_service.dart';
@@ -26,7 +25,6 @@ void setupDependencies() {
       () => RouteUserSentsRepository());
   getIt.registerLazySingleton<RouteLikesRepository>(
       () => RouteLikesRepository());
-  getIt.registerLazySingleton<UserImageRepository>(() => UserImageRepository());
 
   getIt.registerLazySingleton<HandleService>(() => HandleService(
       getIt<HandleRepository>(), getIt<RouteHandleStateRepository>()));
@@ -39,7 +37,7 @@ void setupDependencies() {
       ));
   getIt.registerLazySingleton<UserRepository>(() => UserRepository());
   getIt.registerLazySingleton<UserService>(
-      () => UserService(getIt<UserRepository>(), getIt<UserImageRepository>()));
+      () => UserService(getIt<UserRepository>()));
   getIt.registerLazySingleton<CppService>(() => CppService());
   getIt.registerLazySingleton<SpraywallService>(
       () => SpraywallService(getIt<CppService>()));

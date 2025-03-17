@@ -18,11 +18,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
       {required NavigationControllerAbstract navigationController,
       required UserModelAbstract userModel})
       : _navigationController = navigationController,
-        _userModel = userModel {
-    if (isSignedIn()) {
-      _setStorageHost(sessionManager.signedInUser!);
-    }
-  }
+        _userModel = userModel;
 
   @override
   bool isSignedIn() {
@@ -51,7 +47,6 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
         password.trim(),
       );
       if (result != null) {
-        _setStorageHost(sessionManager.signedInUser!);
         return null;
       } else {
         return UiHelper.getAppLocalization().invalidLogin;
@@ -181,9 +176,6 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   @override
   Future<UserInfo?> getUserById(int id) async {
     UserInfo? user = await _userModel.getUserById(id);
-    if (user != null) {
-      _setStorageHost(user);
-    }
     return user;
   }
 
@@ -224,15 +216,5 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     // update username in current session
     sessionManager.signedInUser!.userName = newUserName;
     notifyListeners();
-  }
-
-  /// inserts the right host in order to access the profile picture of the user
-  void _setStorageHost(UserInfo user) {
-    String? url = user.imageUrl;
-    final String localhost = 'http://0.0.0.0:8080/';
-
-    if (url != null && url.contains(localhost)) {
-      user.imageUrl = url.replaceFirst(localhost, serverURL);
-    }
   }
 }
