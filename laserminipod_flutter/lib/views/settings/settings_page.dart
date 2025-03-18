@@ -89,7 +89,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   builder: (context, userController, child) {
                 return ListTile(
                   leading: UserImageButton(sessionManager: sessionManager),
-                  title: Text(userController.getSignedInUserName()!),
+                  title: Row(
+                    children: [
+                      Text(userController.getSignedInUserName()!),
+                      SizedBox(width: 10),
+                      if (userController.hasAdminRights()) Icon(Icons.settings),
+                    ],
+                  ),
                   subtitle: Text(userController.getSignedInEmail()!),
                   trailing: IconButton(
                       onPressed: _changeUserName, icon: Icon(Icons.edit)),

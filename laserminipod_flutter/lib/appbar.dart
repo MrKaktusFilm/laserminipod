@@ -22,6 +22,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(title),
       actions: [
         PopupMenuButton<String>(
+          icon: Icon(Icons.person),
           itemBuilder: (BuildContext context) {
             return [
               if (!adminController.isSignedIn())
