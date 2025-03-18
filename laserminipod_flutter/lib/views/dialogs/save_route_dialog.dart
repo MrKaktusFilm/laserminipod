@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/constants.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/difficulty_wheel.dart'; // Importiere den UiHelper
@@ -48,6 +49,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextFormField(
+                maxLength: maxTextfieldInputLength,
                 decoration: InputDecoration(
                   labelText: loc.routeName, // Verwendung der Lokalisierung
                   filled: true,
@@ -62,6 +64,7 @@ class _SaveRouteDialogState extends State<SaveRouteDialog> {
               ),
               const SizedBox(height: 10),
               TextFormField(
+                maxLength: maxDescriptionLength,
                 decoration: InputDecoration(
                   labelText: loc.routeDescription,
                   filled: true,

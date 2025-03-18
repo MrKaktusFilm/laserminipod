@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/constants.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/filter_controller.dart';
@@ -117,6 +118,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           Consumer<FilterControllerAbstract>(
               builder: (context, filterController, child) {
             return TextField(
+              maxLength: maxTextfieldInputLength,
               decoration: InputDecoration(labelText: loc.routeName),
               controller: _routeNameController,
               onChanged: (value) {

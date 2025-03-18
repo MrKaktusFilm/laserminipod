@@ -93,7 +93,11 @@ class _SettingsPageState extends State<SettingsPage> {
                     children: [
                       Text(userController.getSignedInUserName()!),
                       SizedBox(width: 10),
-                      if (userController.hasAdminRights()) Icon(Icons.settings),
+                      if (userController.hasAdminRights())
+                        Icon(
+                          Icons.settings,
+                          size: 20,
+                        ),
                     ],
                   ),
                   subtitle: Text(userController.getSignedInEmail()!),

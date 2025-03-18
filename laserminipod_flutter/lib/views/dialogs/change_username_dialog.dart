@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/constants.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 
@@ -37,6 +38,7 @@ class _ChangeUsernameDialogState extends State<ChangeUsernameDialog> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextFormField(
+                maxLength: maxTextfieldInputLength,
                 controller: _textEditingController,
                 decoration: InputDecoration(
                   labelText: loc.newUserName,

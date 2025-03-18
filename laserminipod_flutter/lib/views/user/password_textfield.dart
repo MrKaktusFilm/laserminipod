@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:user_app/constants.dart';
 
 class PasswordTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -21,6 +22,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: maxPasswordLength,
       controller: widget.controller,
       decoration: InputDecoration(
         labelText: widget.labelText,

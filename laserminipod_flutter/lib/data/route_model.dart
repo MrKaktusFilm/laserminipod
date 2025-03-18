@@ -46,7 +46,6 @@ class RouteModel extends RouteModelAbstract {
   @override
   Future<bool> existsRouteAlready(Map<int, int> route) async {
     try {
-// TODO: fix and catch
       return await routeEndpoint.existsRouteAlready(route);
     } on Exception {
       rethrow;
