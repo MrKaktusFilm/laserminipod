@@ -45,8 +45,8 @@ class SpraywallButtonBuilder extends StatelessWidget {
 
           return ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: imageDimensions!.$1.toDouble(),
-              maxHeight: imageDimensions.$2.toDouble(),
+              maxWidth: imageDimensions!.width,
+              maxHeight: imageDimensions.height,
             ),
             child: Stack(
               children: positionedHandles,

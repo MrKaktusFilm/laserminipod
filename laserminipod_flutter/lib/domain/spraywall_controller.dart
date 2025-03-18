@@ -4,12 +4,16 @@ import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/domain/spraywall_transformation_controller.dart';
 
 class SpraywallController extends ChangeNotifier
     implements SprayWallControllerAbstract {
   final RouteModelAbstract routeModel;
   final HandleModelAbstract handleModel;
   final SpraywallModelAbstract spraywallModel;
+
+  final SpraywallTransformationController _transformationController =
+      SpraywallTransformationController();
 
   Map<int, HandleStateEnum> currentRoute = {};
 
@@ -68,4 +72,8 @@ class SpraywallController extends ChangeNotifier
     }
     return currentRoute[id]!;
   }
+
+  @override
+  SpraywallTransformationController get transformationController =>
+      _transformationController;
 }

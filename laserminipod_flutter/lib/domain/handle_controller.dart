@@ -4,6 +4,7 @@ import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
+import 'package:user_app/domain/spraywall_transformation_controller.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/routes.dart';
 
@@ -11,24 +12,21 @@ class HandleController extends ChangeNotifier
     implements HandleControllerAbstract {
   final HandleModelAbstract _handleModel;
   final NavigationControllerAbstract _navigationController;
-  final ImageControllerAbstract _imageController;
-
   static const double _startDiamter = 40;
 
   Offset? _selectedHandlePosition;
   double _selectedHandleDiameter = _startDiamter;
   int? _selectedHandleId;
 
-  final TransformationController _transformationController =
-      TransformationController(Matrix4.identity());
+  final SpraywallTransformationController _transformationController =
+      SpraywallTransformationController();
 
   HandleController(
       {required HandleModelAbstract handleModel,
       required NavigationControllerAbstract navigationController,
       required ImageControllerAbstract imageController})
       : _handleModel = handleModel,
-        _navigationController = navigationController,
-        _imageController = imageController;
+        _navigationController = navigationController;
 
   @override
   Offset? get selectedHandlePosition => _selectedHandlePosition;
@@ -40,7 +38,7 @@ class HandleController extends ChangeNotifier
   int? get selectedHandleId => _selectedHandleId;
 
   @override
-  TransformationController get transformationController =>
+  SpraywallTransformationController get transformationController =>
       _transformationController;
 
   @override
@@ -148,20 +146,5 @@ class HandleController extends ChangeNotifier
   @override
   bool isHandleSelected() {
     return _selectedHandleId != null;
-  }
-
-  @override
-  void initializeTransformationController(Size containerSize) {
-    if (_transformationController.value != Matrix4.identity()) {
-      return;
-    }
-    final imageSize = _imageController.imageDimensions;
-
-    double scaleX = containerSize.width / imageSize!.$1;
-    double scaleY = containerSize.height / imageSize.$2;
-    double initialScale = scaleX > scaleY ? scaleX : scaleY;
-
-    _transformationController.value = Matrix4.identity()..scale(initialScale);
-    notifyListeners();
   }
 }

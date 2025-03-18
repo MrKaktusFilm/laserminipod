@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class ImageControllerAbstract extends ChangeNotifier {
-  (int, int)? get imageDimensions;
+  Size? get imageDimensions;
 
   String getImagePath();
 

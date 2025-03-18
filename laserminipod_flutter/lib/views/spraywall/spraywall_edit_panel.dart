@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
+import 'package:user_app/domain/abstract/image_controller_abstract.dart';
+import 'package:user_app/domain/spraywall_transformation_controller.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_edit_selected_button.dart';
 import 'package:user_app/views/spraywall/spraywall_button_builder.dart';
 import 'package:user_app/views/spraywall/spraywall_image.dart';
 
 class SpraywallEditPanel extends StatefulWidget {
-  final TransformationController transformationController;
+  final SpraywallTransformationController transformationController;
   final Widget Function(Handle handle) widgetFactory;
 
   const SpraywallEditPanel(
@@ -23,12 +24,16 @@ class _SpraywallEditPanelState extends State<SpraywallEditPanel> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    var handleController =
-        Provider.of<HandleControllerAbstract>(context, listen: false);
-
     // Warte bis das Layout steht, dann berechne die Skalierung (context size needed)
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      handleController.initializeTransformationController(context.size!);
+      var imageController =
+          Provider.of<ImageControllerAbstract>(context, listen: false);
+
+      // Warte bis das Layout steht, dann berechne die Skalierung (context size needed)
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        widget.transformationController.initializeTransformationController(
+            context.size!, imageController.imageDimensions!);
+      });
     });
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
+import 'package:user_app/domain/spraywall_transformation_controller.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/views/spraywall/buttons/spraywall_handle_button_template.dart';
 import 'package:user_app/views/spraywall/spraywall_edit_panel.dart';
@@ -35,11 +36,10 @@ class _HandleManagementEditPageState extends State<HandleManagementEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    final TransformationController transformationController =
-        Provider.of<HandleControllerAbstract>(context, listen: false)
-            .transformationController;
     final HandleControllerAbstract handleController =
         Provider.of<HandleControllerAbstract>(context, listen: false);
+    final SpraywallTransformationController transformationController =
+        handleController.transformationController;
 
     handleController.setNewHandlePositionToScreenMiddle(context);
 

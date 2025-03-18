@@ -32,6 +32,8 @@ class _SpraywallPageState extends State<SpraywallPage> {
               id: handle.id!,
               handleDiameter: handle.radius.toDouble(),
             ),
+            transformationController:
+                sprayWallController.transformationController,
           ),
           if (userController.isSignedIn())
             Align(

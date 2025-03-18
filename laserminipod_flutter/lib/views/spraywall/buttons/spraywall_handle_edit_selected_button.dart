@@ -20,11 +20,11 @@ class SpraywallHandleEditSelectedButton extends StatelessWidget {
           left: clampDouble(
               handleController.selectedHandlePosition!.dx - handleDiameter / 2,
               -handleDiameter / 2,
-              imageDimensions!.$1.toDouble() - handleDiameter / 2),
+              imageDimensions!.width - handleDiameter / 2),
           top: clampDouble(
               handleController.selectedHandlePosition!.dy - handleDiameter / 2,
               -handleDiameter / 2,
-              imageDimensions.$2.toDouble() - handleDiameter / 2),
+              imageDimensions.height - handleDiameter / 2),
           child: GestureDetector(
               onPanUpdate: (details) {
                 handleController.updateSelectedHandlePosition(details.delta);

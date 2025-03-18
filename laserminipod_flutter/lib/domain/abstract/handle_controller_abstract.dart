@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
+import 'package:user_app/domain/spraywall_transformation_controller.dart';
 
 abstract class HandleControllerAbstract extends ChangeNotifier {
   Offset? get selectedHandlePosition;
   double get selectedHandleDiameter;
   int? get selectedHandleId;
-  TransformationController get transformationController;
+
+  /// transformation controller for the handle management section
+  SpraywallTransformationController get transformationController;
 
   void setSelectedHandleDiameter(double value);
 
@@ -24,6 +27,4 @@ abstract class HandleControllerAbstract extends ChangeNotifier {
   Future<void> deleteHandle(BuildContext context);
 
   Future<List<Handle>> loadAllHandles();
-
-  void initializeTransformationController(Size containerSize);
 }

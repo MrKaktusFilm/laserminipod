@@ -8,10 +8,10 @@ import 'package:user_app/domain/ui_helper.dart';
 class ImageController extends ChangeNotifier
     implements ImageControllerAbstract {
   final String _imagePath = 'assets/img/spraywall_example.jpg';
-  (int, int)? _imageDimensions;
+  Size? _imageDimensions;
 
   @override
-  (int, int)? get imageDimensions => _imageDimensions;
+  Size? get imageDimensions => _imageDimensions;
 
   // caches the image dimensions
   @override
@@ -22,7 +22,8 @@ class ImageController extends ChangeNotifier
 
       // Dekodiere das Bild
       ui.Image decodedImage = await decodeImageFromList(bytes);
-      _imageDimensions = (decodedImage.width, decodedImage.height);
+      _imageDimensions =
+          Size(decodedImage.width.toDouble(), decodedImage.height.toDouble());
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
           UiHelper.getAppLocalization().imageDimensionsError, e);
