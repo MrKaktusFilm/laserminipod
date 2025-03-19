@@ -1,6 +1,7 @@
 import 'package:feedback/feedback.dart' as feedback;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
@@ -107,7 +108,16 @@ Future<void> main() async {
         ChangeNotifierProvider<FeedbackControllerAbstract>(
             create: (_) => feedbackController),
       ],
-      child: feedback.BetterFeedback(child: const MyApp()),
+      child: feedback.BetterFeedback(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          feedback.GlobalFeedbackLocalizationsDelegate()
+        ],
+        localeOverride: languageController.currentLanguage,
+        child: const MyApp(),
+      ),
     ),
   );
 }
