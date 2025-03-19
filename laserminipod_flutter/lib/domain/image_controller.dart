@@ -27,7 +27,6 @@ class ImageController extends ChangeNotifier
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar(
           UiHelper.getAppLocalization().imageDimensionsError, e);
-      rethrow;
     }
   }
 

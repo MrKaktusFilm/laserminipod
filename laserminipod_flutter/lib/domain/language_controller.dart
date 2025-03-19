@@ -15,15 +15,19 @@ class LanguageController extends ChangeNotifier
   }
 
   Future<void> _initLanguage() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedLanguageCode = prefs.getString(_languageKey);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final savedLanguageCode = prefs.getString(_languageKey);
 
-    if (savedLanguageCode != null) {
-      _currentLanguage = Locale(savedLanguageCode);
-    } else {
-      _currentLanguage = Locale(Platform.localeName.substring(0, 2));
+      if (savedLanguageCode != null) {
+        _currentLanguage = Locale(savedLanguageCode);
+      } else {
+        _currentLanguage = Locale(Platform.localeName.substring(0, 2));
+      }
+      notifyListeners();
+    } on Exception {
+      _currentLanguage = Locale('en');
     }
-    notifyListeners();
   }
 
   @override
@@ -34,8 +38,12 @@ class LanguageController extends ChangeNotifier
     if (_currentLanguage.languageCode == language.languageCode) return;
     _currentLanguage = language;
     // Persist the language selection
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_languageKey, language.languageCode);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_languageKey, language.languageCode);
+    } on Exception {
+      // on error choosen language doesn't get persisted
+    }
 
     notifyListeners();
   }

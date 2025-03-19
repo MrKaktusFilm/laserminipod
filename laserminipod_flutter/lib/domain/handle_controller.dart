@@ -42,15 +42,20 @@ class HandleController extends ChangeNotifier
       _transformationController;
 
   @override
-  void setSelectedHandleId(int? id, BuildContext context) {
-    _selectedHandleId = id;
-    Handle? handle = _handleModel.getHandleById(id!);
-    _selectedHandleDiameter = handle!.radius.toDouble();
-    _selectedHandlePosition = Offset(handle.x.toDouble(), handle.y.toDouble());
-    if (context.mounted) {
-      _navigationController.pushPage(context, AppRoute.handleManagementEdit);
+  void setSelectedHandle(int? id, BuildContext context) {
+    try {
+      _selectedHandleId = id;
+      Handle? handle = _handleModel.getHandleById(id!);
+      _selectedHandleDiameter = handle!.radius.toDouble();
+      _selectedHandlePosition =
+          Offset(handle.x.toDouble(), handle.y.toDouble());
+      if (context.mounted) {
+        _navigationController.pushPage(context, AppRoute.handleManagementEdit);
+      }
+      notifyListeners();
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(UiHelper.getAppLocalization().error, e);
     }
-    notifyListeners();
   }
 
   @override
@@ -82,7 +87,7 @@ class HandleController extends ChangeNotifier
   @override
   Future<void> saveHandle(BuildContext context) async {
     if (selectedHandlePosition == null) {
-      throw Exception('Handle position or diameter is null');
+      throw Exception('Handle position is null');
     }
     try {
       if (_selectedHandleId == null) {

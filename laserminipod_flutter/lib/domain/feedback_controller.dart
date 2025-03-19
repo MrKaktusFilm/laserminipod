@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:user_app/domain/abstract/feedback_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart';
 
 class FeedbackController extends ChangeNotifier
     implements FeedbackControllerAbstract {
@@ -14,17 +15,22 @@ class FeedbackController extends ChangeNotifier
   @override
   Future<void> submitFeedback(BuildContext context) async {
     BetterFeedback.of(context).show((UserFeedback feedback) async {
-      final screenshotFilePath =
-          await _writeImageToStorage(feedback.screenshot);
+      try {
+        final screenshotFilePath =
+            await _writeImageToStorage(feedback.screenshot);
 
-      final Email email = Email(
-        body: feedback.text,
-        subject: 'LaserApp Feedback',
-        recipients: [feedbackEmailAdress],
-        attachmentPaths: [screenshotFilePath],
-        isHTML: false,
-      );
-      await FlutterEmailSender.send(email);
+        final Email email = Email(
+          body: feedback.text,
+          subject: 'LaserApp Feedback',
+          recipients: [feedbackEmailAdress],
+          attachmentPaths: [screenshotFilePath],
+          isHTML: false,
+        );
+        await FlutterEmailSender.send(email);
+      } on Exception catch (e) {
+        var loc = UiHelper.getAppLocalization();
+        UiHelper.showErrorSnackbar(loc.feedbackError, e);
+      }
     });
   }
 

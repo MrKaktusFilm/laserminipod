@@ -95,5 +95,6 @@
     "filter": "Filter",
     "routeEmpty": "Bitte zuerst eine Route auswählen",
     "newUserName": "Neuer Benutzername",
-    "feedback": "Gib uns dein Feedback!"
+    "feedback": "Gib uns dein Feedback!",
+    "feedbackError": "Feedback konnte nicht verschickt werden"
 }

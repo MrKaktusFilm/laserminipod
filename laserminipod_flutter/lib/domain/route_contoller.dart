@@ -136,7 +136,13 @@ class RouteController extends ChangeNotifier
 
   @override
   List<SpraywallRoute> getAllRoutesFiltered() {
-    return filterController.applyFiltersAndSorting(routeModel.allRoutes);
+    try {
+      return filterController.applyFiltersAndSorting(routeModel.allRoutes);
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar(
+          UiHelper.getAppLocalization().routeLoadError, e);
+    }
+    return [];
   }
 
   @override

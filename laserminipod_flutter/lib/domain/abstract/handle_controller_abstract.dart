@@ -12,7 +12,7 @@ abstract class HandleControllerAbstract extends ChangeNotifier {
 
   void setSelectedHandleDiameter(double value);
 
-  void setSelectedHandleId(int? id, BuildContext context);
+  void setSelectedHandle(int? id, BuildContext context);
 
   void deselectHandle();
 

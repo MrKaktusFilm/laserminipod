@@ -18,7 +18,7 @@ class _SpraywallHandleOverviewButtonState
     extends State<SpraywallHandleOverviewButton> {
   void _onTap() {
     Provider.of<HandleControllerAbstract>(context, listen: false)
-        .setSelectedHandleId(widget.id, context);
+        .setSelectedHandle(widget.id, context);
   }
 
   @override
