@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
+import 'package:user_app/domain/abstract/feedback_controller_abstract.dart';
 import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
@@ -21,6 +22,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   late NavigationControllerAbstract _navigationController;
   late UserControllerAbstract _userController;
+  late FeedbackControllerAbstract _feedbackController;
 
   late List<_SettingItem> settings;
 
@@ -31,6 +33,8 @@ class _SettingsPageState extends State<SettingsPage> {
         Provider.of<NavigationControllerAbstract>(context, listen: false);
     _userController =
         Provider.of<UserControllerAbstract>(context, listen: false);
+    _feedbackController =
+        Provider.of<FeedbackControllerAbstract>(context, listen: false);
   }
 
   @override
@@ -55,6 +59,11 @@ class _SettingsPageState extends State<SettingsPage> {
           subtitle: '',
           scope: Scopes.useronly,
           onTap: () => UiHelper.showWidgetDialog(DeleteUserDialog())),
+      _SettingItem(
+          icon: Icons.feedback,
+          title: loc.feedback,
+          subtitle: '',
+          onTap: () => _feedbackController.submitFeedback(context)),
       _SettingItem(
           icon: Icons.description,
           title: loc.termsAndConditions,

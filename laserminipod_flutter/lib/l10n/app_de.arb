@@ -94,5 +94,6 @@
     "leastSents": "Am wenigsten geschaffte zuerst",
     "filter": "Filter",
     "routeEmpty": "Bitte zuerst eine Route auswählen",
-    "newUserName": "Neuer Benutzername"
+    "newUserName": "Neuer Benutzername",
+    "feedback": "Gib uns dein Feedback!"
 }

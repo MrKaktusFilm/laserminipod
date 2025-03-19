@@ -1,3 +1,4 @@
+import 'package:feedback/feedback.dart' as feedback;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
@@ -12,6 +13,7 @@ import 'package:user_app/data/handle_model.dart';
 import 'package:user_app/data/route_model.dart';
 import 'package:user_app/data/spraywall_model.dart';
 import 'package:user_app/data/user_model.dart';
+import 'package:user_app/domain/abstract/feedback_controller_abstract.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
@@ -30,6 +32,8 @@ import 'package:user_app/domain/route_contoller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'package:user_app/routes.dart';
+
+import 'domain/feedback_controller.dart';
 
 // global variables
 late Client client;
@@ -78,6 +82,7 @@ Future<void> main() async {
       navigationController: navigationController,
       imageController: imageController);
   LanguageControllerAbstract languageController = LanguageController();
+  FeedbackControllerAbstract feedbackController = FeedbackController();
   await imageController.loadImageDimensions();
 
   runApp(
@@ -99,8 +104,10 @@ Future<void> main() async {
             create: (_) => languageController),
         ChangeNotifierProvider<FilterControllerAbstract>(
             create: (_) => filterController),
+        ChangeNotifierProvider<FeedbackControllerAbstract>(
+            create: (_) => feedbackController),
       ],
-      child: const MyApp(),
+      child: feedback.BetterFeedback(child: const MyApp()),
     ),
   );
 }
