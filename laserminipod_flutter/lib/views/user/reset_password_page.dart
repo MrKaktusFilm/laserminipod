@@ -27,6 +27,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   bool _showPasswordResetUI = false;
   String? _validationCode;
   bool _isValidationCodeCompleted = false;
+  String? _sentEmail;
 
   @override
   void initState() {
@@ -46,19 +47,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // TextFormField(
-            //   maxLength: maxTextfieldInputLength,
-            //   controller: _userNameController,
-            //   decoration: InputDecoration(
-            //     labelText: loc.username, // Verwendung der Lokalisierung
-            //   ),
-            //   validator: (value) {
-            //     if (value == null || value.trim().isEmpty) {
-            //       return loc.enterUsername;
-            //     }
-            //     return null;
-            //   },
-            // ),
             SizedBox(height: 16.0),
             Form(
               key: _emailFormKey,
@@ -82,7 +70,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             ),
             ElevatedButton(
               onPressed: _sendValidationCode,
-              child: Text('Code anfordern'),
+              child: Text(loc.requestCode), // Localized text
             ),
             SizedBox(height: 64.0),
             if (_showPasswordResetUI) ...[
@@ -96,6 +84,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ),
               ),
               const SizedBox(height: 16.0),
+              Text(loc.enterValidationCode(_sentEmail!)),
               PinCodeTextField(
                 appContext: context,
                 length: 8,
@@ -104,7 +93,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _isValidationCodeCompleted ? _resetPassword : null,
-                child: Text('Passwort zurücksetzen'),
+                child: Text(loc.resetPassword), // Localized text
               ),
             ],
             if (_errorMessage != null)
@@ -149,6 +138,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       _errorMessage = errorMessage;
       if (errorMessage == null) {
         _showPasswordResetUI = true;
+        _sentEmail = _emailController.text;
+      } else {
+        _sentEmail = null;
       }
     });
   }

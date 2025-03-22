@@ -99,5 +99,9 @@
     "feedbackError": "Feedback konnte nicht verschickt werden",
     "resetPassword": "Passwort zurücksetzen",
     "resetPasswordError": "Zurücksetzen ist fehlgeschlagen",
-    "resetInvalidCode": "Der Code ist nicht gültig"
+    "resetInvalidCode": "Der Code ist nicht gültig",
+    "requestCode": "Code anfordern",
+    "emailSent": "Eine Email mit dem Rücksetz-Code wurde an",
+    "emailError": "Ein Fehler ist aufgetreten. Haben Sie Ihre Mail Adresse richtig geschrieben?",
+    "enterValidationCode": "Gib den Code ein, der an {email} geschickt wurde:"
 }

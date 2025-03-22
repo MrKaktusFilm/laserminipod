@@ -236,6 +236,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
 
   @override
   Future<String?> sendPasswordResetValidationCode(String email) async {
+    var loc = UiHelper.getAppLocalization();
     bool showErrorMessage = false;
     try {
       showErrorMessage = !(await authController.initiatePasswordReset(email));
@@ -244,11 +245,10 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     }
     if (!showErrorMessage) {
       UiHelper.showSnackbar(
-          'Eine Email mit dem Rücksetz-Code wurde an $email geschickt',
-          Colors.green);
+          '${loc.emailSent} $email', Colors.green); // Localized text
     }
     return showErrorMessage
-        ? 'Ein Fehler ist aufgetreten. Haben Sie Ihre Mail Adresse richtig geschrieben?'
+        ? loc.emailError // Localized text
         : null;
   }
 }
