@@ -38,4 +38,9 @@ abstract class UserControllerAbstract extends ChangeNotifier {
   List<UserInfo> get users;
 
   Future<void> setUserName(String newUserName);
+
+  Future<String?> resetPassword(
+      String verificationCode, String email, String newPassword);
+
+  Future<String?> sendPasswordResetValidationCode(String email);
 }

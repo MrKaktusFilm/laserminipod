@@ -96,5 +96,7 @@
     "routeEmpty": "Bitte zuerst eine Route auswählen",
     "newUserName": "Neuer Benutzername",
     "feedback": "Gib uns dein Feedback!",
-    "feedbackError": "Feedback konnte nicht verschickt werden"
+    "feedbackError": "Feedback konnte nicht verschickt werden",
+    "resetPassword": "Passwort zurücksetzen",
+    "resetPasswordError": "Zurücksetzen ist fehlgeschlagen"
 }

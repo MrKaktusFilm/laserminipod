@@ -55,6 +55,8 @@ dependencies:
   feedback: ^3.1.0
   flutter_email_sender: ^7.0.0
   path_provider: ^2.1.5
+  flutter_verification_code: ^1.1.7
+  flutter_verification_code_field: ^1.2.2
 
 dev_dependencies:
   flutter_test:

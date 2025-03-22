@@ -17,6 +17,7 @@ import 'package:user_app/views/admin/handle_management_overview_page.dart';
 import 'package:user_app/views/settings/settings_page.dart';
 import 'package:user_app/views/user/create_user_page.dart';
 import 'package:user_app/views/user/login_page.dart';
+import 'package:user_app/views/user/reset_password_page.dart';
 
 final GoRouter router = GoRouter(
   navigatorKey: navigatorKey,
@@ -77,6 +78,9 @@ final GoRouter router = GoRouter(
         path: AppRoute.register.fullPath,
         builder: (context, state) => CreateUserPage()),
     GoRoute(
+        path: AppRoute.resetPassword.fullPath,
+        builder: (context, state) => ResetPasswordPage()),
+    GoRoute(
         path: AppRoute.settings.fullPath,
         builder: (context, state) => SettingsPage()),
     AuthenticatedGoRoute(
@@ -92,6 +96,7 @@ enum AppRoute {
   handleManagementOverview,
   login,
   register,
+  resetPassword,
   settings,
   changePassword,
   myprojects,
@@ -112,6 +117,8 @@ extension AppRouteExtension on AppRoute {
         name = 'login';
       case AppRoute.register:
         name = 'login/register';
+      case AppRoute.resetPassword:
+        name = 'login/reset';
       case AppRoute.settings:
         name = 'settings';
       case AppRoute.changePassword:

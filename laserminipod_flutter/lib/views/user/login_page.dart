@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       _errorMessage = temp;
     });
 
-    if (context.mounted) {
+    if (context.mounted && temp == null) {
       Provider.of<NavigationControllerAbstract>(context, listen: false)
           .goToPage(AppRoute.home);
     }
@@ -108,6 +108,12 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: _register,
                   child: Text(loc.register), // Verwendung der Lokalisierung
                 ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: _resetPassword,
+                  child:
+                      Text(loc.resetPassword), // Verwendung der Lokalisierung
+                ),
               ],
             ),
           ),
@@ -120,5 +126,11 @@ class _LoginPageState extends State<LoginPage> {
     var navigationController =
         Provider.of<NavigationControllerAbstract>(context, listen: false);
     navigationController.pushPage(context, AppRoute.register);
+  }
+
+  void _resetPassword() {
+    var navigationController =
+        Provider.of<NavigationControllerAbstract>(context, listen: false);
+    navigationController.pushPage(context, AppRoute.resetPassword);
   }
 }

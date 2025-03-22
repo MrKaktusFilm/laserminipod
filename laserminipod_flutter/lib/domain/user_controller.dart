@@ -115,6 +115,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   @override
   Future<String?> createUser(BuildContext context, String userName,
       String email, String password) async {
+    // TODO: email is case sensitive
     var loc = UiHelper.getAppLocalization();
     try {
       await _userModel.createUser(email, userName, password);
@@ -216,5 +217,39 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     // update username in current session
     sessionManager.signedInUser!.userName = newUserName;
     notifyListeners();
+  }
+
+  @override
+  Future<String?> resetPassword(
+      String verificationCode, String email, String newPassword) async {
+    bool showErrorMessage = false;
+    try {
+      showErrorMessage = !(await authController.resetPassword(
+          email, verificationCode, newPassword));
+    } on Exception {
+      showErrorMessage = true;
+    }
+    return showErrorMessage
+        ? UiHelper.getAppLocalization().resetPasswordError
+        : null;
+  }
+
+  @override
+  Future<String?> sendPasswordResetValidationCode(String email) async {
+    // TODO: add validation
+    bool showErrorMessage = false;
+    try {
+      showErrorMessage = !(await authController.initiatePasswordReset(email));
+    } catch (e) {
+      showErrorMessage = true;
+    }
+    if (!showErrorMessage) {
+      UiHelper.showSnackbar(
+          'Eine Email mit dem Rücksetz-Code wurde an $email geschickt',
+          Colors.green);
+    }
+    return showErrorMessage
+        ? 'Ein Fehler ist aufgetreten. Haben Sie Ihre Mail Adresse richtig geschrieben?'
+        : null;
   }
 }
