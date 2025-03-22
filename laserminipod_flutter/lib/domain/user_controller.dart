@@ -222,21 +222,20 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   @override
   Future<String?> resetPassword(
       String verificationCode, String email, String newPassword) async {
-    bool showErrorMessage = false;
+    String? errorMessage;
     try {
-      showErrorMessage = !(await authController.resetPassword(
-          email, verificationCode, newPassword));
+      errorMessage = !(await authController.resetPassword(
+              email, verificationCode, newPassword))
+          ? UiHelper.getAppLocalization().resetInvalidCode
+          : null;
     } on Exception {
-      showErrorMessage = true;
+      errorMessage = UiHelper.getAppLocalization().resetPasswordError;
     }
-    return showErrorMessage
-        ? UiHelper.getAppLocalization().resetPasswordError
-        : null;
+    return errorMessage;
   }
 
   @override
   Future<String?> sendPasswordResetValidationCode(String email) async {
-    // TODO: add validation
     bool showErrorMessage = false;
     try {
       showErrorMessage = !(await authController.initiatePasswordReset(email));

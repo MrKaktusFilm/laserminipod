@@ -98,5 +98,6 @@
     "feedback": "Give your feedback!",
     "feedbackError": "Feedback could not be submitted",
     "resetPassword": "Reset password",
-    "resetPasswordError": "Reset failed"
+    "resetPasswordError": "Reset failed",
+    "resetInvalidCode": "The code is invalid"
 }

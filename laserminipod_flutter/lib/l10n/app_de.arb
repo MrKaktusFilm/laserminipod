@@ -98,5 +98,6 @@
     "feedback": "Gib uns dein Feedback!",
     "feedbackError": "Feedback konnte nicht verschickt werden",
     "resetPassword": "Passwort zurücksetzen",
-    "resetPasswordError": "Zurücksetzen ist fehlgeschlagen"
+    "resetPasswordError": "Zurücksetzen ist fehlgeschlagen",
+    "resetInvalidCode": "Der Code ist nicht gültig"
 }
