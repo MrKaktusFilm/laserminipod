@@ -1,8 +1,8 @@
 import 'package:laserminipod_server/src/di.dart';
-import 'package:laserminipod_server/src/domain/mail_service.dart';
 import 'package:laserminipod_server/src/domain/user_service.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
+import 'package:laserminipod_shared/laserminipod_shared.dart';
 
 import 'src/generated/protocol.dart';
 import 'src/generated/endpoints.dart';
@@ -12,12 +12,7 @@ void run(List<String> args) async {
   setupDependencies();
 
   auth.AuthConfig.set(auth.AuthConfig(
-    sendPasswordResetEmail: (session, userInfo, validationCode) async {
-      var mailService = getIt<MailService>();
-      bool success = await mailService.sendEmail(session, userInfo.email!,
-          'Reset', 'Der Verifikationscode: $validationCode');
-      return Future.value(success);
-    },
+    sendPasswordResetEmail: _sendPasswordResetMail,
   ));
 
   // Initialize Serverpod and connect it with your generated code.
@@ -38,4 +33,24 @@ void run(List<String> args) async {
 void init(Serverpod pod) {
   final userService = getIt<UserService>();
   userService.initialize(pod);
+}
+
+Future<bool> _sendPasswordResetMail(
+    Session session, auth.UserInfo userInfo, String validationCode) async {
+  bool success = false;
+  // TODO: internationalisieren
+  try {
+    success = await LaserMailer.sendEmail(
+        userInfo.email!, 'Reset', 'Der Verifikationscode: $validationCode');
+  } on Exception catch (e, stacktrace) {
+    session.log('Sending validation code to ${userInfo.email} failed:',
+        exception: e, stackTrace: stacktrace, level: LogLevel.error);
+  }
+  if (success) {
+    session.log('Sent validation code mail to ${userInfo.email}');
+  } else {
+    session.log('Sending validation code to ${userInfo.email} failed',
+        level: LogLevel.error);
+  }
+  return success;
 }

@@ -40,7 +40,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.register),
+        title: Text(loc.resetPassword),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
