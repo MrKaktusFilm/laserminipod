@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_verification_code/flutter_verification_code.dart';
-import 'package:flutter_verification_code_field/flutter_verification_code_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/constants.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
@@ -17,7 +16,8 @@ class ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
-  final _formKey = GlobalKey<FormState>();
+  final _emailFormKey = GlobalKey<FormState>();
+  final _passwordFormKey = GlobalKey<FormState>();
   final loc = UiHelper.getAppLocalization();
   late UserControllerAbstract _userController;
 
@@ -43,26 +43,26 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // TextFormField(
-              //   maxLength: maxTextfieldInputLength,
-              //   controller: _userNameController,
-              //   decoration: InputDecoration(
-              //     labelText: loc.username, // Verwendung der Lokalisierung
-              //   ),
-              //   validator: (value) {
-              //     if (value == null || value.trim().isEmpty) {
-              //       return loc.enterUsername;
-              //     }
-              //     return null;
-              //   },
-              // ),
-              SizedBox(height: 16.0),
-              TextFormField(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // TextFormField(
+            //   maxLength: maxTextfieldInputLength,
+            //   controller: _userNameController,
+            //   decoration: InputDecoration(
+            //     labelText: loc.username, // Verwendung der Lokalisierung
+            //   ),
+            //   validator: (value) {
+            //     if (value == null || value.trim().isEmpty) {
+            //       return loc.enterUsername;
+            //     }
+            //     return null;
+            //   },
+            // ),
+            SizedBox(height: 16.0),
+            Form(
+              key: _emailFormKey,
+              child: TextFormField(
                 maxLength: maxEmailLength,
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -79,59 +79,66 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   return null;
                 },
               ),
-              ElevatedButton(
-                onPressed: _sendValidationCode,
-                child: Text('Code anfordern'),
-              ),
-              SizedBox(height: 64.0),
-              if (_showPasswordResetUI) ...[
-                PasswordTextField(
+            ),
+            ElevatedButton(
+              onPressed: _sendValidationCode,
+              child: Text('Code anfordern'),
+            ),
+            SizedBox(height: 64.0),
+            if (_showPasswordResetUI) ...[
+              Form(
+                key: _passwordFormKey,
+                child: PasswordTextField(
                   controller: _passwordController,
                   labelText: loc.enterNewPassword,
                   validator: (value) =>
                       _userController.validatePasswordRequirements(value),
                 ),
-                const SizedBox(height: 16.0),
-                // VerificationCodeField(length: 8),
-                // VerificationCode(
-                //     itemSize: 40,
-                //     keyboardType: TextInputType.text,
-                //     length: 8,
-                //     onCompleted: _onCompleted,
-                //     onEditing: _onEditing),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: _isValidationCodeCompleted ? _resetPassword : null,
-                  child: Text('Passwort zurücksetzen'),
-                ),
-              ],
-              if (_errorMessage != null)
-                Text(
-                  _errorMessage!,
-                  style: const TextStyle(color: Colors.red),
-                ),
+              ),
+              const SizedBox(height: 16.0),
+              PinCodeTextField(
+                appContext: context,
+                length: 8,
+                onChanged: _onChange,
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _isValidationCodeCompleted ? _resetPassword : null,
+                child: Text('Passwort zurücksetzen'),
+              ),
             ],
-          ),
+            if (_errorMessage != null)
+              Text(
+                _errorMessage!,
+                style: const TextStyle(color: Colors.red),
+              ),
+          ],
         ),
       ),
     );
   }
 
   Future<void> _resetPassword() async {
-    if (_formKey.currentState!.validate()) {
-      String? errorMessage = await _userController.resetPassword(
-          '', _emailController.text, _passwordController.text);
-      setState(() {
-        _errorMessage = errorMessage;
-      });
-      if (errorMessage == null && context.mounted) {
-        Provider.of<NavigationControllerAbstract>(context, listen: false)
-            .goToPage(AppRoute.login);
-      }
+    if (!_passwordFormKey.currentState!.validate()) {
+      return;
+    }
+
+    String? errorMessage = await _userController.resetPassword(
+        _validationCode!, _emailController.text, _passwordController.text);
+    setState(() {
+      _errorMessage = errorMessage;
+    });
+    if (errorMessage == null && context.mounted) {
+      Provider.of<NavigationControllerAbstract>(context, listen: false)
+          .goToPage(AppRoute.login);
     }
   }
 
   Future<void> _sendValidationCode() async {
+    if (!_emailFormKey.currentState!.validate()) {
+      return;
+    }
+
     setState(() {
       _errorMessage = null;
       _showPasswordResetUI = false;
@@ -146,16 +153,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     });
   }
 
-  void _onCompleted(String value) {
+  void _onChange(String input) {
     setState(() {
-      _isValidationCodeCompleted = true;
-      _validationCode = value;
-    });
-  }
-
-  void _onEditing(bool value) {
-    setState(() {
-      _isValidationCodeCompleted = false;
+      if (input.length == 8) {
+        _isValidationCodeCompleted = true;
+      } else {
+        _isValidationCodeCompleted = false;
+      }
+      _validationCode = input;
     });
   }
 }
