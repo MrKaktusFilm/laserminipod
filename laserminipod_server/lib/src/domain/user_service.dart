@@ -34,6 +34,7 @@ class UserService {
       String userName, String password, List<String> scopes) async {
     auth.UserInfo? userInfo;
     try {
+      email = email.toLowerCase();
       var existingMail = await _userRepository.getUserByEmail(session, email);
       if (existingMail != null) {
         throw CreateUserException(
