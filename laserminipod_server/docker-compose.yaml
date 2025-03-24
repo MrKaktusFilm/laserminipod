@@ -15,6 +15,9 @@ services:
     profiles:
       - '' # Default profile
       - dev
+    networks:
+      - my_network
+
   redis:
     image: redis:6.2.6
     ports:
@@ -25,6 +28,8 @@ services:
     profiles:
       - '' # Default profile
       - dev
+    networks:
+      - my_network
 
   # Test services
   postgres_test:
@@ -40,6 +45,9 @@ services:
     profiles:
       - '' # Default profile
       - test
+    networks:
+      - my_network
+
   redis_test:
     image: redis:6.2.6
     ports:
@@ -50,6 +58,8 @@ services:
     profiles:
       - '' # Default profile
       - test
+    networks:
+      - my_network
 
 volumes:
   laserminipod_data:
