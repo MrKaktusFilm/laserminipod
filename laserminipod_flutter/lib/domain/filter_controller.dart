@@ -76,8 +76,6 @@ class FilterController extends ChangeNotifier
         return (route) => route.difficulty >= value;
       case FilterName.maxDifficulty:
         return (route) => route.difficulty <= value;
-      default:
-        throw UnimplementedError('Filter not implemented for $name');
     }
   }
 
@@ -104,8 +102,6 @@ class FilterController extends ChangeNotifier
         return (a, b) => _sentCount(b).compareTo(_sentCount(a));
       case SortationName.leastSents:
         return (a, b) => _sentCount(a).compareTo(_sentCount(b));
-      default:
-        throw UnimplementedError('Sortation not implemented for $sortation');
     }
   }
 
