@@ -57,7 +57,7 @@ dependencies:
 
   laserminipod_shared:
     path: ../laserminipod_shared
-
+  country_flags: ^3.2.0
 
 dev_dependencies:
   flutter_test:

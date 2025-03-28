@@ -1,3 +1,4 @@
+import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/language_controller_abstract.dart';
@@ -20,7 +21,18 @@ class LanguageDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: supportedLanguages.map((language) {
           return RadioListTile<Locale>(
-            title: Text(language.nativeDisplayLanguage),
+            title: Row(
+              children: [
+                CountryFlag.fromLanguageCode(
+                  language.languageCode,
+                  shape: const RoundedRectangle(6),
+                  height: 20,
+                  width: 30,
+                ),
+                SizedBox(width: 10),
+                Text(language.nativeDisplayLanguage),
+              ],
+            ),
             value: language,
             groupValue: selectedLanguage,
             onChanged: (value) {
