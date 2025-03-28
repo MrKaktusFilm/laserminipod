@@ -103,5 +103,9 @@
     "emailSent": "An email with the reset code has been sent to",
     "requestCode": "Request Code",
     "emailError": "An error occurred. Did you enter your email address correctly?",
-    "enterValidationCode": "Enter the code sent to {email}:"
+    "enterValidationCode": "Enter the code sent to {email}:",
+    "draw": "Draw",
+    "submit": "Submit",
+    "navigate": "Navigate",
+    "feedbackDescription": "What's wrong?"
 }

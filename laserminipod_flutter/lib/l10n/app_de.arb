@@ -103,5 +103,9 @@
     "requestCode": "Code anfordern",
     "emailSent": "Eine Email mit dem Rücksetz-Code wurde an",
     "emailError": "Ein Fehler ist aufgetreten. Haben Sie Ihre Mail Adresse richtig geschrieben?",
-    "enterValidationCode": "Gib den Code ein, der an {email} geschickt wurde:"
+    "enterValidationCode": "Gib den Code ein, der an {email} geschickt wurde:",
+    "draw": "Zeichnen",
+    "submit": "Abschicken",
+    "navigate": "Navigieren",
+    "feedbackDescription": "Was können wir besser machen?"
 }

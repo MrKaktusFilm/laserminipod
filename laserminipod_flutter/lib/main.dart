@@ -23,6 +23,7 @@ import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/domain/feedback/costum_feedback_localizations_delegate.dart';
 import 'package:user_app/domain/filter_controller.dart';
 import 'package:user_app/domain/user_controller.dart';
 import 'package:user_app/domain/handle_controller.dart';
@@ -34,7 +35,7 @@ import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'package:user_app/routes.dart';
 
-import 'domain/feedback_controller.dart';
+import 'domain/feedback/feedback_controller.dart';
 
 // global variables
 late Client client;
@@ -43,9 +44,9 @@ EmailAuthController authController = EmailAuthController(client.modules.auth);
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-// final String serverURL = "http://192.168.178.152:8080/";   server on laptop
-final String serverURL =
-    "http://laserprojekt.ddns.net:7148/"; // server on raspberry
+final String serverURL = "http://192.168.178.152:8080/"; // server on laptop
+// final String serverURL =
+// "http://laserprojekt.ddns.net:7148/"; // server on raspberry
 
 Future<void> main() async {
   client = Client(
@@ -115,9 +116,9 @@ Future<void> main() async {
           GlobalMaterialLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
-          feedback.GlobalFeedbackLocalizationsDelegate()
+          CostumFeedbackLocalizationsDelegate(),
         ],
-        localeOverride: languageController.currentLanguage,
+        localeOverride: Locale('en'),
         child: const MyApp(),
       ),
     ),

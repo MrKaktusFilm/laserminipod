@@ -33,4 +33,12 @@ class UiHelper {
     final context = navigatorKey.currentState?.overlay?.context;
     return AppLocalizations.of(context!)!;
   }
+
+  static AppLocalizations? getAppLocalizationNullSafe() {
+    final context = navigatorKey.currentState?.overlay?.context;
+    if (context == null) {
+      return null;
+    }
+    return AppLocalizations.of(context);
+  }
 }
