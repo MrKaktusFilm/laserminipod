@@ -41,3 +41,15 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Android related
+**/android/**/gradle-wrapper.jar
+.gradle/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/**/GeneratedPluginRegistrant.java
+**/android/key.properties
+*.jks
+local.properties
+**/.cxx/

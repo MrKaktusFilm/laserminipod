@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
+import 'package:user_app/constants.dart';
 import 'package:user_app/domain/abstract/feedback_controller_abstract.dart';
 import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
@@ -129,6 +130,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       onTap: item.onTap);
                 },
               ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text(versionNumber),
             ),
           ],
         ),
