@@ -1,5 +1,4 @@
 import 'package:feedback/feedback.dart' as feedback;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
@@ -33,6 +32,7 @@ import 'package:user_app/domain/navigation_controller.dart';
 import 'package:user_app/domain/route_contoller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
+import 'package:user_app/generated/i18n/app_localizations.dart';
 import 'package:user_app/routes.dart';
 
 import 'domain/feedback/feedback_controller.dart';

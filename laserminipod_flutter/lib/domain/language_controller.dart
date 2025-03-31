@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/domain/abstract/language_controller_abstract.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:user_app/generated/i18n/app_localizations.dart';
 
 class LanguageController extends ChangeNotifier
     implements LanguageControllerAbstract {
