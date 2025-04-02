@@ -1,3 +1,4 @@
+import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 
 abstract class UserModelAbstract {
@@ -14,4 +15,6 @@ abstract class UserModelAbstract {
   Future<List<UserInfo>> getAllUsers();
 
   Future<void> setUserName(int userId, String newUserName);
+
+  void initialize(Client client);
 }

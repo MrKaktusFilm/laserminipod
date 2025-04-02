@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/client_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
@@ -10,6 +11,7 @@ import 'package:user_app/views/routelist/all_routes_tab.dart';
 import 'package:user_app/views/routelist/my_projects_tab.dart';
 import 'package:user_app/views/routelist/my_routes_tab.dart';
 import 'package:user_app/views/routelist/routelist_page.dart';
+import 'package:user_app/views/server_selection_page.dart';
 import 'package:user_app/views/spraywall/spraywall_page.dart';
 import 'package:user_app/views/user/change_password_page.dart';
 import 'package:user_app/views/admin/handle_management_edit_page.dart';
@@ -21,7 +23,7 @@ import 'package:user_app/views/user/reset_password_page.dart';
 
 final GoRouter router = GoRouter(
   navigatorKey: navigatorKey,
-  initialLocation: AppRoute.home.fullPath,
+  initialLocation: AppRoute.serverSelection.fullPath,
   routes: [
     ShellRoute(
       builder: (context, state, child) => HomePage(child: child),
@@ -86,10 +88,14 @@ final GoRouter router = GoRouter(
     AuthenticatedGoRoute(
         path: AppRoute.changePassword.fullPath,
         builder: (context, state) => ChangePasswordPage()),
+    GoRoute(
+        path: AppRoute.serverSelection.fullPath,
+        builder: (context, state) => ServerSelectionPage()),
   ],
 );
 
 enum AppRoute {
+  serverSelection,
   home,
   administration,
   handleManagementEdit,
@@ -135,6 +141,8 @@ extension AppRouteExtension on AppRoute {
         name = 'administration';
       case AppRoute.allroutesGuest:
         name = 'allroutesGuest';
+      case AppRoute.serverSelection:
+        name = '';
     }
     return name;
   }
@@ -151,6 +159,10 @@ class AuthenticatedGoRoute extends GoRoute {
       String? redirect})
       : super(
           redirect: (context, state) {
+            var clientController =
+                Provider.of<ClientControllerAbstract>(context, listen: false);
+            var sessionManager = clientController.sessionManager;
+
             redirect ??= AppRoute.login.fullPath;
             if (!sessionManager.isSignedIn) {
               UiHelper.showSnackbar(

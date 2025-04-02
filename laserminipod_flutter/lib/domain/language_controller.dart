@@ -7,14 +7,10 @@ import 'package:user_app/generated/i18n/app_localizations.dart';
 class LanguageController extends ChangeNotifier
     implements LanguageControllerAbstract {
   static const String _languageKey = 'selected_language';
-  late Locale _currentLanguage;
+  late Locale _currentLanguage = Locale('en');
 
-  LanguageController() {
-    // Initialize with saved language or system default
-    _initLanguage();
-  }
-
-  Future<void> _initLanguage() async {
+  @override
+  Future<void> initLanguage() async {
     final prefs = await SharedPreferences.getInstance();
     final savedLanguageCode = prefs.getString(_languageKey);
 

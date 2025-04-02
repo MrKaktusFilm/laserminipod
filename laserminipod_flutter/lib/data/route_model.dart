@@ -1,14 +1,12 @@
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 
-import 'package:user_app/main.dart';
-
 class RouteModel extends RouteModelAbstract {
   var _routes = <SpraywallRoute>[];
   var _sents = <RouteUserSents>[];
   List<int> _likes = [];
   int idIndex = 0;
-  var routeEndpoint = client.route;
+  late EndpointRoute routeEndpoint;
 
   @override
   Future<void> deleteRoute(int id) async {
@@ -164,5 +162,10 @@ class RouteModel extends RouteModelAbstract {
       likeCounts.update(like.routeId, (value) => value + 1, ifAbsent: () => 1);
     }
     return likeCounts;
+  }
+
+  @override
+  void initialize(Client client) {
+    routeEndpoint = client.route;
   }
 }

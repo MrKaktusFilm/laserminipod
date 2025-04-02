@@ -4,7 +4,6 @@ import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
-import 'package:user_app/main.dart';
 
 class FilterController extends ChangeNotifier
     implements FilterControllerAbstract {
@@ -66,7 +65,8 @@ class FilterController extends ChangeNotifier
           return (route) => false;
         }
         return (route) =>
-            _routeModel.isSent(route.id!, sessionManager.signedInUser!.id!) ==
+            _routeModel.isSent(
+                route.id!, _userController.getSignedInUserId()!) ==
             value;
       case FilterName.routeName:
         return (route) => route.name.contains(value);

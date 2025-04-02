@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:serverpod_auth_client/serverpod_auth_client.dart';
+import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
+import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
 abstract class UserControllerAbstract extends ChangeNotifier {
   bool isSignedIn();
@@ -43,4 +45,7 @@ abstract class UserControllerAbstract extends ChangeNotifier {
       String verificationCode, String email, String newPassword);
 
   Future<String?> sendPasswordResetValidationCode(String email);
+
+  void initialize(
+      EmailAuthController authController, SessionManager sessionManager);
 }

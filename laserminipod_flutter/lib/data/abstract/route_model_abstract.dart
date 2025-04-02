@@ -38,4 +38,6 @@ abstract class RouteModelAbstract {
   List<int> getLikesForLoggedInUser();
 
   Future<void> toggleLikeForUser(int routeId, int userId);
+
+  void initialize(Client client);
 }

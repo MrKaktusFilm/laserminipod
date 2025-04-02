@@ -10,4 +10,6 @@ abstract class HandleModelAbstract {
   Future<void> removeHandle(int id);
 
   Handle? getHandleById(int id);
+
+  void initialize(Client client);
 }

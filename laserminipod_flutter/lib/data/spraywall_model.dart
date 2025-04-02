@@ -1,19 +1,26 @@
+import 'package:laserminipod_client/src/protocol/client.dart';
 import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
-import 'package:user_app/main.dart';
 
 class SpraywallModel implements SpraywallModelAbstract {
+  late EndpointSpraywall _spraywallEndpoint;
+
   @override
   Future<void> toggleHandle(int id, int state) async {
-    await client.spraywall.toggleHandle(id, state);
+    await _spraywallEndpoint.toggleHandle(id, state);
   }
 
   @override
   Future<void> clearCurrentRoute() async {
-    await client.spraywall.clearCurrentRoute();
+    await _spraywallEndpoint.clearCurrentRoute();
   }
 
   @override
   Future<void> uploadRoute(Map<int, int> route) async {
-    await client.spraywall.loadRoute(route);
+    await _spraywallEndpoint.loadRoute(route);
+  }
+
+  @override
+  void initialize(Client client) {
+    _spraywallEndpoint = client.spraywall;
   }
 }

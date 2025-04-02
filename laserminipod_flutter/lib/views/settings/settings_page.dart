@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:user_app/constants.dart';
+import 'package:user_app/domain/abstract/client_controller_abstract.dart';
 import 'package:user_app/domain/abstract/feedback_controller_abstract.dart';
 import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
-import 'package:user_app/main.dart';
 import 'package:user_app/routes.dart';
 import 'package:user_app/views/dialogs/change_username_dialog.dart';
 import 'package:user_app/views/dialogs/delete_user_dialog.dart';
@@ -97,8 +97,12 @@ class _SettingsPageState extends State<SettingsPage> {
             if (_userController.isSignedIn())
               Consumer<UserControllerAbstract>(
                   builder: (context, userController, child) {
+                var clientController = Provider.of<ClientControllerAbstract>(
+                    context,
+                    listen: false);
                 return ListTile(
-                  leading: UserImageButton(sessionManager: sessionManager),
+                  leading: UserImageButton(
+                      sessionManager: clientController.sessionManager),
                   title: Row(
                     children: [
                       Text(userController.getSignedInUserName()!),

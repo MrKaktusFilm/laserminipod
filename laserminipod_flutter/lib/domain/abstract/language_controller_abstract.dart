@@ -6,4 +6,6 @@ abstract class LanguageControllerAbstract extends ChangeNotifier {
   Locale get currentLanguage;
 
   void setLanguage(Locale language);
+
+  Future<void> initLanguage();
 }

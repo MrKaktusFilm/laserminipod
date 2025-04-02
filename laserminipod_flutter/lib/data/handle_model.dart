@@ -1,14 +1,10 @@
+import 'package:laserminipod_client/src/protocol/client.dart';
 import 'package:laserminipod_client/src/protocol/handle.dart';
 import 'package:user_app/data/abstract/handle_model_abstract.dart';
-import 'package:user_app/main.dart';
 
 class HandleModel extends HandleModelAbstract {
-  var handleEndpoint = client.handle;
+  late EndpointHandle handleEndpoint;
   List<Handle>? _handleCache;
-
-  HandleModel() {
-    _refresh();
-  }
 
   Future<void> _refresh() async {
     try {
@@ -71,5 +67,10 @@ class HandleModel extends HandleModelAbstract {
       return null;
     }
     return _handleCache?.firstWhere((handle) => handle.id == id);
+  }
+
+  @override
+  void initialize(Client client) {
+    handleEndpoint = client.handle;
   }
 }

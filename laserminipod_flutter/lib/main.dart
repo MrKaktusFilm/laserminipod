@@ -1,10 +1,7 @@
 import 'package:feedback/feedback.dart' as feedback;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:provider/provider.dart';
-import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
-import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:user_app/data/abstract/handle_model_abstract.dart';
 import 'package:user_app/data/abstract/route_model_abstract.dart';
 import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
@@ -13,8 +10,10 @@ import 'package:user_app/data/handle_model.dart';
 import 'package:user_app/data/route_model.dart';
 import 'package:user_app/data/spraywall_model.dart';
 import 'package:user_app/data/user_model.dart';
+import 'package:user_app/domain/abstract/client_controller_abstract.dart';
 import 'package:user_app/domain/abstract/feedback_controller_abstract.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
+import 'package:user_app/domain/abstract/server_config_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
@@ -22,8 +21,10 @@ import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
+import 'package:user_app/domain/client_controller.dart';
 import 'package:user_app/domain/feedback/costum_feedback_localizations_delegate.dart';
 import 'package:user_app/domain/filter_controller.dart';
+import 'package:user_app/domain/server_config_controller.dart';
 import 'package:user_app/domain/user_controller.dart';
 import 'package:user_app/domain/handle_controller.dart';
 import 'package:user_app/domain/image_controller.dart';
@@ -31,16 +32,12 @@ import 'package:user_app/domain/language_controller.dart';
 import 'package:user_app/domain/navigation_controller.dart';
 import 'package:user_app/domain/route_contoller.dart';
 import 'package:user_app/domain/spraywall_controller.dart';
-import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'package:user_app/generated/i18n/app_localizations.dart';
 import 'package:user_app/routes.dart';
 
 import 'domain/feedback/feedback_controller.dart';
 
 // global variables
-late Client client;
-late SessionManager sessionManager;
-EmailAuthController authController = EmailAuthController(client.modules.auth);
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -49,15 +46,6 @@ final String serverURL = "http://192.168.178.152:8080/"; // server on laptop
 // "http://laserprojekt.ddns.net:7148/"; // server on raspberry
 
 Future<void> main() async {
-  client = Client(
-    serverURL,
-    // 'http://10.0.2.2:8080/',
-    authenticationKeyManager: FlutterAuthenticationKeyManager(),
-  )..connectivityMonitor = FlutterConnectivityMonitor();
-
-  sessionManager = SessionManager(caller: client.modules.auth);
-  await sessionManager.initialize();
-
   // data models
   HandleModelAbstract handleModel = HandleModel();
   RouteModelAbstract routeModel = RouteModel();
@@ -65,6 +53,8 @@ Future<void> main() async {
   SpraywallModelAbstract spraywallModel = SpraywallModel();
 
   // controller
+  ServerConfigControllerAbstract serverConfigController =
+      ServerConfigController();
   NavigationControllerAbstract navigationController = NavigationController();
   SprayWallControllerAbstract spraywallController = SpraywallController(
       handleModel: handleModel,
@@ -72,6 +62,14 @@ Future<void> main() async {
       spraywallModel: spraywallModel);
   UserControllerAbstract userController = UserController(
       navigationController: navigationController, userModel: userModel);
+  ImageControllerAbstract imageController = ImageController();
+  ClientControllerAbstract clientController = ClientController(
+      handleModel: handleModel,
+      routeModel: routeModel,
+      userModel: userModel,
+      spraywallModel: spraywallModel,
+      userController: userController,
+      imageController: imageController);
   FilterControllerAbstract filterController =
       FilterController(routeModel, userController);
   RouteControllerAbstract routeController = RouteController(
@@ -80,18 +78,21 @@ Future<void> main() async {
       userController: userController,
       navigationController: navigationController,
       filterController: filterController);
-  ImageControllerAbstract imageController = ImageController();
   HandleControllerAbstract handleController = HandleController(
       handleModel: handleModel,
       navigationController: navigationController,
       imageController: imageController);
   LanguageControllerAbstract languageController = LanguageController();
   FeedbackControllerAbstract feedbackController = FeedbackController();
-  await imageController.loadImageDimensions();
+  // await imageController.loadImageDimensions();
 
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider<ServerConfigControllerAbstract>(
+            create: (_) => serverConfigController),
+        ChangeNotifierProvider<ClientControllerAbstract>(
+            create: (_) => clientController),
         ChangeNotifierProvider<NavigationControllerAbstract>(
             create: (_) => navigationController),
         ChangeNotifierProvider<SprayWallControllerAbstract>(

@@ -1,9 +1,9 @@
+import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:serverpod_auth_client/src/protocol/user_info.dart';
 import 'package:user_app/data/abstract/user_model_abstract.dart';
-import 'package:user_app/main.dart';
 
 class UserModel implements UserModelAbstract {
-  var userEndpoint = client.user;
+  late EndpointUser userEndpoint;
 
   @override
   Future<void> changePassword(String email, String newPassword) async {
@@ -39,5 +39,10 @@ class UserModel implements UserModelAbstract {
   @override
   Future<void> setUserName(int userId, String newUserName) async {
     await userEndpoint.setUserName(userId, newUserName);
+  }
+
+  @override
+  void initialize(Client client) {
+    userEndpoint = client.user;
   }
 }
