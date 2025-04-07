@@ -72,7 +72,7 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
       if (context.mounted) {
         var navigationController =
             Provider.of<NavigationControllerAbstract>(context, listen: false);
-        navigationController.pushPage(context, AppRoute.home);
+        navigationController.goToPage(AppRoute.home);
       }
     } on Exception catch (e) {
       UiHelper.showErrorSnackbar("Verbindung fehlgeschlagen", e);

@@ -748,6 +748,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What\'s wrong?'**
   String get feedbackDescription;
+
+  /// No description provided for @switchBoulder.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch Boulder'**
+  String get switchBoulder;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

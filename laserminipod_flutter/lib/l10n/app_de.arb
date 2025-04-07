@@ -107,5 +107,6 @@
     "draw": "Zeichnen",
     "submit": "Abschicken",
     "navigate": "Navigieren",
-    "feedbackDescription": "Was können wir besser machen?"
+    "feedbackDescription": "Was können wir besser machen?",
+    "switchBoulder": "Boulder wechseln"
 }

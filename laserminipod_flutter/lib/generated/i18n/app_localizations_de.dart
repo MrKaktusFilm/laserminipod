@@ -336,4 +336,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get feedbackDescription => 'Was können wir besser machen?';
+
+  @override
+  String get switchBoulder => 'Boulder wechseln';
 }

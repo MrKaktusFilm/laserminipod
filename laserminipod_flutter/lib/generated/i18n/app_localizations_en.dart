@@ -336,4 +336,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedbackDescription => 'What\'s wrong?';
+
+  @override
+  String get switchBoulder => 'Switch Boulder';
 }

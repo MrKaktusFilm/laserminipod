@@ -12,7 +12,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final adminController =
+    final userController =
         Provider.of<UserControllerAbstract>(context, listen: false);
     final navigationController =
         Provider.of<NavigationControllerAbstract>(context, listen: false);
@@ -25,21 +25,28 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(Icons.person),
           itemBuilder: (BuildContext context) {
             return [
-              if (!adminController.isSignedIn())
+              if (!userController.isSignedIn())
                 PopupMenuItem(
                   child: Text(loc.login),
                   onTap: () =>
                       navigationController.pushPage(context, AppRoute.login),
                 ),
-              if (adminController.isSignedIn())
+              if (userController.isSignedIn())
                 PopupMenuItem(
-                  onTap: adminController.logOut,
+                  onTap: userController.logOut,
                   child: Text(loc.logout),
                 ),
               PopupMenuItem(
                 onTap: () =>
                     navigationController.pushPage(context, AppRoute.settings),
                 child: Text(loc.settingsTitle),
+              ),
+              PopupMenuItem(
+                onTap: () {
+                  navigationController.setPageIndex(context, 0);
+                  navigationController.goToPage(AppRoute.serverSelection);
+                },
+                child: Text(loc.switchBoulder),
               ),
             ];
           },

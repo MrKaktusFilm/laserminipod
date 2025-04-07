@@ -107,5 +107,6 @@
     "draw": "Draw",
     "submit": "Submit",
     "navigate": "Navigate",
-    "feedbackDescription": "What's wrong?"
+    "feedbackDescription": "What's wrong?",
+    "switchBoulder": "Switch Boulder"
 }
