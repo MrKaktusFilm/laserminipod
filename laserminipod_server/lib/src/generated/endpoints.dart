@@ -11,11 +11,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/handle_endpoint.dart' as _i2;
-import '../endpoints/route_endpoint.dart' as _i3;
-import '../endpoints/spraywall_endpoint.dart' as _i4;
-import '../endpoints/user_endpoint.dart' as _i5;
-import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i6;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i7;
+import '../endpoints/health_endpoint.dart' as _i3;
+import '../endpoints/route_endpoint.dart' as _i4;
+import '../endpoints/spraywall_endpoint.dart' as _i5;
+import '../endpoints/user_endpoint.dart' as _i6;
+import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i7;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i8;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -27,19 +28,25 @@ class Endpoints extends _i1.EndpointDispatch {
           'handle',
           null,
         ),
-      'route': _i3.RouteEndpoint()
+      'health': _i3.HealthEndpoint()
+        ..initialize(
+          server,
+          'health',
+          null,
+        ),
+      'route': _i4.RouteEndpoint()
         ..initialize(
           server,
           'route',
           null,
         ),
-      'spraywall': _i4.SpraywallEndpoint()
+      'spraywall': _i5.SpraywallEndpoint()
         ..initialize(
           server,
           'spraywall',
           null,
         ),
-      'user': _i5.UserEndpoint()
+      'user': _i6.UserEndpoint()
         ..initialize(
           server,
           'user',
@@ -146,6 +153,22 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['health'] = _i1.EndpointConnector(
+      name: 'health',
+      endpoint: endpoints['health']!,
+      methodConnectors: {
+        'isConnectionSuccessful': _i1.MethodConnector(
+          name: 'isConnectionSuccessful',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['health'] as _i3.HealthEndpoint)
+                  .isConnectionSuccessful(session),
+        )
+      },
+    );
     connectors['route'] = _i1.EndpointConnector(
       name: 'route',
       endpoint: endpoints['route']!,
@@ -163,7 +186,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).deleteRoute(
+              (endpoints['route'] as _i4.RouteEndpoint).deleteRoute(
             session,
             params['id'],
           ),
@@ -173,7 +196,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'route': _i1.ParameterDescription(
               name: 'route',
-              type: _i1.getType<_i6.SpraywallRoute>(),
+              type: _i1.getType<_i7.SpraywallRoute>(),
               nullable: false,
             )
           },
@@ -181,7 +204,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).saveRoute(
+              (endpoints['route'] as _i4.RouteEndpoint).saveRoute(
             session,
             params['route'],
           ),
@@ -193,7 +216,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).getNewId(session),
+              (endpoints['route'] as _i4.RouteEndpoint).getNewId(session),
         ),
         'loadAllRoutes': _i1.MethodConnector(
           name: 'loadAllRoutes',
@@ -202,7 +225,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).loadAllRoutes(session),
+              (endpoints['route'] as _i4.RouteEndpoint).loadAllRoutes(session),
         ),
         'existsRouteAlready': _i1.MethodConnector(
           name: 'existsRouteAlready',
@@ -217,7 +240,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).existsRouteAlready(
+              (endpoints['route'] as _i4.RouteEndpoint).existsRouteAlready(
             session,
             params['route'],
           ),
@@ -235,7 +258,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).nameAlreadyAssigned(
+              (endpoints['route'] as _i4.RouteEndpoint).nameAlreadyAssigned(
             session,
             params['name'],
           ),
@@ -253,7 +276,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).getHandleStatesForRoute(
+              (endpoints['route'] as _i4.RouteEndpoint).getHandleStatesForRoute(
             session,
             params['routeId'],
           ),
@@ -271,7 +294,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).loadProjects(
+              (endpoints['route'] as _i4.RouteEndpoint).loadProjects(
             session,
             params['userId'],
           ),
@@ -283,7 +306,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).loadSents(session),
+              (endpoints['route'] as _i4.RouteEndpoint).loadSents(session),
         ),
         'addProjectForUser': _i1.MethodConnector(
           name: 'addProjectForUser',
@@ -303,7 +326,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).addProjectForUser(
+              (endpoints['route'] as _i4.RouteEndpoint).addProjectForUser(
             session,
             params['routeId'],
             params['userId'],
@@ -327,7 +350,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).deleteProjectForUser(
+              (endpoints['route'] as _i4.RouteEndpoint).deleteProjectForUser(
             session,
             params['routeId'],
             params['userId'],
@@ -351,7 +374,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).addSentForUser(
+              (endpoints['route'] as _i4.RouteEndpoint).addSentForUser(
             session,
             params['routeId'],
             params['userId'],
@@ -375,7 +398,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).deleteSentForUser(
+              (endpoints['route'] as _i4.RouteEndpoint).deleteSentForUser(
             session,
             params['routeId'],
             params['userId'],
@@ -394,7 +417,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).getLikesForUser(
+              (endpoints['route'] as _i4.RouteEndpoint).getLikesForUser(
             session,
             params['userId'],
           ),
@@ -406,7 +429,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).getAllLikes(session),
+              (endpoints['route'] as _i4.RouteEndpoint).getAllLikes(session),
         ),
         'toggleLikeForUser': _i1.MethodConnector(
           name: 'toggleLikeForUser',
@@ -426,7 +449,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['route'] as _i3.RouteEndpoint).toggleLikeForUser(
+              (endpoints['route'] as _i4.RouteEndpoint).toggleLikeForUser(
             session,
             params['routeId'],
             params['userId'],
@@ -456,7 +479,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['spraywall'] as _i4.SpraywallEndpoint).toggleHandle(
+              (endpoints['spraywall'] as _i5.SpraywallEndpoint).toggleHandle(
             session,
             params['id'],
             params['state'],
@@ -469,7 +492,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['spraywall'] as _i4.SpraywallEndpoint)
+              (endpoints['spraywall'] as _i5.SpraywallEndpoint)
                   .clearCurrentRoute(session),
         ),
         'loadRoute': _i1.MethodConnector(
@@ -485,7 +508,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['spraywall'] as _i4.SpraywallEndpoint).loadRoute(
+              (endpoints['spraywall'] as _i5.SpraywallEndpoint).loadRoute(
             session,
             params['route'],
           ),
@@ -514,7 +537,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i5.UserEndpoint).changePassword(
+              (endpoints['user'] as _i6.UserEndpoint).changePassword(
             session,
             params['email'],
             params['newPassword'],
@@ -538,7 +561,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i5.UserEndpoint).checkPassword(
+              (endpoints['user'] as _i6.UserEndpoint).checkPassword(
             session,
             params['email'],
             params['password'],
@@ -567,7 +590,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i5.UserEndpoint).createUser(
+              (endpoints['user'] as _i6.UserEndpoint).createUser(
             session,
             params['email'],
             params['userName'],
@@ -587,7 +610,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i5.UserEndpoint).deleteUser(
+              (endpoints['user'] as _i6.UserEndpoint).deleteUser(
             session,
             params['email'],
           ),
@@ -605,7 +628,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i5.UserEndpoint).getUserById(
+              (endpoints['user'] as _i6.UserEndpoint).getUserById(
             session,
             params['id'],
           ),
@@ -617,7 +640,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i5.UserEndpoint).getAllUsers(session),
+              (endpoints['user'] as _i6.UserEndpoint).getAllUsers(session),
         ),
         'setUserName': _i1.MethodConnector(
           name: 'setUserName',
@@ -637,7 +660,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i5.UserEndpoint).setUserName(
+              (endpoints['user'] as _i6.UserEndpoint).setUserName(
             session,
             params['userId'],
             params['newUserName'],
@@ -645,6 +668,6 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth'] = _i7.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i8.Endpoints()..initializeEndpoints(server);
   }
 }

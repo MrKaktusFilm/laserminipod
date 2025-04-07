@@ -41,6 +41,9 @@ abstract class RouteLikes implements _i1.SerializableModel {
 
   int userId;
 
+  /// Returns a shallow copy of this [RouteLikes]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   RouteLikes copyWith({
     int? id,
     int? routeId,
@@ -74,6 +77,9 @@ class _RouteLikesImpl extends RouteLikes {
           userId: userId,
         );
 
+  /// Returns a shallow copy of this [RouteLikes]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   RouteLikes copyWith({
     Object? id = _Undefined,

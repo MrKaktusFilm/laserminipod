@@ -84,7 +84,6 @@ Future<void> main() async {
       imageController: imageController);
   LanguageControllerAbstract languageController = LanguageController();
   FeedbackControllerAbstract feedbackController = FeedbackController();
-  // await imageController.loadImageDimensions();
 
   runApp(
     MultiProvider(

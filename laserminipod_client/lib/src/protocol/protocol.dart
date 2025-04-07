@@ -92,37 +92,36 @@ class Protocol extends _i1.SerializationManager {
           ? (data as List)
               .map((e) => deserialize<_i4.RouteHandleState>(e))
               .toList()
-          : null) as dynamic;
+          : null) as T;
     }
     if (t == List<_i9.Handle>) {
       return (data as List).map((e) => deserialize<_i9.Handle>(e)).toList()
-          as dynamic;
+          as T;
     }
     if (t == List<_i10.SpraywallRoute>) {
       return (data as List)
           .map((e) => deserialize<_i10.SpraywallRoute>(e))
-          .toList() as dynamic;
+          .toList() as T;
     }
     if (t == Map<int, int>) {
       return Map.fromEntries((data as List).map((e) =>
-              MapEntry(deserialize<int>(e['k']), deserialize<int>(e['v']))))
-          as dynamic;
+          MapEntry(deserialize<int>(e['k']), deserialize<int>(e['v'])))) as T;
     }
     if (t == List<int>) {
-      return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
+      return (data as List).map((e) => deserialize<int>(e)).toList() as T;
     }
     if (t == List<_i11.RouteUserSents>) {
       return (data as List)
           .map((e) => deserialize<_i11.RouteUserSents>(e))
-          .toList() as dynamic;
+          .toList() as T;
     }
     if (t == List<_i12.RouteLikes>) {
       return (data as List).map((e) => deserialize<_i12.RouteLikes>(e)).toList()
-          as dynamic;
+          as T;
     }
     if (t == List<_i13.UserInfo>) {
       return (data as List).map((e) => deserialize<_i13.UserInfo>(e)).toList()
-          as dynamic;
+          as T;
     }
     try {
       return _i13.Protocol().deserialize<T>(data, t);

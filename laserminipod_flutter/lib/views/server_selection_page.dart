@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/client_controller_abstract.dart';
 import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
+import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/routes.dart';
 
@@ -38,8 +39,23 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
               decoration: InputDecoration(labelText: 'Server-URL eingeben'),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-                onPressed: _contect, child: Text('Speichern & Fortfahren'))
+            Consumer<ClientControllerAbstract>(
+              builder: (context, clientController, child) {
+                return ElevatedButton(
+                    onPressed: clientController.isLoading ? null : _contect,
+                    child: Text('Speichern & Fortfahren'));
+              },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Consumer<ClientControllerAbstract>(
+              builder: (context, clientController, child) {
+                return clientController.isLoading
+                    ? CircularProgressIndicator()
+                    : SizedBox.shrink();
+              },
+            ),
           ],
         ),
       ),
@@ -47,13 +63,19 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
   }
 
   Future<void> _contect() async {
-    var clientController =
-        Provider.of<ClientControllerAbstract>(context, listen: false);
-    // TODO: error handling
-    await clientController.initializeClient(_urlTextController.text);
-
-    var navigationController =
-        Provider.of<NavigationControllerAbstract>(context, listen: false);
-    navigationController.pushPage(context, AppRoute.home);
+    try {
+      var clientController =
+          Provider.of<ClientControllerAbstract>(context, listen: false);
+      await clientController.initializeClient(
+        _urlTextController.text,
+      );
+      if (context.mounted) {
+        var navigationController =
+            Provider.of<NavigationControllerAbstract>(context, listen: false);
+        navigationController.pushPage(context, AppRoute.home);
+      }
+    } on Exception catch (e) {
+      UiHelper.showErrorSnackbar("Verbindung fehlgeschlagen", e);
+    }
   }
 }

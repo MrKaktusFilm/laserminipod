@@ -3,6 +3,8 @@ handle:
   - addHandle:
   - editHandle:
   - removeHandle:
+health:
+  - isConnectionSuccessful:
 route:
   - deleteRoute:
   - saveRoute:

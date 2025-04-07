@@ -66,6 +66,9 @@ abstract class SpraywallRoute implements _i1.SerializableModel {
 
   List<_i2.RouteHandleState>? routeHandleStates;
 
+  /// Returns a shallow copy of this [SpraywallRoute]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   SpraywallRoute copyWith({
     int? id,
     String? name,
@@ -117,6 +120,9 @@ class _SpraywallRouteImpl extends SpraywallRoute {
           routeHandleStates: routeHandleStates,
         );
 
+  /// Returns a shallow copy of this [SpraywallRoute]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   SpraywallRoute copyWith({
     Object? id = _Undefined,

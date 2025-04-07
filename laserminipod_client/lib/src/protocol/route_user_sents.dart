@@ -41,6 +41,9 @@ abstract class RouteUserSents implements _i1.SerializableModel {
 
   int userId;
 
+  /// Returns a shallow copy of this [RouteUserSents]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   RouteUserSents copyWith({
     int? id,
     int? routeId,
@@ -74,6 +77,9 @@ class _RouteUserSentsImpl extends RouteUserSents {
           userId: userId,
         );
 
+  /// Returns a shallow copy of this [RouteUserSents]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   RouteUserSents copyWith({
     Object? id = _Undefined,

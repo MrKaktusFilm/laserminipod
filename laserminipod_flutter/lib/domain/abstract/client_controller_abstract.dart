@@ -7,6 +7,7 @@ abstract class ClientControllerAbstract extends ChangeNotifier {
   Client get client;
   SessionManager get sessionManager;
   EmailAuthController get authController;
+  bool get isLoading;
 
   Future<void> initializeClient(String serverUrl);
 

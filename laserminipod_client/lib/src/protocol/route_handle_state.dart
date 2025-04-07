@@ -46,6 +46,9 @@ abstract class RouteHandleState implements _i1.SerializableModel {
 
   int state;
 
+  /// Returns a shallow copy of this [RouteHandleState]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   RouteHandleState copyWith({
     int? id,
     int? routeId,
@@ -83,6 +86,9 @@ class _RouteHandleStateImpl extends RouteHandleState {
           state: state,
         );
 
+  /// Returns a shallow copy of this [RouteHandleState]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   RouteHandleState copyWith({
     Object? id = _Undefined,

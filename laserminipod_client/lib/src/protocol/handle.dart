@@ -46,6 +46,9 @@ abstract class Handle implements _i1.SerializableModel {
 
   int radius;
 
+  /// Returns a shallow copy of this [Handle]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   Handle copyWith({
     int? id,
     int? x,
@@ -83,6 +86,9 @@ class _HandleImpl extends Handle {
           radius: radius,
         );
 
+  /// Returns a shallow copy of this [Handle]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   Handle copyWith({
     Object? id = _Undefined,

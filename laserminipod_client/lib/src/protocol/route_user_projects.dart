@@ -41,6 +41,9 @@ abstract class RouteUserProjects implements _i1.SerializableModel {
 
   int userId;
 
+  /// Returns a shallow copy of this [RouteUserProjects]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   RouteUserProjects copyWith({
     int? id,
     int? routeId,
@@ -74,6 +77,9 @@ class _RouteUserProjectsImpl extends RouteUserProjects {
           userId: userId,
         );
 
+  /// Returns a shallow copy of this [RouteUserProjects]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   RouteUserProjects copyWith({
     Object? id = _Undefined,

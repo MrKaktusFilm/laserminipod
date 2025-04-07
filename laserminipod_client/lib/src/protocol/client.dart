@@ -73,6 +73,20 @@ class EndpointHandle extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointHealth extends _i1.EndpointRef {
+  EndpointHealth(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'health';
+
+  _i2.Future<bool> isConnectionSuccessful() => caller.callServerEndpoint<bool>(
+        'health',
+        'isConnectionSuccessful',
+        {},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointRoute extends _i1.EndpointRef {
   EndpointRoute(_i1.EndpointCaller caller) : super(caller);
 
@@ -371,6 +385,7 @@ class Client extends _i1.ServerpodClientShared {
               disconnectStreamsOnLostInternetConnection,
         ) {
     handle = EndpointHandle(this);
+    health = EndpointHealth(this);
     route = EndpointRoute(this);
     spraywall = EndpointSpraywall(this);
     user = EndpointUser(this);
@@ -378,6 +393,8 @@ class Client extends _i1.ServerpodClientShared {
   }
 
   late final EndpointHandle handle;
+
+  late final EndpointHealth health;
 
   late final EndpointRoute route;
 
@@ -390,6 +407,7 @@ class Client extends _i1.ServerpodClientShared {
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'handle': handle,
+        'health': health,
         'route': route,
         'spraywall': spraywall,
         'user': user,

@@ -11,7 +11,8 @@ import 'package:user_app/domain/abstract/client_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 
-class ClientController with ChangeNotifier implements ClientControllerAbstract {
+class ClientController extends ChangeNotifier
+    implements ClientControllerAbstract {
   final HandleModelAbstract handleModel;
   final UserModelAbstract userModel;
   final SpraywallModelAbstract spraywallModel;
@@ -22,6 +23,7 @@ class ClientController with ChangeNotifier implements ClientControllerAbstract {
   late Client _client;
   late SessionManager _sessionManager;
   late EmailAuthController _authController;
+  bool _isLoading = false;
 
   ClientController(
       {required this.imageController,
@@ -37,18 +39,28 @@ class ClientController with ChangeNotifier implements ClientControllerAbstract {
   SessionManager get sessionManager => _sessionManager;
   @override
   EmailAuthController get authController => _authController;
+  @override
+  bool get isLoading => _isLoading;
 
   @override
   Future<void> initializeClient(String serverUrl) async {
-    _client = Client(
-      serverUrl,
-      authenticationKeyManager: FlutterAuthenticationKeyManager(),
-    )..connectivityMonitor = FlutterConnectivityMonitor();
+    _isLoading = true;
+    notifyListeners();
+    try {
+      _client = Client(serverUrl,
+          authenticationKeyManager: FlutterAuthenticationKeyManager())
+        ..connectivityMonitor = FlutterConnectivityMonitor();
 
-    _sessionManager = SessionManager(caller: _client.modules.auth);
-    _authController = EmailAuthController(client.modules.auth);
+      await _client.health.isConnectionSuccessful();
 
-    await _initializeComponents(client);
+      _sessionManager = SessionManager(caller: _client.modules.auth);
+      _authController = EmailAuthController(client.modules.auth);
+
+      await _initializeComponents(client);
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   @override
