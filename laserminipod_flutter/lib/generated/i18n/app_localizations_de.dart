@@ -102,9 +102,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get administrationTitle => 'Verwaltung';
 
   @override
-  String get appTitle => 'LaserApp mit sehr viel Nice';
-
-  @override
   String get logoutError => 'Beim Abmelden ist ein Fehler aufgetreten';
 
   @override
@@ -339,4 +336,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get switchBoulder => 'Boulder wechseln';
+
+  @override
+  String get spraywallName => 'Name der Spraywall';
+
+  @override
+  String get enterName => 'Bitte geben Sie einen Namen ein';
+
+  @override
+  String get changeSpraywallName => 'Name der Spraywall ändern';
+
+  @override
+  String get changeSpraywallNameSubtitle => 'Der Name Ihrer Spraywall, den die Benutzer sehen werden';
 }

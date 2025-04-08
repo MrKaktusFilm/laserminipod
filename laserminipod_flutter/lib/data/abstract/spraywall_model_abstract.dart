@@ -8,4 +8,8 @@ abstract class SpraywallModelAbstract {
   Future<void> uploadRoute(Map<int, int> route);
 
   void initialize(Client client);
+
+  Future<void> setSpraywallName(String name);
+
+  Future<String?> getSpraywallName();
 }

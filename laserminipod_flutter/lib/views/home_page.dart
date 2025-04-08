@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     final loc = UiHelper.getAppLocalization();
 
     return Scaffold(
-      appBar: HomeAppBar(title: loc.appTitle),
+      appBar: HomeAppBar(),
       bottomNavigationBar:
           Consumer2<UserControllerAbstract, NavigationControllerAbstract>(
         builder: (context, adminController, navigationController, child) {

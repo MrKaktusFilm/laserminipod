@@ -1,10 +1,11 @@
 import 'package:laserminipod_server/src/di.dart';
+import 'package:laserminipod_server/src/domain/spraywall_name_service.dart';
 import 'package:laserminipod_server/src/domain/user_service.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
 import 'package:laserminipod_shared/laserminipod_shared.dart';
 
-import 'src/generated/protocol.dart';
+import 'src/generated/protocol.dart' as protocol;
 import 'src/generated/endpoints.dart';
 
 // This is the starting point of your Serverpod server.
@@ -18,7 +19,7 @@ void run(List<String> args) async {
   // Initialize Serverpod and connect it with your generated code.
   final pod = Serverpod(
     args,
-    Protocol(),
+    protocol.Protocol(),
     Endpoints(),
     authenticationHandler: auth.authenticationHandler,
   );
@@ -27,12 +28,23 @@ void run(List<String> args) async {
   await pod.start();
 
   // Initialize the user service.
-  init(pod);
+  _init(pod);
 }
 
-void init(Serverpod pod) {
+Future<void> _init(Serverpod pod) async {
   final userService = getIt<UserService>();
-  userService.initialize(pod);
+  await userService.initialize(pod);
+  await _setDefaultSpraywallName(pod);
+}
+
+Future<void> _setDefaultSpraywallName(Serverpod pod) async {
+  var session = await pod.createSession();
+
+  final spraywallNameService = getIt<SpraywallNameService>();
+  final name = await spraywallNameService.getSpraywallName(session);
+  if (name == null) {
+    await spraywallNameService.setSpraywallName(session, 'Laser Mini Pod');
+  }
 }
 
 Future<bool> _sendPasswordResetMail(

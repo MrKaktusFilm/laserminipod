@@ -111,6 +111,8 @@ class TestEndpoints {
 
   late final _SpraywallEndpoint spraywall;
 
+  late final _SpraywallNameEndpoint spraywallName;
+
   late final _UserEndpoint user;
 }
 
@@ -134,6 +136,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     spraywall = _SpraywallEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    spraywallName = _SpraywallNameEndpoint(
       endpoints,
       serializationManager,
     );
@@ -893,6 +899,73 @@ class _SpraywallEndpoint {
           endpointPath: 'spraywall',
           methodName: 'loadRoute',
           parameters: _i1.testObjectToJson({'route': route}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _SpraywallNameEndpoint {
+  _SpraywallNameEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<String?> getSpraywallName(
+      _i1.TestSessionBuilder sessionBuilder) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'spraywallName',
+        method: 'getSpraywallName',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'spraywallName',
+          methodName: 'getSpraywallName',
+          parameters: _i1.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<String?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<void> setSpraywallName(
+    _i1.TestSessionBuilder sessionBuilder,
+    String name,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'spraywallName',
+        method: 'setSpraywallName',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'spraywallName',
+          methodName: 'setSpraywallName',
+          parameters: _i1.testObjectToJson({'name': name}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(

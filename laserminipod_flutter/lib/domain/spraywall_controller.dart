@@ -76,4 +76,16 @@ class SpraywallController extends ChangeNotifier
   @override
   SpraywallTransformationController get transformationController =>
       _transformationController;
+
+  @override
+  Future<String?> getSpraywallName() async {
+    String? name = await spraywallModel.getSpraywallName();
+    return name;
+  }
+
+  @override
+  Future<void> setSpraywallName(String name) async {
+    await spraywallModel.setSpraywallName(name);
+    notifyListeners();
+  }
 }

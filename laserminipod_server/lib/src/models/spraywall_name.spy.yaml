@@ -1,0 +1,4 @@
+class: SpraywallName
+table: spraywall_name
+fields:
+  name: String

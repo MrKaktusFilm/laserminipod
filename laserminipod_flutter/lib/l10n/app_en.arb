@@ -30,7 +30,6 @@
     "spraywallTitle": "Spraywall",
     "routeListTitle": "Routes",
     "administrationTitle": "Administration",
-    "appTitle": "LaserApp with very much nice",
     "logoutError": "An error occured while logging out",
     "invalidLogin": "Invalid login credentials",
     "loginFailed": "An error occured while logging in",
@@ -108,5 +107,9 @@
     "submit": "Submit",
     "navigate": "Navigate",
     "feedbackDescription": "What's wrong?",
-    "switchBoulder": "Switch Boulder"
+    "switchBoulder": "Switch Boulder",
+    "spraywallName": "Name of the spraywall",
+    "enterName": "Please enter a name",
+    "changeSpraywallName": "Change name of the spraywall",
+    "changeSpraywallNameSubtitle": "The name of your spraywall, which the users will see"
 }

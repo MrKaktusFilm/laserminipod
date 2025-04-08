@@ -102,9 +102,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get administrationTitle => 'Administration';
 
   @override
-  String get appTitle => 'LaserApp with very much nice';
-
-  @override
   String get logoutError => 'An error occured while logging out';
 
   @override
@@ -339,4 +336,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get switchBoulder => 'Switch Boulder';
+
+  @override
+  String get spraywallName => 'Name of the spraywall';
+
+  @override
+  String get enterName => 'Please enter a name';
+
+  @override
+  String get changeSpraywallName => 'Change name of the spraywall';
+
+  @override
+  String get changeSpraywallNameSubtitle => 'The name of your spraywall, which the users will see';
 }

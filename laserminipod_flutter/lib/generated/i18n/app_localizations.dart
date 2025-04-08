@@ -281,12 +281,6 @@ abstract class AppLocalizations {
   /// **'Administration'**
   String get administrationTitle;
 
-  /// No description provided for @appTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'LaserApp with very much nice'**
-  String get appTitle;
-
   /// No description provided for @logoutError.
   ///
   /// In en, this message translates to:
@@ -754,6 +748,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Switch Boulder'**
   String get switchBoulder;
+
+  /// No description provided for @spraywallName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name of the spraywall'**
+  String get spraywallName;
+
+  /// No description provided for @enterName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a name'**
+  String get enterName;
+
+  /// No description provided for @changeSpraywallName.
+  ///
+  /// In en, this message translates to:
+  /// **'Change name of the spraywall'**
+  String get changeSpraywallName;
+
+  /// No description provided for @changeSpraywallNameSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The name of your spraywall, which the users will see'**
+  String get changeSpraywallNameSubtitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

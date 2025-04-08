@@ -26,6 +26,9 @@ spraywall:
   - toggleHandle:
   - clearCurrentRoute:
   - loadRoute:
+spraywallName:
+  - getSpraywallName:
+  - setSpraywallName:
 user:
   - changePassword:
   - checkPassword:

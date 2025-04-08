@@ -16,4 +16,8 @@ abstract class SprayWallControllerAbstract extends ChangeNotifier {
 
   /// transformation controller for the home screen
   SpraywallTransformationController get transformationController;
+
+  Future<void> setSpraywallName(String name);
+
+  Future<String?> getSpraywallName();
 }

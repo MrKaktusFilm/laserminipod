@@ -30,7 +30,6 @@
     "spraywallTitle": "Spraywall",
     "routeListTitle": "Routen",
     "administrationTitle": "Verwaltung",
-    "appTitle": "LaserApp mit sehr viel Nice",
     "logoutError": "Beim Abmelden ist ein Fehler aufgetreten",
     "invalidLogin": "Ungültige Anmeldedaten",
     "loginFailed": "Beim Anmelden ist ein Fehler aufgetreten",
@@ -108,5 +107,9 @@
     "submit": "Abschicken",
     "navigate": "Navigieren",
     "feedbackDescription": "Was können wir besser machen?",
-    "switchBoulder": "Boulder wechseln"
+    "switchBoulder": "Boulder wechseln",
+    "spraywallName": "Name der Spraywall",
+    "enterName": "Bitte geben Sie einen Namen ein",
+    "changeSpraywallName": "Name der Spraywall ändern",
+    "changeSpraywallNameSubtitle": "Der Name Ihrer Spraywall, den die Benutzer sehen werden"
 }

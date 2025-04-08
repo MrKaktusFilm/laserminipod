@@ -16,18 +16,20 @@ import 'route_handle_state.dart' as _i4;
 import 'route_likes.dart' as _i5;
 import 'route_user_projects.dart' as _i6;
 import 'route_user_sents.dart' as _i7;
-import 'spraywall_route.dart' as _i8;
-import 'package:laserminipod_client/src/protocol/handle.dart' as _i9;
-import 'package:laserminipod_client/src/protocol/spraywall_route.dart' as _i10;
-import 'package:laserminipod_client/src/protocol/route_user_sents.dart' as _i11;
-import 'package:laserminipod_client/src/protocol/route_likes.dart' as _i12;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i13;
+import 'spraywall_name.dart' as _i8;
+import 'spraywall_route.dart' as _i9;
+import 'package:laserminipod_client/src/protocol/handle.dart' as _i10;
+import 'package:laserminipod_client/src/protocol/spraywall_route.dart' as _i11;
+import 'package:laserminipod_client/src/protocol/route_user_sents.dart' as _i12;
+import 'package:laserminipod_client/src/protocol/route_likes.dart' as _i13;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i14;
 export 'exceptions/create_user_exception.dart';
 export 'handle.dart';
 export 'route_handle_state.dart';
 export 'route_likes.dart';
 export 'route_user_projects.dart';
 export 'route_user_sents.dart';
+export 'spraywall_name.dart';
 export 'spraywall_route.dart';
 export 'client.dart';
 
@@ -62,8 +64,11 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i7.RouteUserSents) {
       return _i7.RouteUserSents.fromJson(data) as T;
     }
-    if (t == _i8.SpraywallRoute) {
-      return _i8.SpraywallRoute.fromJson(data) as T;
+    if (t == _i8.SpraywallName) {
+      return _i8.SpraywallName.fromJson(data) as T;
+    }
+    if (t == _i9.SpraywallRoute) {
+      return _i9.SpraywallRoute.fromJson(data) as T;
     }
     if (t == _i1.getType<_i2.CreateUserException?>()) {
       return (data != null ? _i2.CreateUserException.fromJson(data) : null)
@@ -84,8 +89,11 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i7.RouteUserSents?>()) {
       return (data != null ? _i7.RouteUserSents.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i8.SpraywallRoute?>()) {
-      return (data != null ? _i8.SpraywallRoute.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i8.SpraywallName?>()) {
+      return (data != null ? _i8.SpraywallName.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i9.SpraywallRoute?>()) {
+      return (data != null ? _i9.SpraywallRoute.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<List<_i4.RouteHandleState>?>()) {
       return (data != null
@@ -94,13 +102,13 @@ class Protocol extends _i1.SerializationManager {
               .toList()
           : null) as T;
     }
-    if (t == List<_i9.Handle>) {
-      return (data as List).map((e) => deserialize<_i9.Handle>(e)).toList()
+    if (t == List<_i10.Handle>) {
+      return (data as List).map((e) => deserialize<_i10.Handle>(e)).toList()
           as T;
     }
-    if (t == List<_i10.SpraywallRoute>) {
+    if (t == List<_i11.SpraywallRoute>) {
       return (data as List)
-          .map((e) => deserialize<_i10.SpraywallRoute>(e))
+          .map((e) => deserialize<_i11.SpraywallRoute>(e))
           .toList() as T;
     }
     if (t == Map<int, int>) {
@@ -110,21 +118,21 @@ class Protocol extends _i1.SerializationManager {
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as T;
     }
-    if (t == List<_i11.RouteUserSents>) {
+    if (t == List<_i12.RouteUserSents>) {
       return (data as List)
-          .map((e) => deserialize<_i11.RouteUserSents>(e))
+          .map((e) => deserialize<_i12.RouteUserSents>(e))
           .toList() as T;
     }
-    if (t == List<_i12.RouteLikes>) {
-      return (data as List).map((e) => deserialize<_i12.RouteLikes>(e)).toList()
+    if (t == List<_i13.RouteLikes>) {
+      return (data as List).map((e) => deserialize<_i13.RouteLikes>(e)).toList()
           as T;
     }
-    if (t == List<_i13.UserInfo>) {
-      return (data as List).map((e) => deserialize<_i13.UserInfo>(e)).toList()
+    if (t == List<_i14.UserInfo>) {
+      return (data as List).map((e) => deserialize<_i14.UserInfo>(e)).toList()
           as T;
     }
     try {
-      return _i13.Protocol().deserialize<T>(data, t);
+      return _i14.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -151,10 +159,13 @@ class Protocol extends _i1.SerializationManager {
     if (data is _i7.RouteUserSents) {
       return 'RouteUserSents';
     }
-    if (data is _i8.SpraywallRoute) {
+    if (data is _i8.SpraywallName) {
+      return 'SpraywallName';
+    }
+    if (data is _i9.SpraywallRoute) {
       return 'SpraywallRoute';
     }
-    className = _i13.Protocol().getClassNameForObject(data);
+    className = _i14.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -185,12 +196,15 @@ class Protocol extends _i1.SerializationManager {
     if (dataClassName == 'RouteUserSents') {
       return deserialize<_i7.RouteUserSents>(data['data']);
     }
+    if (dataClassName == 'SpraywallName') {
+      return deserialize<_i8.SpraywallName>(data['data']);
+    }
     if (dataClassName == 'SpraywallRoute') {
-      return deserialize<_i8.SpraywallRoute>(data['data']);
+      return deserialize<_i9.SpraywallRoute>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth.')) {
       data['className'] = dataClassName.substring(15);
-      return _i13.Protocol().deserializeByClassName(data);
+      return _i14.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }

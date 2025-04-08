@@ -269,6 +269,27 @@ class EndpointSpraywall extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointSpraywallName extends _i1.EndpointRef {
+  EndpointSpraywallName(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'spraywallName';
+
+  _i2.Future<String?> getSpraywallName() => caller.callServerEndpoint<String?>(
+        'spraywallName',
+        'getSpraywallName',
+        {},
+      );
+
+  _i2.Future<void> setSpraywallName(String name) =>
+      caller.callServerEndpoint<void>(
+        'spraywallName',
+        'setSpraywallName',
+        {'name': name},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointUser extends _i1.EndpointRef {
   EndpointUser(_i1.EndpointCaller caller) : super(caller);
 
@@ -388,6 +409,7 @@ class Client extends _i1.ServerpodClientShared {
     health = EndpointHealth(this);
     route = EndpointRoute(this);
     spraywall = EndpointSpraywall(this);
+    spraywallName = EndpointSpraywallName(this);
     user = EndpointUser(this);
     modules = Modules(this);
   }
@@ -400,6 +422,8 @@ class Client extends _i1.ServerpodClientShared {
 
   late final EndpointSpraywall spraywall;
 
+  late final EndpointSpraywallName spraywallName;
+
   late final EndpointUser user;
 
   late final Modules modules;
@@ -410,6 +434,7 @@ class Client extends _i1.ServerpodClientShared {
         'health': health,
         'route': route,
         'spraywall': spraywall,
+        'spraywallName': spraywallName,
         'user': user,
       };
 

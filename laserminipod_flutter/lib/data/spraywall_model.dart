@@ -3,6 +3,7 @@ import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
 
 class SpraywallModel implements SpraywallModelAbstract {
   late EndpointSpraywall _spraywallEndpoint;
+  late EndpointSpraywallName _spraywallNameEndpoint;
 
   @override
   Future<void> toggleHandle(int id, int state) async {
@@ -22,5 +23,16 @@ class SpraywallModel implements SpraywallModelAbstract {
   @override
   void initialize(Client client) {
     _spraywallEndpoint = client.spraywall;
+    _spraywallNameEndpoint = client.spraywallName;
+  }
+
+  @override
+  Future<String?> getSpraywallName() async {
+    return await _spraywallNameEndpoint.getSpraywallName();
+  }
+
+  @override
+  Future<void> setSpraywallName(String name) async {
+    await _spraywallNameEndpoint.setSpraywallName(name);
   }
 }

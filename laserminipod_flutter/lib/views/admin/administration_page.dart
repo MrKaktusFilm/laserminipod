@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/routes.dart';
+import 'package:user_app/views/dialogs/change_spraywall_name_dialog.dart';
 
 class AdministrationPage extends StatefulWidget {
   const AdministrationPage({super.key});
@@ -23,11 +24,16 @@ class _AdministrationPageState extends State<AdministrationPage> {
         Provider.of<NavigationControllerAbstract>(context, listen: false);
     settings = [
       _SettingItem(
-          icon: Icons.edit,
+          icon: Icons.back_hand,
           title: UiHelper.getAppLocalization().holdManagementOptionTitle,
           subtitle: UiHelper.getAppLocalization().holdManagementOptionSubtitle,
           onTap: () => _navigationController.pushPage(
               context, AppRoute.handleManagementOverview)),
+      _SettingItem(
+          icon: Icons.edit,
+          title: UiHelper.getAppLocalization().changeSpraywallName,
+          subtitle: UiHelper.getAppLocalization().changeSpraywallNameSubtitle,
+          onTap: () => UiHelper.showWidgetDialog(ChangeSpraywallNameDialog())),
     ];
   }
 

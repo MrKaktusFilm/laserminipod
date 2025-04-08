@@ -14,9 +14,10 @@ import '../endpoints/handle_endpoint.dart' as _i2;
 import '../endpoints/health_endpoint.dart' as _i3;
 import '../endpoints/route_endpoint.dart' as _i4;
 import '../endpoints/spraywall_endpoint.dart' as _i5;
-import '../endpoints/user_endpoint.dart' as _i6;
-import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i7;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i8;
+import '../endpoints/spraywall_name_endpoint.dart' as _i6;
+import '../endpoints/user_endpoint.dart' as _i7;
+import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i8;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i9;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -46,7 +47,13 @@ class Endpoints extends _i1.EndpointDispatch {
           'spraywall',
           null,
         ),
-      'user': _i6.UserEndpoint()
+      'spraywallName': _i6.SpraywallNameEndpoint()
+        ..initialize(
+          server,
+          'spraywallName',
+          null,
+        ),
+      'user': _i7.UserEndpoint()
         ..initialize(
           server,
           'user',
@@ -196,7 +203,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'route': _i1.ParameterDescription(
               name: 'route',
-              type: _i1.getType<_i7.SpraywallRoute>(),
+              type: _i1.getType<_i8.SpraywallRoute>(),
               nullable: false,
             )
           },
@@ -515,6 +522,41 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['spraywallName'] = _i1.EndpointConnector(
+      name: 'spraywallName',
+      endpoint: endpoints['spraywallName']!,
+      methodConnectors: {
+        'getSpraywallName': _i1.MethodConnector(
+          name: 'getSpraywallName',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['spraywallName'] as _i6.SpraywallNameEndpoint)
+                  .getSpraywallName(session),
+        ),
+        'setSpraywallName': _i1.MethodConnector(
+          name: 'setSpraywallName',
+          params: {
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['spraywallName'] as _i6.SpraywallNameEndpoint)
+                  .setSpraywallName(
+            session,
+            params['name'],
+          ),
+        ),
+      },
+    );
     connectors['user'] = _i1.EndpointConnector(
       name: 'user',
       endpoint: endpoints['user']!,
@@ -537,7 +579,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i6.UserEndpoint).changePassword(
+              (endpoints['user'] as _i7.UserEndpoint).changePassword(
             session,
             params['email'],
             params['newPassword'],
@@ -561,7 +603,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i6.UserEndpoint).checkPassword(
+              (endpoints['user'] as _i7.UserEndpoint).checkPassword(
             session,
             params['email'],
             params['password'],
@@ -590,7 +632,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i6.UserEndpoint).createUser(
+              (endpoints['user'] as _i7.UserEndpoint).createUser(
             session,
             params['email'],
             params['userName'],
@@ -610,7 +652,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i6.UserEndpoint).deleteUser(
+              (endpoints['user'] as _i7.UserEndpoint).deleteUser(
             session,
             params['email'],
           ),
@@ -628,7 +670,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i6.UserEndpoint).getUserById(
+              (endpoints['user'] as _i7.UserEndpoint).getUserById(
             session,
             params['id'],
           ),
@@ -640,7 +682,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i6.UserEndpoint).getAllUsers(session),
+              (endpoints['user'] as _i7.UserEndpoint).getAllUsers(session),
         ),
         'setUserName': _i1.MethodConnector(
           name: 'setUserName',
@@ -660,7 +702,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i6.UserEndpoint).setUserName(
+              (endpoints['user'] as _i7.UserEndpoint).setUserName(
             session,
             params['userId'],
             params['newUserName'],
@@ -668,6 +710,6 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth'] = _i8.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i9.Endpoints()..initializeEndpoints(server);
   }
 }

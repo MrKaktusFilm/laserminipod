@@ -18,18 +18,20 @@ import 'route_handle_state.dart' as _i6;
 import 'route_likes.dart' as _i7;
 import 'route_user_projects.dart' as _i8;
 import 'route_user_sents.dart' as _i9;
-import 'spraywall_route.dart' as _i10;
-import 'package:laserminipod_server/src/generated/handle.dart' as _i11;
-import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i12;
+import 'spraywall_name.dart' as _i10;
+import 'spraywall_route.dart' as _i11;
+import 'package:laserminipod_server/src/generated/handle.dart' as _i12;
+import 'package:laserminipod_server/src/generated/spraywall_route.dart' as _i13;
 import 'package:laserminipod_server/src/generated/route_user_sents.dart'
-    as _i13;
-import 'package:laserminipod_server/src/generated/route_likes.dart' as _i14;
+    as _i14;
+import 'package:laserminipod_server/src/generated/route_likes.dart' as _i15;
 export 'exceptions/create_user_exception.dart';
 export 'handle.dart';
 export 'route_handle_state.dart';
 export 'route_likes.dart';
 export 'route_user_projects.dart';
 export 'route_user_sents.dart';
+export 'spraywall_name.dart';
 export 'spraywall_route.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -424,6 +426,44 @@ class Protocol extends _i1.SerializationManagerServer {
       managed: true,
     ),
     _i2.TableDefinition(
+      name: 'spraywall_name',
+      dartName: 'SpraywallName',
+      schema: 'public',
+      module: 'laserminipod',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'spraywall_name_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'name',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'spraywall_name_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        )
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
       name: 'spraywallroute',
       dartName: 'SpraywallRoute',
       schema: 'public',
@@ -525,8 +565,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i9.RouteUserSents) {
       return _i9.RouteUserSents.fromJson(data) as T;
     }
-    if (t == _i10.SpraywallRoute) {
-      return _i10.SpraywallRoute.fromJson(data) as T;
+    if (t == _i10.SpraywallName) {
+      return _i10.SpraywallName.fromJson(data) as T;
+    }
+    if (t == _i11.SpraywallRoute) {
+      return _i11.SpraywallRoute.fromJson(data) as T;
     }
     if (t == _i1.getType<_i4.CreateUserException?>()) {
       return (data != null ? _i4.CreateUserException.fromJson(data) : null)
@@ -547,8 +590,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i9.RouteUserSents?>()) {
       return (data != null ? _i9.RouteUserSents.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i10.SpraywallRoute?>()) {
-      return (data != null ? _i10.SpraywallRoute.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i10.SpraywallName?>()) {
+      return (data != null ? _i10.SpraywallName.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i11.SpraywallRoute?>()) {
+      return (data != null ? _i11.SpraywallRoute.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<List<_i6.RouteHandleState>?>()) {
       return (data != null
@@ -557,13 +603,13 @@ class Protocol extends _i1.SerializationManagerServer {
               .toList()
           : null) as T;
     }
-    if (t == List<_i11.Handle>) {
-      return (data as List).map((e) => deserialize<_i11.Handle>(e)).toList()
+    if (t == List<_i12.Handle>) {
+      return (data as List).map((e) => deserialize<_i12.Handle>(e)).toList()
           as T;
     }
-    if (t == List<_i12.SpraywallRoute>) {
+    if (t == List<_i13.SpraywallRoute>) {
       return (data as List)
-          .map((e) => deserialize<_i12.SpraywallRoute>(e))
+          .map((e) => deserialize<_i13.SpraywallRoute>(e))
           .toList() as T;
     }
     if (t == Map<int, int>) {
@@ -573,13 +619,13 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as T;
     }
-    if (t == List<_i13.RouteUserSents>) {
+    if (t == List<_i14.RouteUserSents>) {
       return (data as List)
-          .map((e) => deserialize<_i13.RouteUserSents>(e))
+          .map((e) => deserialize<_i14.RouteUserSents>(e))
           .toList() as T;
     }
-    if (t == List<_i14.RouteLikes>) {
-      return (data as List).map((e) => deserialize<_i14.RouteLikes>(e)).toList()
+    if (t == List<_i15.RouteLikes>) {
+      return (data as List).map((e) => deserialize<_i15.RouteLikes>(e)).toList()
           as T;
     }
     if (t == List<_i3.UserInfo>) {
@@ -617,7 +663,10 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i9.RouteUserSents) {
       return 'RouteUserSents';
     }
-    if (data is _i10.SpraywallRoute) {
+    if (data is _i10.SpraywallName) {
+      return 'SpraywallName';
+    }
+    if (data is _i11.SpraywallRoute) {
       return 'SpraywallRoute';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -655,8 +704,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'RouteUserSents') {
       return deserialize<_i9.RouteUserSents>(data['data']);
     }
+    if (dataClassName == 'SpraywallName') {
+      return deserialize<_i10.SpraywallName>(data['data']);
+    }
     if (dataClassName == 'SpraywallRoute') {
-      return deserialize<_i10.SpraywallRoute>(data['data']);
+      return deserialize<_i11.SpraywallRoute>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -694,8 +746,10 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i8.RouteUserProjects.t;
       case _i9.RouteUserSents:
         return _i9.RouteUserSents.t;
-      case _i10.SpraywallRoute:
-        return _i10.SpraywallRoute.t;
+      case _i10.SpraywallName:
+        return _i10.SpraywallName.t;
+      case _i11.SpraywallRoute:
+        return _i11.SpraywallRoute.t;
     }
     return null;
   }
