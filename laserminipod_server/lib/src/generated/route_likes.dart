@@ -11,7 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 
-abstract class RouteLikes implements _i1.TableRow, _i1.ProtocolSerialization {
+abstract class RouteLikes
+    implements _i1.TableRow<int>, _i1.ProtocolSerialization {
   RouteLikes._({
     this.id,
     required this.routeId,
@@ -44,7 +45,7 @@ abstract class RouteLikes implements _i1.TableRow, _i1.ProtocolSerialization {
   int userId;
 
   @override
-  _i1.Table get table => t;
+  _i1.Table<int> get table => t;
 
   /// Returns a shallow copy of this [RouteLikes]
   /// with some or all fields replaced by the given arguments.
@@ -132,7 +133,7 @@ class _RouteLikesImpl extends RouteLikes {
   }
 }
 
-class RouteLikesTable extends _i1.Table {
+class RouteLikesTable extends _i1.Table<int> {
   RouteLikesTable({super.tableRelation}) : super(tableName: 'route_likes') {
     routeId = _i1.ColumnInt(
       'routeId',
@@ -163,7 +164,7 @@ class RouteLikesInclude extends _i1.IncludeObject {
   Map<String, _i1.Include?> get includes => {};
 
   @override
-  _i1.Table get table => RouteLikes.t;
+  _i1.Table<int> get table => RouteLikes.t;
 }
 
 class RouteLikesIncludeList extends _i1.IncludeList {
@@ -183,7 +184,7 @@ class RouteLikesIncludeList extends _i1.IncludeList {
   Map<String, _i1.Include?> get includes => include?.includes ?? {};
 
   @override
-  _i1.Table get table => RouteLikes.t;
+  _i1.Table<int> get table => RouteLikes.t;
 }
 
 class RouteLikesRepository {

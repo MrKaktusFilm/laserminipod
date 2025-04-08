@@ -12,7 +12,7 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 
 abstract class RouteUserSents
-    implements _i1.TableRow, _i1.ProtocolSerialization {
+    implements _i1.TableRow<int>, _i1.ProtocolSerialization {
   RouteUserSents._({
     this.id,
     required this.routeId,
@@ -45,7 +45,7 @@ abstract class RouteUserSents
   int userId;
 
   @override
-  _i1.Table get table => t;
+  _i1.Table<int> get table => t;
 
   /// Returns a shallow copy of this [RouteUserSents]
   /// with some or all fields replaced by the given arguments.
@@ -133,7 +133,7 @@ class _RouteUserSentsImpl extends RouteUserSents {
   }
 }
 
-class RouteUserSentsTable extends _i1.Table {
+class RouteUserSentsTable extends _i1.Table<int> {
   RouteUserSentsTable({super.tableRelation})
       : super(tableName: 'route_user_sents') {
     routeId = _i1.ColumnInt(
@@ -165,7 +165,7 @@ class RouteUserSentsInclude extends _i1.IncludeObject {
   Map<String, _i1.Include?> get includes => {};
 
   @override
-  _i1.Table get table => RouteUserSents.t;
+  _i1.Table<int> get table => RouteUserSents.t;
 }
 
 class RouteUserSentsIncludeList extends _i1.IncludeList {
@@ -185,7 +185,7 @@ class RouteUserSentsIncludeList extends _i1.IncludeList {
   Map<String, _i1.Include?> get includes => include?.includes ?? {};
 
   @override
-  _i1.Table get table => RouteUserSents.t;
+  _i1.Table<int> get table => RouteUserSents.t;
 }
 
 class RouteUserSentsRepository {

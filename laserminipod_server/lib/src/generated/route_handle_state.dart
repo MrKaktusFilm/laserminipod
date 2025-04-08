@@ -12,13 +12,13 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 
 abstract class RouteHandleState
-    implements _i1.TableRow, _i1.ProtocolSerialization {
+    implements _i1.TableRow<int>, _i1.ProtocolSerialization {
   RouteHandleState._({
     this.id,
     required this.routeId,
     required this.handleId,
     required this.state,
-  });
+  }) : _spraywallrouteRoutehandlestatesSpraywallrouteId = null;
 
   factory RouteHandleState({
     int? id,
@@ -28,11 +28,14 @@ abstract class RouteHandleState
   }) = _RouteHandleStateImpl;
 
   factory RouteHandleState.fromJson(Map<String, dynamic> jsonSerialization) {
-    return RouteHandleState(
+    return RouteHandleStateImplicit._(
       id: jsonSerialization['id'] as int?,
       routeId: jsonSerialization['routeId'] as int,
       handleId: jsonSerialization['handleId'] as int,
       state: jsonSerialization['state'] as int,
+      $_spraywallrouteRoutehandlestatesSpraywallrouteId:
+          jsonSerialization['_spraywallrouteRoutehandlestatesSpraywallrouteId']
+              as int?,
     );
   }
 
@@ -49,10 +52,10 @@ abstract class RouteHandleState
 
   int state;
 
-  int? _spraywallrouteRoutehandlestatesSpraywallrouteId;
+  final int? _spraywallrouteRoutehandlestatesSpraywallrouteId;
 
   @override
-  _i1.Table get table => t;
+  _i1.Table<int> get table => t;
 
   /// Returns a shallow copy of this [RouteHandleState]
   /// with some or all fields replaced by the given arguments.
@@ -141,11 +144,13 @@ class _RouteHandleStateImpl extends RouteHandleState {
     int? handleId,
     int? state,
   }) {
-    return RouteHandleState(
+    return RouteHandleStateImplicit._(
       id: id is int? ? id : this.id,
       routeId: routeId ?? this.routeId,
       handleId: handleId ?? this.handleId,
       state: state ?? this.state,
+      $_spraywallrouteRoutehandlestatesSpraywallrouteId:
+          this._spraywallrouteRoutehandlestatesSpraywallrouteId,
     );
   }
 }
@@ -156,8 +161,10 @@ class RouteHandleStateImplicit extends _RouteHandleStateImpl {
     required int routeId,
     required int handleId,
     required int state,
-    this.$_spraywallrouteRoutehandlestatesSpraywallrouteId,
-  }) : super(
+    int? $_spraywallrouteRoutehandlestatesSpraywallrouteId,
+  })  : _spraywallrouteRoutehandlestatesSpraywallrouteId =
+            $_spraywallrouteRoutehandlestatesSpraywallrouteId,
+        super(
           id: id,
           routeId: routeId,
           handleId: handleId,
@@ -178,20 +185,11 @@ class RouteHandleStateImplicit extends _RouteHandleStateImpl {
     );
   }
 
-  int? $_spraywallrouteRoutehandlestatesSpraywallrouteId;
-
   @override
-  Map<String, dynamic> toJson() {
-    var jsonMap = super.toJson();
-    jsonMap.addAll({
-      '_spraywallrouteRoutehandlestatesSpraywallrouteId':
-          $_spraywallrouteRoutehandlestatesSpraywallrouteId
-    });
-    return jsonMap;
-  }
+  final int? _spraywallrouteRoutehandlestatesSpraywallrouteId;
 }
 
-class RouteHandleStateTable extends _i1.Table {
+class RouteHandleStateTable extends _i1.Table<int> {
   RouteHandleStateTable({super.tableRelation})
       : super(tableName: 'route_handle_state') {
     routeId = _i1.ColumnInt(
@@ -228,6 +226,14 @@ class RouteHandleStateTable extends _i1.Table {
         state,
         $_spraywallrouteRoutehandlestatesSpraywallrouteId,
       ];
+
+  @override
+  List<_i1.Column> get managedColumns => [
+        id,
+        routeId,
+        handleId,
+        state,
+      ];
 }
 
 class RouteHandleStateInclude extends _i1.IncludeObject {
@@ -237,7 +243,7 @@ class RouteHandleStateInclude extends _i1.IncludeObject {
   Map<String, _i1.Include?> get includes => {};
 
   @override
-  _i1.Table get table => RouteHandleState.t;
+  _i1.Table<int> get table => RouteHandleState.t;
 }
 
 class RouteHandleStateIncludeList extends _i1.IncludeList {
@@ -257,7 +263,7 @@ class RouteHandleStateIncludeList extends _i1.IncludeList {
   Map<String, _i1.Include?> get includes => include?.includes ?? {};
 
   @override
-  _i1.Table get table => RouteHandleState.t;
+  _i1.Table<int> get table => RouteHandleState.t;
 }
 
 class RouteHandleStateRepository {

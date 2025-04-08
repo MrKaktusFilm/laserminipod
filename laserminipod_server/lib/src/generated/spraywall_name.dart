@@ -12,7 +12,7 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 
 abstract class SpraywallName
-    implements _i1.TableRow, _i1.ProtocolSerialization {
+    implements _i1.TableRow<int>, _i1.ProtocolSerialization {
   SpraywallName._({
     this.id,
     required this.name,
@@ -40,7 +40,7 @@ abstract class SpraywallName
   String name;
 
   @override
-  _i1.Table get table => t;
+  _i1.Table<int> get table => t;
 
   /// Returns a shallow copy of this [SpraywallName]
   /// with some or all fields replaced by the given arguments.
@@ -121,7 +121,7 @@ class _SpraywallNameImpl extends SpraywallName {
   }
 }
 
-class SpraywallNameTable extends _i1.Table {
+class SpraywallNameTable extends _i1.Table<int> {
   SpraywallNameTable({super.tableRelation})
       : super(tableName: 'spraywall_name') {
     name = _i1.ColumnString(
@@ -146,7 +146,7 @@ class SpraywallNameInclude extends _i1.IncludeObject {
   Map<String, _i1.Include?> get includes => {};
 
   @override
-  _i1.Table get table => SpraywallName.t;
+  _i1.Table<int> get table => SpraywallName.t;
 }
 
 class SpraywallNameIncludeList extends _i1.IncludeList {
@@ -166,7 +166,7 @@ class SpraywallNameIncludeList extends _i1.IncludeList {
   Map<String, _i1.Include?> get includes => include?.includes ?? {};
 
   @override
-  _i1.Table get table => SpraywallName.t;
+  _i1.Table<int> get table => SpraywallName.t;
 }
 
 class SpraywallNameRepository {

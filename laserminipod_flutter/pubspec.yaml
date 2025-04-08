@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  serverpod: 2.4.0
+  serverpod: 2.5.0
   laserminipod_client:
     path: ../laserminipod_client
 
@@ -38,19 +38,19 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  serverpod_flutter: 2.4.0
+  serverpod_flutter: 2.5.0
   flutter_localizations:
     sdk: flutter
   intl: any
   
-  serverpod_auth_shared_flutter: 2.4.0
-  serverpod_auth_email_flutter: 2.4.0
+  serverpod_auth_shared_flutter: 2.5.0
+  serverpod_auth_email_flutter: 2.5.0
   provider: ^6.1.2
   locale_names: ^1.1.1
   shared_preferences: ^2.5.2
   go_router: ^14.8.0
   ffi: ^2.1.3
-  serverpod_auth_client: 2.4.0
+  serverpod_auth_client: 2.5.0
   flutter_launcher_icons: ^0.14.3
   feedback: ^3.1.0
   pin_code_fields: ^8.0.1

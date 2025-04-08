@@ -11,7 +11,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 
-abstract class Handle implements _i1.TableRow, _i1.ProtocolSerialization {
+abstract class Handle implements _i1.TableRow<int>, _i1.ProtocolSerialization {
   Handle._({
     this.id,
     required this.x,
@@ -49,7 +49,7 @@ abstract class Handle implements _i1.TableRow, _i1.ProtocolSerialization {
   int radius;
 
   @override
-  _i1.Table get table => t;
+  _i1.Table<int> get table => t;
 
   /// Returns a shallow copy of this [Handle]
   /// with some or all fields replaced by the given arguments.
@@ -144,7 +144,7 @@ class _HandleImpl extends Handle {
   }
 }
 
-class HandleTable extends _i1.Table {
+class HandleTable extends _i1.Table<int> {
   HandleTable({super.tableRelation}) : super(tableName: 'handle') {
     x = _i1.ColumnInt(
       'x',
@@ -182,7 +182,7 @@ class HandleInclude extends _i1.IncludeObject {
   Map<String, _i1.Include?> get includes => {};
 
   @override
-  _i1.Table get table => Handle.t;
+  _i1.Table<int> get table => Handle.t;
 }
 
 class HandleIncludeList extends _i1.IncludeList {
@@ -202,7 +202,7 @@ class HandleIncludeList extends _i1.IncludeList {
   Map<String, _i1.Include?> get includes => include?.includes ?? {};
 
   @override
-  _i1.Table get table => Handle.t;
+  _i1.Table<int> get table => Handle.t;
 }
 
 class HandleRepository {
