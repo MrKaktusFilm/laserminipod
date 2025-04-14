@@ -2,18 +2,21 @@ import 'package:feedback/feedback.dart' as feedback;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/data/abstract/handle_model_abstract.dart';
-import 'package:user_app/data/abstract/route_model_abstract.dart';
-import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
-import 'package:user_app/data/abstract/user_model_abstract.dart';
-import 'package:user_app/data/handle_model.dart';
-import 'package:user_app/data/route_model.dart';
-import 'package:user_app/data/spraywall_model.dart';
-import 'package:user_app/data/user_model.dart';
+import 'package:user_app/data/database/server_connection_model.dart';
+import 'package:user_app/data/database/server_connection_model_abstract.dart';
+import 'package:user_app/data/network/abstract/handle_model_abstract.dart';
+import 'package:user_app/data/network/abstract/route_model_abstract.dart';
+import 'package:user_app/data/network/abstract/spraywall_model_abstract.dart';
+import 'package:user_app/data/network/abstract/user_model_abstract.dart';
+import 'package:user_app/data/network/handle_model.dart';
+import 'package:user_app/data/network/route_model.dart';
+import 'package:user_app/data/network/spraywall_model.dart';
+import 'package:user_app/data/network/user_model.dart';
 import 'package:user_app/domain/abstract/client_controller_abstract.dart';
 import 'package:user_app/domain/abstract/feedback_controller_abstract.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/server_config_controller_abstract.dart';
+import 'package:user_app/domain/abstract/server_connection_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
@@ -25,6 +28,7 @@ import 'package:user_app/domain/client_controller.dart';
 import 'package:user_app/domain/feedback/costum_feedback_localizations_delegate.dart';
 import 'package:user_app/domain/filter_controller.dart';
 import 'package:user_app/domain/server_config_controller.dart';
+import 'package:user_app/domain/server_connection_controller.dart';
 import 'package:user_app/domain/user_controller.dart';
 import 'package:user_app/domain/handle_controller.dart';
 import 'package:user_app/domain/image_controller.dart';
@@ -51,6 +55,8 @@ Future<void> main() async {
   RouteModelAbstract routeModel = RouteModel();
   UserModelAbstract userModel = UserModel();
   SpraywallModelAbstract spraywallModel = SpraywallModel();
+  ServerConnectionModelAbstract serverConnectionModel = ServerConnectionModel();
+  await serverConnectionModel.initialize();
 
   // controller
   ServerConfigControllerAbstract serverConfigController =
@@ -84,6 +90,11 @@ Future<void> main() async {
       imageController: imageController);
   LanguageControllerAbstract languageController = LanguageController();
   FeedbackControllerAbstract feedbackController = FeedbackController();
+  ServerConnectionControllerAbstract serverConnectionController =
+      ServerConnectionController(serverConnectionModel: serverConnectionModel);
+
+  AppRoute initialLocation =
+      await _getInitialLocation(serverConnectionController, clientController);
 
   runApp(
     MultiProvider(
@@ -110,6 +121,8 @@ Future<void> main() async {
             create: (_) => filterController),
         ChangeNotifierProvider<FeedbackControllerAbstract>(
             create: (_) => feedbackController),
+        ChangeNotifierProvider<ServerConnectionControllerAbstract>(
+            create: (_) => serverConnectionController),
       ],
       child: feedback.BetterFeedback(
         localizationsDelegates: [
@@ -119,14 +132,15 @@ Future<void> main() async {
           CostumFeedbackLocalizationsDelegate(),
         ],
         localeOverride: Locale('en'),
-        child: const MyApp(),
+        child: MyApp(initialLocation: initialLocation),
       ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AppRoute initialLocation;
+  const MyApp({super.key, required this.initialLocation});
 
   // This widget is the root of your application.
   @override
@@ -134,7 +148,7 @@ class MyApp extends StatelessWidget {
     return Consumer<LanguageControllerAbstract>(
       builder: (context, languageController, child) {
         return MaterialApp.router(
-          routerConfig: router,
+          routerConfig: getGoRouter(initialLocation),
           key: ValueKey(languageController.currentLanguage.languageCode),
           scaffoldMessengerKey: scaffoldMessengerKey,
           title: 'Flutter Demo',
@@ -145,4 +159,16 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+Future<AppRoute> _getInitialLocation(
+    ServerConnectionControllerAbstract serverConnectionController,
+    ClientControllerAbstract clientController) async {
+  var activeServerUrl =
+      await serverConnectionController.getActiveConnectionUrl();
+  if (activeServerUrl == null) {
+    return AppRoute.serverSelection;
+  }
+  await clientController.initializeClient(activeServerUrl);
+  return AppRoute.home;
 }

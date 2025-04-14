@@ -3,10 +3,10 @@ import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-import 'package:user_app/data/abstract/handle_model_abstract.dart';
-import 'package:user_app/data/abstract/route_model_abstract.dart';
-import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
-import 'package:user_app/data/abstract/user_model_abstract.dart';
+import 'package:user_app/data/network/abstract/handle_model_abstract.dart';
+import 'package:user_app/data/network/abstract/route_model_abstract.dart';
+import 'package:user_app/data/network/abstract/spraywall_model_abstract.dart';
+import 'package:user_app/data/network/abstract/user_model_abstract.dart';
 import 'package:user_app/domain/abstract/client_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
@@ -57,6 +57,8 @@ class ClientController extends ChangeNotifier
       _authController = EmailAuthController(client.modules.auth);
 
       await _initializeComponents(client);
+    } catch (e) {
+      rethrow;
     } finally {
       _isLoading = false;
       notifyListeners();

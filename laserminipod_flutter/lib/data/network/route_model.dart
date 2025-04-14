@@ -1,5 +1,5 @@
 import 'package:laserminipod_client/laserminipod_client.dart';
-import 'package:user_app/data/abstract/route_model_abstract.dart';
+import 'package:user_app/data/network/abstract/route_model_abstract.dart';
 
 class RouteModel extends RouteModelAbstract {
   var _routes = <SpraywallRoute>[];

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/domain/abstract/server_connection_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
@@ -52,10 +53,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: Text(loc.settingsTitle),
               ),
               PopupMenuItem(
-                onTap: () {
-                  navigationController.setPageIndex(context, 0);
-                  navigationController.goToPage(AppRoute.serverSelection);
-                },
+                onTap: () => _closeServerConnection(context),
                 child: Text(loc.switchBoulder),
               ),
             ];
@@ -67,4 +65,15 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  void _closeServerConnection(BuildContext context) {
+    final serverConnectionController =
+        Provider.of<ServerConnectionControllerAbstract>(context, listen: false);
+    serverConnectionController.deactivateActiveConnection();
+
+    final navigationController =
+        Provider.of<NavigationControllerAbstract>(context, listen: false);
+
+    navigationController.goToPage(AppRoute.serverSelection);
+  }
 }

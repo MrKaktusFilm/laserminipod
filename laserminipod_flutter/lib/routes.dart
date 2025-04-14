@@ -21,78 +21,80 @@ import 'package:user_app/views/user/create_user_page.dart';
 import 'package:user_app/views/user/login_page.dart';
 import 'package:user_app/views/user/reset_password_page.dart';
 
-final GoRouter router = GoRouter(
-  navigatorKey: navigatorKey,
-  initialLocation: AppRoute.serverSelection.fullPath,
-  routes: [
-    ShellRoute(
-      builder: (context, state, child) => HomePage(child: child),
-      routes: [
-        GoRoute(
-            path: AppRoute.home.fullPath,
-            builder: (context, state) => SpraywallPage()),
-        ShellRoute(
-          redirect: (context, state) {
-            // redirect user to previous selected tab
-            final routeController =
-                Provider.of<RouteControllerAbstract>(context, listen: false);
-            return routeController.tabRedirect(context, state);
-          },
-          builder: (context, state, child) {
-            return RouteListPage(child: child);
-          },
-          routes: [
-            GoRoute(
-              path: AppRoute.myprojects.fullPath,
-              builder: (context, state) => MyProjectsTab(),
-            ),
-            GoRoute(
-              path: AppRoute.myroutes.fullPath,
-              builder: (context, state) => MyRoutesTab(),
-            ),
-            GoRoute(
-              path: AppRoute.allroutes.fullPath,
-              builder: (context, state) => AllRoutesTab(),
-            ),
-          ],
-        ),
-        GoRoute(
-            path: AppRoute.allroutesGuest.fullPath,
-            builder: (context, state) => AllRoutesTab()),
-        AuthenticatedGoRoute(
-            path: AppRoute.administration.fullPath,
-            builder: (context, state) => AdministrationPage()),
-      ],
-    ),
-    AuthenticatedGoRoute(
-        path: AppRoute.handleManagementEdit.fullPath,
-        builder: (context, state) => HandleManagementEditPage(),
-        adminNeeded: true),
-    AuthenticatedGoRoute(
-        path: AppRoute.handleManagementOverview.fullPath,
-        builder: (context, state) => HandleManagementOverviewPage(),
-        adminNeeded: true),
-    GoRoute(
-      path: AppRoute.login.fullPath,
-      builder: (context, state) => LoginPage(),
-    ),
-    GoRoute(
-        path: AppRoute.register.fullPath,
-        builder: (context, state) => CreateUserPage()),
-    GoRoute(
-        path: AppRoute.resetPassword.fullPath,
-        builder: (context, state) => ResetPasswordPage()),
-    GoRoute(
-        path: AppRoute.settings.fullPath,
-        builder: (context, state) => SettingsPage()),
-    AuthenticatedGoRoute(
-        path: AppRoute.changePassword.fullPath,
-        builder: (context, state) => ChangePasswordPage()),
-    GoRoute(
-        path: AppRoute.serverSelection.fullPath,
-        builder: (context, state) => ServerSelectionPage()),
-  ],
-);
+GoRouter getGoRouter(AppRoute initialLocation) {
+  return GoRouter(
+    navigatorKey: navigatorKey,
+    initialLocation: initialLocation.fullPath,
+    routes: [
+      ShellRoute(
+        builder: (context, state, child) => HomePage(child: child),
+        routes: [
+          GoRoute(
+              path: AppRoute.home.fullPath,
+              builder: (context, state) => SpraywallPage()),
+          ShellRoute(
+            redirect: (context, state) {
+              // redirect user to previous selected tab
+              final routeController =
+                  Provider.of<RouteControllerAbstract>(context, listen: false);
+              return routeController.tabRedirect(context, state);
+            },
+            builder: (context, state, child) {
+              return RouteListPage(child: child);
+            },
+            routes: [
+              GoRoute(
+                path: AppRoute.myprojects.fullPath,
+                builder: (context, state) => MyProjectsTab(),
+              ),
+              GoRoute(
+                path: AppRoute.myroutes.fullPath,
+                builder: (context, state) => MyRoutesTab(),
+              ),
+              GoRoute(
+                path: AppRoute.allroutes.fullPath,
+                builder: (context, state) => AllRoutesTab(),
+              ),
+            ],
+          ),
+          GoRoute(
+              path: AppRoute.allroutesGuest.fullPath,
+              builder: (context, state) => AllRoutesTab()),
+          AuthenticatedGoRoute(
+              path: AppRoute.administration.fullPath,
+              builder: (context, state) => AdministrationPage()),
+        ],
+      ),
+      AuthenticatedGoRoute(
+          path: AppRoute.handleManagementEdit.fullPath,
+          builder: (context, state) => HandleManagementEditPage(),
+          adminNeeded: true),
+      AuthenticatedGoRoute(
+          path: AppRoute.handleManagementOverview.fullPath,
+          builder: (context, state) => HandleManagementOverviewPage(),
+          adminNeeded: true),
+      GoRoute(
+        path: AppRoute.login.fullPath,
+        builder: (context, state) => LoginPage(),
+      ),
+      GoRoute(
+          path: AppRoute.register.fullPath,
+          builder: (context, state) => CreateUserPage()),
+      GoRoute(
+          path: AppRoute.resetPassword.fullPath,
+          builder: (context, state) => ResetPasswordPage()),
+      GoRoute(
+          path: AppRoute.settings.fullPath,
+          builder: (context, state) => SettingsPage()),
+      AuthenticatedGoRoute(
+          path: AppRoute.changePassword.fullPath,
+          builder: (context, state) => ChangePasswordPage()),
+      GoRoute(
+          path: AppRoute.serverSelection.fullPath,
+          builder: (context, state) => ServerSelectionPage()),
+    ],
+  );
+}
 
 enum AppRoute {
   serverSelection,
@@ -142,7 +144,7 @@ extension AppRouteExtension on AppRoute {
       case AppRoute.allroutesGuest:
         name = 'allroutesGuest';
       case AppRoute.serverSelection:
-        name = '';
+        name = 'serverSelection';
     }
     return name;
   }

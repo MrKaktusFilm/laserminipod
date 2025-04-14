@@ -3,7 +3,7 @@ import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
-import 'package:user_app/data/abstract/user_model_abstract.dart';
+import 'package:user_app/data/network/abstract/user_model_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
@@ -12,8 +12,8 @@ import 'package:user_app/routes.dart';
 class UserController extends ChangeNotifier implements UserControllerAbstract {
   final UserModelAbstract _userModel;
   final NavigationControllerAbstract _navigationController;
-  late SessionManager _sessionManager;
-  late EmailAuthController _authController;
+  SessionManager? _sessionManager; // Make nullable
+  EmailAuthController? _authController; // Make nullable
 
   List<UserInfo> _users = [];
 
@@ -25,13 +25,13 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
 
   @override
   bool isSignedIn() {
-    return _sessionManager.isSignedIn;
+    return _sessionManager?.isSignedIn ?? false; // Add null check
   }
 
   @override
   Future<void> logOut() async {
     try {
-      await _sessionManager.signOutDevice();
+      await _sessionManager!.signOutDevice();
       if (_navigationController.currentPageIndex == 2) {
         _navigationController.goToPage(AppRoute.home);
       }
@@ -45,7 +45,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   Future<String?> logIn(
       String email, String password, BuildContext context) async {
     try {
-      var result = await _authController.signIn(
+      var result = await _authController!.signIn(
         email.trim(),
         password.trim(),
       );
@@ -65,7 +65,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   Future<String?> changePasswordIfValid(
       BuildContext context, String oldPassword, String newPassword) async {
     try {
-      String email = _sessionManager.signedInUser!.email!;
+      String email = _sessionManager!.signedInUser!.email!;
       bool isOldPasswordValid =
           await _userModel.checkPassword(email, oldPassword);
       if (isOldPasswordValid) {
@@ -123,7 +123,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     try {
       await _userModel.createUser(email, userName, password);
       try {
-        var result = await _authController.signIn(
+        var result = await _authController!.signIn(
           email.trim(),
           password.trim(),
         );
@@ -151,10 +151,11 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
 
   @override
   bool hasAdminRights() {
-    if (!_sessionManager.isSignedIn) {
+    if (!_sessionManager!.isSignedIn) {
       return false;
     }
-    return _sessionManager.signedInUser!.scopeNames.contains(Scopes.admin.name);
+    return _sessionManager!.signedInUser!.scopeNames
+        .contains(Scopes.admin.name);
   }
 
   @override
@@ -162,7 +163,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     // admins should not be deletable
     if (hasAdminRights()) return;
     try {
-      await _userModel.deleteUser(_sessionManager.signedInUser!.email!);
+      await _userModel.deleteUser(_sessionManager!.signedInUser!.email!);
       logOut();
       _navigationController.goToPage(AppRoute.home);
     } on Exception catch (e) {
@@ -173,7 +174,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
 
   @override
   int? getSignedInUserId() {
-    return _sessionManager.signedInUser!.id;
+    return _sessionManager!.signedInUser!.id;
   }
 
   /// exception handling in view
@@ -201,7 +202,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   @override
   String? getSignedInEmail() {
     if (isSignedIn()) {
-      return _sessionManager.signedInUser!.email;
+      return _sessionManager!.signedInUser!.email;
     }
     return null;
   }
@@ -209,7 +210,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   @override
   String? getSignedInUserName() {
     if (isSignedIn()) {
-      return _sessionManager.signedInUser!.userName;
+      return _sessionManager!.signedInUser!.userName;
     }
     return null;
   }
@@ -218,7 +219,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
   Future<void> setUserName(String newUserName) async {
     await _userModel.setUserName(getSignedInUserId()!, newUserName);
     // update username in current session
-    _sessionManager.signedInUser!.userName = newUserName;
+    _sessionManager!.signedInUser!.userName = newUserName;
     notifyListeners();
   }
 
@@ -227,8 +228,8 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
       String verificationCode, String email, String newPassword) async {
     String? errorMessage;
     try {
-      errorMessage = !(await _authController.resetPassword(
-              email, verificationCode, newPassword))
+      errorMessage = !(await _authController!
+              .resetPassword(email, verificationCode, newPassword))
           ? UiHelper.getAppLocalization().resetInvalidCode
           : null;
     } on Exception {
@@ -242,7 +243,7 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
     var loc = UiHelper.getAppLocalization();
     bool showErrorMessage = false;
     try {
-      showErrorMessage = !(await _authController.initiatePasswordReset(email));
+      showErrorMessage = !(await _authController!.initiatePasswordReset(email));
     } catch (e) {
       showErrorMessage = true;
     }
@@ -260,5 +261,6 @@ class UserController extends ChangeNotifier implements UserControllerAbstract {
       EmailAuthController authController, SessionManager sessionManager) {
     _sessionManager = sessionManager;
     _authController = authController;
+    notifyListeners();
   }
 }

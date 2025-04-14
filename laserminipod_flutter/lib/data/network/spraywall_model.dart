@@ -1,5 +1,5 @@
 import 'package:laserminipod_client/src/protocol/client.dart';
-import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
+import 'package:user_app/data/network/abstract/spraywall_model_abstract.dart';
 
 class SpraywallModel implements SpraywallModelAbstract {
   late EndpointSpraywall _spraywallEndpoint;

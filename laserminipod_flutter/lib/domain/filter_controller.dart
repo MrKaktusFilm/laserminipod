@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/src/protocol/spraywall_route.dart';
-import 'package:user_app/data/abstract/route_model_abstract.dart';
+import 'package:user_app/data/network/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';

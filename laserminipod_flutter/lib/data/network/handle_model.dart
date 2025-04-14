@@ -1,6 +1,6 @@
 import 'package:laserminipod_client/src/protocol/client.dart';
 import 'package:laserminipod_client/src/protocol/handle.dart';
-import 'package:user_app/data/abstract/handle_model_abstract.dart';
+import 'package:user_app/data/network/abstract/handle_model_abstract.dart';
 
 class HandleModel extends HandleModelAbstract {
   late EndpointHandle handleEndpoint;

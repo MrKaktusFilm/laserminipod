@@ -1,6 +1,6 @@
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:serverpod_auth_client/src/protocol/user_info.dart';
-import 'package:user_app/data/abstract/user_model_abstract.dart';
+import 'package:user_app/data/network/abstract/user_model_abstract.dart';
 
 class UserModel implements UserModelAbstract {
   late EndpointUser userEndpoint;

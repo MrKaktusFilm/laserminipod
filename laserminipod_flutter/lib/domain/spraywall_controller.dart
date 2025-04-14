@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:user_app/common/enums/handle_state_enum.dart';
-import 'package:user_app/data/abstract/handle_model_abstract.dart';
-import 'package:user_app/data/abstract/route_model_abstract.dart';
-import 'package:user_app/data/abstract/spraywall_model_abstract.dart';
+import 'package:user_app/data/network/abstract/handle_model_abstract.dart';
+import 'package:user_app/data/network/abstract/route_model_abstract.dart';
+import 'package:user_app/data/network/abstract/spraywall_model_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/spraywall_transformation_controller.dart';
 

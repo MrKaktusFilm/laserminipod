@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
-import 'package:user_app/data/abstract/handle_model_abstract.dart';
+import 'package:user_app/data/network/abstract/handle_model_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
 import 'package:user_app/domain/abstract/image_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';

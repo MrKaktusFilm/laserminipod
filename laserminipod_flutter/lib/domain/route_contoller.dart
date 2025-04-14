@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laserminipod_client/laserminipod_client.dart';
 import 'package:user_app/common/enums/handle_state_enum.dart';
-import 'package:user_app/data/abstract/route_model_abstract.dart';
+import 'package:user_app/data/network/abstract/route_model_abstract.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/data/database/server_connection.dart';
 import 'package:user_app/domain/abstract/client_controller_abstract.dart';
 import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
+import 'package:user_app/domain/abstract/server_connection_controller_abstract.dart';
+import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/routes.dart';
@@ -21,6 +24,7 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
   void initState() {
     var languageController =
         Provider.of<LanguageControllerAbstract>(context, listen: false);
+    // TODO: move to main
     languageController.initLanguage();
     _urlTextController.text = serverURL;
     super.initState();
@@ -42,7 +46,11 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
             Consumer<ClientControllerAbstract>(
               builder: (context, clientController, child) {
                 return ElevatedButton(
-                    onPressed: clientController.isLoading ? null : _contect,
+                    onPressed: clientController.isLoading
+                        ? null
+                        : () {
+                            _contect(_urlTextController.text);
+                          },
                     child: Text('Speichern & Fortfahren'));
               },
             ),
@@ -62,16 +70,27 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
     );
   }
 
-  Future<void> _contect() async {
+  Future<void> _contect(String url) async {
     try {
       var clientController =
           Provider.of<ClientControllerAbstract>(context, listen: false);
-      await clientController.initializeClient(
-        _urlTextController.text,
-      );
+      await clientController.initializeClient(url);
+
+      String? spraywallName =
+          await Provider.of<SprayWallControllerAbstract>(context, listen: false)
+              .getSpraywallName();
+      var serverConnectionController =
+          Provider.of<ServerConnectionControllerAbstract>(context,
+              listen: false);
+      await serverConnectionController
+          .saveConnection(ServerConnection(url, spraywallName!, true));
+
       if (context.mounted) {
         var navigationController =
             Provider.of<NavigationControllerAbstract>(context, listen: false);
+
+        // set page index to 0, in case the user was on the administration page
+        navigationController.setPageIndex(context, 0);
         navigationController.goToPage(AppRoute.home);
       }
     } on Exception catch (e) {
