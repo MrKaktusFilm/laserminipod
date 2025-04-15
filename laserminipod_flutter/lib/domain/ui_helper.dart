@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:user_app/generated/i18n/app_localizations.dart';
 import 'package:user_app/main.dart';
 
-class UiHelper {
+abstract class UiHelper {
   static bool debug = true;
 
   static void showSnackbar(String message, Color color) {

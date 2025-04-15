@@ -15,7 +15,6 @@ import 'package:user_app/data/network/user_model.dart';
 import 'package:user_app/domain/abstract/client_controller_abstract.dart';
 import 'package:user_app/domain/abstract/feedback_controller_abstract.dart';
 import 'package:user_app/domain/abstract/filter_controller_abstract.dart';
-import 'package:user_app/domain/abstract/server_config_controller_abstract.dart';
 import 'package:user_app/domain/abstract/server_connection_controller_abstract.dart';
 import 'package:user_app/domain/abstract/user_controller_abstract.dart';
 import 'package:user_app/domain/abstract/handle_controller_abstract.dart';
@@ -27,7 +26,6 @@ import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/client_controller.dart';
 import 'package:user_app/domain/feedback/costum_feedback_localizations_delegate.dart';
 import 'package:user_app/domain/filter_controller.dart';
-import 'package:user_app/domain/server_config_controller.dart';
 import 'package:user_app/domain/server_connection_controller.dart';
 import 'package:user_app/domain/user_controller.dart';
 import 'package:user_app/domain/handle_controller.dart';
@@ -59,8 +57,6 @@ Future<void> main() async {
   await serverConnectionModel.initialize();
 
   // controller
-  ServerConfigControllerAbstract serverConfigController =
-      ServerConfigController();
   NavigationControllerAbstract navigationController = NavigationController();
   SprayWallControllerAbstract spraywallController = SpraywallController(
       handleModel: handleModel,
@@ -89,6 +85,7 @@ Future<void> main() async {
       navigationController: navigationController,
       imageController: imageController);
   LanguageControllerAbstract languageController = LanguageController();
+  languageController.initLanguage();
   FeedbackControllerAbstract feedbackController = FeedbackController();
   ServerConnectionControllerAbstract serverConnectionController =
       ServerConnectionController(serverConnectionModel: serverConnectionModel);
@@ -99,8 +96,6 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<ServerConfigControllerAbstract>(
-            create: (_) => serverConfigController),
         ChangeNotifierProvider<ClientControllerAbstract>(
             create: (_) => clientController),
         ChangeNotifierProvider<NavigationControllerAbstract>(

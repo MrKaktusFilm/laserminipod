@@ -37,6 +37,7 @@ class LanguageDialog extends StatelessWidget {
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
+                // TODO: falsly navigates to home
                 languageController.setLanguage(value);
                 Navigator.of(context).pop();
               }

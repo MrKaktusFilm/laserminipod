@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/data/database/server_connection.dart';
 import 'package:user_app/domain/abstract/client_controller_abstract.dart';
-import 'package:user_app/domain/abstract/language_controller_abstract.dart';
 import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/server_connection_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/routes.dart';
+import 'package:user_app/views/dialogs/enter_server_url_dialog.dart';
 
 class ServerSelectionPage extends StatefulWidget {
   const ServerSelectionPage({super.key});
@@ -18,42 +18,59 @@ class ServerSelectionPage extends StatefulWidget {
 }
 
 class _ServerSelectionPageState extends State<ServerSelectionPage> {
-  final TextEditingController _urlTextController = TextEditingController();
-
-  @override
-  void initState() {
-    var languageController =
-        Provider.of<LanguageControllerAbstract>(context, listen: false);
-    // TODO: move to main
-    languageController.initLanguage();
-    _urlTextController.text = serverURL;
-    super.initState();
-  }
+  String? _selectedUrl;
 
   @override
   Widget build(BuildContext context) {
+    var serverConnectionController =
+        Provider.of<ServerConnectionControllerAbstract>(context, listen: false);
+    var loc = UiHelper.getAppLocalization();
+
     return Scaffold(
       appBar: AppBar(title: Text('Server auswählen')),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            TextField(
-              controller: _urlTextController,
-              decoration: InputDecoration(labelText: 'Server-URL eingeben'),
-            ),
+            FutureBuilder(
+                future: serverConnectionController.getAllConnections(),
+                builder: (context, snapshot) {
+                  var entries = snapshot.data?.map((connection) {
+                    return DropdownMenuEntry<String?>(
+                        value: connection.serverUrl, label: connection.name);
+                  }).toList();
+
+                  return DropdownMenu<String?>(
+                    label: Text('Spraywall auswählen'),
+                    enableSearch: false,
+                    requestFocusOnTap: false,
+                    dropdownMenuEntries: entries ?? [],
+                    onSelected: (url) => setState(() {
+                      _selectedUrl = url;
+                    }),
+                    expandedInsets: EdgeInsets.all(8.0),
+                  );
+                }),
             SizedBox(height: 20),
             Consumer<ClientControllerAbstract>(
               builder: (context, clientController, child) {
                 return ElevatedButton(
-                    onPressed: clientController.isLoading
-                        ? null
-                        : () {
-                            _contect(_urlTextController.text);
-                          },
+                    onPressed:
+                        clientController.isLoading || _selectedUrl == null
+                            ? null
+                            : () {
+                                _connect(_selectedUrl!);
+                              },
                     child: Text('Speichern & Fortfahren'));
               },
             ),
+            SizedBox(
+              height: 20,
+            ),
+            TextButton(
+                onPressed: () =>
+                    UiHelper.showWidgetDialog(EnterServerUrlDialog()),
+                child: Text('URL manuell eingeben')),
             SizedBox(
               height: 20,
             ),
@@ -70,7 +87,7 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
     );
   }
 
-  Future<void> _contect(String url) async {
+  Future<void> _connect(String url) async {
     try {
       var clientController =
           Provider.of<ClientControllerAbstract>(context, listen: false);
