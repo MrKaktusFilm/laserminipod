@@ -2,7 +2,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:usesCleartextTraffic="true"
-        android:label="user_app"
+        android:label="Voll Laser Hier"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
