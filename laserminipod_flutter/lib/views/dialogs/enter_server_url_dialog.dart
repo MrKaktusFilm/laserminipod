@@ -17,11 +17,10 @@ class EnterServerUrlDialog extends StatefulWidget {
 
 class _EnterServerUrlDialogState extends State<EnterServerUrlDialog> {
   final TextEditingController _urlTextController = TextEditingController();
+  final loc = UiHelper.getAppLocalization();
 
   @override
   Widget build(BuildContext context) {
-    var loc = UiHelper.getAppLocalization();
-
     return Dialog(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -32,7 +31,7 @@ class _EnterServerUrlDialogState extends State<EnterServerUrlDialog> {
             children: <Widget>[
               TextField(
                 controller: _urlTextController,
-                decoration: InputDecoration(labelText: 'Server-URL eingeben'),
+                decoration: InputDecoration(labelText: loc.enterServerUrl),
               ),
               const SizedBox(height: 15),
               Row(
@@ -46,7 +45,7 @@ class _EnterServerUrlDialogState extends State<EnterServerUrlDialog> {
                               : () {
                                   _connect(_urlTextController.text);
                                 },
-                          child: Text('Speichern & Fortfahren'));
+                          child: Text(loc.connect));
                     },
                   ),
                   TextButton(
@@ -89,7 +88,7 @@ class _EnterServerUrlDialogState extends State<EnterServerUrlDialog> {
         navigationController.goToPage(AppRoute.home);
       }
     } on Exception catch (e) {
-      UiHelper.showErrorSnackbar("Verbindung fehlgeschlagen", e);
+      UiHelper.showErrorSnackbar(loc.connectionFailed, e);
     }
   }
 }

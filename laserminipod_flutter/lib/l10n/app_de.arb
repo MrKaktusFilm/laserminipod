@@ -111,5 +111,12 @@
     "spraywallName": "Name der Spraywall",
     "enterName": "Bitte geben Sie einen Namen ein",
     "changeSpraywallName": "Name der Spraywall ändern",
-    "changeSpraywallNameSubtitle": "Der Name Ihrer Spraywall, den die Benutzer sehen werden"
+    "changeSpraywallNameSubtitle": "Der Name Ihrer Spraywall, den die Benutzer sehen werden",
+    "selectSpraywall": "Spraywall auswählen",
+    "selectExistingSpraywall": "Oder bereits besuchte Spraywall auswählen",
+    "spraywallDropdownLabel": "Spraywall auswählen",
+    "connect": "Verbinden",
+    "enterUrlManually": "URL manuell eingeben",
+    "enterServerUrl": "Server-URL eingeben",
+    "connectionFailed": "Verbindung fehlgeschlagen"
 }

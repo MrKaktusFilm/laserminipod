@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/data/database/server_connection.dart';
 import 'package:user_app/domain/abstract/client_controller_abstract.dart';
@@ -6,9 +10,9 @@ import 'package:user_app/domain/abstract/navigation_controller_abstract.dart';
 import 'package:user_app/domain/abstract/server_connection_controller_abstract.dart';
 import 'package:user_app/domain/abstract/spraywall_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
-import 'package:user_app/main.dart';
 import 'package:user_app/routes.dart';
 import 'package:user_app/views/dialogs/enter_server_url_dialog.dart';
+import 'package:user_app/views/settings/language_dialog.dart';
 
 class ServerSelectionPage extends StatefulWidget {
   const ServerSelectionPage({super.key});
@@ -17,21 +21,86 @@ class ServerSelectionPage extends StatefulWidget {
   State<ServerSelectionPage> createState() => _ServerSelectionPageState();
 }
 
-class _ServerSelectionPageState extends State<ServerSelectionPage> {
+class _ServerSelectionPageState extends State<ServerSelectionPage>
+    with WidgetsBindingObserver {
+  final loc = UiHelper.getAppLocalization();
+  final MobileScannerController _scannerController =
+      MobileScannerController(formats: [BarcodeFormat.qrCode]);
+  StreamSubscription<Object?>? _subscription;
   String? _selectedUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _subscription = _scannerController.barcodes.listen(_processQRCode);
+    unawaited(_scannerController.start());
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    unawaited(_subscription?.cancel());
+    _subscription = null;
+    super.dispose();
+    _scannerController.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // If the _scannerController is not ready, do not try to start or stop it.
+    // Permission dialogs can trigger lifecycle changes before the _scannerController is ready.
+    if (!_scannerController.value.hasCameraPermission) {
+      return;
+    }
+
+    switch (state) {
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.paused:
+        return;
+      case AppLifecycleState.resumed:
+        // Restart the scanner when the app is resumed.
+        // Don't forget to resume listening to the barcode events.
+        _subscription = _scannerController.barcodes.listen(_processQRCode);
+
+        unawaited(_scannerController.start());
+      case AppLifecycleState.inactive:
+        // Stop the scanner when the app is paused.
+        // Also stop the barcode events subscription.
+        unawaited(_subscription?.cancel());
+        _subscription = null;
+        unawaited(_scannerController.stop());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var serverConnectionController =
         Provider.of<ServerConnectionControllerAbstract>(context, listen: false);
-    var loc = UiHelper.getAppLocalization();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Server auswählen')),
+      appBar: AppBar(
+        title: Text(loc.selectSpraywall),
+        actions: [
+          IconButton(
+              onPressed: () => UiHelper.showWidgetDialog(LanguageDialog()),
+              icon: const Icon(Icons.language)),
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
+            if (!kDebugMode)
+              Expanded(child: MobileScanner(controller: _scannerController))
+            else
+              Expanded(child: Placeholder()),
+            SizedBox(height: 20),
+            Divider(),
+            SizedBox(height: 20),
+            Text(loc.selectExistingSpraywall),
+            SizedBox(height: 20),
             FutureBuilder(
                 future: serverConnectionController.getAllConnections(),
                 builder: (context, snapshot) {
@@ -41,7 +110,7 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
                   }).toList();
 
                   return DropdownMenu<String?>(
-                    label: Text('Spraywall auswählen'),
+                    label: Text(loc.spraywallDropdownLabel),
                     enableSearch: false,
                     requestFocusOnTap: false,
                     dropdownMenuEntries: entries ?? [],
@@ -61,7 +130,7 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
                             : () {
                                 _connect(_selectedUrl!);
                               },
-                    child: Text('Speichern & Fortfahren'));
+                    child: Text(loc.connect));
               },
             ),
             SizedBox(
@@ -70,15 +139,21 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
             TextButton(
                 onPressed: () =>
                     UiHelper.showWidgetDialog(EnterServerUrlDialog()),
-                child: Text('URL manuell eingeben')),
+                child: Text(loc.enterUrlManually)),
             SizedBox(
               height: 20,
             ),
             Consumer<ClientControllerAbstract>(
               builder: (context, clientController, child) {
-                return clientController.isLoading
-                    ? CircularProgressIndicator()
-                    : SizedBox.shrink();
+                return Center(
+                  child: Visibility(
+                    visible: clientController.isLoading,
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    maintainState: true,
+                    child: const CircularProgressIndicator(),
+                  ),
+                );
               },
             ),
           ],
@@ -111,7 +186,16 @@ class _ServerSelectionPageState extends State<ServerSelectionPage> {
         navigationController.goToPage(AppRoute.home);
       }
     } on Exception catch (e) {
-      UiHelper.showErrorSnackbar("Verbindung fehlgeschlagen", e);
+      UiHelper.showErrorSnackbar(loc.connectionFailed, e);
+    }
+  }
+
+  void _processQRCode(BarcodeCapture event) {
+    for (var barcode in event.barcodes) {
+      if (barcode.rawValue != null) {
+        _selectedUrl = barcode.rawValue;
+        _connect(barcode.rawValue!);
+      }
     }
   }
 }

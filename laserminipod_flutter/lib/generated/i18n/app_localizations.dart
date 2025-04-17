@@ -772,6 +772,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The name of your spraywall, which the users will see'**
   String get changeSpraywallNameSubtitle;
+
+  /// No description provided for @selectSpraywall.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Spraywall'**
+  String get selectSpraywall;
+
+  /// No description provided for @selectExistingSpraywall.
+  ///
+  /// In en, this message translates to:
+  /// **'Or select a previously visited Spraywall'**
+  String get selectExistingSpraywall;
+
+  /// No description provided for @spraywallDropdownLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Spraywall'**
+  String get spraywallDropdownLabel;
+
+  /// No description provided for @connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect'**
+  String get connect;
+
+  /// No description provided for @enterUrlManually.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter URL manually'**
+  String get enterUrlManually;
+
+  /// No description provided for @enterServerUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter server URL'**
+  String get enterServerUrl;
+
+  /// No description provided for @connectionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection failed'**
+  String get connectionFailed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

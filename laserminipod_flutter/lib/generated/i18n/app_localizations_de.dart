@@ -348,4 +348,25 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get changeSpraywallNameSubtitle => 'Der Name Ihrer Spraywall, den die Benutzer sehen werden';
+
+  @override
+  String get selectSpraywall => 'Spraywall auswählen';
+
+  @override
+  String get selectExistingSpraywall => 'Oder bereits besuchte Spraywall auswählen';
+
+  @override
+  String get spraywallDropdownLabel => 'Spraywall auswählen';
+
+  @override
+  String get connect => 'Verbinden';
+
+  @override
+  String get enterUrlManually => 'URL manuell eingeben';
+
+  @override
+  String get enterServerUrl => 'Server-URL eingeben';
+
+  @override
+  String get connectionFailed => 'Verbindung fehlgeschlagen';
 }
