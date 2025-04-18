@@ -41,6 +41,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final loc = UiHelper.getAppLocalization();
+    final languageController =
+        Provider.of<LanguageControllerAbstract>(context, listen: false);
     settings = [
       _SettingItem(
           icon: Icons.language,
@@ -69,7 +71,9 @@ class _SettingsPageState extends State<SettingsPage> {
           icon: Icons.description,
           title: loc.termsAndConditions,
           subtitle: '',
-          onTap: () {}),
+          onTap: () {
+            languageController.setLanguage(Locale('en'));
+          }),
       _SettingItem(
           icon: Icons.privacy_tip,
           title: loc.privacyPolicy,

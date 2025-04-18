@@ -1,6 +1,7 @@
 import 'package:feedback/feedback.dart' as feedback;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/data/database/server_connection_model.dart';
 import 'package:user_app/data/database/server_connection_model_abstract.dart';
@@ -90,8 +91,8 @@ Future<void> main() async {
   ServerConnectionControllerAbstract serverConnectionController =
       ServerConnectionController(serverConnectionModel: serverConnectionModel);
 
-  AppRoute initialLocation =
-      await _getInitialLocation(serverConnectionController, clientController);
+  final GoRouter router =
+      await getGoRouter(serverConnectionController, clientController);
 
   runApp(
     MultiProvider(
@@ -127,15 +128,15 @@ Future<void> main() async {
           CostumFeedbackLocalizationsDelegate(),
         ],
         localeOverride: Locale('en'),
-        child: MyApp(initialLocation: initialLocation),
+        child: MyApp(router: router),
       ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final AppRoute initialLocation;
-  const MyApp({super.key, required this.initialLocation});
+  final GoRouter _router;
+  const MyApp({super.key, required router}) : _router = router;
 
   // This widget is the root of your application.
   @override
@@ -143,7 +144,7 @@ class MyApp extends StatelessWidget {
     return Consumer<LanguageControllerAbstract>(
       builder: (context, languageController, child) {
         return MaterialApp.router(
-          routerConfig: getGoRouter(initialLocation),
+          routerConfig: _router,
           key: ValueKey(languageController.currentLanguage.languageCode),
           scaffoldMessengerKey: scaffoldMessengerKey,
           title: 'Flutter Demo',
@@ -154,16 +155,4 @@ class MyApp extends StatelessWidget {
       },
     );
   }
-}
-
-Future<AppRoute> _getInitialLocation(
-    ServerConnectionControllerAbstract serverConnectionController,
-    ClientControllerAbstract clientController) async {
-  var activeServerUrl =
-      await serverConnectionController.getActiveConnectionUrl();
-  if (activeServerUrl == null) {
-    return AppRoute.serverSelection;
-  }
-  await clientController.initializeClient(activeServerUrl);
-  return AppRoute.home;
 }

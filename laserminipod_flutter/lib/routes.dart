@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:user_app/domain/abstract/client_controller_abstract.dart';
 import 'package:user_app/domain/abstract/route_controller_abstract.dart';
+import 'package:user_app/domain/abstract/server_connection_controller_abstract.dart';
 import 'package:user_app/domain/ui_helper.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/views/admin/administration_page.dart';
@@ -21,7 +22,11 @@ import 'package:user_app/views/user/create_user_page.dart';
 import 'package:user_app/views/user/login_page.dart';
 import 'package:user_app/views/user/reset_password_page.dart';
 
-GoRouter getGoRouter(AppRoute initialLocation) {
+Future<GoRouter> getGoRouter(
+    ServerConnectionControllerAbstract serverConnectionController,
+    ClientControllerAbstract clientController) async {
+  final initialLocation =
+      await _getInitialLocation(serverConnectionController, clientController);
   return GoRouter(
     navigatorKey: navigatorKey,
     initialLocation: initialLocation.fullPath,
@@ -94,6 +99,18 @@ GoRouter getGoRouter(AppRoute initialLocation) {
           builder: (context, state) => ServerSelectionPage()),
     ],
   );
+}
+
+Future<AppRoute> _getInitialLocation(
+    ServerConnectionControllerAbstract serverConnectionController,
+    ClientControllerAbstract clientController) async {
+  var activeServerUrl =
+      await serverConnectionController.getActiveConnectionUrl();
+  if (activeServerUrl == null) {
+    return AppRoute.serverSelection;
+  }
+  await clientController.initializeClient(activeServerUrl);
+  return AppRoute.home;
 }
 
 enum AppRoute {

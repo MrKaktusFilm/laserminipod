@@ -40,11 +40,7 @@ class LanguageDialog extends StatelessWidget {
             groupValue: selectedLanguage,
             onChanged: (value) {
               if (value != null) {
-                // Navigator.of(context).pop();
-                // Use a microtask to change the language after the dialog is closed
-                Future.microtask(() {
-                  languageController.setLanguage(value);
-                });
+                languageController.setLanguage(value);
               }
             },
           );
