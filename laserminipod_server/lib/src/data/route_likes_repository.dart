@@ -29,4 +29,9 @@ class RouteLikesRepository {
         where: (p0) => p0.routeId.equals(routeId) & p0.userId.equals(userId));
     return result.isNotEmpty;
   }
+
+  Future<void> deleteLikesForRoute(Session session, int routeId) async {
+    await RouteLikes.db
+        .deleteWhere(session, where: (p0) => p0.routeId.equals(routeId));
+  }
 }

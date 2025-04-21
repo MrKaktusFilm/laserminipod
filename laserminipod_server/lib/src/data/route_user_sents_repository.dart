@@ -31,4 +31,11 @@ class RouteUserSentsRepository {
   Future<List<RouteUserSents>> loadAllSents(Session session) async {
     return await RouteUserSents.db.find(session);
   }
+
+  Future<void> deleteSentsForRoute(Session session, int routeId) async {
+    await RouteUserSents.db.deleteWhere(
+      session,
+      where: (t) => t.routeId.equals(routeId),
+    );
+  }
 }

@@ -27,4 +27,11 @@ class RouteUserProjectsRepository {
       where: (t) => t.userId.equals(userId),
     );
   }
+
+  Future<void> deleteProjectsForRoute(Session session, int routeId) async {
+    await RouteUserProjects.db.deleteWhere(
+      session,
+      where: (t) => t.routeId.equals(routeId),
+    );
+  }
 }

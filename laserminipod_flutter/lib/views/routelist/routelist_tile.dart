@@ -72,7 +72,7 @@ class _RoutelistTileState extends State<RoutelistTile> {
               isProject =
                   routeController.getMyProjects().contains(widget.route);
               isSent = routeController.isSent(widget.route.id!);
-              isCreator = userController.isSignedIn() &&
+              isCreator =
                   userController.getSignedInUserId() == widget.route.userInfoId;
             }
             return Card(
@@ -113,7 +113,8 @@ class _RoutelistTileState extends State<RoutelistTile> {
                             },
                             itemBuilder: (BuildContext context) {
                               return [
-                                if (isCreator)
+                                if (isCreator ||
+                                    userController.hasAdminRights())
                                   PopupMenuItem(
                                     value: 'delete',
                                     child: ListTile(

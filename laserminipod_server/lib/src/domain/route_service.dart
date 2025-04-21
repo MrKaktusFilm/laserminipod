@@ -31,6 +31,9 @@ class RouteService {
     try {
       await _handleStateRepository.deleteRouteHandleStatesForRoutes(
           session, id);
+      await _routeLikesRepository.deleteLikesForRoute(session, id);
+      await _routeUserSentsRepository.deleteSentsForRoute(session, id);
+      await _routeUserProjectsRepository.deleteProjectsForRoute(session, id);
       await _repository.deleteById(session, id);
       session.log('Route with ID: $id successfully deleted',
           level: LogLevel.info);
