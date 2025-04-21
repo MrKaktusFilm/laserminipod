@@ -8,8 +8,20 @@ typedef SayHello = void Function(int, int, double);
 class CppService {
   late final SayHello _sayHello;
   CppService() {
-    var libraryPath = path.join(Directory.current.path, 'lib', 'src', 'native',
-        'LaserControll', 'x64', 'Debug', 'LaserControll.dll');
+    String? libraryPath;
+    if (Platform.isWindows) {
+      libraryPath = path.join(Directory.current.path, 'lib', 'src', 'native',
+          'LaserControll', 'x64', 'Debug', 'LaserControll.dll');
+    } else if (Platform.isLinux) {
+      libraryPath = path.join(Directory.current.path, 'lib', 'src', 'native',
+          'LaserControll', 'x64', 'Debug', 'LaserControll.so');
+    } else if (Platform.isMacOS) {
+      libraryPath = path.join(Directory.current.path, 'lib', 'src', 'native',
+          'LaserControll', 'x64', 'Debug', 'LaserControll.dylib');
+    } else {
+      throw UnsupportedError(
+          'Unsupported platform: ${Platform.operatingSystem}');
+    }
     final dylib = ffi.DynamicLibrary.open(libraryPath);
     _sayHello = dylib
         .lookup<ffi.NativeFunction<SayHelloFunc>>('HalloWeltParameter')
