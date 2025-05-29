@@ -44,9 +44,6 @@ import 'domain/feedback/feedback_controller.dart';
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-final String serverURL = "http://192.168.178.152:8080/"; // server on laptop
-// final String serverURL =
-// "http://laserprojekt.ddns.net:7148/"; // server on raspberry
 
 Future<void> main() async {
   // data models

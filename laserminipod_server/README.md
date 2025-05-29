@@ -1,6 +1,6 @@
 # Prerequists
 
-Install docker compose and dart
+Install docker compose, dart and add to PATH
 
 
 # First start
